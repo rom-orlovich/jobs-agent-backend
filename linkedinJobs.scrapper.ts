@@ -1,23 +1,12 @@
 import axios from 'axios';
 
 import { writeFile, readFile } from 'fs/promises';
-import { Job } from './lib/types';
-import { Query, ValueObj } from './lib/query';
+import { Job } from './lib/linkedinScrapper';
+import { Query, ValueObj } from './lib/Query';
 import path from 'path';
 
 import { load, CheerioAPI, Cheerio, Element } from 'cheerio';
-
-const STACK: Record<string, { min: number; max: number }> = {
-  javascript: { min: 0, max: 3 },
-  react: { min: 0, max: 3 },
-  typescript: { min: 0, max: 3 },
-  ts: { min: 0, max: 3 },
-  js: { min: 0, max: 3 },
-  'node.js': { min: 0, max: 3 },
-  git: { min: 0, max: 3 },
-};
-
-const overallEx = { min: 0, max: 3 };
+import { Profile, STACK } from './lib/Profile';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
@@ -83,6 +72,68 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
   };
 };
 
+const splitSentence = ($: CheerioAPI) => {
+  const nodeArr = $('.show-more-less-html--more *').toArray();
+  const nodeArrFilter = nodeArr.filter((el) => {
+    return !!$(el).text();
+  });
+  const nodeTextsArr = nodeArrFilter.map((el) =>
+    $(el)
+      .text()
+      .trim()
+      .split(' ')
+      .filter((el) => !!el)
+  );
+
+  return nodeTextsArr;
+};
+
+const loopOverTheString = (sentences: string[][]) => {
+  for (let i = 0; i < sentences.length; i++) {
+    const sentence = sentences[i];
+    let yearsIndex = -1;
+    let memo;
+    for (let j = 0; j < sentence.length; j++) {
+      const word = sentence[j];
+      console.log(word);
+      const langEx = STACK[word];
+      if (word.match(/\+\d/g) && yearsIndex < 0) {
+        yearsIndex = j;
+        j = 0;
+      }
+      if (langEx !== memo && langEx) {
+        const yearNum = Number(sentence[yearsIndex][1]);
+        if (yearNum > langEx.max) {
+          return false;
+        } else {
+          memo = langEx;
+          j = yearsIndex + 1;
+          yearsIndex = -1;
+        }
+      }
+    }
+  }
+};
+const profile = new Profile({
+  overallEx: 1,
+  techStackOptions: {
+    techStack: STACK,
+    checkStack: { disqualifyExcludeTech: false },
+  },
+});
+
+async function scrapRequirements(path: string) {
+  const html = await readFile(path, 'utf-8');
+
+  const $ = load(html);
+  const sentences = splitSentence($);
+
+  console.log(sentences);
+}
+
+loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
+// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
+
 async function createJobJSON(
   ...queryOptions: ConstructorParameters<typeof Query>
 ) {
@@ -134,60 +185,3 @@ async function createJobJSON(
 //   blackList: ['senior', 'lead', 'angular'],
 //   whiteList: ['react', 'javascript'],
 // });
-
-const splitSentence = ($: CheerioAPI) => {
-  const nodeArr = $('.show-more-less-html--more *').toArray();
-  const nodeArrFilter = nodeArr.filter((el) => {
-    return !!$(el).text();
-  });
-  const nodeTextsArr = nodeArrFilter.map((el) =>
-    $(el)
-      .text()
-      .trim()
-      .split(' ')
-      .filter((el) => !!el)
-  );
-
-  return nodeTextsArr;
-};
-
-const loopOverTheString = (sentences: string[][]) => {
-  for (let i = 0; i < sentences.length; i++) {
-    const sentence = sentences[i];
-    let yearsIndex = -1;
-    let memo;
-    for (let j = 0; j < sentence.length; j++) {
-      const word = sentence[j];
-      console.log(word);
-      const langEx = STACK[word];
-      if (word.match(/\+\d/g) && yearsIndex < 0) {
-        yearsIndex = j;
-        j = 0;
-      }
-      if (langEx !== memo && langEx) {
-        const yearNum = Number(sentence[yearsIndex][1]);
-        if (yearNum > langEx.max) {
-          return false;
-        } else {
-          memo = langEx;
-          j = yearsIndex + 1;
-          yearsIndex = -1;
-        }
-      }
-    }
-  }
-};
-
-async function scrapRequirements(path: string) {
-  const html = await readFile(path, 'utf-8');
-
-  const $ = load(html);
-  const sentences = splitSentence($);
-
-  console.log(sentences);
-}
-
-// /\+[3-9]d* years/i;
-
-loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
-// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
