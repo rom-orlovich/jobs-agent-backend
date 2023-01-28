@@ -8,6 +8,29 @@ import path from 'path';
 import { load, CheerioAPI } from 'cheerio';
 import { Profile, STACK } from './lib/Profile';
 
+const profile = new Profile({
+  overallEx: 1,
+  techStackOptions: {
+    techStack: STACK,
+    checkStack: { disqualifyExcludeTech: false },
+  },
+});
+
+const queryOptions = new Query({
+  sortBy: 'recent',
+  period: 'past week',
+  jobQuery: 'React.js',
+  distance: '10 mi (15km)',
+  location: 'Tel Aviv',
+  // positions: [
+  //   'Frontend Developer',
+  //   'Full Stack Engineer',
+  //   'Javascript Developer',
+  // ],
+  blackList: ['senior', 'lead', 'angular'],
+  whiteList: ['react', 'javascript'],
+});
+
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
     const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${query.jobQuery}&location=${query.location}&f_TPR=${query.period}&distance=${query.distance}&f_E=2&start=${start}&f_T=${query.positionsQuery}&sortBy=${query.sortBy}`;
@@ -18,6 +41,61 @@ const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
     return '';
   }
 };
+
+const splitSentence = ($: CheerioAPI) => {
+  const nodeArr = $('.show-more-less-html--more *').toArray();
+  const nodeArrFilter = nodeArr.filter((el) => {
+    return !!$(el).text();
+  });
+  const nodeTextsArr = nodeArrFilter.map((el) =>
+    $(el)
+      .text()
+      .trim()
+      .split(' ')
+      .filter((el) => !!el)
+  );
+
+  return nodeTextsArr;
+};
+
+const loopOverTheString = (sentences: string[][]) => {
+  for (let i = 0; i < sentences.length; i++) {
+    const sentence = sentences[i];
+    let yearsIndex = -1;
+    let memo;
+    for (let j = 0; j < sentence.length; j++) {
+      const word = sentence[j];
+      console.log(word);
+      const langEx = STACK[word];
+      if (word.match(/\+\d/g) && yearsIndex < 0) {
+        yearsIndex = j;
+        j = 0;
+      }
+      if (langEx !== memo && langEx) {
+        const yearNum = Number(sentence[yearsIndex][1]);
+        if (yearNum > langEx.max) {
+          return false;
+        } else {
+          memo = langEx;
+          j = yearsIndex + 1;
+          yearsIndex = -1;
+        }
+      }
+    }
+  }
+};
+
+loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
+
+async function scrapRequirements(profile: Profile, path: string) {
+  const html = await readFile(path, 'utf-8');
+
+  const $ = load(html);
+  const sentences = splitSentence($);
+
+  console.log(sentences);
+}
+// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
 
 const initGetJobData = (query: InstanceType<typeof Query>) => {
   let index = 1;
@@ -66,84 +144,6 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
     }, [] as unknown as Job[]);
   };
 };
-
-const splitSentence = ($: CheerioAPI) => {
-  const nodeArr = $('.show-more-less-html--more *').toArray();
-  const nodeArrFilter = nodeArr.filter((el) => {
-    return !!$(el).text();
-  });
-  const nodeTextsArr = nodeArrFilter.map((el) =>
-    $(el)
-      .text()
-      .trim()
-      .split(' ')
-      .filter((el) => !!el)
-  );
-
-  return nodeTextsArr;
-};
-
-const loopOverTheString = (sentences: string[][]) => {
-  for (let i = 0; i < sentences.length; i++) {
-    const sentence = sentences[i];
-    let yearsIndex = -1;
-    let memo;
-    for (let j = 0; j < sentence.length; j++) {
-      const word = sentence[j];
-      console.log(word);
-      const langEx = STACK[word];
-      if (word.match(/\+\d/g) && yearsIndex < 0) {
-        yearsIndex = j;
-        j = 0;
-      }
-      if (langEx !== memo && langEx) {
-        const yearNum = Number(sentence[yearsIndex][1]);
-        if (yearNum > langEx.max) {
-          return false;
-        } else {
-          memo = langEx;
-          j = yearsIndex + 1;
-          yearsIndex = -1;
-        }
-      }
-    }
-  }
-};
-
-loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
-
-async function scrapRequirements(path: string) {
-  const html = await readFile(path, 'utf-8');
-
-  const $ = load(html);
-  const sentences = splitSentence($);
-
-  console.log(sentences);
-}
-// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
-
-const profile = new Profile({
-  overallEx: 1,
-  techStackOptions: {
-    techStack: STACK,
-    checkStack: { disqualifyExcludeTech: false },
-  },
-});
-
-const queryOptions = new Query({
-  sortBy: 'recent',
-  period: 'past week',
-  jobQuery: 'React.js',
-  distance: '10 mi (15km)',
-  location: 'Tel Aviv',
-  // positions: [
-  //   'Frontend Developer',
-  //   'Full Stack Engineer',
-  //   'Javascript Developer',
-  // ],
-  blackList: ['senior', 'lead', 'angular'],
-  whiteList: ['react', 'javascript'],
-});
 
 async function createJobJSON(queryOptions: Query, profile: Profile) {
   const jobs: Job[] = [];
