@@ -27,8 +27,8 @@ const queryOptions = new Query({
   //   'Full Stack Engineer',
   //   'Javascript Developer',
   // ],
-  blackList: ['senior', 'lead', 'angular'],
-  whiteList: ['react', 'javascript'],
+  blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
+  whiteList: [],
 });
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
@@ -58,7 +58,7 @@ const splitSentence = ($: CheerioAPI) => {
   return nodeTextsArr;
 };
 
-const loopOverTheString = (sentences: string[][]) => {
+const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   for (let i = 0; i < sentences.length; i++) {
     const sentence = sentences[i];
     let yearsIndex = -1;
@@ -85,7 +85,7 @@ const loopOverTheString = (sentences: string[][]) => {
   }
 };
 
-loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
+// loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
 
 async function scrapRequirements(profile: Profile, path: string) {
   const html = await readFile(path, 'utf-8');
@@ -109,17 +109,20 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
 
       if (
         query.blackList.length &&
-        query.blackList.some((bl) =>
-          jobTitle.toLowerCase().includes(bl.toLowerCase())
-        )
+        query.blackList.some((bl) => {
+          console.log(jobTitle.toLowerCase(), bl.toLowerCase());
+          console.log(jobTitle.toLowerCase().includes(bl.toLowerCase()));
+          return jobTitle.toLowerCase().includes(bl.toLowerCase());
+        })
       )
         return pre;
 
       if (
-        query.whiteList.length &&
-        query.whiteList.some((wl) =>
-          jobTitle.toLowerCase().includes(wl.toLowerCase())
-        )
+        query.whiteList.length === 0 ||
+        (query.whiteList.length &&
+          query.whiteList.some((wl) =>
+            jobTitle.toLowerCase().includes(wl.toLowerCase())
+          ))
       ) {
         const company = $(cur)
           .find('h4.base-search-card__subtitle')
@@ -155,7 +158,7 @@ async function createJobJSON(queryOptions: Query, profile: Profile) {
     const data = await getHTML(queryOptions, start);
 
     obj = getJobData(data);
-    console.log(obj);
+
     if (obj) {
       jobs.push(...obj);
     }
@@ -173,17 +176,4 @@ async function createJobJSON(queryOptions: Query, profile: Profile) {
   console.log(`finish create ${fileName}`);
 }
 
-// createJobJSON({
-//   sortBy: 'recent',
-//   period: 'past week',
-//   jobQuery: 'React.js',
-//   distance: '10 mi (15km)',
-//   location: 'Tel Aviv',
-//   // positions: [
-//   //   'Frontend Developer',
-//   //   'Full Stack Engineer',
-//   //   'Javascript Developer',
-//   // ],
-//   blackList: ['senior', 'lead', 'angular'],
-//   whiteList: ['react', 'javascript'],
-// });
+createJobJSON(queryOptions, profile);
