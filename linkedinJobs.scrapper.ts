@@ -12,7 +12,7 @@ const profile = new Profile({
   overallEx: 1,
   techStackOptions: {
     techStack: STACK,
-    checkStack: { disqualifyExcludeTech: false },
+    excludeTech: { 'C#.NET': true },
   },
 });
 
@@ -65,13 +65,20 @@ const loopOverTheString = (profile: Profile, sentences: string[][]) => {
     let memo;
     for (let j = 0; j < sentence.length; j++) {
       const word = sentence[j];
-      console.log(word);
-      const langEx = STACK[word];
+      const langEx = profile.techStack.techStack[word];
       if (word.match(/\+\d/g) && yearsIndex < 0) {
         yearsIndex = j;
         j = 0;
       }
-      if (langEx !== memo && langEx) {
+
+      if (
+        profile.techStack.excludeTech &&
+        profile.techStack.excludeTech[word]
+      ) {
+        return false;
+      }
+
+      if (langEx !== memo && langEx && yearsIndex > 0) {
         const yearNum = Number(sentence[yearsIndex][1]);
         if (yearNum > langEx.max) {
           return false;
@@ -83,9 +90,12 @@ const loopOverTheString = (profile: Profile, sentences: string[][]) => {
       }
     }
   }
+  return true;
 };
 
-// loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
+loopOverTheString(profile, [
+  ['A#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
+]);
 
 async function scrapRequirements(profile: Profile, path: string) {
   const html = await readFile(path, 'utf-8');
@@ -176,4 +186,4 @@ async function createJobJSON(queryOptions: Query, profile: Profile) {
   console.log(`finish create ${fileName}`);
 }
 
-createJobJSON(queryOptions, profile);
+// createJobJSON(queryOptions, profile);

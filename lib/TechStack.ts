@@ -7,14 +7,14 @@ export interface ExperienceRange {
 
 export interface TechStackOptions {
   techStack: GenericRecord<ExperienceRange>;
-  checkStack?: { disqualifyExcludeTech: boolean };
+  excludeTech?: GenericRecord<boolean>;
 }
 export class TechStack {
-  techStack: GenericRecord<ExperienceRange>;
-  checkStack?: { disqualifyExcludeTech: boolean };
+  techStack: TechStackOptions['techStack'];
+  excludeTech?: TechStackOptions['excludeTech'];
   constructor(techStackOptions: TechStackOptions) {
     this.techStack = techStackOptions.techStack;
-    this.checkStack = techStackOptions.checkStack;
+    this.excludeTech = techStackOptions.excludeTech;
   }
 
   addStack(tech: string, experience: ExperienceRange) {
