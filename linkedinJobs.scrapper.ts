@@ -5,31 +5,9 @@ import { Job } from './lib';
 import { Query } from './lib/query';
 import path from 'path';
 
-const wordsDict = [
-  'React',
-  'Javascript',
-  'Full Stack',
-  'Frontend',
-  'Backend',
-  'Web',
-  'Front End',
-  'Back End',
-];
-
-const lan = [
-  'Javascript',
-  'React',
-  'Typescript',
-  'Nodejs',
-  'node',
-  'javascript',
-  'mongoDB',
-  'SQL',
-];
-
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${query.jobQuery}&location=Tel+Aviv-Yafo,+Tel+Aviv+District,+Israel&locationId=&geoId=101570771&f_TPR=&distance=10&f_JT=F&f_E=2&start=${start}&f_T=${query.positionsQuery}`;
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${query.jobQuery}&location=${query.location}&locationId=&geoId=101570771&f_TPR=&distance=16&f_JT=F&f_E=2&start=${start}&f_T=${query.positionsQuery}`;
     console.log(url);
     const res = await axios(url);
     return res.data;
@@ -38,11 +16,11 @@ const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   }
 };
 
-const wordBlackList = ['Angular', 'Senior', 'Lead'];
-const getJobData = (html: string) => {
+const getJobData = (html: string, query: InstanceType<typeof Query>) => {
   const $ = load(html);
   const jobs = $('li');
   if (jobs.length === 0) return;
+  let index = 0;
   return jobs.toArray().reduce((pre, cur) => {
     const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
     const company = $(cur).find('h4.base-search-card__subtitle').text().trim();
@@ -51,19 +29,34 @@ const getJobData = (html: string) => {
       .text()
       .trim();
     const link = $(cur).find('a.base-card__full-link').attr('href');
+    let insert = true;
+
+    //Todo: Trie
     if (
-      wordsDict.some(
-        (el) =>
-          jobTitle.includes(el) &&
-          wordBlackList.every((el) => !jobTitle.includes(el))
+      query.whiteList.length &&
+      query.whiteList.some((wl) =>
+        jobTitle.toLowerCase().includes(wl.toLowerCase())
       )
     )
+      insert = true;
+
+    if (
+      query.blackList.length &&
+      query.blackList.some((bl) =>
+        jobTitle.toLowerCase().includes(bl.toLowerCase())
+      )
+    )
+      insert = false;
+
+    if (insert)
       pre.push({
+        jobID: index++,
         jobTitle,
         company,
         location,
         link: link || '',
       });
+
     return pre;
   }, [] as unknown as Job[]);
 };
@@ -80,7 +73,7 @@ async function createJobJSON(
   while (obj && start < q.limit) {
     const data = await getHTML(q, start);
 
-    obj = getJobData(data);
+    obj = getJobData(data, q);
 
     if (obj) {
       jobs.push(...obj);
@@ -106,7 +99,13 @@ async function createJobJSON(
 
 createJobJSON({
   jobQuery: '',
-  positions: ['Automation Engineer', 'Back End Developer'],
+  positions: [
+    'Frontend Developer',
+    'Full Stack Engineer',
+    'Javascript Developer',
+  ],
+  blackList: ['senior', 'lead', 'angular'],
+  whiteList: ['react', 'javascript'],
 });
 
 async function scrapRequirements(path: string) {
