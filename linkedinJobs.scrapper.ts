@@ -2,10 +2,10 @@ import axios from 'axios';
 
 import { writeFile, readFile } from 'fs/promises';
 import { Job } from './lib/linkedinScrapper';
-import { Query, ValueObj } from './lib/Query';
+import { Query } from './lib/Query';
 import path from 'path';
 
-import { load, CheerioAPI, Cheerio, Element } from 'cheerio';
+import { load, CheerioAPI } from 'cheerio';
 import { Profile, STACK } from './lib/Profile';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
