@@ -89,3 +89,24 @@ A84ADD672ECE7362BC3F590229F35CC24BABCA7FA064B980ECAF385F176C272F570676881A9CF230
 
 cookies
 __RequestVerificationToken=neZ1udaElWPQTQaVE-PADyIpjJdRKc3kSc37I703XmHDmP15NdPo3OJZsW4pAAmicZpBZHUf2T83g5KVpKMBt_0oIxMD88-2gYO5iNqvWag1; ASP.NET_SessionId=vtahmn1znw4iui2xpmm01rrv
+
+
+
+const p=document.querySelector("#jserp-filters > ul > li:nth-child(2) > div > div > div > div")
+const pl=p.querySelectorAll(".filter-values-container__filter-value")
+const obj=Array.from(pl)
+obj.reduce((pre,cur)=>{
+
+    const value=cur.querySelector("input").value
+    const label=cur.querySelector("label").textContent.trim();
+    pre[label]=value;
+    return pre
+    
+},{})
+
+
+const li=document.querySelectorAll(".show-more-less-html__markup *")
+const m=Array.from(li)
+const py=m.filter(el=>!!el.textContent);
+const by=py.map(el=>el.textContent)
+

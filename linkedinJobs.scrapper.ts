@@ -1,13 +1,27 @@
 import axios from 'axios';
-import { load } from 'cheerio';
+
 import { writeFile, readFile } from 'fs/promises';
-import { Job } from './lib';
-import { Query } from './lib/query';
+import { Job } from './lib/types';
+import { Query, ValueObj } from './lib/query';
 import path from 'path';
+
+import { load, CheerioAPI, Cheerio, Element } from 'cheerio';
+
+const STACK: Record<string, { min: number; max: number }> = {
+  javascript: { min: 0, max: 3 },
+  react: { min: 0, max: 3 },
+  typescript: { min: 0, max: 3 },
+  ts: { min: 0, max: 3 },
+  js: { min: 0, max: 3 },
+  'node.js': { min: 0, max: 3 },
+  git: { min: 0, max: 3 },
+};
+
+const overallEx = { min: 0, max: 3 };
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${query.jobQuery}&location=${query.location}&locationId=&geoId=101570771&f_TPR=&distance=16&f_JT=F&f_E=2&start=${start}&f_T=${query.positionsQuery}`;
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${query.jobQuery}&location=${query.location}&f_TPR=${query.period}&distance=${query.distance}&f_E=2&start=${start}&f_T=${query.positionsQuery}&sortBy=${query.sortBy}`;
     console.log(url);
     const res = await axios(url);
     return res.data;
@@ -16,49 +30,57 @@ const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   }
 };
 
-const getJobData = (html: string, query: InstanceType<typeof Query>) => {
-  const $ = load(html);
-  const jobs = $('li');
-  if (jobs.length === 0) return;
-  let index = 0;
-  return jobs.toArray().reduce((pre, cur) => {
-    const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
-    const company = $(cur).find('h4.base-search-card__subtitle').text().trim();
-    const location = $(cur)
-      .find('span.job-search-card__location')
-      .text()
-      .trim();
-    const link = $(cur).find('a.base-card__full-link').attr('href');
-    let insert = true;
+const initGetJobData = (query: InstanceType<typeof Query>) => {
+  let index = 1;
+  return (html: string) => {
+    const $ = load(html);
+    const jobs = $('li');
+    if (jobs.length === 0) return;
 
-    //Todo: Trie
-    if (
-      query.whiteList.length &&
-      query.whiteList.some((wl) =>
-        jobTitle.toLowerCase().includes(wl.toLowerCase())
+    return jobs.toArray().reduce((pre, cur) => {
+      const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
+      const company = $(cur)
+        .find('h4.base-search-card__subtitle')
+        .text()
+        .trim();
+      const location = $(cur)
+        .find('span.job-search-card__location')
+        .text()
+        .trim();
+      const link = $(cur).find('a.base-card__full-link').attr('href');
+      let insert = true;
+
+      //Todo: Trie
+      if (
+        query.whiteList.length &&
+        query.whiteList.some((wl) =>
+          jobTitle.toLowerCase().includes(wl.toLowerCase())
+        )
       )
-    )
+        insert = true;
+
+      if (
+        query.blackList.length &&
+        query.blackList.some((bl) =>
+          jobTitle.toLowerCase().includes(bl.toLowerCase())
+        )
+      )
+        insert = false;
+
+      if (insert)
+        pre.push({
+          jobID: index++,
+          jobTitle,
+          company,
+          location,
+          link: link || '',
+        });
+
       insert = true;
 
-    if (
-      query.blackList.length &&
-      query.blackList.some((bl) =>
-        jobTitle.toLowerCase().includes(bl.toLowerCase())
-      )
-    )
-      insert = false;
-
-    if (insert)
-      pre.push({
-        jobID: index++,
-        jobTitle,
-        company,
-        location,
-        link: link || '',
-      });
-
-    return pre;
-  }, [] as unknown as Job[]);
+      return pre;
+    }, [] as unknown as Job[]);
+  };
 };
 
 async function createJobJSON(
@@ -70,24 +92,25 @@ async function createJobJSON(
   const q = new Query(...queryOptions);
 
   let obj: Job[] | undefined = [];
+  const getJobData = initGetJobData(q);
   while (obj && start < q.limit) {
     const data = await getHTML(q, start);
 
-    obj = getJobData(data, q);
-
+    obj = getJobData(data);
+    console.log(obj);
     if (obj) {
       jobs.push(...obj);
     }
     start += 25;
   }
-  const positionsName = queryOptions[0].positions
-    .join('_')
+  const positionsName = queryOptions[0]?.positions
+    ?.join('_')
     .split(' ')
     .join('_')
     .toLocaleLowerCase();
-  const jobSearch = queryOptions[0].jobQuery.split(' ').join('');
+  const jobSearch = queryOptions[0].jobQuery?.split(' ').join('');
   const date = new Date().toLocaleDateString().split('/').join('-');
-  const fileName = `${jobSearch || positionsName}-${date}.json`;
+  const fileName = `${date}.json`;
   await writeFile(
     path.join(__dirname, fileName),
     JSON.stringify(jobs),
@@ -97,39 +120,74 @@ async function createJobJSON(
   console.log(`finish create ${fileName}`);
 }
 
-createJobJSON({
-  jobQuery: '',
-  positions: [
-    'Frontend Developer',
-    'Full Stack Engineer',
-    'Javascript Developer',
-  ],
-  blackList: ['senior', 'lead', 'angular'],
-  whiteList: ['react', 'javascript'],
-});
+// createJobJSON({
+//   sortBy: 'recent',
+//   period: 'past week',
+//   jobQuery: 'React.js',
+//   distance: '10 mi (15km)',
+//   location: 'Tel Aviv',
+//   // positions: [
+//   //   'Frontend Developer',
+//   //   'Full Stack Engineer',
+//   //   'Javascript Developer',
+//   // ],
+//   blackList: ['senior', 'lead', 'angular'],
+//   whiteList: ['react', 'javascript'],
+// });
+
+const splitSentence = ($: CheerioAPI) => {
+  const nodeArr = $('.show-more-less-html--more *').toArray();
+  const nodeArrFilter = nodeArr.filter((el) => {
+    return !!$(el).text();
+  });
+  const nodeTextsArr = nodeArrFilter.map((el) =>
+    $(el)
+      .text()
+      .trim()
+      .split(' ')
+      .filter((el) => !!el)
+  );
+
+  return nodeTextsArr;
+};
+
+const loopOverTheString = (sentences: string[][]) => {
+  for (let i = 0; i < sentences.length; i++) {
+    const sentence = sentences[i];
+    let yearsIndex = -1;
+    let memo;
+    for (let j = 0; j < sentence.length; j++) {
+      const word = sentence[j];
+      console.log(word);
+      const langEx = STACK[word];
+      if (word.match(/\+\d/g) && yearsIndex < 0) {
+        yearsIndex = j;
+        j = 0;
+      }
+      if (langEx !== memo && langEx) {
+        const yearNum = Number(sentence[yearsIndex][1]);
+        if (yearNum > langEx.max) {
+          return false;
+        } else {
+          memo = langEx;
+          j = yearsIndex + 1;
+          yearsIndex = -1;
+        }
+      }
+    }
+  }
+};
 
 async function scrapRequirements(path: string) {
   const html = await readFile(path, 'utf-8');
 
   const $ = load(html);
-  const ul = $('.show-more-less-html--more ul');
+  const sentences = splitSentence($);
 
-  const d = ul
-    .toArray()
-    .filter((el) => {
-      if (
-        $(el)
-          .text()
-          .match(
-            /\b(0-2|at least|\+[0-9]+)\s*years?\b.*\b(SQL|react|javascript)\b/i
-          )
-      )
-        return true;
-    })
-    .map((el) => {
-      return $(el).text();
-    });
-  console.log(d);
+  console.log(sentences);
 }
 
-// scrapRequirements(path.join(__dirname, 'public', 'index.html'));
+// /\+[3-9]d* years/i;
+
+loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
+// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
