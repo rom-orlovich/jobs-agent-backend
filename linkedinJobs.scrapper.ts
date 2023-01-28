@@ -28,25 +28,6 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
 
     return jobs.toArray().reduce((pre, cur) => {
       const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
-      const company = $(cur)
-        .find('h4.base-search-card__subtitle')
-        .text()
-        .trim();
-      const location = $(cur)
-        .find('span.job-search-card__location')
-        .text()
-        .trim();
-      const link = $(cur).find('a.base-card__full-link').attr('href');
-      let insert = true;
-
-      //Todo: Trie
-      if (
-        query.whiteList.length &&
-        query.whiteList.some((wl) =>
-          jobTitle.toLowerCase().includes(wl.toLowerCase())
-        )
-      )
-        insert = true;
 
       if (
         query.blackList.length &&
@@ -54,9 +35,24 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
           jobTitle.toLowerCase().includes(bl.toLowerCase())
         )
       )
-        insert = false;
+        return pre;
 
-      if (insert)
+      if (
+        query.whiteList.length &&
+        query.whiteList.some((wl) =>
+          jobTitle.toLowerCase().includes(wl.toLowerCase())
+        )
+      ) {
+        const company = $(cur)
+          .find('h4.base-search-card__subtitle')
+          .text()
+          .trim();
+        const location = $(cur)
+          .find('span.job-search-card__location')
+          .text()
+          .trim();
+        const link = $(cur).find('a.base-card__full-link').attr('href');
+
         pre.push({
           jobID: index++,
           jobTitle,
@@ -64,8 +60,7 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
           location,
           link: link || '',
         });
-
-      insert = true;
+      }
 
       return pre;
     }, [] as unknown as Job[]);
