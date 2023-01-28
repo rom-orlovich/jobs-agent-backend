@@ -114,13 +114,8 @@ const loopOverTheString = (sentences: string[][]) => {
     }
   }
 };
-const profile = new Profile({
-  overallEx: 1,
-  techStackOptions: {
-    techStack: STACK,
-    checkStack: { disqualifyExcludeTech: false },
-  },
-});
+
+loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
 
 async function scrapRequirements(path: string) {
   const html = await readFile(path, 'utf-8');
@@ -130,22 +125,39 @@ async function scrapRequirements(path: string) {
 
   console.log(sentences);
 }
-
-loopOverTheString([['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]);
 // scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
 
-async function createJobJSON(
-  ...queryOptions: ConstructorParameters<typeof Query>
-) {
+const profile = new Profile({
+  overallEx: 1,
+  techStackOptions: {
+    techStack: STACK,
+    checkStack: { disqualifyExcludeTech: false },
+  },
+});
+
+const queryOptions = new Query({
+  sortBy: 'recent',
+  period: 'past week',
+  jobQuery: 'React.js',
+  distance: '10 mi (15km)',
+  location: 'Tel Aviv',
+  // positions: [
+  //   'Frontend Developer',
+  //   'Full Stack Engineer',
+  //   'Javascript Developer',
+  // ],
+  blackList: ['senior', 'lead', 'angular'],
+  whiteList: ['react', 'javascript'],
+});
+
+async function createJobJSON(queryOptions: Query, profile: Profile) {
   const jobs: Job[] = [];
   let start = 0;
 
-  const q = new Query(...queryOptions);
-
   let obj: Job[] | undefined = [];
-  const getJobData = initGetJobData(q);
-  while (obj && start < q.limit) {
-    const data = await getHTML(q, start);
+  const getJobData = initGetJobData(queryOptions);
+  while (obj && start < queryOptions.limit) {
+    const data = await getHTML(queryOptions, start);
 
     obj = getJobData(data);
     console.log(obj);
@@ -154,12 +166,7 @@ async function createJobJSON(
     }
     start += 25;
   }
-  const positionsName = queryOptions[0]?.positions
-    ?.join('_')
-    .split(' ')
-    .join('_')
-    .toLocaleLowerCase();
-  const jobSearch = queryOptions[0].jobQuery?.split(' ').join('');
+
   const date = new Date().toLocaleDateString().split('/').join('-');
   const fileName = `${date}.json`;
   await writeFile(
