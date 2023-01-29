@@ -3,10 +3,8 @@ import { loopOverTheString } from '../src/linkedin.scanner';
 
 export const profile = new Profile({
   overallEx: 1,
-  RequirementsOptions: {
-    requirements: REQUIREMENTS,
-    excludeTech: { 'C#.NET': false },
-  },
+  requirementsOptions: REQUIREMENTS,
+  excludeTechs: { 'C#.NET': false },
 });
 
 describe('test loopOverTheString function', () => {

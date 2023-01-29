@@ -44,17 +44,14 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
     for (let j = 0; j < sentence.length; j++) {
       const word = sentence[j];
 
-      const langEx = profile.Requirements.requirements[word];
+      const langEx = profile.getRequirement(word);
 
       if (word.match(/\+\d/g) || (word.match(/\d\+/g) && yearsIndex < 0)) {
         yearsIndex = j;
         j = 0;
       }
 
-      if (
-        profile.Requirements.excludeTech &&
-        profile.Requirements.excludeTech[word]
-      ) {
+      if (profile.getExcludeTech(word)) {
         return false;
       }
 
