@@ -36,40 +36,59 @@ const splitSentence = (elements: Cheerio<Element>[]) => {
   return nodeTextsArr;
 };
 
+// const loop = (
+//   i: number,
+//   arr: string[],
+//   wordExclude: string,
+//   wordInclude: string
+// ) => {
+//   if (i === arr.length) return arr.length;
+
+//   if (wordExclude === arr[i]) return i;
+
+//   if (wordInclude === arr) {
+//   }
+// };
+
 export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   for (let i = 0; i < sentences.length; i++) {
     const sentence = sentences[i];
     let yearsIndex = -1;
+    let match: RegExpMatchArray | null = null;
     let memo;
     for (let j = 0; j < sentence.length; j++) {
       const word = sentence[j];
-
-      const langEx = profile.getRequirement(word);
-
-      if (word.match(/\+\d/g) || (word.match(/\d\+/g) && yearsIndex < 0)) {
-        yearsIndex = j;
-        j = 0;
-      }
-
       if (profile.getExcludeTech(word)) {
         return false;
       }
 
-      if (langEx !== memo && langEx && yearsIndex > 0) {
-        console.log('y');
-        const yearNum = Number(sentence[yearsIndex][1]);
-        if (yearNum > langEx.max) {
+      if (!match) {
+        match = word.match(/\d\d|\d-\d|\d/g);
+        if (j < sentence.length - 1 && match && sentence[j + 1].match(/year/)) {
+          if (match && Number(match[0]) > profile.overallEx) return false;
+          yearsIndex = j;
+          j = 0;
+        }
+      }
+
+      const langEx = profile.getRequirement(word);
+      if (langEx) memo = langEx;
+
+      if (memo && match) {
+        const yearNum = Number(match[0]);
+
+        if (yearNum > memo.max) {
           return false;
         } else {
-          memo = langEx;
           j = yearsIndex + 1;
           yearsIndex = -1;
         }
+        match = null;
       }
     }
+    match = null;
     memo = undefined;
   }
-  console.log(true);
 
   return true;
 };
