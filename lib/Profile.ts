@@ -1,7 +1,11 @@
-import { ExperienceRange, TechStack, TechStackOptions } from './TechStack';
-import { GenericRecord } from './type';
+import {
+  ExperienceRange,
+  Requirements,
+  RequirementsOptions,
+} from './Requirements';
+import { GenericRecord } from './types/types';
 
-export const STACK: GenericRecord<ExperienceRange> = {
+export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
   typescript: { min: 0, max: 3 },
@@ -12,15 +16,15 @@ export const STACK: GenericRecord<ExperienceRange> = {
 };
 
 interface ProfileOptions {
-  techStackOptions: TechStackOptions;
+  RequirementsOptions: RequirementsOptions;
   overallEx: number;
 }
 
 export class Profile {
-  techStack: InstanceType<typeof TechStack>;
+  Requirements: InstanceType<typeof Requirements>;
   overallEx: number;
   constructor(profileOptions: ProfileOptions) {
-    this.techStack = new TechStack(profileOptions.techStackOptions);
+    this.Requirements = new Requirements(profileOptions.RequirementsOptions);
     this.overallEx = profileOptions.overallEx;
   }
 }

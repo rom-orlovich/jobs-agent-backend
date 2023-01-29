@@ -1,18 +1,18 @@
 import axios from 'axios';
 
 import { writeFile, readFile } from 'fs/promises';
-import { Job } from './lib/linkedinScrapper';
-import { Query } from './lib/Query';
+import { Job } from '../lib/types/linkedinScrapper';
+import { Query } from '../lib/Query';
 import path from 'path';
 
 import { load, CheerioAPI } from 'cheerio';
-import { Profile, STACK } from './lib/Profile';
+import { Profile, REQUIREMENTS } from '../lib/Profile';
 
 const profile = new Profile({
   overallEx: 1,
-  techStackOptions: {
-    techStack: STACK,
-    excludeTech: { 'C#.NET': true },
+  RequirementsOptions: {
+    requirements: REQUIREMENTS,
+    excludeTech: { 'C#.NET': false },
   },
 });
 
@@ -65,20 +65,23 @@ const loopOverTheString = (profile: Profile, sentences: string[][]) => {
     let memo;
     for (let j = 0; j < sentence.length; j++) {
       const word = sentence[j];
-      const langEx = profile.techStack.techStack[word];
-      if (word.match(/\+\d/g) && yearsIndex < 0) {
+
+      const langEx = profile.Requirements.requirements[word];
+
+      if (word.match(/\+\d/g) || (word.match(/\d\+/g) && yearsIndex < 0)) {
         yearsIndex = j;
         j = 0;
       }
 
       if (
-        profile.techStack.excludeTech &&
-        profile.techStack.excludeTech[word]
+        profile.Requirements.excludeTech &&
+        profile.Requirements.excludeTech[word]
       ) {
         return false;
       }
 
       if (langEx !== memo && langEx && yearsIndex > 0) {
+        console.log('y');
         const yearNum = Number(sentence[yearsIndex][1]);
         if (yearNum > langEx.max) {
           return false;
@@ -89,12 +92,20 @@ const loopOverTheString = (profile: Profile, sentences: string[][]) => {
         }
       }
     }
+    memo = undefined;
   }
+  console.log(true);
+
   return true;
 };
 
 loopOverTheString(profile, [
-  ['A#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
+  ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
+  ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
+  ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
+  ['Experience', 'with', 'Rest', 'API', 'development'],
+  ['Performance', 'and', 'security-first', 'thinking'],
+  ['Team', 'player'],
 ]);
 
 async function scrapRequirements(profile: Profile, path: string) {
@@ -105,7 +116,7 @@ async function scrapRequirements(profile: Profile, path: string) {
 
   console.log(sentences);
 }
-// scrapRequirements(path.join(__dirname, 'public', 'ex.html'));
+// scrapRequirements(profile, path.join(__dirname, 'public', 'ex.html'));
 
 const initGetJobData = (query: InstanceType<typeof Query>) => {
   let index = 1;
