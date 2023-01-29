@@ -2,34 +2,12 @@ import axios from 'axios';
 
 import { writeFile, readFile } from 'fs/promises';
 import { Job } from '../lib/types/linkedinScrapper';
-import { Query } from '../lib/Query';
+import { Query, queryOptions } from '../lib/Query';
 import path from 'path';
 
-import { load, CheerioAPI } from 'cheerio';
-import { Profile, REQUIREMENTS } from '../lib/Profile';
-
-const profile = new Profile({
-  overallEx: 1,
-  RequirementsOptions: {
-    requirements: REQUIREMENTS,
-    excludeTech: { 'C#.NET': false },
-  },
-});
-
-const queryOptions = new Query({
-  sortBy: 'recent',
-  period: 'past week',
-  jobQuery: 'React.js',
-  distance: '10 mi (15km)',
-  location: 'Tel Aviv',
-  // positions: [
-  //   'Frontend Developer',
-  //   'Full Stack Engineer',
-  //   'Javascript Developer',
-  // ],
-  blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
-  whiteList: [],
-});
+import { load, Element, Cheerio } from 'cheerio';
+import { Profile, profile } from '../lib/Profile';
+import { CheerioDom } from '../lib/CheerioDom';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
@@ -42,13 +20,13 @@ const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   }
 };
 
-const splitSentence = ($: CheerioAPI) => {
-  const nodeArr = $('.show-more-less-html--more *').toArray();
-  const nodeArrFilter = nodeArr.filter((el) => {
-    return !!$(el).text();
+const splitSentence = (elements: Cheerio<Element>[]) => {
+  const nodeArrFilter = elements.filter((el) => {
+    return el.text();
   });
+
   const nodeTextsArr = nodeArrFilter.map((el) =>
-    $(el)
+    el
       .text()
       .trim()
       .split(' ')
@@ -58,7 +36,7 @@ const splitSentence = ($: CheerioAPI) => {
   return nodeTextsArr;
 };
 
-const loopOverTheString = (profile: Profile, sentences: string[][]) => {
+export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   for (let i = 0; i < sentences.length; i++) {
     const sentence = sentences[i];
     let yearsIndex = -1;
@@ -99,20 +77,22 @@ const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   return true;
 };
 
-loopOverTheString(profile, [
-  ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
-  ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
-  ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
-  ['Experience', 'with', 'Rest', 'API', 'development'],
-  ['Performance', 'and', 'security-first', 'thinking'],
-  ['Team', 'player'],
-]);
+// loopOverTheString(profile, [
+//   ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
+//   ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
+//   ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
+//   ['Experience', 'with', 'Rest', 'API', 'development'],
+//   ['Performance', 'and', 'security-first', 'thinking'],
+//   ['Team', 'player'],
+// ]);
 
 async function scrapRequirements(profile: Profile, path: string) {
   const html = await readFile(path, 'utf-8');
+  const { toArray } = new CheerioDom(html);
+  // const $ = load(html);
+  const elements = toArray('.show-more-less-html--more *');
 
-  const $ = load(html);
-  const sentences = splitSentence($);
+  const sentences = splitSentence(elements);
 
   console.log(sentences);
 }

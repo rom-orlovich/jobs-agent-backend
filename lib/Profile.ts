@@ -28,3 +28,11 @@ export class Profile {
     this.overallEx = profileOptions.overallEx;
   }
 }
+
+export const profile = new Profile({
+  overallEx: 1,
+  RequirementsOptions: {
+    requirements: REQUIREMENTS,
+    excludeTech: { 'C#.NET': false },
+  },
+});
