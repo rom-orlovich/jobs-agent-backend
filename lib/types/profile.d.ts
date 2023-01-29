@@ -7,7 +7,7 @@ export type RequirementsOptions = GenericRecord<ExperienceRange>;
 export type ExcludeTechsOptions = GenericRecord<boolean>;
 
 interface ProfileOptions {
-  overallEx: number;
+  overallEx?: number;
   requirementsOptions: RequirementsOptions;
   excludeTechs: ExcludeTechsOptions;
 }

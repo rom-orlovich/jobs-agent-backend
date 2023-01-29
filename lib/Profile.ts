@@ -6,9 +6,14 @@ import {
 } from './types/profile';
 import { GenericRecord } from './types/types';
 
+/**
+ * @param excludeTechs An object that contains the tech stack which the user doesn't want to include the in jobs list.
+ * @param requirements An object that contains the min and max years of experience per each of the user.
+ * @param overallEx A number that present the overall experience of the user.
+ */
 export class Profile {
+  overallEx?: number;
   requirements: Map<string, ExperienceRange>;
-  overallEx: number;
   excludeTechs: Map<string, boolean>;
 
   constructor(profileOptions: ProfileOptions) {

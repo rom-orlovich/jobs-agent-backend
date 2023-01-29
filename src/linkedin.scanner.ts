@@ -2,11 +2,11 @@ import axios from 'axios';
 
 import { writeFile, readFile } from 'fs/promises';
 import { Job } from '../lib/types/linkedinScrapper';
-import { Query, queryOptions } from '../lib/Query';
+import { Query } from '../lib/Query';
 import path from 'path';
 
 import { load, Element, Cheerio } from 'cheerio';
-import { Profile, profile } from '../lib/Profile';
+import { profile, Profile } from '../lib/Profile';
 import { CheerioDom } from '../lib/CheerioDom';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
@@ -28,7 +28,6 @@ const splitSentence = (elements: Cheerio<Element>[]) => {
   const nodeTextsArr = nodeArrFilter.map((el) =>
     el
       .text()
-      .trim()
       .split(' ')
       .filter((el) => !!el)
   );
@@ -36,36 +35,37 @@ const splitSentence = (elements: Cheerio<Element>[]) => {
   return nodeTextsArr;
 };
 
-// const loop = (
-//   i: number,
-//   arr: string[],
-//   wordExclude: string,
-//   wordInclude: string
-// ) => {
-//   if (i === arr.length) return arr.length;
-
-//   if (wordExclude === arr[i]) return i;
-
-//   if (wordInclude === arr) {
-//   }
-// };
-
 export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   for (let i = 0; i < sentences.length; i++) {
     const sentence = sentences[i];
     let yearsIndex = -1;
-    let match: RegExpMatchArray | null = null;
+    let digitMatch: RegExpMatchArray | null = null;
     let memo;
     for (let j = 0; j < sentence.length; j++) {
       const word = sentence[j];
+      // Check if the word is include in the excluded tech
       if (profile.getExcludeTech(word)) {
         return false;
       }
+      // Check a match of digit is already exist.
+      if (!digitMatch) {
+        digitMatch = word.match(/\d\d|\d-\d|\d/g);
 
-      if (!match) {
-        match = word.match(/\d\d|\d-\d|\d/g);
-        if (j < sentence.length - 1 && match && sentence[j + 1].match(/year/)) {
-          if (match && Number(match[0]) > profile.overallEx) return false;
+        // Check if there is match.
+        // If it does check if the next word contains the word 'year'.
+        if (
+          digitMatch &&
+          j < sentence.length - 1 &&
+          sentence[j + 1].match(/year/)
+        ) {
+          // Check if the match is range.
+          if (digitMatch[0][1] === '-') {
+            const [min, max] = digitMatch[0].split('-');
+            if (profile.overallEx && Number(min) > profile.overallEx)
+              return false;
+          }
+          if (profile.overallEx && Number(digitMatch[0]) > profile.overallEx)
+            return false;
           yearsIndex = j;
           j = 0;
         }
@@ -74,8 +74,12 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
       const langEx = profile.getRequirement(word);
       if (langEx) memo = langEx;
 
-      if (memo && match) {
-        const yearNum = Number(match[0]);
+      if (memo && digitMatch) {
+        if (digitMatch[0][1] === '-') {
+          const [min, max] = digitMatch[0].split('-');
+          if (Number(min) > memo.max) return false;
+        }
+        const yearNum = Number(digitMatch[0]);
 
         if (yearNum > memo.max) {
           return false;
@@ -83,36 +87,29 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
           j = yearsIndex + 1;
           yearsIndex = -1;
         }
-        match = null;
+        digitMatch = null;
       }
     }
-    match = null;
+    digitMatch = null;
     memo = undefined;
   }
 
   return true;
 };
 
-// loopOverTheString(profile, [
-//   ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
-//   ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
-//   ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
-//   ['Experience', 'with', 'Rest', 'API', 'development'],
-//   ['Performance', 'and', 'security-first', 'thinking'],
-//   ['Team', 'player'],
-// ]);
-
 async function scrapRequirements(profile: Profile, path: string) {
   const html = await readFile(path, 'utf-8');
-  const { toArray } = new CheerioDom(html);
+  const domApi = new CheerioDom(html);
   // const $ = load(html);
-  const elements = toArray('.show-more-less-html--more *');
+
+  const elements = domApi.toArray('.show-more-less-html--more ul *');
 
   const sentences = splitSentence(elements);
 
   console.log(sentences);
 }
-// scrapRequirements(profile, path.join(__dirname, 'public', 'ex.html'));
+// console.log(path.join(__dirname, 'public', 'ex2.html'));
+// scrapRequirements(profile, path.join(__dirname, '../', 'public', 'ex5.html'));
 
 const initGetJobData = (query: InstanceType<typeof Query>) => {
   let index = 1;
@@ -127,8 +124,6 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
       if (
         query.blackList.length &&
         query.blackList.some((bl) => {
-          console.log(jobTitle.toLowerCase(), bl.toLowerCase());
-          console.log(jobTitle.toLowerCase().includes(bl.toLowerCase()));
           return jobTitle.toLowerCase().includes(bl.toLowerCase());
         })
       )
