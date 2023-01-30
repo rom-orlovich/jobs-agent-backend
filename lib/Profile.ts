@@ -4,7 +4,6 @@ import {
   ProfileOptions,
   RequirementsOptions,
 } from './types/profile';
-import { GenericRecord } from './types/types';
 
 /**
  * @param excludeTechs An object that contains the tech stack which the user doesn't want to include the in jobs list.
@@ -45,7 +44,7 @@ export class Profile {
   }
 
   getExcludeTech(tech: string) {
-    return this.excludeTechs.get(tech);
+    return this.excludeTechs.get(tech.toLowerCase());
   }
   removeExcludeTech(tech: string) {
     this.requirements.delete(tech);

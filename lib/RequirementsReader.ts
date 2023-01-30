@@ -23,7 +23,7 @@ export class RequirementsReader {
     return sentences;
   };
   private checkExcludeTech(word: string) {
-    if (this.profile.getExcludeTech(word.toLowerCase())) {
+    if (this.profile.getExcludeTech(word)) {
       return true;
     }
     return false;

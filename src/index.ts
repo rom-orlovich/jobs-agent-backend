@@ -29,9 +29,9 @@ export const profile = new Profile({
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past week',
-  jobQuery: 'React',
+  jobQuery: 'frontend',
   distance: '10 mi (15km)',
-  location: 'Kiryat Ono',
+  location: 'Tel-Aviv',
 
   // limit: 50,
   blackList: [
