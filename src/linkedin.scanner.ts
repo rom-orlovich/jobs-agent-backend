@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { readFileSync } from 'fs';
 import { writeFile, readFile } from 'fs/promises';
 import { Job } from '../lib/types/linkedinScrapper';
 import { Query } from '../lib/Query';
@@ -53,19 +53,13 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
 
         // Check if there is match.
         // If it does check if the next word contains the word 'year'.
-        if (
-          digitMatch &&
-          j < sentence.length - 1 &&
-          sentence[j + 1].match(/year/)
-        ) {
+        if (digitMatch && j < sentence.length - 1 && sentence[j + 1].match(/year/)) {
           // Check if the match is range.
           if (digitMatch[0][1] === '-') {
             const [min, max] = digitMatch[0].split('-');
-            if (profile.overallEx && Number(min) > profile.overallEx)
-              return false;
+            if (profile.overallEx && Number(min) > profile.overallEx) return false;
           }
-          if (profile.overallEx && Number(digitMatch[0]) > profile.overallEx)
-            return false;
+          if (profile.overallEx && Number(digitMatch[0]) > profile.overallEx) return false;
           yearsIndex = j;
           j = 0;
         }
@@ -97,10 +91,8 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
   return true;
 };
 
-async function scrapRequirements(profile: Profile, path: string) {
-  const html = await readFile(path, 'utf-8');
+async function scrapRequirements(profile: Profile, html: string) {
   const domApi = new CheerioDom(html);
-  // const $ = load(html);
 
   const elements = domApi.toArray('.show-more-less-html--more ul *');
 
@@ -108,7 +100,9 @@ async function scrapRequirements(profile: Profile, path: string) {
 
   console.log(sentences);
 }
-// console.log(path.join(__dirname, 'public', 'ex2.html'));
+
+const html = readFileSync(path.join(__dirname, '../', 'public', 'ex5.html'), 'utf-8');
+
 // scrapRequirements(profile, path.join(__dirname, '../', 'public', 'ex5.html'));
 
 const initGetJobData = (query: InstanceType<typeof Query>) => {
@@ -132,18 +126,10 @@ const initGetJobData = (query: InstanceType<typeof Query>) => {
       if (
         query.whiteList.length === 0 ||
         (query.whiteList.length &&
-          query.whiteList.some((wl) =>
-            jobTitle.toLowerCase().includes(wl.toLowerCase())
-          ))
+          query.whiteList.some((wl) => jobTitle.toLowerCase().includes(wl.toLowerCase())))
       ) {
-        const company = $(cur)
-          .find('h4.base-search-card__subtitle')
-          .text()
-          .trim();
-        const location = $(cur)
-          .find('span.job-search-card__location')
-          .text()
-          .trim();
+        const company = $(cur).find('h4.base-search-card__subtitle').text().trim();
+        const location = $(cur).find('span.job-search-card__location').text().trim();
         const link = $(cur).find('a.base-card__full-link').attr('href');
 
         pre.push({
@@ -179,11 +165,7 @@ async function createJobJSON(queryOptions: Query, profile: Profile) {
 
   const date = new Date().toLocaleDateString().split('/').join('-');
   const fileName = `${date}.json`;
-  await writeFile(
-    path.join(__dirname, fileName),
-    JSON.stringify(jobs),
-    'utf-8'
-  );
+  await writeFile(path.join(__dirname, fileName), JSON.stringify(jobs), 'utf-8');
 
   console.log(`finish create ${fileName}`);
 }
