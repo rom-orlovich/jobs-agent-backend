@@ -2,7 +2,7 @@ import { Cheerio, Element } from 'cheerio';
 import { CheerioDom } from './CheerioDom';
 import { Profile } from './Profile';
 
-class RequirementsReader {
+export class RequirementsReader {
   cheerioDom: CheerioDom;
   elements: Cheerio<Element>[];
   profile: Profile;
@@ -21,6 +21,8 @@ class RequirementsReader {
         .split(' ')
         .filter((el) => !!el)
     );
+
+    console.log(sentences);
     return sentences;
   };
   private checkExcludeTech(word: string) {

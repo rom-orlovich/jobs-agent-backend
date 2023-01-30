@@ -6,8 +6,9 @@ import { Query } from '../lib/Query';
 import path from 'path';
 
 import { load, Element, Cheerio } from 'cheerio';
-import { Profile } from '../lib/Profile';
+import { profile, Profile } from '../lib/Profile';
 import { CheerioDom } from '../lib/CheerioDom';
+import { RequirementsReader } from '../lib/RequirementsReader';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
@@ -92,18 +93,20 @@ export const loopOverTheString = (profile: Profile, sentences: string[][]) => {
 };
 
 async function scrapRequirements(profile: Profile, html: string) {
-  const domApi = new CheerioDom(html);
+  // const domApi = new CheerioDom(html);
 
-  const elements = domApi.toArray('.show-more-less-html--more ul *');
+  // const elements = domApi.toArray('.show-more-less-html--more ul *');
 
-  const sentences = splitSentence(elements);
+  // const sentences = splitSentence(elements);
 
-  console.log(sentences);
+  // console.log(sentences);
+  const requirementsObj = new RequirementsReader(profile, html, '.show-more-less-html--more ul *');
+  // console.log(requirementsObj.isJobValid());
 }
 
 const html = readFileSync(path.join(__dirname, '../', 'public', 'ex5.html'), 'utf-8');
 
-// scrapRequirements(profile, path.join(__dirname, '../', 'public', 'ex5.html'));
+// scrapRequirements(profile, html);
 
 const initGetJobData = (query: InstanceType<typeof Query>) => {
   let index = 1;
