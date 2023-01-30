@@ -14,12 +14,15 @@ export class PuppeteerDOM {
   }
 
   private createPathJSON() {
-    return path.join(__dirname, '../', 'JSON', 'fetch-logs-failure.json');
+    return path.join(__dirname, '../', 'logs', 'fetch-logs-failure.txt');
   }
 
   private async writeLog(log: { link: string; reason: string }) {
     console.log('reason', log.reason);
-    await appendFile(this.createPathJSON(), JSON.stringify(log), { flag: 'a', encoding: 'utf8' });
+    await appendFile(this.createPathJSON(), `${log.link} \n reason:${log.reason}`, {
+      flag: 'a',
+      encoding: 'utf8',
+    });
   }
 
   async scrapRequirements(html: string, query: string) {

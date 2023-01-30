@@ -17,19 +17,55 @@ export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
 export const profile = new Profile({
   overallEx: 2,
   requirementsOptions: REQUIREMENTS,
-  excludeTechs: { 'C#.NET': false },
+  excludeTechs: {
+    'c#.net': false,
+    php: false,
+    'c++': false,
+    'c#': false,
+    java: false,
+  },
 });
 
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past week',
-  jobQuery: 'React.js',
+  jobQuery: 'React',
   distance: '10 mi (15km)',
-  location: 'Tel Aviv',
+  location: 'Kiryat Ono',
 
-  limit: 50,
-  blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
-  whiteList: [],
+  // limit: 50,
+  blackList: [
+    'senior',
+    'lead',
+    'angular',
+    'devops',
+    'cloud',
+    'wordpress',
+    'devops',
+    '"Data Analyst',
+    'data',
+    'ux',
+    'ui',
+    'Quality Assurance',
+    'qa',
+    'CSV',
+    'php',
+  ],
+  whiteList: [
+    'front-end',
+    'frontend',
+    'full-stack',
+    'fullstack',
+    'javascript',
+    'react',
+    'react.js',
+    'node.js',
+    'node',
+    'js',
+    'junior',
+    'fe',
+    'fw',
+  ],
 });
 
 const main = async () => {

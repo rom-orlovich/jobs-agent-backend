@@ -6,7 +6,7 @@ import { Job } from '../lib/types/linkedinScrapper';
 import { createHash } from 'crypto';
 
 import { PuppeteerDOM } from '../lib/PuppeteerDOM';
-console.log(process.env.NODE_ENV);
+
 export class LinkedinScan {
   queryOptions: Query;
   jobs: Job[];
@@ -30,7 +30,7 @@ export class LinkedinScan {
   async getJobData(puppeteerDOM: PuppeteerDOM, html: string, jobs: Job[]) {
     const cheerioDOM = new CheerioDom(html);
     const elements = cheerioDOM.toArray('li');
-    console.log(elements.length);
+
     if (elements.length === 0) return [];
     const curJobs: Job[] = [];
 

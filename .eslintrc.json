@@ -9,6 +9,6 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "prettier/prettier": ["error", { "printWidth": 105 }]
+    "prettier/prettier": ["error", { "printWidth": 105, "eol": true }]
   }
 }

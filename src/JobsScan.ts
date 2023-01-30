@@ -29,11 +29,13 @@ export class JobsScan {
     return path.join(__dirname, '../', 'JSON', this.createFileName());
   }
 
+  //Todo: move these function to fs class.
   async loadJSON<T>(): Promise<T[]> {
     try {
       const path = this.createPathJSON();
       return JSON.parse(await readFile(path, 'utf8'));
     } catch (error) {
+      console.log(error);
       return [];
     }
   }
