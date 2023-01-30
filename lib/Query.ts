@@ -142,6 +142,7 @@ export const queryOptions = new Query({
   //   'Full Stack Engineer',
   //   'Javascript Developer',
   // ],
+  limit: 3,
   blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
   whiteList: [],
 });

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { readFileSync } from 'fs';
 import { writeFile, readFile } from 'fs/promises';
 import { Job } from '../lib/types/linkedinScrapper';
-import { Query } from '../lib/Query';
+import { Query, queryOptions } from '../lib/Query';
 import path from 'path';
 
 import { load, Element, Cheerio } from 'cheerio';
@@ -10,6 +10,7 @@ import { profile, Profile } from '../lib/Profile';
 import { CheerioDom } from '../lib/CheerioDom';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { PuppeteerDOM } from '../lib/PuppeteerDOM';
+import { JobsScan } from './JobsScan';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
@@ -106,9 +107,9 @@ async function scrapRequirements(profile: Profile, html: string) {
   console.log(requirementsObj.isJobValid(sentences));
 }
 
-const html = readFileSync(path.join(__dirname, '../', 'public', 'ex5.html'), 'utf-8');
+// const html = readFileSync(path.join(__dirname, '../', 'public', 'ex5.html'), 'utf-8');
 
-scrapRequirements(profile, html);
+// scrapRequirements(profile, html);
 
 // const initGetJobData = (query: InstanceType<typeof Query>) => {
 //   let index = 1;
@@ -177,10 +178,8 @@ scrapRequirements(profile, html);
 
 // createJobJSON(queryOptions, profile);
 const main = async () => {
-  const p = new PuppeteerDOM(profile);
-  await p.initPuppeteer(
-    'https://il.linkedin.com/jobs/view/full-stack-engineer-at-ht-bioimaging-htvet-3450794483?refId=OPb57FDQO3R9Apb5bmqTpA%3D%3D&trackingId=PqeHAtzTT2tqKqwKllAZ7w%3D%3D&position=19&pageNum=0&trk=public_jobs_jserp-result_search-card'
-  );
+  const jobScan = new JobsScan(profile, queryOptions);
+  await jobScan.scanning();
 };
 
 main();

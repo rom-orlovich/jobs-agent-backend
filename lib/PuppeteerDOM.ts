@@ -7,31 +7,34 @@ export class PuppeteerDOM {
   constructor(profile: Profile) {
     this.profile = profile;
   }
-  async scrapRequirements(html: string) {
-    // const domApi = new CheerioDom(html);
 
-    // const elements = domApi.toArray('.show-more-less-html--more ul *');
-
-    // const sentences = splitSentence(elements);
-
-    // console.log(sentences);
-    const requirementsObj = new RequirementsReader(this.profile);
-    const sentences = requirementsObj.getSentences(html, '.show-more-less-html--more ul *');
-
-    console.log(requirementsObj.isJobValid(sentences));
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  async initPuppeteer(link: string) {
+
+  async scrapRequirements(html: string, query: string) {
+    const requirementsObj = new RequirementsReader(this.profile);
+    const sentences = requirementsObj.getSentences(html, query);
+
+    const isJobValid = requirementsObj.isJobValid(sentences);
+    console.log(isJobValid);
+    return isJobValid;
+  }
+  async initPuppeteer(link: string, query: string) {
+    console.log(link);
     const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
     const context = await browser.createIncognitoBrowserContext();
 
     const page = await context.newPage();
+    await page.goto(link);
 
     const html = await page.evaluate(() => {
       return document.documentElement.innerHTML;
     });
 
-    this.scrapRequirements(html);
-
-    await browser.close();
+    const res = this.scrapRequirements(html, query);
+    await this.delay(3000);
+    await context.close();
+    return res;
   }
 }

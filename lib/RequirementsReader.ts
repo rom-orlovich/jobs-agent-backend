@@ -1,4 +1,3 @@
-import { Cheerio, Element } from 'cheerio';
 import { CheerioDom } from './CheerioDom';
 import { Profile } from './Profile';
 
@@ -10,6 +9,7 @@ export class RequirementsReader {
   getSentences = (html: string, queryEl: string) => {
     const cheerioDom = new CheerioDom(html);
     const elements = cheerioDom.toArray(queryEl);
+
     const nodes = elements.filter((el) => {
       return el.text();
     });
@@ -20,7 +20,6 @@ export class RequirementsReader {
         .filter((el) => !!el)
     );
 
-    console.log(sentences);
     return sentences;
   };
   private checkExcludeTech(word: string) {
