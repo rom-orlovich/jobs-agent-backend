@@ -18,6 +18,7 @@ export class PuppeteerDOM {
   }
 
   private async writeLog(log: { link: string; reason: string }) {
+    console.log('reason', log.reason);
     await appendFile(this.createPathJSON(), JSON.stringify(log), { flag: 'a', encoding: 'utf8' });
   }
 
