@@ -99,9 +99,7 @@ export class Query {
     return location.split(' ').join('%20');
   }
   private convertPositions(positions: (keyof typeof POSITIONS)[] = []) {
-    return positions
-      .map((namesPosition) => POSITIONS[namesPosition])
-      .join('%2C');
+    return positions.map((namesPosition) => POSITIONS[namesPosition]).join('%2C');
   }
   private convertPeriod(period: keyof typeof PERIOD = 'past month') {
     return PERIOD[period];
@@ -109,10 +107,27 @@ export class Query {
   private convertSortBy(sortBy: keyof typeof SORT_BY = 'relevant') {
     return SORT_BY[sortBy];
   }
-  private convertDistanceMile(
-    distanceMile: keyof typeof DISTANCE_MILE = '10 mi (15km)'
-  ) {
+  private convertDistanceMile(distanceMile: keyof typeof DISTANCE_MILE = '10 mi (15km)') {
     return DISTANCE_MILE[distanceMile];
+  }
+
+  checkWordInWhiteList(word: string) {
+    return (
+      this.whiteList.length === 0 ||
+      (this.whiteList.length &&
+        this.whiteList.some((bl) => {
+          return word.toLowerCase().includes(bl.toLowerCase());
+        }))
+    );
+  }
+
+  checkWordInBlackList(word: string) {
+    return (
+      this.blackList.length &&
+      this.blackList.some((bl) => {
+        return word.toLowerCase().includes(bl.toLowerCase());
+      })
+    );
   }
 }
 
