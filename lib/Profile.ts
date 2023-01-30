@@ -18,9 +18,7 @@ export class Profile {
 
   constructor(profileOptions: ProfileOptions) {
     this.overallEx = profileOptions.overallEx;
-    this.requirements = this.setRequirements(
-      profileOptions.requirementsOptions
-    );
+    this.requirements = this.setRequirements(profileOptions.requirementsOptions);
     this.excludeTechs = this.setExcludeTechs(profileOptions.excludeTechs);
   }
 
