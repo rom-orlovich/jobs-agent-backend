@@ -27,14 +27,14 @@ export class LinkedinScan {
     }
   }
 
-  async getJobData(puppeteerDOM: PuppeteerDOM, html: string) {
+  async getJobData(puppeteerDOM: PuppeteerDOM, html: string, jobs: Job[]) {
     const cheerioDOM = new CheerioDom(html);
     const elements = cheerioDOM.toArray('li');
     console.log(elements.length);
     if (elements.length === 0) return [];
     const curJobs: Job[] = [];
 
-    for (const element of elements.slice(0, 2)) {
+    for (const element of elements) {
       const jobTitle = element.find('h3.base-search-card__title').text().trim();
 
       if (!this.queryOptions.checkWordInBlackList(jobTitle))
@@ -42,22 +42,26 @@ export class LinkedinScan {
           const link = element.find('a.base-card__full-link').attr('href');
 
           if (link) {
-            const isRequirementValid =
-              process.env.NODE_ENV === 'test'
-                ? true
-                : await puppeteerDOM.initPuppeteer(link, '.show-more-less-html ul *');
+            const jobID = createHash('md5').update(link).digest('hex');
+            const isJobExist = jobs.find((el) => el.jobID === jobID);
+            if (!isJobExist) {
+              const isRequirementValid =
+                process.env.NODE_ENV === 'test'
+                  ? true
+                  : await puppeteerDOM.initPuppeteer(link, '.show-more-less-html ul *');
 
-            if (isRequirementValid) {
-              const company = element.find('h4.base-search-card__subtitle').text().trim();
-              const location = element.find('span.job-search-card__location').text().trim();
-              const jobID = createHash('md5').update(link).digest('hex');
-              curJobs.push({
-                jobID: jobID,
-                jobTitle,
-                company,
-                location,
-                link: link || '',
-              });
+              if (isRequirementValid) {
+                const company = element.find('h4.base-search-card__subtitle').text().trim();
+                const location = element.find('span.job-search-card__location').text().trim();
+
+                curJobs.push({
+                  jobID: jobID,
+                  jobTitle,
+                  company,
+                  location,
+                  link: link || '',
+                });
+              }
             }
           }
         }
@@ -66,11 +70,11 @@ export class LinkedinScan {
     return curJobs;
   }
 
-  async scanning(puppeteerDOM: PuppeteerDOM, queryOptions: Query) {
+  async scanning(puppeteerDOM: PuppeteerDOM, queryOptions: Query, jobs: Job[]) {
     let start = 0;
     while (start < queryOptions.limit) {
       const html = await this.getHTML(start);
-      const curJob = await this.getJobData(puppeteerDOM, html);
+      const curJob = await this.getJobData(puppeteerDOM, html, jobs);
       if (curJob.length === 0) return this.jobs;
       this.jobs = [...this.jobs, ...curJob];
       start += 25;

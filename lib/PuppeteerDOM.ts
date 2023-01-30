@@ -1,7 +1,8 @@
 import puppeteer from 'puppeteer';
 import { Profile } from './Profile';
 import { RequirementsReader } from './RequirementsReader';
-
+import { writeFile, appendFile } from 'fs/promises';
+import path from 'path';
 export class PuppeteerDOM {
   profile: Profile;
   constructor(profile: Profile) {
@@ -10,6 +11,14 @@ export class PuppeteerDOM {
 
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  private createPathJSON() {
+    return path.join(__dirname, '../', 'JSON', 'fetch-logs-failure.json');
+  }
+
+  private async writeLog(log: { link: string; reason: string }) {
+    await appendFile(this.createPathJSON(), JSON.stringify(log), { flag: 'a', encoding: 'utf8' });
   }
 
   async scrapRequirements(html: string, query: string) {
@@ -22,7 +31,7 @@ export class PuppeteerDOM {
   }
   async initPuppeteer(link: string, query: string) {
     console.log(link);
-    const browser = await puppeteer.launch({ headless: false, slowMo: 250 });
+    const browser = await puppeteer.launch({ headless: true, slowMo: 250 });
     const context = await browser.createIncognitoBrowserContext();
 
     const page = await context.newPage();
@@ -32,9 +41,10 @@ export class PuppeteerDOM {
       return document.documentElement.innerHTML;
     });
 
-    const res = this.scrapRequirements(html, query);
-    await this.delay(3000);
-    await context.close();
-    return res;
+    const res = await this.scrapRequirements(html, query);
+    await this.delay(2000);
+    await browser.close();
+    if (!res.pass) await this.writeLog({ link, reason: res.reason });
+    return res.pass;
   }
 }

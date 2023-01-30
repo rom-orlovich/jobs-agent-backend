@@ -15,7 +15,7 @@ export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
 };
 
 export const profile = new Profile({
-  overallEx: 1,
+  overallEx: 2,
   requirementsOptions: REQUIREMENTS,
   excludeTechs: { 'C#.NET': false },
 });
@@ -26,12 +26,8 @@ export const queryOptions = new Query({
   jobQuery: 'React.js',
   distance: '10 mi (15km)',
   location: 'Tel Aviv',
-  // positions: [
-  //   'Frontend Developer',
-  //   'Full Stack Engineer',
-  //   'Javascript Developer',
-  // ],
-  limit: 3,
+
+  limit: 50,
   blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
   whiteList: [],
 });

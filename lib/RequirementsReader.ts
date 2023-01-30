@@ -42,7 +42,7 @@ export class RequirementsReader {
   }
 
   isJobValid(sentences: string[][]) {
-    if (sentences.length === 0) return false;
+    if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
       let yearsIndex = -1;
@@ -53,7 +53,7 @@ export class RequirementsReader {
         const word = sentence[j];
 
         // Check if the word is include in the excluded tech
-        if (this.checkExcludeTech(word)) return false;
+        if (this.checkExcludeTech(word)) return { pass: false, reason: `${word} is not in your stack` };
 
         // Check a match of digit is already exist.
         if (!digitMatch) {
@@ -63,9 +63,17 @@ export class RequirementsReader {
           // If it does check if the next word contains the word 'year'.
           if (digitMatch && j < sentence.length - 1 && sentence[j + 1].match(/year/)) {
             // Check if the match is range.
-            if (this.checkNumberIsLowerTheRange(this.profile.overallEx, digitMatch)) return false;
+            if (this.checkNumberIsLowerTheRange(this.profile.overallEx, digitMatch))
+              return {
+                pass: false,
+                reason: `Your ${this.profile.overallEx}  years experience is lower than ${digitMatch}`,
+              };
             // Check if the overallEx is smaller than digitMatch.
-            if (this.checkDigitMatchIsBigger(this.profile.overallEx, digitMatch)) return false;
+            if (this.checkDigitMatchIsBigger(this.profile.overallEx, digitMatch))
+              return {
+                pass: false,
+                reason: `Your ${this.profile.overallEx} years experience is lower than ${digitMatch} years`,
+              };
             yearsIndex = j;
             j = 0;
           }
@@ -76,9 +84,17 @@ export class RequirementsReader {
 
         // Check if there is language  and digit were match.
         if (languageMatch && digitMatch) {
-          if (this.checkNumberIsLowerTheRange(languageMatch.max, digitMatch)) return false;
+          if (this.checkNumberIsLowerTheRange(languageMatch.max, digitMatch))
+            return {
+              pass: false,
+              reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} range years.`,
+            };
 
-          if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch)) return false;
+          if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch))
+            return {
+              pass: false,
+              reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} years.`,
+            };
           else {
             j = yearsIndex + 1;
             yearsIndex = -1;
@@ -89,6 +105,6 @@ export class RequirementsReader {
       digitMatch = null;
       languageMatch = undefined;
     }
-    return true;
+    return { pass: true, reason: '' };
   }
 }

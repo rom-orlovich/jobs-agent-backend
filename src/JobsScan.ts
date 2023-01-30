@@ -1,37 +1,62 @@
 import { Profile } from '../lib/Profile';
 import { Query } from '../lib/Query';
 import { Job } from '../lib/types/linkedinScrapper';
-import { writeFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 import path from 'path';
 import { LinkedinScan } from './LinkedinScan';
 import { PuppeteerDOM } from '../lib/PuppeteerDOM';
 export class JobsScan {
   queryOptions: Query;
   profile: Profile;
-  jobs: Job[];
+
   puppeteerDOM: PuppeteerDOM;
   linkedinScanner: LinkedinScan;
 
   constructor(profile: Profile, queryOptions: Query) {
-    this.jobs = [];
     this.queryOptions = queryOptions;
     this.profile = profile;
     this.puppeteerDOM = new PuppeteerDOM(profile);
     this.linkedinScanner = new LinkedinScan(this.queryOptions);
   }
 
-  async writeJSON() {
-    const date = new Date().toLocaleDateString().split('/').join('-');
-    const fileName = `${date}.json`;
-    await writeFile(path.join(__dirname, fileName), JSON.stringify(this.jobs), 'utf-8');
+  private createFileName() {
+    // const date = new Date().toLocaleDateString().split('/').join('-');
+    const jobQuery = this.queryOptions.jobQuery.split(' ').join('-').toLowerCase();
+    const fileName = `${jobQuery}.json`;
+    return fileName;
+  }
+  private createPathJSON() {
+    return path.join(__dirname, '../', 'JSON', this.createFileName());
+  }
 
-    console.log(`finish create ${fileName}`);
+  async loadJSON<T>(): Promise<T[]> {
+    try {
+      const path = this.createPathJSON();
+      return JSON.parse(await readFile(path, 'utf8'));
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async writeJSON(jobs: Job[]) {
+    try {
+      const path = this.createPathJSON();
+      await writeFile(path, JSON.stringify(jobs), 'utf-8');
+      console.log(`finish create json file in ${path}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async scanning() {
-    const jobs = await this.linkedinScanner.scanning(this.puppeteerDOM, this.queryOptions);
-    this.jobs = [...this.jobs, ...jobs];
+    let todayJob = await this.loadJSON<Job>();
+    const fetchJobs = await this.linkedinScanner.scanning(
+      this.puppeteerDOM,
+      this.queryOptions,
+      todayJob
+    );
+    todayJob = [...todayJob, ...fetchJobs];
     console.log('finish fetch jobs');
-    await this.writeJSON();
+    await this.writeJSON(todayJob);
   }
 }
