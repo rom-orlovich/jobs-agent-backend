@@ -30,8 +30,8 @@ export class JobsScan {
 
   async scanning() {
     const jobs = await this.linkedinScanner.scanning(this.puppeteerDOM, this.queryOptions);
-
     this.jobs = [...this.jobs, ...jobs];
-    // await this.writeJSON();
+    console.log('finish fetch jobs');
+    await this.writeJSON();
   }
 }

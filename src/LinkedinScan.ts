@@ -75,7 +75,7 @@ export class LinkedinScan {
       this.jobs = [...this.jobs, ...curJob];
       start += 25;
     }
-    console.log(this.jobs);
+
     return this.jobs;
   }
 }

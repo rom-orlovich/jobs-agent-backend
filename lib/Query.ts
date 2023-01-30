@@ -130,19 +130,3 @@ export class Query {
     );
   }
 }
-
-export const queryOptions = new Query({
-  sortBy: 'recent',
-  period: 'past week',
-  jobQuery: 'React.js',
-  distance: '10 mi (15km)',
-  location: 'Tel Aviv',
-  // positions: [
-  //   'Frontend Developer',
-  //   'Full Stack Engineer',
-  //   'Javascript Developer',
-  // ],
-  limit: 3,
-  blackList: ['senior', 'lead', 'angular', 'devops', 'cloud', 'wordpress'],
-  whiteList: [],
-});
