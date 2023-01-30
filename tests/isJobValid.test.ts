@@ -1,9 +1,9 @@
 import { Profile } from '../lib/Profile';
+import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
-import { loopOverTheString } from '../src/linkedin.scanner';
 
-describe('test loopOverTheString function', () => {
+describe('test requirementsObj.isJobValid function', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
@@ -21,12 +21,12 @@ describe('test loopOverTheString function', () => {
     excludeTechs: { 'C#.NET': true },
   });
 
-  test('Test one sentence when the language is found in the excludeTechs obj ', () => {
-    const sentences = [
-      ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
-    ];
+  const requirementsObj = new RequirementsReader(profile);
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+  test('Test one sentence when the language is found in the excludeTechs obj ', () => {
+    const sentences = [['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']];
+    const requirementsObj = new RequirementsReader(profile);
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 
   test('Test one sentence when the language included in the excludeTechs obj but its ok for the position and the years experience are ok', () => {
@@ -35,11 +35,9 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
-
-    const sentences = [
-      ['C#.NET', 'Core', '–', '1+', 'years', 'of', 'experience'],
-    ];
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    const requirementsObj = new RequirementsReader(profile);
+    const sentences = [['C#.NET', 'Core', '–', '1+', 'years', 'of', 'experience']];
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
 
   test('Test one sentence when the language included in the excludeTechs obj but is ok for the position but the years experience are not', () => {
@@ -48,29 +46,28 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
+    const requirementsObj = new RequirementsReader(profile);
 
-    const sentences = [
-      ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
-    ];
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    const sentences = [['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']];
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 
   test(`Test one sentence when the language program years experience is bigger than the profile' experience`, () => {
     const sentences = [['javascript', '14+', 'years', 'of', 'experience']];
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when the language program before the years experience and the years experience are ok `, () => {
     const sentences = [['javascript', '1+', 'years', 'of', 'experience']];
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
   test(`Test one sentence when the language program before the years experience and the years experience are range and they are ok `, () => {
     const sentences = [['javascript', '0-2', 'years', 'of', 'experience']];
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
 
   test(`Test one sentence when the language program before the years experience and the years experience are range and they aren't ok by overall experience `, () => {
     const sentences = [['javascript', '3-5', 'years', 'of', 'experience']];
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when the language program before the years experience and the years experience are range and they aren't ok by language experience`, () => {
     const profile = new Profile({
@@ -78,18 +75,19 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [['javascript', '4-5', 'years', 'of', 'experience']];
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 
   test(`Test one sentence when the language program is after the years experience and the years experience are ok`, () => {
     const sentences = [['1+', 'years', 'of', 'experience', 'in', 'javascript']];
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
 
   test(`Test one sentence when the language program is after the years experience and the years experience are not ok by overall experience`, () => {
     const sentences = [['5+', 'years', 'of', 'experience', 'in', 'javascript']];
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 
   test(`Test one sentence when the language program is after the years experience and the years experience are not ok by language experience only`, () => {
@@ -107,10 +105,10 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
-
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [['5+', 'years', 'of', 'experience', 'in', 'javascript']];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 
   test(`Test one sentence when the language program is after the years experience and the years experience are range and the overallEx is lower`, () => {
@@ -128,56 +126,30 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
+    const requirementsObj = new RequirementsReader(profile);
+    const sentences = [['3-5', 'years', 'of', 'experience', 'in', 'javascript']];
 
-    const sentences = [
-      ['3-5', 'years', 'of', 'experience', 'in', 'javascript'],
-    ];
-
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when the language program is after the years experience and the years experience are range and the overallEx is ok but the language experience is not`, () => {
-    const sentences = [
-      ['0-2', 'years', 'of', 'experience', 'javascript', 'all'],
-    ];
+    const sentences = [['0-2', 'years', 'of', 'experience', 'javascript', 'all']];
 
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
 
   test(`Test one sentence when there are many language programs and the overallEx is not ok`, () => {
     const sentences = [
-      [
-        '0-2',
-        'years',
-        'of',
-        'experience',
-        'javascript',
-        'and',
-        '2',
-        'years',
-        'of',
-        'node.js',
-      ],
+      ['0-2', 'years', 'of', 'experience', 'javascript', 'and', '2', 'years', 'of', 'node.js'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when there are many language programs and the overallEx is ok `, () => {
     const sentences = [
-      [
-        '1',
-        'years',
-        'of',
-        'experience',
-        'javascript',
-        'and',
-        '1',
-        'years',
-        'of',
-        'node.js',
-      ],
+      ['1', 'years', 'of', 'experience', 'javascript', 'and', '1', 'years', 'of', 'node.js'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
   test(`Test one sentence when there are many language programs and the user ex is not ok `, () => {
     const profile = new Profile({
@@ -185,22 +157,12 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': true },
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
-      [
-        '0-2',
-        'years',
-        'of',
-        'experience',
-        'javascript',
-        'and',
-        '3',
-        'years',
-        'of',
-        'node.js',
-      ],
+      ['0-2', 'years', 'of', 'experience', 'javascript', 'and', '3', 'years', 'of', 'node.js'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when there are many language programs and one of them is excluded tech`, () => {
     const profile = new Profile({
@@ -208,22 +170,12 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': true },
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
-      [
-        '0-2',
-        'years',
-        'of',
-        'experience',
-        'C#.NET',
-        'and',
-        '3',
-        'years',
-        'of',
-        'node.js',
-      ],
+      ['0-2', 'years', 'of', 'experience', 'C#.NET', 'and', '3', 'years', 'of', 'node.js'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test one sentence when there are many language programs and one of them is excluded tech that its ok`, () => {
     const profile = new Profile({
@@ -231,22 +183,12 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: { 'C#.NET': false },
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
-      [
-        '0-2',
-        'years',
-        'of',
-        'experience',
-        'C#.NET',
-        'and',
-        '3',
-        'years',
-        'of',
-        'node.js',
-      ],
+      ['0-2', 'years', 'of', 'experience', 'C#.NET', 'and', '3', 'years', 'of', 'node.js'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
   test(`Test many sentence from real text that its not match the user experince-ex`, () => {
     const profile = new Profile({
@@ -254,6 +196,7 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
       ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
@@ -263,14 +206,14 @@ describe('test loopOverTheString function', () => {
       ['Team', 'player'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test many sentence from real text that its match the user experience-ex1`, () => {
     const profile = new Profile({
-      // overallEx: 1,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       ['typescript', 'Core', '–', '2', 'years', 'of', 'experience'],
       ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
@@ -280,7 +223,7 @@ describe('test loopOverTheString function', () => {
       ['Team', 'player'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test many sentence from real text that not match the user experience-ex2`, () => {
     const profile = new Profile({
@@ -288,6 +231,7 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       [
         '8+',
@@ -382,30 +326,8 @@ describe('test loopOverTheString function', () => {
         '–',
         'Advantage',
       ],
-      [
-        'Design',
-        '&',
-        'develop',
-        'new',
-        'features',
-        'in',
-        'an',
-        'agile\n',
-        'software',
-        'methodology.',
-      ],
-      [
-        'Own',
-        'your',
-        'deliveries',
-        'from',
-        'design,',
-        'all',
-        'the',
-        'way',
-        'to\n',
-        'production.',
-      ],
+      ['Design', '&', 'develop', 'new', 'features', 'in', 'an', 'agile\n', 'software', 'methodology.'],
+      ['Own', 'your', 'deliveries', 'from', 'design,', 'all', 'the', 'way', 'to\n', 'production.'],
       [
         'Communicate',
         'with',
@@ -420,7 +342,7 @@ describe('test loopOverTheString function', () => {
       ],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
   test(`Test many sentence from real text that match the user experience-ex3`, () => {
     const profile = new Profile({
@@ -428,6 +350,7 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       [
         'Manage',
@@ -458,15 +381,7 @@ describe('test loopOverTheString function', () => {
         'product',
         'pipeline.',
       ],
-      [
-        'Optimization',
-        'of',
-        'applications',
-        'for',
-        'scalability',
-        'and\n',
-        'performance.',
-      ],
+      ['Optimization', 'of', 'applications', 'for', 'scalability', 'and\n', 'performance.'],
       [
         'At',
         'least',
@@ -504,21 +419,10 @@ describe('test loopOverTheString function', () => {
         'or',
         'others.',
       ],
-      [
-        'Team',
-        'player,',
-        'someone',
-        'we’d',
-        'love',
-        'to',
-        'work',
-        'with,',
-        'and\n',
-        'independent.',
-      ],
+      ['Team', 'player,', 'someone', 'we’d', 'love', 'to', 'work', 'with,', 'and\n', 'independent.'],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
   test(`Test many sentence from real text that match the user experience-ex4`, () => {
     const profile = new Profile({
@@ -526,6 +430,7 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       [
         'Build',
@@ -572,48 +477,12 @@ describe('test loopOverTheString function', () => {
         'new',
         'features.',
       ],
-      [
-        'Use',
-        'and',
-        'create',
-        'integrations',
-        'with',
-        'multiple',
-        'tools',
-        '&\n',
-        'services.',
-      ],
-      [
-        'Strong',
-        'experience',
-        'and',
-        'understanding',
-        'of',
-        'Javascript,',
-        'CSS\n',
-        '&',
-        'HTML5.',
-      ],
-      [
-        'Passionate',
-        'about',
-        'building',
-        'beautiful',
-        'and\n',
-        'well-structured',
-        'products.',
-      ],
+      ['Use', 'and', 'create', 'integrations', 'with', 'multiple', 'tools', '&\n', 'services.'],
+      ['Strong', 'experience', 'and', 'understanding', 'of', 'Javascript,', 'CSS\n', '&', 'HTML5.'],
+      ['Passionate', 'about', 'building', 'beautiful', 'and\n', 'well-structured', 'products.'],
       ['Problem-solving', 'attitude.'],
       ['Excellent', 'English', 'skills.'],
-      [
-        'Great',
-        'communication',
-        'skills',
-        'and',
-        'a',
-        'team-player\n',
-        'attitude.',
-      ],
+      ['Great', 'communication', 'skills', 'and', 'a', 'team-player\n', 'attitude.'],
       ['Familiarity', 'with', 'Microsoft', 'tools.'],
       [
         'Past',
@@ -628,17 +497,7 @@ describe('test loopOverTheString function', () => {
         '(CMS).',
       ],
       ['Experience', 'working', 'with', 'Azure', '-', 'an', 'advantage.'],
-      [
-        'Experience',
-        '/',
-        'basic',
-        'knowledge',
-        'in',
-        'C#',
-        '-',
-        'an',
-        'advantage.',
-      ],
+      ['Experience', '/', 'basic', 'knowledge', 'in', 'C#', '-', 'an', 'advantage.'],
       [
         'B.sc',
         'in',
@@ -667,7 +526,7 @@ describe('test loopOverTheString function', () => {
       ],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeTruthy();
+    expect(requirementsObj.isJobValid(sentences)).toBeTruthy();
   });
   test(`Test many sentence from real text that match the user experience-ex5`, () => {
     const profile = new Profile({
@@ -675,6 +534,7 @@ describe('test loopOverTheString function', () => {
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
     });
+    const requirementsObj = new RequirementsReader(profile);
     const sentences = [
       [
         'You',
@@ -696,26 +556,8 @@ describe('test loopOverTheString function', () => {
         "company's",
         'growth.',
       ],
-      [
-        'You',
-        'will',
-        'work',
-        'in',
-        'an',
-        'agile',
-        'development',
-        'environment.',
-      ],
-      [
-        'You',
-        'will',
-        'deliver',
-        'high',
-        'quality',
-        'and',
-        'well-structured',
-        'code',
-      ],
+      ['You', 'will', 'work', 'in', 'an', 'agile', 'development', 'environment.'],
+      ['You', 'will', 'deliver', 'high', 'quality', 'and', 'well-structured', 'code'],
       [
         '4+',
         'years',
@@ -732,16 +574,7 @@ describe('test loopOverTheString function', () => {
         'development.',
       ],
       ['Experience', 'with', 'Node.js.'],
-      [
-        'Excellent',
-        'JavaScript',
-        '(including',
-        'ES6),',
-        'HTML',
-        'and',
-        'CSS\n',
-        'skills.',
-      ],
+      ['Excellent', 'JavaScript', '(including', 'ES6),', 'HTML', 'and', 'CSS\n', 'skills.'],
       [
         'Exposure',
         'to',
@@ -791,6 +624,6 @@ describe('test loopOverTheString function', () => {
       ],
     ];
 
-    expect(loopOverTheString(profile, sentences)).toBeFalsy();
+    expect(requirementsObj.isJobValid(sentences)).toBeFalsy();
   });
 });
