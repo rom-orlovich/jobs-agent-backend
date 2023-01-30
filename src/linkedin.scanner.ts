@@ -179,7 +179,7 @@ scrapRequirements(profile, html);
 const main = async () => {
   const p = new PuppeteerDOM(profile);
   await p.initPuppeteer(
-    'https://il.linkedin.com/jobs/view/back-end-developer-at-abra-web-mobile-3451816231?refId=OPb57FDQO3R9Apb5bmqTpA%3D%3D&trackingId=qODVLv94%2F%2FyCJMY%2FUpw%2BQA%3D%3D&position=13&pageNum=0&trk=public_jobs_jserp-result_search-card'
+    'https://il.linkedin.com/jobs/view/full-stack-engineer-at-ht-bioimaging-htvet-3450794483?refId=OPb57FDQO3R9Apb5bmqTpA%3D%3D&trackingId=PqeHAtzTT2tqKqwKllAZ7w%3D%3D&position=19&pageNum=0&trk=public_jobs_jserp-result_search-card'
   );
 };
 

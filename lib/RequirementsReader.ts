@@ -43,11 +43,13 @@ export class RequirementsReader {
   }
 
   isJobValid(sentences: string[][]) {
+    if (sentences.length === 0) return false;
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
       let yearsIndex = -1;
       let digitMatch: RegExpMatchArray | null = null;
       let languageMatch;
+
       for (let j = 0; j < sentence.length; j++) {
         const word = sentence[j];
 
