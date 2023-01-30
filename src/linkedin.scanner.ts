@@ -6,7 +6,7 @@ import { Query } from '../lib/Query';
 import path from 'path';
 
 import { load, Element, Cheerio } from 'cheerio';
-import { profile, Profile } from '../lib/Profile';
+import { Profile } from '../lib/Profile';
 import { CheerioDom } from '../lib/CheerioDom';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
