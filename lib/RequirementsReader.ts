@@ -3,12 +3,8 @@ import { CheerioDom } from './CheerioDom';
 import { Profile } from './Profile';
 
 export class RequirementsReader {
-  // cheerioDom: CheerioDom;
-  // elements: Cheerio<Element>[];
   profile: Profile;
   constructor(profile: Profile) {
-    // this.cheerioDom = new CheerioDom(html);
-    // this.elements = this.cheerioDom.toArray(queryEl);
     this.profile = profile;
   }
   getSentences = (html: string, queryEl: string) => {
