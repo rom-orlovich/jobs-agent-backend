@@ -9,6 +9,7 @@ import { load, Element, Cheerio } from 'cheerio';
 import { profile, Profile } from '../lib/Profile';
 import { CheerioDom } from '../lib/CheerioDom';
 import { RequirementsReader } from '../lib/RequirementsReader';
+import { PuppeteerDOM } from '../lib/PuppeteerDOM';
 
 const getHTML = async (query: InstanceType<typeof Query>, start = 0) => {
   try {
@@ -100,77 +101,86 @@ async function scrapRequirements(profile: Profile, html: string) {
   // const sentences = splitSentence(elements);
 
   // console.log(sentences);
-  const requirementsObj = new RequirementsReader(profile, html, '.show-more-less-html--more ul *');
-  // console.log(requirementsObj.isJobValid());
+  const requirementsObj = new RequirementsReader(profile);
+  const sentences = requirementsObj.getSentences(html, '.show-more-less-html--more ul *');
+  console.log(requirementsObj.isJobValid(sentences));
 }
 
 const html = readFileSync(path.join(__dirname, '../', 'public', 'ex5.html'), 'utf-8');
 
-// scrapRequirements(profile, html);
+scrapRequirements(profile, html);
 
-const initGetJobData = (query: InstanceType<typeof Query>) => {
-  let index = 1;
-  return (html: string) => {
-    const $ = load(html);
-    const jobs = $('li');
-    if (jobs.length === 0) return;
+// const initGetJobData = (query: InstanceType<typeof Query>) => {
+//   let index = 1;
+//   return (html: string) => {
+//     const $ = load(html);
+//     const jobs = $('li');
+//     if (jobs.length === 0) return;
 
-    return jobs.toArray().reduce((pre, cur) => {
-      const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
+//     return jobs.toArray().reduce((pre, cur) => {
+//       const jobTitle = $(cur).find('h3.base-search-card__title').text().trim();
 
-      if (
-        query.blackList.length &&
-        query.blackList.some((bl) => {
-          return jobTitle.toLowerCase().includes(bl.toLowerCase());
-        })
-      )
-        return pre;
+//       if (
+//         query.blackList.length &&
+//         query.blackList.some((bl) => {
+//           return jobTitle.toLowerCase().includes(bl.toLowerCase());
+//         })
+//       )
+//         return pre;
 
-      if (
-        query.whiteList.length === 0 ||
-        (query.whiteList.length &&
-          query.whiteList.some((wl) => jobTitle.toLowerCase().includes(wl.toLowerCase())))
-      ) {
-        const company = $(cur).find('h4.base-search-card__subtitle').text().trim();
-        const location = $(cur).find('span.job-search-card__location').text().trim();
-        const link = $(cur).find('a.base-card__full-link').attr('href');
+//       if (
+//         query.whiteList.length === 0 ||
+//         (query.whiteList.length &&
+//           query.whiteList.some((wl) => jobTitle.toLowerCase().includes(wl.toLowerCase())))
+//       ) {
+//         const company = $(cur).find('h4.base-search-card__subtitle').text().trim();
+//         const location = $(cur).find('span.job-search-card__location').text().trim();
+//         const link = $(cur).find('a.base-card__full-link').attr('href');
 
-        pre.push({
-          jobID: index++,
-          jobTitle,
-          company,
-          location,
-          link: link || '',
-        });
-      }
+//         pre.push({
+//           jobID: index++,
+//           jobTitle,
+//           company,
+//           location,
+//           link: link || '',
+//         });
+//       }
 
-      return pre;
-    }, [] as unknown as Job[]);
-  };
-};
+//       return pre;
+//     }, [] as unknown as Job[]);
+//   };
+// };
 
-async function createJobJSON(queryOptions: Query, profile: Profile) {
-  const jobs: Job[] = [];
-  let start = 0;
+// async function createJobJSON(queryOptions: Query, profile: Profile) {
+//   const jobs: Job[] = [];
+//   let start = 0;
 
-  let obj: Job[] | undefined = [];
-  const getJobData = initGetJobData(queryOptions);
-  while (obj && start < queryOptions.limit) {
-    const data = await getHTML(queryOptions, start);
+//   let obj: Job[] | undefined = [];
+//   const getJobData = initGetJobData(queryOptions);
+//   while (obj && start < queryOptions.limit) {
+//     const data = await getHTML(queryOptions, start);
 
-    obj = getJobData(data);
+//     obj = getJobData(data);
 
-    if (obj) {
-      jobs.push(...obj);
-    }
-    start += 25;
-  }
+//     if (obj) {
+//       jobs.push(...obj);
+//     }
+//     start += 25;
+//   }
 
-  const date = new Date().toLocaleDateString().split('/').join('-');
-  const fileName = `${date}.json`;
-  await writeFile(path.join(__dirname, fileName), JSON.stringify(jobs), 'utf-8');
+//   const date = new Date().toLocaleDateString().split('/').join('-');
+//   const fileName = `${date}.json`;
+//   await writeFile(path.join(__dirname, fileName), JSON.stringify(jobs), 'utf-8');
 
-  console.log(`finish create ${fileName}`);
-}
+//   console.log(`finish create ${fileName}`);
+// }
 
 // createJobJSON(queryOptions, profile);
+const main = async () => {
+  const p = new PuppeteerDOM(profile);
+  await p.initPuppeteer(
+    'https://il.linkedin.com/jobs/view/back-end-developer-at-abra-web-mobile-3451816231?refId=OPb57FDQO3R9Apb5bmqTpA%3D%3D&trackingId=qODVLv94%2F%2FyCJMY%2FUpw%2BQA%3D%3D&position=13&pageNum=0&trk=public_jobs_jserp-result_search-card'
+  );
+};
+
+main();
