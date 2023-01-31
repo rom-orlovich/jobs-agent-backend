@@ -1,8 +1,7 @@
 import puppeteer from 'puppeteer';
 import { Profile } from './Profile';
 import { RequirementsReader } from './RequirementsReader';
-import { writeFile, appendFile } from 'fs/promises';
-import path from 'path';
+
 export class PuppeteerDOM {
   profile: Profile;
   constructor(profile: Profile) {
@@ -11,18 +10,6 @@ export class PuppeteerDOM {
 
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  private createPathJSON() {
-    return path.join(__dirname, '../', 'logs', 'fetch-logs-failure.txt');
-  }
-
-  private async writeLog(log: { link: string; reason: string }) {
-    console.log('reason', log.reason);
-    await appendFile(this.createPathJSON(), `${log.link} \n reason:${log.reason}`, {
-      flag: 'a',
-      encoding: 'utf8',
-    });
   }
 
   async scrapRequirements(html: string, query: string) {
@@ -46,9 +33,9 @@ export class PuppeteerDOM {
     });
 
     const res = await this.scrapRequirements(html, query);
-    await this.delay(2000);
+    await this.delay(1000);
     await browser.close();
-    if (!res.pass) await this.writeLog({ link, reason: res.reason });
-    return res.pass;
+    // if (!res.pass) await this.writeLog({ link, reason: res.reason });
+    return res;
   }
 }

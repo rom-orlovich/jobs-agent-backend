@@ -5,34 +5,38 @@ import { writeFile, readFile } from 'fs/promises';
 import path from 'path';
 import { LinkedinScan } from './LinkedinScan';
 import { PuppeteerDOM } from '../lib/PuppeteerDOM';
+
+export interface Log {
+  logID: string;
+  title: string;
+  link: string;
+  reason: string;
+}
 export class JobsScan {
   queryOptions: Query;
   profile: Profile;
-
   puppeteerDOM: PuppeteerDOM;
   linkedinScanner: LinkedinScan;
 
   constructor(profile: Profile, queryOptions: Query) {
     this.queryOptions = queryOptions;
+
     this.profile = profile;
     this.puppeteerDOM = new PuppeteerDOM(profile);
     this.linkedinScanner = new LinkedinScan(this.queryOptions);
   }
 
-  private createFileName() {
-    // const date = new Date().toLocaleDateString().split('/').join('-');
-    const jobQuery = this.queryOptions.jobQuery.split(' ').join('-').toLowerCase();
-    const fileName = `${jobQuery}.json`;
-    return fileName;
+  private createPathPotentialJobsJSON() {
+    return path.join(__dirname, '../', 'JSON', `jobs.json`);
   }
-  private createPathJSON() {
-    return path.join(__dirname, '../', 'JSON', this.createFileName());
+
+  private createPathLogsJobJSON() {
+    return path.join(__dirname, '../', 'logs', 'job-logs.json');
   }
 
   //Todo: move these function to fs class.
-  async loadJSON<T>(): Promise<T[]> {
+  async loadJSON<T>(path: string): Promise<T[]> {
     try {
-      const path = this.createPathJSON();
       return JSON.parse(await readFile(path, 'utf8'));
     } catch (error) {
       console.log(error);
@@ -40,10 +44,9 @@ export class JobsScan {
     }
   }
 
-  async writeJSON(jobs: Job[]) {
+  private async writeJSON<T>(data: T, path: string) {
     try {
-      const path = this.createPathJSON();
-      await writeFile(path, JSON.stringify(jobs), 'utf-8');
+      await writeFile(path, JSON.stringify(data), 'utf-8');
       console.log(`finish create json file in ${path}`);
     } catch (error) {
       console.log(error);
@@ -51,14 +54,20 @@ export class JobsScan {
   }
 
   async scanning() {
-    let todayJob = await this.loadJSON<Job>();
-    const fetchJobs = await this.linkedinScanner.scanning(
+    const pathJobs = this.createPathPotentialJobsJSON();
+    const pathLogs = this.createPathLogsJobJSON();
+    let potentialJobs = await this.loadJSON<Job>(pathJobs);
+    let jobLogs = await this.loadJSON<Log>(pathLogs);
+    const { curJobs, curLogs } = await this.linkedinScanner.scanning(
       this.puppeteerDOM,
       this.queryOptions,
-      todayJob
+      potentialJobs,
+      jobLogs
     );
-    todayJob = [...todayJob, ...fetchJobs];
+    potentialJobs = [...potentialJobs, ...curJobs];
+    jobLogs = [...jobLogs, ...curLogs];
     console.log('finish fetch jobs');
-    await this.writeJSON(todayJob);
+    await this.writeJSON(potentialJobs, pathJobs);
+    await this.writeJSON(jobLogs, pathLogs);
   }
 }
