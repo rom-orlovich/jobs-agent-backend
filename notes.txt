@@ -47,17 +47,15 @@ f_T:{
     "Engineer": "10",
     "Back End Developer": "25194"
 }
-
-
-
+wo4m4kmk1bnjalzqyffi3fie
+2czqprw4ebsezfmfvedcdymr 
+31emra22nmb0vyf01dlsh2zt full stack react node front end
 full stack- react-node vtahmn1znw4iui2xpmm01rrv
 
 ASP.NET_SessionId=0epcpuwswp0xsu3kcjvpeo5z; __RequestVerificationToken=ARx-R0jpvwe4xC6Xy8n8cPsQbS7oXDhwusvQ3Srnn6dVopfPplgXjNDKiiQvDDQifnpcqh2qhL5ui5qF-5spH0_2TwzEiiyngdTuP5gBYeI1; PopupAgentLink=GotFriendsAgentLink
 
 
-wnkxs0kl1brk0u5f5oulayc0
 
-wnkxs0kl1brk0u5f5oulayc0
 wnkxs0kl1brk0u5f5oulayc0
 lthcqaovyr3jbruprbslnn4t
 ASP.NET_SessionId=vtahmn1znw4iui2xpmm01rrv
@@ -110,3 +108,85 @@ const m=Array.from(li)
 const py=m.filter(el=>!!el.textContent);
 const by=py.map(el=>el.textContent)
 
+
+const ul=Array.from(document.querySelectorAll('.select-box'))
+
+const objs=ul.map(u=>{
+const lis=Array.from(u.querySelectorAll("li"))
+let obj={}
+lis.forEach(el=>{
+const label=el.querySelector("label").textContent.trim()
+const input=el.querySelector("input").value
+obj[label]=input
+})
+  return obj  
+})
+
+[
+    {
+        "דרושים תוכנה": "1108",
+        "דרושים סייבר ואבטחת מידע": "1111",
+        "משרות פיתוח אלגוריתמים": "4451",
+        "בדיקות ואוטומציה": "1099",
+        "השמת בכירים": "1101",
+        "בוגרי 8200 / בוגרי ממר\"ם": "1100",
+        "ניהול מוצר": "1106",
+        "תמיכה/DevOps/System": "1109",
+        "דרושים BI/Big Data": "1105"
+    },
+    {
+        "מפתח NET.": "1847",
+        "C++ Developer": "1862",
+        "JAVA Developer": "1865",
+        "מפתח Kotlin": "15045",
+        "Frontend Developer": "1970",
+        "Python Developer": "1979",
+        "Fullstack Developer": "1947",
+        "NodeJS Developer": "1965",
+        "מתכנת PHP": "1890",
+        "מתכנת Mobile": "1886",
+        "Big Data Developer": "2328",
+        "מתכנת Ruby": "2337",
+        "Backend Developer": "2338",
+        "מפתח SCALA": "2348",
+        "GO Developer": "2355",
+        "מהנדס RT": "1869",
+        "Angular Developer": "7992",
+        "ראש צוות פיתוח": "7993",
+        "iOS Developer": "8006",
+        "מפתח REACT": "8010",
+        "ראש צוות מובייל": "8011",
+        "ר\"צ Front-End": "8012",
+        "Android Developer": "8019",
+        "C Programmer": "8020",
+        "Data Engineer": "4457",
+        "Software Architect": "4806",
+        "משרות בוגרים": "2323"
+    },
+    {
+        "ת\"א והמרכז": "1",
+        "ירושלים": "2",
+        "אילת": "3",
+        "השרון": "4",
+        "באר שבע והדרום": "5",
+        "חיפה והצפון": "6",
+        "שפלה": "7",
+        "אחר": "9"
+    }
+]
+
+
+{Malware Analyst: '1956', Reverse Engineer: '1976', מומחה אבטחת מידע: '2040', Security Analyst: '4449', חוקר חולשות: '4450', …}
+{מהנדס אלגוריתמים: '7716', Data Scientist: '1953', Algo Trading: '4452', NLP: '4453', Deep Learning: '4454', …}
+{מפתח אוטומציה: '1882', ראש צוות QA: '1920', משרות QA: '2312', JAVA אוטומציה: '2359', ראש צוות אוטומציה: '8015', …}
+{מנהל פיתוח: '2331', VP R&D: '4459', CTO: '2349', מנהל פיתוח/דירקטור: '9913', Group Manager: '9919'}
+{פיתוח: '9969', אנליזה: '9948', מחקר: '9975', QA: '9976'}
+{מנהל פרוייקטים: '1924', מנהל מוצר: '2086', VP Product: '4456'}
+{דרושים DevOps: '1961', מהנדס תמיכה: '1983', מנהל רשת: '2081', IT Manager: '2322', Networking: '4455', …}
+מפתח BI: '2368', דאטה אנליסט: '2330', DBA Big Data: '2318', Product Analyst: '4458'}
+
+
+
+a#professionAreaTitle
+a#professionTitle
+a#regionTitle,

@@ -12,6 +12,8 @@ export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   js: { min: 0, max: 3 },
   'node.js': { min: 0, max: 3 },
   git: { min: 0, max: 3 },
+  fullstack: { min: 0, max: 3 },
+  frontend: { min: 0, max: 3 },
 };
 
 export const profile = new Profile({
@@ -20,7 +22,7 @@ export const profile = new Profile({
   excludeTechs: {
     'c#.net': true,
     php: true,
-    'c++': true,
+    c: true,
     'c#': true,
     java: true,
     'system administration': true,
@@ -33,11 +35,10 @@ export const profile = new Profile({
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past month',
-  jobQuery: 'javascript',
+  jobQuery: 'Full Stack',
   distance: '10 mi (15km)',
-  location: 'Tel Aviv',
+  location: 'petah tikva',
 
-  // limit: 50,
   blackList: [
     'senior',
     'lead',
@@ -92,4 +93,4 @@ const main = async () => {
   await jobScan.scanning();
 };
 
-main();
+// main();

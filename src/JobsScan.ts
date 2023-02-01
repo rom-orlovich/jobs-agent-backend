@@ -26,11 +26,11 @@ export class JobsScan {
     this.linkedinScanner = new LinkedinScan(this.queryOptions);
   }
 
-  private createPathPotentialJobsJSON() {
+  _createPathPotentialJobsJSON() {
     return path.join(__dirname, '../', 'JSON', `jobs.json`);
   }
 
-  private createPathLogsJobJSON() {
+  _createPathLogsJobJSON() {
     return path.join(__dirname, '../', 'logs', 'job-logs.json');
   }
 
@@ -44,7 +44,7 @@ export class JobsScan {
     }
   }
 
-  private async writeJSON<T>(data: T, path: string) {
+  async _writeJSON<T>(data: T, path: string) {
     try {
       await writeFile(path, JSON.stringify(data), 'utf-8');
       console.log(`finish create json file in ${path}`);
@@ -54,8 +54,8 @@ export class JobsScan {
   }
 
   async scanning() {
-    const pathJobs = this.createPathPotentialJobsJSON();
-    const pathLogs = this.createPathLogsJobJSON();
+    const pathJobs = this._createPathPotentialJobsJSON();
+    const pathLogs = this._createPathLogsJobJSON();
     let potentialJobs = await this.loadJSON<Job>(pathJobs);
     let jobLogs = await this.loadJSON<Log>(pathLogs);
     const { curJobs, curLogs } = await this.linkedinScanner.scanning(
@@ -67,7 +67,7 @@ export class JobsScan {
     potentialJobs = [...potentialJobs, ...curJobs];
     jobLogs = [...jobLogs, ...curLogs];
     console.log('finish fetch jobs');
-    await this.writeJSON(potentialJobs, pathJobs);
-    await this.writeJSON(jobLogs, pathLogs);
+    await this._writeJSON(potentialJobs, pathJobs);
+    await this._writeJSON(jobLogs, pathLogs);
   }
 }

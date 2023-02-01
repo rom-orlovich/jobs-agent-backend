@@ -40,6 +40,22 @@ export class RequirementsReader {
     const yearNum = Number(digitMatch[0]);
     if (numCheck && yearNum > numCheck) return true;
   }
+  private convertWordToNumber(word: string) {
+    const wordNumberDict: Record<string, string> = {
+      zero: '0',
+      one: '1',
+      two: '2',
+      three: '3',
+      four: '4',
+      five: '5',
+      six: '6',
+      seven: '7',
+      eight: '8',
+      eleven: '9',
+      ten: '10',
+    };
+    return wordNumberDict[word.toLowerCase()];
+  }
 
   isJobValid(sentences: string[][]) {
     if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
@@ -50,7 +66,8 @@ export class RequirementsReader {
       let languageMatch;
 
       for (let j = 0; j < sentence.length; j++) {
-        const word = sentence[j];
+        const convertToNum = this.convertWordToNumber(sentence[j]);
+        const word = convertToNum ? convertToNum : sentence[j];
 
         // Check if the word is include in the excluded tech
         if (this.checkExcludeTech(word)) return { pass: false, reason: `${word} is not in your stack` };
