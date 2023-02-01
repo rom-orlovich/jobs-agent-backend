@@ -17,9 +17,10 @@ export class PuppeteerDOM {
     const sentences = requirementsObj.getSentences(html, query);
 
     const isJobValid = requirementsObj.isJobValid(sentences);
-    console.log(isJobValid);
+
     return isJobValid;
   }
+
   async initPuppeteer(link: string, query: string) {
     console.log(link);
     const browser = await puppeteer.launch({ headless: true, slowMo: 250 });
@@ -35,7 +36,7 @@ export class PuppeteerDOM {
     const res = await this.scrapRequirements(html, query);
     await this.delay(1000);
     await browser.close();
-    // if (!res.pass) await this.writeLog({ link, reason: res.reason });
+
     return res;
   }
 }

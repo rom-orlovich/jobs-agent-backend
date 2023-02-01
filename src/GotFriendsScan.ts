@@ -1,12 +1,10 @@
-import { writeFile, appendFile } from 'fs/promises';
-import path from 'path';
 import { profile, queryOptions } from '../src/index';
-import axios from 'axios';
 import puppeteer from 'puppeteer';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { CheerioDom } from '../lib/CheerioDom';
 import { Job } from '../lib/types/linkedinScrapper';
 import { Log, JobsScan } from './JobsScan';
+
 export const bQuery = (opt: Query): string => {
   const { text, to, op } = opt;
   if (!text) return '';
@@ -17,37 +15,6 @@ export const bQuery = (opt: Query): string => {
   }
   return `?text=${encodeURIComponent(text)}&sl=${from}&tl=${to}&op=${op}`;
 };
-
-// (async () => {
-//   axios
-//     .get('https://www.gotfriends.co.il/jobs/?page=2&total=163', {
-//       headers: {
-//         Cookie:
-//           '__RequestVerificationToken=neZ1udaElWPQTQaVE-PADyIpjJdRKc3kSc37I703XmHDmP15NdPo3OJZsW4pAAmicZpBZHUf2T83g5KVpKMBt_0oIxMD88-2gYO5iNqvWag1; ASP.NET_SessionId=vtahmn1znw4iui2xpmm01rrv;',
-//       },
-//     })
-//     .then((el) =>
-//       writeFile(path.join(__dirname, '../', 'public', 't2.html'), el.data, {
-//         flag: 'w',
-//         encoding: 'utf8',
-//       })
-//     );
-//   return '';
-// })();
-const cookies = [
-  // {
-  //   name: '__RequestVerificationToken',
-  //   value:
-  //     'neZ1udaElWPQTQaVE-PADyIpjJdRKc3kSc37I703XmHDmP15NdPo3OJZsW4pAAmicZpBZHUf2T83g5KVpKMBt_0oIxMD88-2gYO5iNqvWag',
-  //   domain: 'www.gotfriends.co.il',
-  // },
-
-  {
-    name: 'ASP.NET_SessionId',
-    value: '31emra22nmb0vyf01dlsh2zt',
-    domain: 'www.gotfriends.co.il',
-  },
-];
 
 const qy = async (jobs: Job[], logs: Log[]) => {
   console.log('start');
@@ -64,7 +31,6 @@ const qy = async (jobs: Job[], logs: Log[]) => {
   await page.click('#professionAreaTitle');
   await page.click(`label[for='radioAreas-1108']`);
   await page.click('#professionTitle');
-
   await page.click(`label[for='checkboxProfessions-1970']`);
   await page.click(`label[for='checkboxProfessions-1947']`);
   await page.click(`label[for='checkboxProfessions-1965']`);
