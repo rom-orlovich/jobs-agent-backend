@@ -1,3 +1,4 @@
+import { Cluster } from 'puppeteer-cluster';
 import { Profile } from '../lib/Profile';
 import { Query } from '../lib/Query';
 import { ExperienceRange } from '../lib/types/profile';
@@ -90,6 +91,7 @@ export const queryOptions = new Query({
 
 const main = async () => {
   const jobScan = new JobsScan(profile, queryOptions);
+  // await jobScan.scanning();
   await jobScan.scanning();
 };
 
