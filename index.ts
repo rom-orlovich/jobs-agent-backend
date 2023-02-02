@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 config();
 
 import { Profile } from './lib/Profile';
-import { Query } from './lib/Query';
+import { LinkedinQueryOptions } from './lib/LinkedinQueryOptions';
 import { ExperienceRange } from './lib/types/profile';
 import { GenericRecord } from './lib/types/types';
 import { JobsScan } from './src/JobsScan';
@@ -37,7 +37,7 @@ export const profile = new Profile({
   },
 });
 
-export const queryOptions = new Query({
+export const queryOptions = new LinkedinQueryOptions({
   sortBy: 'recent',
   period: 'past week',
   jobQuery: 'front end',

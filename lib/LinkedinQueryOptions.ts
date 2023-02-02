@@ -1,3 +1,6 @@
+import { QueryOptionsBase } from './QueryOptionsBase';
+import { ValueObj } from './types/types';
+
 export const POSITIONS = {
   'Javascript Developer': '25170',
   'Frontend Developer': '3172',
@@ -31,7 +34,7 @@ export const WHITE_LIST_WORDS = [
   'Back End',
 ];
 
-const BLACK_LIST_WORDS = ['Angular', 'Senior', 'Lead'];
+export const BLACK_LIST_WORDS = ['Angular', 'Senior', 'Lead'];
 
 export const lan = [
   'Javascript',
@@ -57,9 +60,7 @@ const DISTANCE_MILE = {
   '100 mi (160 km)': '100',
 } as const;
 
-export type ValueObj<T extends Record<string, any>> = T[keyof T];
-
-export class Query {
+export class LinkedinQueryOptions extends QueryOptionsBase {
   jobQuery: string;
   positionsQuery: string;
   location: string;
@@ -67,8 +68,6 @@ export class Query {
   distance: ValueObj<typeof DISTANCE_MILE>;
   period: ValueObj<typeof PERIOD>;
   sortBy: ValueObj<typeof SORT_BY>;
-  whiteList: typeof WHITE_LIST_WORDS;
-  blackList: typeof BLACK_LIST_WORDS;
 
   constructor(queryOptions: {
     jobQuery?: string;
@@ -81,9 +80,9 @@ export class Query {
     sortBy?: keyof typeof SORT_BY;
     period?: keyof typeof PERIOD;
   }) {
+    super({ blackList: queryOptions.blackList, whiteList: queryOptions.whiteList });
     this.limit = queryOptions.limit || 1000;
-    this.whiteList = queryOptions.whiteList || [];
-    this.blackList = queryOptions.blackList || [];
+
     this.distance = this.convertDistanceMile(queryOptions.distance);
     this.location = this.convertLocation(queryOptions.location);
     this.jobQuery = this.convertJob(queryOptions.jobQuery);
@@ -109,24 +108,5 @@ export class Query {
   }
   private convertDistanceMile(distanceMile: keyof typeof DISTANCE_MILE = '10 mi (15km)') {
     return DISTANCE_MILE[distanceMile];
-  }
-
-  checkWordInWhiteList(word: string) {
-    return (
-      this.whiteList.length === 0 ||
-      (this.whiteList.length &&
-        this.whiteList.some((bl) => {
-          return word.toLowerCase().includes(bl.toLowerCase());
-        }))
-    );
-  }
-
-  checkWordInBlackList(word: string) {
-    return (
-      this.blackList.length &&
-      this.blackList.some((bl) => {
-        return word.toLowerCase().includes(bl.toLowerCase());
-      })
-    );
   }
 }

@@ -1,7 +1,6 @@
 import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { JobsDb } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
-import { Job } from '../lib/types/linkedinScrapper';
 
 export interface TaskProps {
   profile: Profile;

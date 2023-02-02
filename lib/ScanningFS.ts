@@ -1,6 +1,6 @@
 import path from 'path';
 import { readFile, writeFile } from 'fs/promises';
-import { Job } from './types/linkedinScrapper';
+import { Job } from './types/linkedinScanner';
 
 export class ScanningFS {
   static createPathPotentialJobsJSON(fileName = `jobs2.json`) {

@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
 import { mongoDB } from '..';
-import { Job } from './types/linkedinScrapper';
+import { Job } from './types/linkedinScanner';
 
 export class JobsDb {
   jobs: Collection;

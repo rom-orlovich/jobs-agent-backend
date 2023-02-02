@@ -1,38 +1,14 @@
 import { Profile } from './Profile';
 
 export class RequirementsReader {
-  // profile: Profile;
-  // isRequirementsMatch: { pass: boolean; reason: string };
-  // constructor(profile: Profile, html: string) {
-  //   profile = profile;
-  //   this.isRequirementsMatch = this.checkIsRequirementsMatch(html);
-  // }
   private static getSentences = (text: string) => {
-    // const cheerioDom = new CheerioDom(html);
-    // const elements = cheerioDom.toArray(queryEl);
     const sentences = text
       .split(/[.!?\n]/)
       .filter((el) => el)
       .map((el) => el.trim().split(' '));
 
-    // const nodes = elements.filter((el) => {
-    //   return el.text();
-    // });
-    // const sentences = nodes.map((el) =>
-    //   el
-    //     .text()
-    //     .split(' ')
-    //     .filter((el) => !!el)
-    // );
-
     return sentences;
   };
-  // private static checkExcludeTech(word: string) {
-  //   if () {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   private static checkNumberIsLowerTheRange(numCheck: number | undefined, range: RegExpMatchArray) {
     if (range[0][1] === '-') {

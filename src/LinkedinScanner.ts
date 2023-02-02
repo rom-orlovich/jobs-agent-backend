@@ -1,17 +1,12 @@
-import { Query } from '../lib/Query';
-import { Job } from '../lib/types/linkedinScrapper';
-
-import { Log } from './JobsScan';
 import { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { load } from 'cheerio';
 import { RequirementsReader } from '../lib/RequirementsReader';
 
-import { Profile } from '../lib/Profile';
-import { ScanningFS } from '../lib/ScanningFS';
 import { Scanner, TaskProps } from './Scanner';
+import { LinkedinQueryOptions } from '../lib/LinkedinQueryOptions';
 
-export class LinkedinScanner extends Scanner<Query, TaskProps, void> {
-  constructor(queryOptions: Query) {
+export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, void> {
+  constructor(queryOptions: LinkedinQueryOptions) {
     super(queryOptions);
   }
 
