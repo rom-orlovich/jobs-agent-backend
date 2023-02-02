@@ -4,7 +4,7 @@ import { Job } from '../lib/types/linkedinScrapper';
 import { writeFile, readFile } from 'fs/promises';
 import path from 'path';
 import { LinkedinScan } from './LinkedinScan';
-import { PuppeteerDOM } from '../lib/PuppeteerDOM';
+import { PuppeteerCluster } from '../lib/PuppeteerDOM';
 
 export interface Log {
   logID: string;
@@ -15,14 +15,14 @@ export interface Log {
 export class JobsScan {
   queryOptions: Query;
   profile: Profile;
-  puppeteerDOM: PuppeteerDOM;
+  PuppeteerCluster: PuppeteerCluster;
   linkedinScanner: LinkedinScan;
 
   constructor(profile: Profile, queryOptions: Query) {
     this.queryOptions = queryOptions;
 
     this.profile = profile;
-    this.puppeteerDOM = new PuppeteerDOM(profile);
+    this.PuppeteerCluster = new PuppeteerCluster();
     this.linkedinScanner = new LinkedinScan(this.queryOptions);
   }
 
@@ -53,21 +53,21 @@ export class JobsScan {
     }
   }
 
-  async scanning() {
+  async _scanning() {
     const pathJobs = this._createPathPotentialJobsJSON();
     const pathLogs = this._createPathLogsJobJSON();
-    let potentialJobs = await this.loadJSON<Job>(pathJobs);
-    let jobLogs = await this.loadJSON<Log>(pathLogs);
-    const { curJobs, curLogs } = await this.linkedinScanner.scanning(
-      this.puppeteerDOM,
-      this.queryOptions,
-      potentialJobs,
-      jobLogs
-    );
-    potentialJobs = [...potentialJobs, ...curJobs];
-    jobLogs = [...jobLogs, ...curLogs];
-    console.log('finish fetch jobs');
-    await this._writeJSON(potentialJobs, pathJobs);
-    await this._writeJSON(jobLogs, pathLogs);
+    const potentialJobs = await this.loadJSON<Job>(pathJobs);
+    const jobLogs = await this.loadJSON<Log>(pathLogs);
+    // const { curJobs, curLogs } = await this.linkedinScanner.scanning(
+    //   this.PuppeteerCluster,
+    //   this.queryOptions,
+    //   potentialJobs,
+    //   jobLogs
+    // );
+    // potentialJobs = [...potentialJobs, ...curJobs];
+    // jobLogs = [...jobLogs, ...curLogs];
+    // console.log('finish fetch jobs');
+    // await this._writeJSON(potentialJobs, pathJobs);
+    // await this._writeJSON(jobLogs, pathLogs);
   }
 }

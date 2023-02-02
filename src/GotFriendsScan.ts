@@ -4,8 +4,19 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { CheerioDom } from '../lib/CheerioDom';
 import { Job } from '../lib/types/linkedinScrapper';
 import { Log, JobsScan } from './JobsScan';
+import {} from '../lib/Query';
+import { GoogleTranslateQuery } from '../lib/types/google-translate';
+import { GenericRecord } from '../lib/types/types';
+import { load } from 'cheerio';
 
-export const bQuery = (opt: Query): string => {
+class GotFriendsScan {
+  queryOptions: GenericRecord<any>;
+  constructor(queryOptions: GenericRecord<any>) {
+    this.queryOptions = queryOptions;
+  }
+}
+
+export const bQuery = (opt: GoogleTranslateQuery): string => {
   const { text, to, op } = opt;
   if (!text) return '';
   const from: string = opt.from || 'auto';
@@ -38,6 +49,7 @@ const qy = async (jobs: Job[], logs: Log[]) => {
   await page.click('#regionTitle');
   await page.click(`li label[for*='checkboxRegions-1']`);
   await page.click('#searchButton');
+
   let i = 0;
   while (i < 50) {
     const nav = await page.waitForSelector('a.position');
@@ -72,29 +84,31 @@ const qy = async (jobs: Job[], logs: Log[]) => {
         } catch (error) {
           console.log(error);
         }
+
         const html2 = await go.evaluate(() => {
           return document.body.innerHTML;
         });
-        const cheerio2 = new CheerioDom(html2);
-        const el2 = cheerio2
-          .toArray(`span[jsname*='W297wb']`)
-          .filter((el3) => el3.text().trim())
-          .map((el3) => el3.text().split(' '));
+        // const cheerio2 = new CheerioDom(html2);
+        // const el2 = cheerio2.$()
+        //   .toArray(`span[jsname*='W297wb']`)
+        //   .filter((el3) => el3.text().trim())
+        //   .map((el3) => el3.text().split(' '));
+        const $ = load(html2);
+        const el2 = $(`span[jsname*='W297wb'`).text();
 
-        const req = new RequirementsReader(profile);
-
-        const isJobValid = req.isJobValid(el2);
+        const isJobValid = RequirementsReader.checkIsRequirementsMatch(el2, profile);
         await go.close();
         if (isJobValid.pass) {
           const location = el.find('.info-data').text().trim();
-          const job = { company: '', jobID: id, jobTitle: title, link: link, location };
+          const job = { company: '', jobID: id, title: title, link: link, location };
           console.log(job);
 
           jobsCur.push(job);
-        } else {
-          const log = { link: link, logID: id, reason: isJobValid.reason, title: title };
-          logCur.push(log);
         }
+        // else {
+        //   const log = { link: link, logID: id, reason: isJobValid.reason, title: title };
+        //   logCur.push(log);
+        // }
       }
     }
     i++;
@@ -142,130 +156,4 @@ const createOrRegexOfWords = (array: string[]) => {
   console.log(eb);
   const res = getSentencesWithPattern(``, eb, er);
   console.log(res);
-  const re = new RequirementsReader(profile);
-  console.log(re.isJobValid(res));
 };
-
-export interface Options {
-  from?: lang | 'auto';
-  to: lang;
-}
-
-export interface Query extends Options {
-  op: 'translate' | 'docs';
-  text?: string;
-}
-
-type lang =
-  | 'af'
-  | 'sq'
-  | 'am'
-  | 'ar'
-  | 'hy'
-  | 'az'
-  | 'eu'
-  | 'be'
-  | 'bn'
-  | 'bs'
-  | 'bg'
-  | 'ca'
-  | 'ceb'
-  | 'zh-CN'
-  | 'zh'
-  | 'zh-TW'
-  | 'co'
-  | 'hr'
-  | 'cs'
-  | 'da'
-  | 'nl'
-  | 'en'
-  | 'eo'
-  | 'et'
-  | 'fi'
-  | 'fr'
-  | 'fy'
-  | 'gl'
-  | 'ka'
-  | 'de'
-  | 'el'
-  | 'gu'
-  | 'ht'
-  | 'ha'
-  | 'haw'
-  | 'he'
-  | 'iw'
-  | 'hi'
-  | 'hmn'
-  | 'hu'
-  | 'is'
-  | 'ig'
-  | 'id'
-  | 'ga'
-  | 'it'
-  | 'ja'
-  | 'jv'
-  | 'kn'
-  | 'kk'
-  | 'km'
-  | 'rw'
-  | 'ko'
-  | 'ku'
-  | 'ky'
-  | 'lo'
-  | 'la'
-  | 'lv'
-  | 'lt'
-  | 'lb'
-  | 'mk'
-  | 'mg'
-  | 'ms'
-  | 'ml'
-  | 'mt'
-  | 'mi'
-  | 'mr'
-  | 'mn'
-  | 'my'
-  | 'ne'
-  | 'no'
-  | 'ny'
-  | 'or'
-  | 'ps'
-  | 'fa'
-  | 'pl'
-  | 'pt'
-  | 'pa'
-  | 'ro'
-  | 'ru'
-  | 'sm'
-  | 'gd'
-  | 'sr'
-  | 'st'
-  | 'sn'
-  | 'sd'
-  | 'si'
-  | 'sk'
-  | 'sl'
-  | 'so'
-  | 'es'
-  | 'su'
-  | 'sw'
-  | 'sv'
-  | 'tl'
-  | 'tg'
-  | 'ta'
-  | 'tt'
-  | 'te'
-  | 'th'
-  | 'tr'
-  | 'tk'
-  | 'uk'
-  | 'ur'
-  | 'ug'
-  | 'uz'
-  | 'vi'
-  | 'cy'
-  | 'xh'
-  | 'yi'
-  | 'yo'
-  | 'zu'
-  | 'la';

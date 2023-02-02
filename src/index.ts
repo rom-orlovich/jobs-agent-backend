@@ -34,10 +34,10 @@ export const profile = new Profile({
 
 export const queryOptions = new Query({
   sortBy: 'recent',
-  period: 'past month',
-  jobQuery: 'Full Stack',
+  period: '24hr',
+  jobQuery: 'node',
   distance: '10 mi (15km)',
-  location: 'petah tikva',
+  location: 'Tel-Aviv',
 
   blackList: [
     'senior',
@@ -93,4 +93,4 @@ const main = async () => {
   await jobScan.scanning();
 };
 
-// main();
+main();
