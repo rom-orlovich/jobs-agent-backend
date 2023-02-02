@@ -1,4 +1,3 @@
-import { Cluster } from 'puppeteer-cluster';
 import { Profile } from '../lib/Profile';
 import { Query } from '../lib/Query';
 import { ExperienceRange } from '../lib/types/profile';
@@ -36,7 +35,7 @@ export const profile = new Profile({
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past week',
-  jobQuery: 'fullstack',
+  jobQuery: 'frontend',
   distance: '10 mi (15km)',
   location: 'Tel-Aviv',
 
@@ -69,6 +68,8 @@ export const queryOptions = new Query({
     'associate embedded systems engineer',
     'ese',
     'system test',
+    ' Tier 2 Support Agent',
+    'Sales Manager',
   ],
   whiteList: [
     'front-end',
@@ -90,7 +91,10 @@ export const queryOptions = new Query({
 });
 
 const main = async () => {
-  const jobScan = new JobsScan(profile, queryOptions);
+  const jobScan = new JobsScan(profile, {
+    gotFriendsQueryOptions: {},
+    linkedinScannerQueryOptions: queryOptions,
+  });
   // await jobScan.scanning();
   await jobScan.scanning();
 };

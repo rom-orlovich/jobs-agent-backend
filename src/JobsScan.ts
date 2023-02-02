@@ -1,10 +1,12 @@
 import { Profile } from '../lib/Profile';
 import { Query } from '../lib/Query';
 
-import { LinkedinScan } from './LinkedinScan';
+import { LinkedinScanner } from './LinkedinScanner';
 
 import { Cluster } from 'puppeteer-cluster';
 import { ScanningFS } from '../lib/ScanningFS';
+import { GotFriendsScan } from './GotFriendsScan';
+import { GenericRecord } from '../lib/types/types';
 
 export interface Log {
   logID: string;
@@ -12,35 +14,23 @@ export interface Log {
   link: string;
   reason: string;
 }
+interface QueryOptions {
+  linkedinScannerQueryOptions: Query;
+  gotFriendsQueryOptions: GenericRecord<unknown>;
+}
+
 export class JobsScan {
-  queryOptions: Query;
+  queryOptions: QueryOptions;
   profile: Profile;
   // PuppeteerCluster: PuppeteerCluster;
-  linkedinScanner: LinkedinScan;
+  linkedinScanner: LinkedinScanner;
+  gotFriendsScanner: GotFriendsScan;
 
-  constructor(profile: Profile, queryOptions: Query) {
+  constructor(profile: Profile, queryOptions: QueryOptions) {
     this.queryOptions = queryOptions;
     this.profile = profile;
-    // this.PuppeteerCluster = new PuppeteerCluster();
-    this.linkedinScanner = new LinkedinScan(this.queryOptions);
-  }
-
-  async _scanning() {
-    // const pathJobs = this._createPathPotentialJobsJSON();
-    // const pathLogs = this._createPathLogsJobJSON();
-    // const potentialJobs = await this.loadJSON<Job>(pathJobs);
-    // const jobLogs = await this.loadJSON<Log>(pathLogs);
-    // const { curJobs, curLogs } = await this.linkedinScanner.scanning(
-    //   this.PuppeteerCluster,
-    //   this.queryOptions,
-    //   potentialJobs,
-    //   jobLogs
-    // );
-    // potentialJobs = [...potentialJobs, ...curJobs];
-    // jobLogs = [...jobLogs, ...curLogs];
-    // console.log('finish fetch jobs');
-    // await this._writeJSON(potentialJobs, pathJobs);
-    // await this._writeJSON(jobLogs, pathLogs);
+    this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions);
+    this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions);
   }
 
   async scanning() {
@@ -53,11 +43,17 @@ export class JobsScan {
 
       puppeteerOptions: { headless: true, defaultViewport: null },
     });
+    const jobs = await ScanningFS.loadData();
 
-    cluster.queue(
-      { profile: this.profile, jobs: await ScanningFS.loadData() },
-      this.linkedinScanner.scanning()
+    const linkedinScannerRes = await cluster.execute(
+      { profile: this.profile, jobs: jobs },
+      this.linkedinScanner.taskCreator()
     );
+    const linkedinGotJobScannerRes = await cluster.execute(
+      { profile: this.profile, jobs: [...linkedinScannerRes.jobs, jobs] },
+      this.gotFriendsScanner.taskCreator()
+    );
+    console.log(linkedinGotJobScannerRes);
 
     // Event handler to be called in case of problems
     cluster.on('taskerror', (err, data) => {

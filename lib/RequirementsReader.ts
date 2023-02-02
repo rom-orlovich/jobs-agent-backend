@@ -63,6 +63,7 @@ export class RequirementsReader {
   }
 
   private static scanRequirements(sentences: string[][], profile: Profile) {
+    let noneOfTechStackExist = false;
     if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
@@ -102,7 +103,10 @@ export class RequirementsReader {
         }
 
         const langEx = profile.getRequirement(word);
-        if (langEx) languageMatch = langEx;
+        if (langEx) {
+          noneOfTechStackExist = true;
+          languageMatch = langEx;
+        }
 
         // Check if there is language  and digit were match.
         if (languageMatch && digitMatch) {
@@ -127,6 +131,9 @@ export class RequirementsReader {
       digitMatch = null;
       languageMatch = undefined;
     }
+
+    if (!noneOfTechStackExist)
+      return { pass: false, reason: 'This job is not contain any word from you tech stack' };
     return { pass: true };
   }
 
@@ -136,3 +143,7 @@ export class RequirementsReader {
     return isRequirementsMatch;
   }
 }
+
+export type checkIsRequirementsMatchRes = ReturnType<
+  (typeof RequirementsReader)['checkIsRequirementsMatch']
+>;

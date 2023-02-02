@@ -8,15 +8,11 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 
 import { Profile } from '../lib/Profile';
 import { ScanningFS } from '../lib/ScanningFS';
+import { Scanner, TaskProps } from './Scanner';
 
-export class LinkedinScan {
-  queryOptions: Query;
-  jobs: Job[];
-  logs: Log[];
+export class LinkedinScanner extends Scanner<Query, TaskProps, Job[]> {
   constructor(queryOptions: Query) {
-    this.jobs = [];
-    this.logs = [];
-    this.queryOptions = queryOptions;
+    super(queryOptions);
   }
 
   getURL(start: number) {
@@ -28,8 +24,8 @@ export class LinkedinScan {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  scanning() {
-    const task: TaskFunction<{ profile: Profile; jobs: Job[] }, void> = async ({ data, page }) => {
+  taskCreator() {
+    const task: TaskFunction<TaskProps, Job[]> = async ({ data, page }) => {
       let promises;
       let start = 0;
       let continueWhile = true;
@@ -41,37 +37,37 @@ export class LinkedinScan {
         const html = await page.evaluate(() => document.body.innerHTML);
 
         const $ = load(html);
-        const elements = $('li');
-        continueWhile = !!elements.length;
+        const posts = $('li');
+        continueWhile = !!posts.length;
 
-        for (const element of elements) {
-          const elementApi = $(element);
-          const link = elementApi.find('a.base-card__full-link').attr('href');
+        for (const post of posts) {
+          const postApi = $(post);
+          const link = postApi.find('a.base-card__full-link').attr('href');
           if (!link) continue;
 
           const jobURlSplit = link.split('?')[0].split('-');
           const jobID = jobURlSplit[jobURlSplit.length - 1];
           if (data.jobs.find((el) => el.jobID === jobID)) continue;
 
-          const title = elementApi.find('h3.base-search-card__title').text().trim();
+          const title = postApi.find('h3.base-search-card__title').text().trim();
           if (this.queryOptions.checkWordInBlackList(title)) continue;
 
           console.log(link);
           promises = await Promise.all([page.goto(link), page.waitForNavigation({ waitUntil: 'load' })]);
-          const jobPostHTML = await page.evaluate(() => document.body.innerHTML);
+          const jobpostApiHTML = await page.evaluate(() => document.body.innerHTML);
 
-          if (!jobPostHTML) continue;
+          if (!jobpostApiHTML) continue;
 
-          const text = $(jobPostHTML)?.find('.show-more-less-html ul li').text();
+          const text = $(jobpostApiHTML)?.find('.show-more-less-html ul li').text();
           const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(text, data.profile);
 
-          await this.delay(5000);
+          await this.delay(4000);
 
           promises = await Promise.all([page.goBack(), page.waitForNavigation({ waitUntil: 'load' })]);
 
-          const company = elementApi.find('h4.base-search-card__subtitle').text().trim();
-          const location = elementApi.find('span.job-search-card__location').text().trim();
-          const date = elementApi.find('.job-search-card__listdate--new').attr('datetime');
+          const company = postApi.find('h4.base-search-card__subtitle').text().trim();
+          const location = postApi.find('span.job-search-card__location').text().trim();
+          const date = postApi.find('.job-search-card__listdate--new').attr('datetime');
 
           jobs.push({ jobID, title, link, company, location, reason, date });
         }
@@ -79,7 +75,9 @@ export class LinkedinScan {
       }
 
       console.log('finish');
-      await ScanningFS.writeData([...data.jobs, ...jobs]);
+      return [...data.jobs, ...jobs];
+      // console.log('finish');
+      // await ScanningFS.writeData([...data.jobs, ...jobs]);
     };
     return task;
   }
