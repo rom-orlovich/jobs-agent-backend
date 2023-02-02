@@ -10,7 +10,7 @@ import { Profile } from '../lib/Profile';
 import { ScanningFS } from '../lib/ScanningFS';
 import { Scanner, TaskProps } from './Scanner';
 
-export class LinkedinScanner extends Scanner<Query, TaskProps, Job[]> {
+export class LinkedinScanner extends Scanner<Query, TaskProps, void> {
   constructor(queryOptions: Query) {
     super(queryOptions);
   }
@@ -25,11 +25,12 @@ export class LinkedinScanner extends Scanner<Query, TaskProps, Job[]> {
   }
 
   taskCreator() {
-    const task: TaskFunction<TaskProps, Job[]> = async ({ data, page }) => {
+    const task: TaskFunction<TaskProps, void> = async ({ data, page }) => {
       let promises;
       let start = 0;
       let continueWhile = true;
-      const jobs: Job[] = [];
+      // const jobs: Job[] = [];
+
       while (continueWhile) {
         const url = this.getURL(start);
         console.log(url);
@@ -47,7 +48,10 @@ export class LinkedinScanner extends Scanner<Query, TaskProps, Job[]> {
 
           const jobURlSplit = link.split('?')[0].split('-');
           const jobID = jobURlSplit[jobURlSplit.length - 1];
-          if (data.jobs.find((el) => el.jobID === jobID)) continue;
+
+          const job = await data?.jobs?.getJob(jobID);
+
+          if (job) continue;
 
           const title = postApi.find('h3.base-search-card__title').text().trim();
           if (this.queryOptions.checkWordInBlackList(title)) continue;
@@ -68,14 +72,15 @@ export class LinkedinScanner extends Scanner<Query, TaskProps, Job[]> {
           const company = postApi.find('h4.base-search-card__subtitle').text().trim();
           const location = postApi.find('span.job-search-card__location').text().trim();
           const date = postApi.find('.job-search-card__listdate--new').attr('datetime');
-
-          jobs.push({ jobID, title, link, company, location, reason, date });
+          const newJob = { jobID, title, link, company, location, reason, date };
+          // jobs.push({ jobID, title, link, company, location, reason, date });
+          await data.jobs.insertOne(newJob);
         }
         start += 25;
       }
 
       console.log('finish');
-      return [...data.jobs, ...jobs];
+      // return [...data.jobs, ...jobs];
       // console.log('finish');
       // await ScanningFS.writeData([...data.jobs, ...jobs]);
     };

@@ -4,9 +4,10 @@ import { Query } from '../lib/Query';
 import { LinkedinScanner } from './LinkedinScanner';
 
 import { Cluster } from 'puppeteer-cluster';
-import { ScanningFS } from '../lib/ScanningFS';
+
 import { GotFriendsScan } from './GotFriendsScan';
 import { GenericRecord } from '../lib/types/types';
+import { JobsDb } from '../lib/JobsDB';
 
 export interface Log {
   logID: string;
@@ -23,37 +24,39 @@ export class JobsScan {
   queryOptions: QueryOptions;
   profile: Profile;
   // PuppeteerCluster: PuppeteerCluster;
+
   linkedinScanner: LinkedinScanner;
   gotFriendsScanner: GotFriendsScan;
+  jobs: JobsDb;
 
   constructor(profile: Profile, queryOptions: QueryOptions) {
     this.queryOptions = queryOptions;
     this.profile = profile;
     this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions);
     this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions);
+    this.jobs = new JobsDb();
   }
 
   async scanning() {
     console.log('start');
     const cluster = await Cluster.launch({
       concurrency: Cluster.CONCURRENCY_CONTEXT,
-      maxConcurrency: 2,
+      maxConcurrency: 4,
       // retryLimit: 1,
+      monitor: true,
       timeout: 1000000,
 
-      puppeteerOptions: { headless: true, defaultViewport: null },
+      puppeteerOptions: { headless: false, defaultViewport: null, slowMo: 250 },
     });
-    const jobs = await ScanningFS.loadData();
 
-    const linkedinScannerRes = await cluster.execute(
-      { profile: this.profile, jobs: jobs },
-      this.linkedinScanner.taskCreator()
-    );
-    const linkedinGotJobScannerRes = await cluster.execute(
-      { profile: this.profile, jobs: [...linkedinScannerRes.jobs, jobs] },
-      this.gotFriendsScanner.taskCreator()
-    );
-    console.log(linkedinGotJobScannerRes);
+    const scannerProps = {
+      profile: this.profile,
+      cluster,
+      jobs: this.jobs,
+    };
+    cluster.queue(scannerProps, this.linkedinScanner.taskCreator());
+
+    cluster.queue(scannerProps, this.gotFriendsScanner.taskCreator());
 
     // Event handler to be called in case of problems
     cluster.on('taskerror', (err, data) => {

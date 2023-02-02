@@ -1,4 +1,4 @@
-import { profile, queryOptions } from '../src/index';
+import { jobs, profile, queryOptions } from '../index';
 import puppeteer, { Page } from 'puppeteer';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { CheerioDom } from '../lib/CheerioDom';
@@ -13,7 +13,7 @@ import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { GoogleTranslateScanner } from './GoogleTransalteScanner';
 import { ScanningFS } from '../lib/ScanningFS';
 
-export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, Job[]> {
+export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, void> {
   constructor(queryOptions: GenericRecord<unknown>) {
     super(queryOptions);
   }
@@ -30,25 +30,28 @@ export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, J
   }
 
   private async initialFilters(page: Page) {
-    await page.goto('https://www.gotfriends.co.il/jobs/');
     await page.click('#professionAreaTitle');
     await page.click(`label[for='radioAreas-1108']`);
     await page.click('#professionTitle');
     await page.click(`label[for='checkboxProfessions-1970']`);
     await page.click(`label[for='checkboxProfessions-1947']`);
     await page.click(`label[for='checkboxProfessions-1965']`);
+
     await page.click(`label[for='checkboxProfessions-8010']`);
+
     await page.click('#regionTitle');
     await page.click(`li label[for*='checkboxRegions-1']`);
     await page.click('#searchButton');
   }
 
-  taskCreator(): TaskFunction<TaskProps, Job[]> {
-    const task: TaskFunction<TaskProps, Job[]> = async ({ data, page }) => {
-      const jobs: Job[] = [];
-      this.initialFilters(page);
+  taskCreator(): TaskFunction<TaskProps, void> {
+    const task: TaskFunction<TaskProps, void> = async ({ data, page }) => {
+      // const jobs: Job[] = [];
+
       let i = 0;
-      while (i < 50) {
+      await page.goto('https://www.gotfriends.co.il/jobs/');
+      await this.initialFilters(page);
+      while (i < 1) {
         const nav = await page.waitForSelector('a.position');
         if (nav) console.log(`page number ${i + 1}`);
         const html = await page.evaluate(() => {
@@ -64,13 +67,16 @@ export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, J
           const postLink = postAPI.find('a.position');
           const title = postLink.text().trim().replace(/\n/, '');
           if (queryOptions.checkWordInBlackList(title)) continue;
-          const id = postAPI.find('.career_num').text().split(':')[1].trim();
+          const jobID = postAPI.find('.career_num').text().split(':')[1].trim();
           const link = 'https://www.gotfriends.co.il' + postLink.attr('href') || '';
-          const exist = data.jobs.find((el) => el.jobID === id);
+          // const exist = data.jobs.find((el) => el.jobID === id);
           // const existJob = jobs.find((el) => el.jobID === id);
           // const existLog = logs.find((el) => el.logID === id);
           console.log('title', title);
-          if (!exist) continue;
+
+          const job = await data.jobs.getJob(jobID);
+          if (job) continue;
+          // if (exist) continue;
           // const qu = this.getGoogleTranslateQuery({ op: 'translate', to: 'en', text: text });
 
           // const go = await page.newPage();
@@ -98,16 +104,16 @@ export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, J
           // const isJobValid = RequirementsReader.checkIsRequirementsMatch(el2, profile);
           // await go.close();
           const googleTranslate = new GoogleTranslateScanner({ op: 'translate', to: 'en', text: text });
-          const isRequirementsMatch = await data.cluster?.execute(
-            { text },
-            googleTranslate.taskCreator()
-          );
+          const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
+
+          const isRequirementsMatch = RequirementsReader.checkIsRequirementsMatch(string, data.profile);
+
           if (!isRequirementsMatch.pass) continue;
           const location = postAPI.find('.info-data').text().trim();
-          const job = { company: '', jobID: id, title: title, link: link, location };
-          console.log(job);
-
-          jobs.push(job);
+          const newJob = { company: '', jobID, title: title, link: link, location };
+          console.log(newJob);
+          await data.jobs.insertOne(newJob);
+          // jobs.push(newJob);
 
           // else {
           //   const log = { link: link, logID: id, reason: isJobValid.reason, title: title };
@@ -119,7 +125,7 @@ export class GotFriendsScan extends Scanner<GenericRecord<unknown>, TaskProps, J
       }
       console.log('finish');
       // await ScanningFS.writeData([...data.jobs, ...jobs]);
-      return [...data.jobs, ...jobs];
+      // return [...data.jobs, ...jobs];
       // await browser.close();
       // return { logCur, jobsCur };
     };

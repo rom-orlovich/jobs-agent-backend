@@ -1,9 +1,14 @@
-import { Profile } from '../lib/Profile';
-import { Query } from '../lib/Query';
-import { ExperienceRange } from '../lib/types/profile';
-import { GenericRecord } from '../lib/types/types';
-import { JobsScan } from './JobsScan';
+import { config } from 'dotenv';
 
+config();
+
+import { Profile } from './lib/Profile';
+import { Query } from './lib/Query';
+import { ExperienceRange } from './lib/types/profile';
+import { GenericRecord } from './lib/types/types';
+import { JobsScan } from './src/JobsScan';
+
+import { MongoDBClient } from './lib/MongoClient';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
@@ -35,7 +40,7 @@ export const profile = new Profile({
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past week',
-  jobQuery: 'frontend',
+  jobQuery: 'front end',
   distance: '10 mi (15km)',
   location: 'Tel-Aviv',
 
@@ -89,14 +94,22 @@ export const queryOptions = new Query({
     'software',
   ],
 });
+export const mongoDB = new MongoDBClient();
+export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
 
 const main = async () => {
-  const jobScan = new JobsScan(profile, {
-    gotFriendsQueryOptions: {},
-    linkedinScannerQueryOptions: queryOptions,
-  });
-  // await jobScan.scanning();
-  await jobScan.scanning();
+  try {
+    await mongoDB.connect();
+    const jobScan = new JobsScan(profile, {
+      gotFriendsQueryOptions: {},
+      linkedinScannerQueryOptions: queryOptions,
+    });
+
+    await jobScan.scanning();
+  } catch (error) {
+    console.log(error);
+    await mongoDB.close();
+  }
 };
 
 main();
