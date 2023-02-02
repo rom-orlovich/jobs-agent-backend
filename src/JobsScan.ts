@@ -1,10 +1,8 @@
 import { Profile } from '../lib/Profile';
 import { Query } from '../lib/Query';
-import { Job } from '../lib/types/linkedinScrapper';
-import { writeFile, readFile } from 'fs/promises';
-import path from 'path';
+
 import { LinkedinScan } from './LinkedinScan';
-import { PuppeteerCluster } from '../lib/PuppeteerDOM';
+
 import { Cluster } from 'puppeteer-cluster';
 import { ScanningFS } from '../lib/ScanningFS';
 
@@ -53,7 +51,7 @@ export class JobsScan {
       // retryLimit: 1,
       timeout: 1000000,
 
-      puppeteerOptions: { headless: false, defaultViewport: null },
+      puppeteerOptions: { headless: true, defaultViewport: null },
     });
 
     cluster.queue(
