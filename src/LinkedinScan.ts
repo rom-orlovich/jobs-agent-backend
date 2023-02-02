@@ -48,7 +48,11 @@ export class LinkedinScan {
           const elementApi = $(element);
           const link = elementApi.find('a.base-card__full-link').attr('href');
           if (!link) continue;
+
           const jobURlSplit = link.split('?')[0].split('-');
+          const jobID = jobURlSplit[jobURlSplit.length - 1];
+          if (data.jobs.find((el) => el.jobID === jobID)) continue;
+
           const title = elementApi.find('h3.base-search-card__title').text().trim();
           if (this.queryOptions.checkWordInBlackList(title)) continue;
 
@@ -61,7 +65,6 @@ export class LinkedinScan {
           const text = $(jobPostHTML)?.find('.show-more-less-html ul li').text();
           const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(text, data.profile);
 
-          const jobID = jobURlSplit[jobURlSplit.length - 1];
           await this.delay(5000);
 
           promises = await Promise.all([page.goBack(), page.waitForNavigation({ waitUntil: 'load' })]);
@@ -70,7 +73,6 @@ export class LinkedinScan {
           const location = elementApi.find('span.job-search-card__location').text().trim();
           const date = elementApi.find('.job-search-card__listdate--new').attr('datetime');
 
-          if (data.jobs.find((el) => el.jobID === jobID)) continue;
           jobs.push({ jobID, title, link, company, location, reason, date });
         }
         start += 25;
