@@ -36,7 +36,7 @@ export const profile = new Profile({
 export const queryOptions = new Query({
   sortBy: 'recent',
   period: 'past week',
-  jobQuery: 'react',
+  jobQuery: 'fullstack',
   distance: '10 mi (15km)',
   location: 'Tel-Aviv',
 

@@ -77,7 +77,7 @@ export class LinkedinScan {
       }
 
       console.log('finish');
-      await ScanningFS.writeData(jobs);
+      await ScanningFS.writeData([...data.jobs, ...jobs]);
     };
     return task;
   }
