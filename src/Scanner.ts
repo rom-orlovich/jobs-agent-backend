@@ -5,7 +5,7 @@ import { Profile } from '../lib/Profile';
 
 export interface TaskProps {
   profile: Profile;
-  jobs: JobsDb;
+  jobsDB: JobsDb;
   cluster?: Cluster;
 }
 

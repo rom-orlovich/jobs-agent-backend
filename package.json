@@ -10,7 +10,8 @@
     "linkedin-jobs-api": "^1.0.0",
     "mongodb": "5.0",
     "puppeteer": "^19.6.1",
-    "puppeteer-cluster": "^0.23.0"
+    "puppeteer-cluster": "^0.23.0",
+    "throat": "^6.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.16",

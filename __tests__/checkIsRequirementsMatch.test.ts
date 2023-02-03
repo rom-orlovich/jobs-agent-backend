@@ -3,7 +3,7 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
 
-describe.skip('test requirementsObj.isJobValid function', () => {
+describe('test requirementsObj.isJobValid function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },

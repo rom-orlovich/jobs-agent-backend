@@ -1,4 +1,4 @@
-import { Collection } from 'mongodb';
+import { Collection, Condition, ObjectId } from 'mongodb';
 import { mongoDB } from '..';
 import { Job } from './types/linkedinScanner';
 
@@ -9,7 +9,9 @@ export class JobsDb {
   }
   async getJob(jobID: string) {
     try {
-      const job = await this.jobs?.findOne({ jobID: jobID });
+      const job = await this.jobs?.findOne<Job>({
+        jobID,
+      });
 
       return job ? job : undefined;
     } catch (error) {
@@ -19,6 +21,14 @@ export class JobsDb {
   async insertOne(job: Job) {
     try {
       const insert = await this.jobs.insertOne(job);
+      return insert;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async insertMany(jobs: Job[]) {
+    try {
+      const insert = await this.jobs.insertMany(jobs);
       return insert;
     } catch (error) {
       console.log(error);

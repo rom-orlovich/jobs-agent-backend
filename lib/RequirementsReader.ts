@@ -120,8 +120,8 @@ export class RequirementsReader {
     return { pass: true };
   }
 
-  static checkIsRequirementsMatch(html: string, profile: Profile) {
-    const sentences = RequirementsReader.getSentences(html);
+  static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {
+    const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
     return isRequirementsMatch;
   }
