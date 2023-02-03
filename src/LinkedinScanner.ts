@@ -9,10 +9,13 @@ import { json } from 'express';
 import { Job } from '../lib/types/linkedinScanner';
 import { LinkedinRequirementScanner } from './LinkedinRequirementScanner';
 import { Profile } from '../lib/Profile';
+import { JobsDB } from '../lib/JobsDB';
 
 export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Job[]> {
-  constructor(queryOptions: LinkedinQueryOptions) {
+  JobsDB: JobsDB;
+  constructor(queryOptions: LinkedinQueryOptions, JobsDB: JobsDB) {
     super(queryOptions);
+    this.JobsDB = JobsDB;
   }
 
   getURL(start: number) {
@@ -78,7 +81,7 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
       const location = jobDIV?.querySelector('span.job-search-card__location')?.innerHTML?.trim() || '';
       const date = jobDIV?.querySelector<HTMLTimeElement>('.job-search-card__listdate')?.dateTime;
 
-      return { jobID, link, title, company, location, date };
+      return { jobID, link, title, company, location, date, from: 'linkedin' };
     });
   }
 
@@ -101,7 +104,7 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
           console.log(jobPost.link);
 
           if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
-          const job = await data?.jobsDB?.getJob(jobPost.jobID);
+          const job = await data?.JobsDB?.getJob(jobPost.jobID);
           if (job) continue;
 
           // const jobPostApiHTML = await data.cluster?.execute(
@@ -225,7 +228,6 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
 
     let start = 0;
     let continueWhile = true;
-    const jobs: Job[] = [];
 
     await this.noImageRequest(page);
 
@@ -241,7 +243,9 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
         console.log(jobPost.link);
 
         if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
-
+        if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
+        const job = await this.JobsDB?.getJob(jobPost.jobID);
+        if (job) continue;
         const linkedinRequirementScanner = new LinkedinRequirementScanner(null);
         const REPage = await browser.newPage();
         await linkedinRequirementScanner.goToRequirement(REPage, jobPost.link);
@@ -250,15 +254,17 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
         await REPage.close();
         const { reason } = RequirementsReader.checkIsRequirementsMatch(jobPostApiHTML, profile);
 
-        const newJob = { from: 'linkedin', reason, ...jobPost };
+        const newJob = { reason, ...jobPost };
         console.log(newJob);
-        jobs.push(newJob);
+        // jobs.push(newJob);
+        this.JobsDB.insertOne(newJob);
       }
 
       start += 25;
     }
 
-    console.log('finish');
     await browser.close();
+
+    console.log('finish');
   }
 }

@@ -10,10 +10,13 @@ import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
 import { Job } from '../lib/types/linkedinScanner';
 import { Profile } from '../lib/Profile';
+import { JobsDB } from '../lib/JobsDB';
 
 export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, void> {
-  constructor(queryOptions: GotFriendQueryOptions) {
+  JobsDB: JobsDB;
+  constructor(queryOptions: GotFriendQueryOptions, JobsDB: JobsDB) {
     super(queryOptions);
+    this.JobsDB = JobsDB;
   }
 
   getGoogleTranslateQuery(opt: GoogleTranslateQuery): string {
@@ -55,21 +58,19 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
     await page.click('#searchButton');
   }
   static getAllJobsData() {
-    const jobsEl = Array.from(document.querySelectorAll('.panel .item'));
-    const jobs: (Job & { text: string })[] = [];
-    for (const job of jobsEl) {
+    const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
+
+    return jobsPosts.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
       const link = 'https://www.gotfriends.co.il' + jobLink?.href || '';
       const text = job.querySelector('.desc')?.textContent || '';
       const jobID = job.querySelector('.career_num')?.textContent?.split(':')[1].trim() || '';
       const title = jobLink?.textContent?.trim().replace(/\n/, '') || '';
-      if (!title || !jobLink || !text || !jobID) continue;
 
       const location = job.querySelector('.info-data')?.textContent?.trim() || '';
 
-      jobs.push({ link, title, jobID, location, company: '', from: 'gotFriends', text });
-    }
-    return jobs;
+      return { link, title, jobID, location, company: '', from: 'gotFriends', text };
+    });
   }
 
   taskCreator(): TaskFunction<TaskProps, void> {
@@ -82,26 +83,10 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
         const nav = await page.waitForSelector('a.position');
         if (nav) console.log(`page number ${i + 1}`);
         const jobsPosts = await page.evaluate(GotFriendsScan.getAllJobsData);
-        // const $ = load(html);
-        // const cheerio = new CheerioDom(html);
-        // const posts = $('.panel .item');
 
         for (const { text, ...jobPost } of jobsPosts) {
-          // const postAPI = $(post);
-          // // const text = postAPI.find('.desc').text();
-          // const postLink = postAPI.find('a.position');
-          // const title = postLink.text().trim().replace(/\n/, '');
-
           if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
-          // const jobID = postAPI.find('.career_num').text().split(':')[1].trim();
-          // const link = 'https://www.gotfriends.co.il' + postLink.attr('href') || '';
 
-          // console.log('title', title);
-
-          // const job = await data.jobsDB.getJob(jobID);
-          // if (job) continue;
-          // const text = await page.$eval('.desc', (el) => el.textContent);
-          // if (!text) continue;
           const googleTranslate = new GoogleTranslateScanner({
             op: 'translate',
             to: 'en',
@@ -114,7 +99,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
           const newJob = { ...jobPost, reason };
           console.log(newJob);
-          // await data.jobsDB.insertOne(newJob);
+          // await data.JobsDB.insertOne(newJob);
           jobs.push(newJob);
         }
         i++;
@@ -133,14 +118,18 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
     await this.initialFilters(page);
     let i = 0;
-    const jobs: Job[] = [];
+
     while (i < 20) {
       const nav = await page.waitForSelector('a.position');
       if (nav) console.log(`page number ${i + 1}`);
       const jobsPosts = await page.evaluate(GotFriendsScan.getAllJobsData);
 
       for (const { text, ...jobPost } of jobsPosts) {
+        console.log(jobPost.link);
+        if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
         if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
+        const job = await this.JobsDB?.getJob(jobPost.jobID);
+        if (job) continue;
         const googleTranslate = new GoogleTranslateScanner({
           op: 'translate',
           to: 'en',
@@ -151,18 +140,18 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
         const translateText = await GTPage.evaluate(GoogleTranslateScanner.getTranslate);
         await GTPage.close();
         // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
-        const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
+        const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
 
         const newJob = { ...jobPost, reason };
         console.log(newJob);
-        jobs.push(newJob);
+        this.JobsDB.insertOne(newJob);
       }
 
       i++;
       await page.click('#rightLeft a');
     }
-    console.log('finish');
 
     await browser.close();
+    console.log('finish');
   }
 }

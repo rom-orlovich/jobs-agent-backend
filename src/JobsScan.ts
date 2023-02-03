@@ -6,7 +6,7 @@ import { Cluster } from 'puppeteer-cluster';
 
 import { GotFriendsScan } from './GotFriendsScan';
 
-import { JobsDb } from '../lib/JobsDB';
+import { JobsDB } from '../lib/JobsDB';
 import { LinkedinQueryOptions } from '../lib/LinkedinQueryOptions';
 import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
 import { LinkedinRequirementScanner } from './LinkedinRequirementScanner';
@@ -24,16 +24,15 @@ export class JobsScan {
   profile: Profile;
   linkedinScanner: LinkedinScanner;
   gotFriendsScanner: GotFriendsScan;
-  jobs: JobsDb;
-  linkedinRequirementScanner: LinkedinRequirementScanner;
+  jobs: JobsDB;
 
   constructor(profile: Profile, queryOptions: JobsScanQueryOptions) {
     this.queryOptions = queryOptions;
     this.profile = profile;
-    this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions);
-    this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions);
-    this.jobs = new JobsDb();
-    this.linkedinRequirementScanner = new LinkedinRequirementScanner(null);
+
+    this.jobs = new JobsDB();
+    this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions, this.jobs);
+    this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions, this.jobs);
   }
 
   async scanning() {

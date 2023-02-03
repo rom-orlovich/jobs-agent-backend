@@ -2,7 +2,7 @@ import { Collection, Condition, ObjectId } from 'mongodb';
 import { mongoDB } from '..';
 import { Job } from './types/linkedinScanner';
 
-export class JobsDb {
+export class JobsDB {
   jobs: Collection;
   constructor() {
     this.jobs = mongoDB.createDBcollection('jobDB', 'jobs');

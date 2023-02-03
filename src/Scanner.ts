@@ -1,11 +1,11 @@
 import { Page } from 'puppeteer';
 import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
-import { JobsDb } from '../lib/JobsDB';
+import { JobsDB } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
 
 export interface TaskProps {
   profile: Profile;
-  jobsDB: JobsDb;
+  JobsDB: JobsDB;
   cluster?: Cluster;
 }
 
