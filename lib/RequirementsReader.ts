@@ -123,7 +123,6 @@ export class RequirementsReader {
   static checkIsRequirementsMatch(html: string, profile: Profile) {
     const sentences = RequirementsReader.getSentences(html);
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
-
     return isRequirementsMatch;
   }
 }

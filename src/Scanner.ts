@@ -1,3 +1,4 @@
+import { Page } from 'puppeteer';
 import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { JobsDb } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
@@ -21,6 +22,17 @@ export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
   }
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async noImageRequest(page: Page) {
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      if (req.resourceType() === 'image') {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
   }
 
   taskCreator(): TaskFunction<K, R> {

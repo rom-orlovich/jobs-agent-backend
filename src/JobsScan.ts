@@ -36,7 +36,7 @@ export class JobsScan {
       concurrency: Cluster.CONCURRENCY_CONTEXT,
       maxConcurrency: 4,
       monitor: true,
-      timeout: 1000000,
+      // timeout: 1000000,
       puppeteerOptions: { headless: false, defaultViewport: null, slowMo: 250 },
     });
 

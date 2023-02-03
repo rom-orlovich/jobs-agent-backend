@@ -72,11 +72,18 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
           const googleTranslate = new GoogleTranslateScanner({ op: 'translate', to: 'en', text: text });
           const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
 
-          const isRequirementsMatch = RequirementsReader.checkIsRequirementsMatch(string, data.profile);
+          const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(string, data.profile);
 
-          if (!isRequirementsMatch.pass) continue;
           const location = postAPI.find('.info-data').text().trim();
-          const newJob = { company: '', jobID, title: title, link: link, location };
+          const newJob = {
+            from: 'gotfriends',
+            company: '',
+            jobID,
+            title: title,
+            link: link,
+            location,
+            reason: reason,
+          };
           console.log(newJob);
           await data.jobs.insertOne(newJob);
         }
