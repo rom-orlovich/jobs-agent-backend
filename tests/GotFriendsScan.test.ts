@@ -8,7 +8,5 @@ describe('Test got friend scan', () => {
   afterAll(() => {
     server.close();
   });
-  test('Test ', () => {
-    console.log();
-  });
+  test('Test ', () => {});
 });

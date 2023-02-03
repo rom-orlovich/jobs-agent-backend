@@ -26,7 +26,7 @@ export class Profile {
   }
 
   getRequirement(tech: string) {
-    return this.requirements.get(tech);
+    return this.requirements.get(tech.toLowerCase());
   }
 
   addRequirement(tech: string, experience: ExperienceRange) {

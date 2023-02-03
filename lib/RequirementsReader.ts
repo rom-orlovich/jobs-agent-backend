@@ -1,11 +1,16 @@
 import { Profile } from './Profile';
 
 export class RequirementsReader {
-  private static getSentences = (text: string) => {
+  static getSentences = (text: string) => {
     const sentences = text
-      .split(/[.!?\n]/)
+      .split(/[\n]/g)
       .filter((el) => el)
-      .map((el) => el.trim().split(' '));
+      .map((el) =>
+        el
+          .replace(/[,:'"]/g, '')
+          .trim()
+          .split(' ')
+      );
 
     return sentences;
   };
@@ -52,6 +57,7 @@ export class RequirementsReader {
         const word = convertToNum ? convertToNum : sentence[j];
 
         // Check if the word is include in the excluded tech
+
         if (profile.getExcludeTech(word)) return { pass: false, reason: `${word} is not in your stack` };
 
         // Check a match of digit is already exist.
@@ -79,6 +85,7 @@ export class RequirementsReader {
         }
 
         const langEx = profile.getRequirement(word);
+
         if (langEx) {
           noneOfTechStackExist = true;
           languageMatch = langEx;
@@ -116,6 +123,7 @@ export class RequirementsReader {
   static checkIsRequirementsMatch(html: string, profile: Profile) {
     const sentences = RequirementsReader.getSentences(html);
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
+
     return isRequirementsMatch;
   }
 }

@@ -9,6 +9,7 @@ import { GenericRecord } from './lib/types/types';
 import { JobsScan } from './src/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';
+import { GotFriendQueryOptions } from './lib/GotFriendsQuery';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
@@ -101,7 +102,7 @@ const main = async () => {
   try {
     await mongoDB.connect();
     const jobScan = new JobsScan(profile, {
-      gotFriendsQueryOptions: {},
+      gotFriendsQueryOptions: new GotFriendQueryOptions({}),
       linkedinScannerQueryOptions: queryOptions,
     });
 
