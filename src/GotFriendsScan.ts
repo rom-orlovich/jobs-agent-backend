@@ -1,12 +1,11 @@
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
 
-import { load } from 'cheerio';
 import { Scanner, TaskProps } from './Scanner';
 
-import { GoogleTranslateScanner } from './GoogleTransalteScanner';
+import { GoogleTranslateScanner } from './GoogleTranslateScanner';
 import puppeteer, { Page } from 'puppeteer';
-import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
+import { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
 import { Job } from '../lib/types/linkedinScanner';
 import { Profile } from '../lib/Profile';

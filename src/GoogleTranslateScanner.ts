@@ -1,4 +1,3 @@
-import { load } from 'cheerio';
 import { Page } from 'puppeteer';
 import { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 
@@ -40,7 +39,6 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
 
       console.log('go to google translate');
       await page.goto(url);
-      // const el1 = await page.waitForSelector('span>span[data-phrase-index="0"]>span[jsaction]');
 
       try {
         await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
@@ -51,8 +49,6 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
 
       const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
 
-      // const $ = load(html);
-      // const translateText = $(`span[jsname*='W297wb']`).text();
       return translateText;
     };
 
@@ -64,7 +60,6 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
 
     console.log('go to google translate');
     await page.goto(url);
-    // const el1 = await page.waitForSelector('span>span[data-phrase-index="0"]>span[jsaction]');
 
     try {
       await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
