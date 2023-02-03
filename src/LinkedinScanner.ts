@@ -131,7 +131,12 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
   }
 
   async initPuppeteer(profile: Profile) {
-    const browser = await puppeteer.launch({ headless: false, defaultViewport: null, slowMo: 250 });
+    const browser = await puppeteer.launch({
+      headless: true,
+      defaultViewport: null,
+      slowMo: 250,
+      args: ['--no-sandbox'],
+    });
     const page = await browser.newPage();
 
     let start = 0;

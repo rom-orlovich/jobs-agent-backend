@@ -110,7 +110,12 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
   }
 
   async initPuppeteer(profile: Profile) {
-    const browser = await puppeteer.launch({ headless: false, defaultViewport: null, slowMo: 250 });
+    const browser = await puppeteer.launch({
+      headless: true,
+      defaultViewport: null,
+      slowMo: 250,
+      args: ['--no-sandbox'],
+    });
     const page = await browser.newPage();
     await this.noImageRequest(page);
     await page.goto('https://www.gotfriends.co.il/jobs/');

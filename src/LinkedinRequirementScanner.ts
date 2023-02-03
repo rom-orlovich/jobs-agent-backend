@@ -1,7 +1,5 @@
 import { Page } from 'puppeteer';
-import { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
-import { RequirementsReader } from '../lib/RequirementsReader';
-import { Job } from '../lib/types/linkedinScanner';
+
 import { Scanner, TaskProps } from './Scanner';
 
 export class LinkedinRequirementScanner extends Scanner<
