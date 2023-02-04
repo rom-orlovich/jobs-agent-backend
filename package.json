@@ -2,7 +2,7 @@
   "scripts": {
     "start": "tsnd --respawn index.ts",
     "ts": "npx ts-node src/**",
-    "test": "NODE_ENV=test jest --verbose --watchAll --maxWorkers=4 "
+    "test": "NODE_ENV=test jest --verbose --watchAll --maxWorkers=50% "
   },
   "dependencies": {
     "axios": "^1.2.5",

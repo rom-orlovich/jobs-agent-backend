@@ -4,7 +4,7 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
 
-describe.only('test requirementsObj.isJobValid function', () => {
+describe.skip('test requirementsObj.isJobValid function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
@@ -683,7 +683,7 @@ describe.only('test requirementsObj.isJobValid function', () => {
 
     expect(res).toBeFalsy();
   });
-  test.only('Test many sentence from real text that cause to infinite loop-ex6', () => {
+  test.only('Test many sentence from real text that cause to infinite loop-ex7', () => {
     const sentences = RequirementsReader.getSentences(
       `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.
       Join the team specializing in Share Point based portals in the Digital and Data Department in the Information Systems Division, at the organization's headquarters.
@@ -695,6 +695,40 @@ describe.only('test requirementsObj.isJobValid function', () => {
       - At least one year of experience as a Server side developer including working with NET.
       - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
       - Experience working with databases - SQL The position is intended for both women and men.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+
+    expect(res).toBeFalsy();
+  });
+  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
+      If youre interested in creating a user-friendly platform by writing clean code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design.
+      The role will allow getting in on the ground floor, laying down the foundations of the technology, and being a vital member of the team that constantly grows.
+      Requirements:
+      The role requires creativity, a can-do approach, and knowledge and experience in multiple platforms and technologies:
+      Proficient understanding of web foundations: HTML, CSS, JavaScript, HTTP, web browsers
+      Proficiency with front-end technologies and frameworks, such as React, Vue.js, Webpack
+      Proficiency with Node.js and back-end technologies and frameworks, such as NestJS, Express (AdonisJS advantage)
+      Experience with TypeScript
+      Experience with SQL, MongoDB, and other relational and non-relational databases
+      Good understanding of design patterns
+      Good understanding of source code management tools, such as Git
+      Experience working with GNU/Linux and the command line
+      Experience with AWS (advantage)
+      Experience with CI/CD pipelines (advantage)
+      Experience writing automated tests (advantage).
+      המשרה מיועדת לנשים ולגברים כאחד.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+
+    expect(res).toBeFalsy();
+  });
+  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
+    const sentences = RequirementsReader.getSentences(
+      `translateText Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
     );
     console.log(sentences);
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;

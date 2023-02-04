@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Cheerio, load } from 'cheerio';
+
 import puppeteer from 'puppeteer';
 import { Job } from '../lib/types/linkedinScanner';
 import { Scanner } from './Scanner';
@@ -8,7 +8,8 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { Profile } from '../lib/Profile';
 import { profile, queryOptions } from '../index';
 import { AllFriendQueryOptions } from '../lib/AllJobQueryOptions';
-import { benchmarkTimeMS } from '../lib/benchmark';
+import { load } from 'cheerio';
+
 export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
   getURL(page = 1) {
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?page=${page}&position=1712&type=37&source=779&duration=20&exc=&region=`;
@@ -55,15 +56,15 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
     await this.noImageRequest(page);
 
     for (const { text, ...jobPost } of jobs) {
-      const googleTranslate = new GoogleTranslateScanner({
+      if (!jobPost.link || !jobPost.jobID || !jobPost.title || !text) continue;
+      if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
+      await GoogleTranslateScanner.goTranslatePage(page, {
         op: 'translate',
         to: 'en',
         text,
       });
-      if (!jobPost.link || !jobPost.jobID || !jobPost.title || !text) continue;
-      if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
-      await googleTranslate.goTranslatePage(page);
       const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
+
       console.log('translateText', translateText);
       const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
 

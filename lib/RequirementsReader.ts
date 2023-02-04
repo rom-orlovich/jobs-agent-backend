@@ -41,7 +41,7 @@ export class RequirementsReader {
 
   private static scanRequirements(sentences: string[][], profile: Profile) {
     let noneOfTechStackExist = false;
-    // let k = 0;
+    let k = 0;
     if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
@@ -50,7 +50,12 @@ export class RequirementsReader {
       let languageMatch;
 
       for (let j = 0; j < sentence.length; j++) {
-        // if (k === 60) return { pass: false, reason: `Cannot evaluate these requirements` };
+        k++;
+        if (k === 100)
+          return {
+            pass: false,
+            reason: `Cannot evaluate these requirements. Stop in word ${sentence[j]} - number ${j} in line ${i}`,
+          };
         const convertToNum = this.convertWordToNumber(sentence[j]);
         const word = convertToNum ? convertToNum : sentence[j];
         // console.log('word', word);

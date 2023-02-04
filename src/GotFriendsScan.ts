@@ -134,13 +134,13 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
         if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
         const job = await this.JobsDB?.getJob(jobPost.jobID);
         if (job) continue;
-        const googleTranslate = new GoogleTranslateScanner({
+
+        const GTPage = await browser.newPage();
+        await GoogleTranslateScanner.goTranslatePage(GTPage, {
           op: 'translate',
           to: 'en',
           text,
         });
-        const GTPage = await browser.newPage();
-        await googleTranslate.goTranslatePage(GTPage);
         const translateText = await GTPage.evaluate(GoogleTranslateScanner.getTranslate);
         await GTPage.close();
         // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
