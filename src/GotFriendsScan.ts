@@ -61,7 +61,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
     return jobsPosts.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
-      const link = 'https://www.gotfriends.co.il' + jobLink?.href || '';
+      const link = jobLink?.href || '';
       const text = job.querySelector('.desc')?.textContent || '';
       const jobID = job.querySelector('.career_num')?.textContent?.split(':')[1].trim() || '';
       const title = jobLink?.textContent?.trim().replace(/\n/, '') || '';
@@ -114,7 +114,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
       headless: true,
       defaultViewport: null,
       slowMo: 250,
-      args: ['--no-sandbox'],
+      // args: ['--no-sandbox'],
     });
     const page = await browser.newPage();
     await this.noImageRequest(page);
@@ -152,7 +152,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
       }
 
       i++;
-      await page.click('#rightLeft a');
+      await Promise.all([page.waitForNavigation(), page.click('#rightLeft a')]);
     }
 
     await browser.close();

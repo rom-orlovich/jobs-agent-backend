@@ -190,3 +190,49 @@ obj[label]=input
 a#professionAreaTitle
 a#professionTitle
 a#regionTitle,
+
+
+page: 
+1
+position: 
+1731
+type: 
+4,5,14
+source: 
+779
+duration: 
+21
+
+
+לא ברור
+exc: 
+region: 
+
+
+page: 
+1
+position: 
+1731,1712,1758
+type: 
+4,37
+source: 
+779
+duration: 
+20
+exc: 
+region: 
+
+משרה מלאה -4
+משרה חלקית 5
+עבודה היברדית 37
+עבודה זמנית 13
+33 ללא ניסיון
+14 מתאים לסטונדטים
+18- אקדמאיים ללא ניסיון
+type: 
+37,13,11,26,27,2,9,25,31,4,5,12,10,33,16,22,14,18,34,35,36,20,17,23,28,32,19
+
+5,12,10,33,16,22,14,18,34,35,36,20,17,23,28,32,19,37,13,11,26,27,2,9,25,31
+
+https://www.alljobs.co.il/SearchResultsGuest.aspx?page=1&position=1731&type=4,5,14&source=779&duration=21&exc=&region=
+https://www.alljobs.co.il/SearchResultsGuest.aspx?page=3&position=&type=&freetxt=%D7%AA%D7%95%D7%9B%D7%A0%D7%94%20%D7%9C%D7%9C%D7%90%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F&city=779&region=

@@ -135,7 +135,7 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
       headless: true,
       defaultViewport: null,
       slowMo: 250,
-      args: ['--no-sandbox'],
+      // args: ['--no-sandbox'],
     });
     const page = await browser.newPage();
 
