@@ -7,13 +7,15 @@ import { GoogleTranslateScanner } from '../src/GoogleTranslateScanner';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { Profile } from '../lib/Profile';
 import { profile, queryOptions } from '../index';
-import { AllFriendQueryOptions } from '../lib/AllFriendQueryOptions';
+import { AllFriendQueryOptions } from '../lib/AllJobQueryOptions';
+import { benchmarkTimeMS } from '../lib/benchmark';
 export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
   getURL(page = 1) {
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?page=${page}&position=1712&type=37&source=779&duration=20&exc=&region=`;
   }
 
   async getHTML(page: number): Promise<string> {
+    console.log(this.getURL(page));
     try {
       const res = await axios(this.getURL(page));
       const data = res.data;
@@ -30,7 +32,7 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
     return $('.job-content-top')
       .toArray()
       .map((el) => {
-        const titleEl = $(el).find('.job-content-top a');
+        const titleEl = $(el).find('.job-content-top a[title]');
         const title = titleEl.text().trim();
         const link = `https://www.alljobs.co.il` + titleEl.attr('href') || '';
         const linkSplit = link.split('=');
@@ -62,7 +64,7 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
       if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
       await googleTranslate.goTranslatePage(page);
       const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
-
+      console.log('translateText', translateText);
       const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
 
       // const newJob = { ...jobPost };
@@ -74,7 +76,7 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
   }
 
   async scanning(profile: Profile) {
-    const jobs: Job[] = [];
+    // const jobs: Job[] = [];
     let data: (Job & { text: string })[] = [];
     let page = 1;
     data = await this.getJobPostsData(page);
@@ -84,6 +86,7 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
     while (data[0].jobID !== firstResult) {
       console.log(`Page number ${page}`);
       firstResult = data[0].jobID;
+
       await this.insertData(data, profile);
       page++;
       data = await this.getJobPostsData(page);

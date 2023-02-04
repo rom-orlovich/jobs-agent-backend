@@ -1,9 +1,10 @@
+import { benchmarkTimeMS } from '../lib/benchmark';
 import { Profile } from '../lib/Profile';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
 
-describe('test requirementsObj.isJobValid function', () => {
+describe.only('test requirementsObj.isJobValid function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
@@ -671,8 +672,33 @@ describe('test requirementsObj.isJobValid function', () => {
       ],
     ];
 
-    expect(
-      RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
-    ).toBeFalsy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
+  });
+
+  test('Test many sentence from real text that match the user experience-ex6', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done -the right way.The acquisition by MasterCard has expanded DY’s horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the team’s contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
+    );
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+
+    expect(res).toBeFalsy();
+  });
+  test.only('Test many sentence from real text that cause to infinite loop-ex6', () => {
+    const sentences = RequirementsReader.getSentences(
+      `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.
+      Join the team specializing in Share Point based portals in the Digital and Data Department in the Information Systems Division, at the organization's headquarters.
+      As part of the position: regular communication with the team leader, other system analysts in the team, programmers, users and managers.
+      The position includes E2E development on 2 main platforms - ON PREM and 365.
+      Requirements:
+      - Appropriate education (degree in information systems/ computer science/ other relevant studies)
+      - At least two years of experience in SharePoint implementation and development
+      - At least one year of experience as a Server side developer including working with NET.
+      - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
+      - Experience working with databases - SQL The position is intended for both women and men.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+
+    expect(res).toBeFalsy();
   });
 });

@@ -1,16 +1,12 @@
+import { benchmarkTimeMS } from './benchmark';
 import { Profile } from './Profile';
 
 export class RequirementsReader {
   static getSentences = (text: string) => {
     const sentences = text
-      .split(/[\n]/g)
+      .split(/[.\n]+/)
       .filter((el) => el)
-      .map((el) =>
-        el
-          .replace(/[,:'"]/g, '')
-          .trim()
-          .split(' ')
-      );
+      .map((el) => el.split(' ').filter((el) => el));
 
     return sentences;
   };
@@ -45,6 +41,7 @@ export class RequirementsReader {
 
   private static scanRequirements(sentences: string[][], profile: Profile) {
     let noneOfTechStackExist = false;
+    // let k = 0;
     if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
@@ -53,9 +50,10 @@ export class RequirementsReader {
       let languageMatch;
 
       for (let j = 0; j < sentence.length; j++) {
+        // if (k === 60) return { pass: false, reason: `Cannot evaluate these requirements` };
         const convertToNum = this.convertWordToNumber(sentence[j]);
         const word = convertToNum ? convertToNum : sentence[j];
-
+        // console.log('word', word);
         // Check if the word is include in the excluded tech
 
         if (profile.getExcludeTech(word)) return { pass: false, reason: `${word} is not in your stack` };
@@ -117,12 +115,13 @@ export class RequirementsReader {
 
     if (!noneOfTechStackExist)
       return { pass: false, reason: 'This job is not contain any word from you tech stack' };
+    console.log('finish scanRequirements');
     return { pass: true };
   }
 
   static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {
     const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
-    console.log(sentences);
+
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
     return isRequirementsMatch;
   }
