@@ -42,7 +42,7 @@ export class RequirementsReader {
   private static scanRequirements(sentences: string[][], profile: Profile) {
     let noneOfTechStackExist = false;
     let k = 0;
-    if (sentences.length === 0) return { pass: false, reason: `No elements was found` };
+    if (sentences.length === 0) return { pass: false, reason: `No elements was found`, count: k };
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
       let yearsIndex = -1;
@@ -51,17 +51,25 @@ export class RequirementsReader {
 
       for (let j = 0; j < sentence.length; j++) {
         k++;
-        if (k === 100)
+
+        if (k === 500) {
+          console.log(
+            `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i},
+            count ${k} words`
+          );
           return {
             pass: false,
-            reason: `Cannot evaluate these requirements. Stop in word ${sentence[j]} - number ${j} in line ${i}`,
+            reason: `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i}, count ${k} words`,
+            count: k,
           };
+        }
         const convertToNum = this.convertWordToNumber(sentence[j]);
         const word = convertToNum ? convertToNum : sentence[j];
         // console.log('word', word);
         // Check if the word is include in the excluded tech
 
-        if (profile.getExcludeTech(word)) return { pass: false, reason: `${word} is not in your stack` };
+        if (profile.getExcludeTech(word))
+          return { pass: false, reason: `${word} is not in your stack`, count: k };
 
         // Check a match of digit is already exist.
         if (!digitMatch) {
@@ -75,13 +83,16 @@ export class RequirementsReader {
               return {
                 pass: false,
                 reason: `Your ${profile.overallEx}  years experience is lower than ${digitMatch}`,
+                count: k,
               };
             // Check if the overallEx is smaller than digitMatch.
             if (this.checkDigitMatchIsBigger(profile.overallEx, digitMatch))
               return {
                 pass: false,
                 reason: `Your ${profile.overallEx} years experience is lower than ${digitMatch} years`,
+                count: k,
               };
+
             yearsIndex = j;
             j = 0;
           }
@@ -100,12 +111,14 @@ export class RequirementsReader {
             return {
               pass: false,
               reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} range years.`,
+              count: k,
             };
 
           if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch))
             return {
               pass: false,
               reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} years.`,
+              count: k,
             };
           else {
             j = yearsIndex + 1;
@@ -119,9 +132,9 @@ export class RequirementsReader {
     }
 
     if (!noneOfTechStackExist)
-      return { pass: false, reason: 'This job is not contain any word from you tech stack' };
+      return { pass: false, reason: 'This job is not contain any word from you tech stack', count: k };
     console.log('finish scanRequirements');
-    return { pass: true };
+    return { pass: true, count: k };
   }
 
   static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {

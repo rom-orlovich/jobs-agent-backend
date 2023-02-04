@@ -4,7 +4,7 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
 
-describe.skip('test requirementsObj.isJobValid function', () => {
+describe.only('test checkIsRequirementsMatch.test function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
@@ -697,13 +697,13 @@ describe.skip('test requirementsObj.isJobValid function', () => {
       - Experience working with databases - SQL The position is intended for both women and men.`
     );
     console.log(sentences);
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
 
-    expect(res).toBeFalsy();
+    expect(res.pass).toBeFalsy();
   });
   test('Test many sentence from real text that cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
-      `Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
+      ` Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
       If youre interested in creating a user-friendly platform by writing clean code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design.
       The role will allow getting in on the ground floor, laying down the foundations of the technology, and being a vital member of the team that constantly grows.
       Requirements:
@@ -721,12 +721,12 @@ describe.skip('test requirementsObj.isJobValid function', () => {
       Experience writing automated tests (advantage).
       המשרה מיועדת לנשים ולגברים כאחד.`
     );
-    console.log(sentences);
+
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
 
-    expect(res).toBeFalsy();
+    expect(res).toBeTruthy();
   });
-  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
+  test.only('Test many sentence from real text that cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
       `translateText Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
     );

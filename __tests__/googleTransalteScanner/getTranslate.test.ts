@@ -2,10 +2,10 @@ import { Browser, Page } from 'puppeteer';
 import { GoogleTranslateScanner } from '../../src/GoogleTranslateScanner';
 
 import { PuppeteerTestSetup } from '../lib/PuppeteerTestSetup';
-import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML } from './mocks/htmlContext';
+import { TRANSLATE_EX1_HTML, TRANSLATE_EX2_HTML, TRANSLATE_EX3_HTML } from './mocks/htmlContext';
 // import { J } from './mocks/htmlContext';
 
-describe.only('Test getAllJobsData.test.ts', () => {
+describe('Test getAllJobsData.test.ts', () => {
   const { lunchInstance, evaluateContent } = PuppeteerTestSetup;
   const { getTranslate, goTranslatePage } = GoogleTranslateScanner;
   let page: Page, browser: Browser;
@@ -19,7 +19,7 @@ describe.only('Test getAllJobsData.test.ts', () => {
   });
 
   test('Test get the translate test result from html content-ex1.', async () => {
-    const res = await evaluateContent(page, JOB_POST_EX1_HTML, getTranslate);
+    const res = await evaluateContent(page, TRANSLATE_EX1_HTML, getTranslate);
 
     expect(res.replace(/\s+/g, '')).toBe(
       `A startup company in the field of technology for the retail world needs a Full-Stack Developer.
@@ -35,7 +35,7 @@ describe.only('Test getAllJobsData.test.ts', () => {
     );
   });
   test('Test get the translate test result from html content-ex2.', async () => {
-    const res = await evaluateContent(page, JOB_POST_EX2_HTML, getTranslate);
+    const res = await evaluateContent(page, TRANSLATE_EX2_HTML, getTranslate);
 
     expect(res.replace(/\s+/g, '')).toBe(
       `
@@ -53,6 +53,31 @@ describe.only('Test getAllJobsData.test.ts', () => {
       * Experience with NoSQL
       * Experience with Docker/Kubernetes
       * Experience with Python The position is intended for both women and men.
+      `.replace(/\s+/g, '')
+    );
+  });
+  test('Test get the translate test result from html content-ex3.', async () => {
+    const res = await evaluateContent(page, TRANSLATE_EX3_HTML, getTranslate);
+
+    expect(res.replace(/\s+/g, '')).toBe(
+      `
+      Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
+      If youre interested in creating a user-friendly platform by writing clean code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design.
+      The role will allow getting in on the ground floor, laying down the foundations of the technology, and being a vital member of the team that constantly grows.
+      Requirements:
+      The role requires creativity, a can-do approach, and knowledge and experience in multiple platforms and technologies:
+      Proficient understanding of web foundations: HTML, CSS, JavaScript, HTTP, web browsers
+      Proficiency with front-end technologies and frameworks, such as React, Vue.js, Webpack
+      Proficiency with Node.js and back-end technologies and frameworks, such as NestJS, Express (AdonisJS advantage)
+      Experience with TypeScript
+      Experience with SQL, MongoDB, and other relational and non-relational databases
+      Good understanding of design patterns
+      Good understanding of source code management tools, such as Git
+      Experience working with GNU/Linux and the command line
+      Experience with AWS (advantage)
+      Experience with CI/CD pipelines (advantage)
+      Experience writing automated tests (advantage).
+      המשרה מיועדת לנשים ולגברים כאחד.
       `.replace(/\s+/g, '')
     );
   });
