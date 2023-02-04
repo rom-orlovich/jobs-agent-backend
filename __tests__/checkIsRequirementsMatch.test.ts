@@ -209,9 +209,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       ['0-2', 'years', 'of', 'experience', 'C#.NET', 'and', '3', 'years', 'of', 'node.js'],
     ];
 
-    expect(
-      RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
-    ).toBeFalsy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
   });
   test(`Test one sentence when there are many language programs and one of them is excluded tech that its ok`, () => {
     const profile = new Profile({
@@ -227,6 +225,31 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     expect(
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeTruthy();
+  });
+  test('Test one sentence when there are many language program', () => {
+    const profile = new Profile({
+      overallEx: 15,
+      requirementsOptions: REQUIREMENTS,
+      excludeTechs: { 'c#.net': false },
+    });
+    const sentences = [
+      [
+        '*',
+        'Bootstrap,',
+        'JAVASCRIPT,',
+        'experience',
+        'in',
+        'the',
+        'ReactJS',
+        'or',
+        'Angular',
+        '2',
+        'environment',
+      ],
+    ];
+    const res = RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile);
+
+    expect(res.pass).toBeTruthy();
   });
   test(`Test many sentence from real text that its not match the user experince-ex`, () => {
     const profile = new Profile({
@@ -248,7 +271,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeFalsy();
   });
-  test(`Test many sentence from real text that its match the user experience-ex1`, () => {
+  test.only(`Test many sentences from real text that its match the user experience-ex1`, () => {
     const profile = new Profile({
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
@@ -263,9 +286,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       ['Team', 'player'],
     ];
 
-    expect(
-      RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
-    ).toBeFalsy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
   });
   test(`Test many sentence from real text that not match the user experience-ex2`, () => {
     const profile = new Profile({
@@ -683,7 +704,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res).toBeFalsy();
   });
-  test.only('Test many sentence from real text that cause to infinite loop-ex7', () => {
+  test('Test many sentence from real text that cause to infinite loop-ex7', () => {
     const sentences = RequirementsReader.getSentences(
       `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.
       Join the team specializing in Share Point based portals in the Digital and Data Department in the Information Systems Division, at the organization's headquarters.
@@ -726,13 +747,31 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res).toBeTruthy();
   });
-  test.only('Test many sentence from real text that cause to infinite loop-ex8', () => {
+  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
-      `translateText Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
+      `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
     );
     console.log(sentences);
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
 
     expect(res).toBeFalsy();
+  });
+  test('Test many sentence from real text that not match to any word in my stack but it does-ex9', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Softwave company needs a FS developer
+      Job definition: work against specific characterizations and business requirements.
+      Understanding and connection to the company's business activity for efficient and targeted development.
+      Fault and availability support.
+      Regular maintenance of the system and troubleshooting.
+      Requirements:
+      * Two or more years of development experience in the C#, ASP.NET, .NET environment - mandatory
+      * Entity Framework 6 - mandatory
+      * Experience in Umbraco
+      * Bootstrap, JAVASCRIPT, experience in the ReactJS or Angular 2 environment. The position is intended for both women and men.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeTruthy();
   });
 });

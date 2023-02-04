@@ -66,12 +66,12 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
       const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
 
       console.log('translateText', translateText);
-      const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
+      const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
 
       // const newJob = { ...jobPost };
       const newJob = { ...jobPost, reason };
 
-      console.log(newJob);
+      console.log(newJob, `${count} words`);
     }
     await browser.close();
   }

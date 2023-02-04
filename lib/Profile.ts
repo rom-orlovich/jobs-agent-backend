@@ -26,7 +26,7 @@ export class Profile {
   }
 
   getRequirement(tech: string) {
-    return this.requirements.get(tech.toLowerCase());
+    return this.requirements.get(tech.replace(',', '').toLowerCase());
   }
 
   addRequirement(tech: string, experience: ExperienceRange) {
@@ -44,7 +44,7 @@ export class Profile {
   }
 
   getExcludeTech(tech: string) {
-    return this.excludeTechs.get(tech.toLowerCase());
+    return this.excludeTechs.get(tech.replace(',', '').toLowerCase());
   }
   removeExcludeTech(tech: string) {
     this.requirements.delete(tech);

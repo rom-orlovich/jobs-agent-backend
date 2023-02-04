@@ -51,7 +51,7 @@ export class RequirementsReader {
 
       for (let j = 0; j < sentence.length; j++) {
         k++;
-
+        // console.log(j, i, k);
         if (k === 500) {
           console.log(
             `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i},
@@ -77,6 +77,8 @@ export class RequirementsReader {
 
           // Check if there is match.
           // If it does check if the next word contains the word 'year'.
+          // If there is digit match and the next word is not contains the word year so digitMatch will reset
+          // and the algorithm will keep search for the next match.
           if (digitMatch && j < sentence.length - 1 && sentence[j + 1].match(/year/)) {
             // Check if the match is range.
             if (this.checkNumberIsLowerTheRange(profile.overallEx, digitMatch))
@@ -95,6 +97,8 @@ export class RequirementsReader {
 
             yearsIndex = j;
             j = 0;
+          } else {
+            digitMatch = null;
           }
         }
 
@@ -113,8 +117,7 @@ export class RequirementsReader {
               reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} range years.`,
               count: k,
             };
-
-          if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch))
+          else if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch))
             return {
               pass: false,
               reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} years.`,
@@ -124,6 +127,7 @@ export class RequirementsReader {
             j = yearsIndex + 1;
             yearsIndex = -1;
           }
+
           digitMatch = null;
         }
       }
