@@ -122,6 +122,7 @@ export class RequirementsReader {
 
   static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {
     const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
+    console.log(sentences);
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
     return isRequirementsMatch;
   }

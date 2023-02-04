@@ -130,7 +130,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
       for (const { text, ...jobPost } of jobsPosts) {
         console.log(jobPost.link);
-        if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
+        if (!jobPost.link || !jobPost.jobID || !jobPost.title || text) continue;
         if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
         const job = await this.JobsDB?.getJob(jobPost.jobID);
         if (job) continue;
