@@ -756,6 +756,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res).toBeFalsy();
   });
+
   test('Test many sentence from real text that not match to any word in my stack but it does-ex9', () => {
     const sentences = RequirementsReader.getSentences(
       `Softwave company needs a FS developer
@@ -773,5 +774,34 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
+  });
+  test('Test many sentence from real text that the overall experience is bigger than mine.-ex10', () => {
+    const sentences = RequirementsReader.getSentences(
+      `5 years of experience in .Net technologies - ASP.Net and Net Core.
+      Development in MSSQL or Oracle
+      Experience with GIT configuration management tools
+      Knowledge and experience in Javascript, Json, HTML 5, CSS 3
+      Knowledge and experience with frameworks such as React, Vue, Angular - an advantage
+      Knowledge and experience in infrastructure development.Net - Knowledge and experience in Java development - an advantage The position is intended for both women and men.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+  });
+  test('Test many sentence from real text where the technologies are not in my stack but the job is not fit to my profile.-ex11', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Requirements
+      Two or more years of experience in WEB development - mandatory.
+      A year or more experience in development in Angular - mandatory.
+      Development experience in .NET - mandatory.
+      Development experience in .NET Core - a significant advantage.
+      Development experience in React Native - a significant advantage.
+      System development experience in Microservices architecture - an advantage.`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
   });
 });

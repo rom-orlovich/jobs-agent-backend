@@ -11,11 +11,15 @@ import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
 import { AllJobScanner } from './AllJobScanner';
 import { ScanningFS } from '../lib/ScanningFS';
 import { Job } from '../lib/types/linkedinScanner';
+import { GoogleTranslate } from './GoogleTranslateScanner';
+import { DrushimScanner } from './DrushimScanner';
+import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
 
 interface JobsScanQueryOptions {
   linkedinScannerQueryOptions: LinkedinQueryOptions;
   gotFriendsQueryOptions: GotFriendQueryOptions;
   allJobsQueryOptions: AllJobsQueryOptions;
+  drushimQueryOptions: DrushimQueryOptions;
 }
 
 export class JobsScan {
@@ -25,34 +29,40 @@ export class JobsScan {
   gotFriendsScanner: GotFriendsScan;
   allJobsScanner: AllJobScanner;
   jobs: JobsDB;
-
+  drushimScanner: DrushimScanner;
+  // googleTranslate: GoogleTranslate;
   constructor(profile: Profile, queryOptions: JobsScanQueryOptions) {
     this.queryOptions = queryOptions;
     this.profile = profile;
-
     this.jobs = new JobsDB();
+
     this.gotFriendsScanner = new GotFriendsScan(
+      'gotFriends',
       queryOptions.gotFriendsQueryOptions,
       this.profile,
       this.jobs
     );
     this.linkedinScanner = new LinkedinScanner(
+      'linkedin',
       queryOptions.linkedinScannerQueryOptions,
       this.profile,
       this.jobs
     );
-    this.allJobsScanner = new AllJobScanner(queryOptions.allJobsQueryOptions, this.profile);
+    this.allJobsScanner = new AllJobScanner('allJobs', queryOptions.allJobsQueryOptions, this.profile);
+    this.drushimScanner = new DrushimScanner('drushim', queryOptions.drushimQueryOptions, profile);
   }
 
   async scanning() {
     console.log('start');
     const preJobs = await ScanningFS.loadData<Job>();
     console.log(`Found ${preJobs.length} jobs `);
+
     const data = (
       await Promise.all([
-        this.linkedinScanner.initPuppeteer(preJobs),
-        this.gotFriendsScanner.initPuppeteer(preJobs),
+        this.linkedinScanner.scanning(preJobs),
+        this.gotFriendsScanner.scanning(preJobs),
         this.allJobsScanner.scanning(preJobs),
+        this.drushimScanner.scanning(preJobs),
       ])
     ).flat(1);
 

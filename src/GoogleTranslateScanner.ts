@@ -1,13 +1,20 @@
 import { Page } from 'puppeteer';
+import throat from 'throat';
 import { Profile } from '../lib/Profile';
+import { PuppeteerSetup } from '../lib/PuppeteerSetup';
+import { RequirementsReader } from '../lib/RequirementsReader';
 
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
 import { untilSuccess } from '../lib/Utils';
+import { JobPost } from './AllJobScanner';
 import { Scanner } from './Scanner';
 
-export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text: string }, string> {
+export class GoogleTranslate {
+  queryOptions: GoogleTranslateQuery;
+  profile: Profile;
   constructor(queryOptions: GoogleTranslateQuery, profile: Profile) {
-    super(queryOptions, profile);
+    this.queryOptions = queryOptions;
+    this.profile = profile;
   }
   getURL(pageNum?: number, text?: string): string {
     const { to, op } = this.queryOptions;
@@ -27,39 +34,59 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
       .map((el) => el.textContent?.trim())
       .join('');
   }
-  // taskCreator(): TaskFunction<{ text: string }, string> {
-  //   const task: TaskFunction<{ text: string }, string> = async ({ data, page }) => {
-  //     const url = this.getURL({ op: 'translate', to: 'en', text: data.text });
-
-  //     console.log('go to google translate');
-  //     await page.goto(url);
-
-  //     try {
-  //       await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
-  //     } catch (error) {
-  //       console.log(error);
-  //       await page.goto(url);
-  //     }
-
-  //     const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
-
-  //     return translateText;
-  //   };
-
-  //   return task;
-  // }
-
   async goTranslate(page: Page, text?: string): Promise<string> {
     const url = this.getURL(undefined, text);
 
     await untilSuccess(async () => {
       console.log('go to google translate');
       await page.goto(url);
-      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
+      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 0 });
     });
 
     const translateText = await page.evaluate<unknown[], () => string>(this.getTranslate);
-    console.log(translateText);
+
     return translateText;
   }
+
+  async translateJobTexts(jobsPosts: JobPost[]) {
+    const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'] });
+    const promises = jobsPosts.map(
+      throat(5, async ({ text, ...job }) => {
+        const newPage = await browser.newPage();
+        const translateText = await this.goTranslate(newPage, text);
+        await newPage.close();
+        const newJob = {
+          ...job,
+          reason: RequirementsReader.checkIsRequirementsMatch(translateText, this.profile).reason,
+        };
+        console.log(newJob);
+        return newJob;
+      })
+    );
+
+    const jobs = await Promise.all(promises);
+    await browser.close();
+    return jobs;
+  }
 }
+// taskCreator(): TaskFunction<{ text: string }, string> {
+//   const task: TaskFunction<{ text: string }, string> = async ({ data, page }) => {
+//     const url = this.getURL({ op: 'translate', to: 'en', text: data.text });
+
+//     console.log('go to google translate');
+//     await page.goto(url);
+
+//     try {
+//       await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
+//     } catch (error) {
+//       console.log(error);
+//       await page.goto(url);
+//     }
+
+//     const translateText = await page.evaluate(GoogleTranslate.getTranslate);
+
+//     return translateText;
+//   };
+
+//   return task;
+// }

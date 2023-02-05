@@ -19,6 +19,7 @@ export class PuppeteerSetup {
       // args: ['--no-snadbox']
       ...options,
     });
+
     const page = await browser.newPage();
     page.on('console', (msg) => {
       for (let i = 0; i < msg.args().length; ++i) console.log(`${i}: ${msg.args()[i]}`);
