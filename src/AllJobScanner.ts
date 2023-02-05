@@ -23,8 +23,9 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
   async getJobPostsData(page = 1) {
     const html = await this.getAxiosData<string>(page);
     const $ = load(html || '');
-
-    return $('.job-content-top')
+    const numPages = Number($('#hdnTotalPages').val());
+    const curPage = Number($('#hdnCurrentPageNumber').val());
+    const data = $('.job-content-top')
       .toArray()
       .map((el) => {
         const titleEl = $(el).find('.job-content-top a[title]');
@@ -38,14 +39,15 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
 
         return { jobID, title, link, company, location, text, from: 'allJobs' };
       });
+    return { data, curPage, numPages };
   }
   async initPuppeteer(data: JobPost[], preJobs: Job[]) {
     const jobs: Job[] = [];
-    const googleTranslateScanner = new GoogleTranslateScanner({
-      op: 'translate',
-      to: 'en',
-      from: 'he',
-    });
+    // const googleTranslateScanner = new GoogleTranslateScanner({
+    //   op: 'translate',
+    //   to: 'en',
+    //   from: 'he',
+    // });
 
     const { browser, page } = await PuppeteerSetup.lunchInstance({ defaultViewport: null });
 
@@ -54,7 +56,7 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
       if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
 
-      const translateText = await googleTranslateScanner.goTranslate(page, text);
+      const translateText = await this.googleTranslate.goTranslate(page, text);
 
       console.log('translateText', translateText);
       const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
@@ -71,13 +73,12 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
 
   async scanning(preJobs: Job[]) {
     const jobsPost: JobPost[] = [];
-    let data: JobPost[] = [];
-    let page = 1;
-    data = await this.getJobPostsData(page);
+
+    const { curPage, data, numPages } = await this.getJobPostsData(0);
 
     let firstResult = undefined;
 
-    while (data[0].jobID !== firstResult) {
+    while (curPage < numPages) {
       console.log(`Page number ${page}`);
       firstResult = data[0].jobID;
 
