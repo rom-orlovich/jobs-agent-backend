@@ -11,6 +11,7 @@ import { JobsScan } from './src/JobsScan';
 import { MongoDBClient } from './lib/MongoClient';
 import { GotFriendQueryOptions } from './lib/GotFriendsQuery';
 import { AllJobsQueryOptions } from './lib/AllJobQueryOptions';
+import { DrushimQueryOptions } from './lib/DrushimQueryOptions';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
@@ -106,6 +107,7 @@ const main = async () => {
       linkedinScannerQueryOptions: queryOptions,
       gotFriendsQueryOptions: new GotFriendQueryOptions(queryOptions),
       allJobsQueryOptions: new AllJobsQueryOptions(queryOptions),
+      drushimQueryOptions: new DrushimQueryOptions(queryOptions),
     });
 
     await jobScan.scanning();
@@ -115,4 +117,4 @@ const main = async () => {
   }
 };
 
-// main();
+main();
