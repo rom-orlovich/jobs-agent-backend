@@ -1,15 +1,16 @@
-import { Page, EvaluateFunc } from 'puppeteer';
+import { Page } from 'puppeteer';
+import { Profile } from '../lib/Profile';
 
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
+import { untilSuccess } from '../lib/Utils';
 import { Scanner } from './Scanner';
 
 export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text: string }, string> {
-  constructor(queryOptions: GoogleTranslateQuery) {
-    super(queryOptions);
-    this.queryOptions = queryOptions;
+  constructor(queryOptions: GoogleTranslateQuery, profile: Profile) {
+    super(queryOptions, profile);
   }
-  getURL(): string {
-    const { text, to, op } = this.queryOptions;
+  getURL(pageNum?: number, text?: string): string {
+    const { to, op } = this.queryOptions;
     if (!text) return '';
     const from: string = this.queryOptions.from || 'auto';
     if (op === 'translate') {
@@ -48,19 +49,17 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
   //   return task;
   // }
 
-  async goTranslate(page: Page): Promise<string> {
-    const url = this.getURL();
+  async goTranslate(page: Page, text?: string): Promise<string> {
+    const url = this.getURL(undefined, text);
 
-    console.log('go to google translate');
-    await page.goto(url);
-
-    try {
-      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
-    } catch (error) {
-      console.log(error);
+    await untilSuccess(async () => {
+      console.log('go to google translate');
       await page.goto(url);
-    }
+      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
+    });
 
-    return await page.evaluate<unknown[], () => string>(this.getTranslate());
+    const translateText = await page.evaluate<unknown[], () => string>(this.getTranslate);
+    console.log(translateText);
+    return translateText;
   }
 }

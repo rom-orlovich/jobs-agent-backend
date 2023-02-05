@@ -1,4 +1,4 @@
-import { benchmarkTimeMS } from '../lib/benchmark';
+import { benchmarkTimeMS } from '../lib/Utils';
 import { Profile } from '../lib/Profile';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';

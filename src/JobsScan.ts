@@ -31,9 +31,17 @@ export class JobsScan {
     this.profile = profile;
 
     this.jobs = new JobsDB();
-    this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions, this.jobs);
-    this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions, this.jobs);
-    this.allJobsScanner = new AllJobScanner(queryOptions.allJobsQueryOptions);
+    this.gotFriendsScanner = new GotFriendsScan(
+      queryOptions.gotFriendsQueryOptions,
+      this.profile,
+      this.jobs
+    );
+    this.linkedinScanner = new LinkedinScanner(
+      queryOptions.linkedinScannerQueryOptions,
+      this.profile,
+      this.jobs
+    );
+    this.allJobsScanner = new AllJobScanner(queryOptions.allJobsQueryOptions, this.profile);
   }
 
   async scanning() {
@@ -42,9 +50,9 @@ export class JobsScan {
     console.log(`Found ${preJobs.length} jobs `);
     const data = (
       await Promise.all([
-        this.linkedinScanner.initPuppeteer(this.profile, preJobs),
-        this.gotFriendsScanner.initPuppeteer(this.profile, preJobs),
-        this.allJobsScanner.scanning(this.profile, preJobs),
+        this.linkedinScanner.initPuppeteer(preJobs),
+        this.gotFriendsScanner.initPuppeteer(preJobs),
+        this.allJobsScanner.scanning(preJobs),
       ])
     ).flat(1);
 

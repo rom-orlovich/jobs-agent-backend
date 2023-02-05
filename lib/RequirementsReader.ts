@@ -1,4 +1,4 @@
-import { benchmarkTimeMS } from './benchmark';
+import { benchmarkTimeMS } from './Utils';
 import { Profile } from './Profile';
 
 export class RequirementsReader {

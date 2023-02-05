@@ -1,11 +1,11 @@
 import { Browser, Page } from 'puppeteer';
 
 import { LinkedinScanner } from '../../src/LinkedinScanner';
-import { PuppeteerTestSetup } from '../lib/PuppeteerTestSetup';
+import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
 
 describe.skip('Test getAllJobsData.test.ts', () => {
-  const { lunchInstance, evaluateContent } = PuppeteerTestSetup;
+  const { lunchInstance, evaluateContent } = PuppeteerSetup;
   const { getAllJobsData } = LinkedinScanner;
   let page: Page, browser: Browser;
   beforeAll(async () => {

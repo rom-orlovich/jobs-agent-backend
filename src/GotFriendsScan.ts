@@ -10,23 +10,14 @@ import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
 import { Job } from '../lib/types/linkedinScanner';
 import { Profile } from '../lib/Profile';
 import { JobsDB } from '../lib/JobsDB';
+import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 
 export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, void> {
   JobsDB: JobsDB;
-  constructor(queryOptions: GotFriendQueryOptions, JobsDB: JobsDB) {
-    super(queryOptions);
-    this.JobsDB = JobsDB;
-  }
 
-  getGoogleTranslateQuery(opt: GoogleTranslateQuery): string {
-    const { text, to, op } = opt;
-    if (!text) return '';
-    const from: string = opt.from || 'auto';
-    if (opt.op === 'translate') {
-      if (text.length > 5000) return '';
-      if (text.length === 0) return '';
-    }
-    return `?text=${encodeURIComponent(text)}&sl=${from}&tl=${to}&op=${op}`;
+  constructor(queryOptions: GotFriendQueryOptions, profile: Profile, JobsDB: JobsDB) {
+    super(queryOptions, profile);
+    this.JobsDB = JobsDB;
   }
 
   private async initialFilters(page: Page) {
@@ -109,21 +100,19 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
     return task;
   }
 
-  async initPuppeteer(profile: Profile, preJobs: Job[]) {
+  async initPuppeteer(preJobs: Job[]) {
     const jobs: Job[] = [];
-    const browser = await puppeteer.launch({
-      headless: true,
-      defaultViewport: null,
-      slowMo: 250,
-      // args: ['--no-sandbox'],
-    });
-    const page = await browser.newPage();
-    await this.noImageRequest(page);
+
+    const { browser, page } = await PuppeteerSetup.lunchInstance({ defaultViewport: null, slowMo: 250 });
     await page.goto('https://www.gotfriends.co.il/jobs/');
 
     await this.initialFilters(page);
     let i = 0;
-
+    const googleTranslateScanner = new GoogleTranslateScanner({
+      op: 'translate',
+      to: 'en',
+      from: 'he',
+    });
     while (i < 20) {
       const nav = await page.waitForSelector('a.position');
       if (nav) console.log(`page number ${i + 1}`);
@@ -138,17 +127,12 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
         // if (job) continue;
 
         const GTPage = await browser.newPage();
-        const googleTranslateScanner = new GoogleTranslateScanner({
-          op: 'translate',
-          to: 'en',
-          text,
-        });
 
-        const translateText = await googleTranslateScanner.goTranslate(GTPage);
+        const translateText = await googleTranslateScanner.goTranslate(GTPage, text);
 
         await GTPage.close();
         // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
-        const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
+        const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
 
         const newJob = { ...jobPost, reason };
         console.log(newJob);

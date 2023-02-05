@@ -9,27 +9,20 @@ import { Profile } from '../lib/Profile';
 
 import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
 import { load } from 'cheerio';
+import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 
 export type JobPost = Job & { text: string };
 export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
+  constructor(queryOptions: AllJobsQueryOptions, profile: Profile) {
+    super(queryOptions, profile);
+  }
   getURL(page = 1) {
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?page=${page}&position=1712&type=37&source=779&duration=20&exc=&region=`;
   }
 
-  async getHTML(page: number): Promise<string> {
-    console.log(this.getURL(page));
-    try {
-      const res = await axios(this.getURL(page));
-      const data = res.data;
-      return data;
-    } catch (error) {
-      return '';
-    }
-  }
-
   async getJobPostsData(page = 1) {
-    const html = await this.getHTML(page);
-    const $ = load(html);
+    const html = await this.getAxiosData<string>(page);
+    const $ = load(html || '');
 
     return $('.job-content-top')
       .toArray()
@@ -46,29 +39,25 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
         return { jobID, title, link, company, location, text, from: 'allJobs' };
       });
   }
-  async initPuppeteer(data: JobPost[], profile: Profile, preJobs: Job[]) {
+  async initPuppeteer(data: JobPost[], preJobs: Job[]) {
     const jobs: Job[] = [];
-    const browser = await puppeteer.launch({
-      headless: true,
-      defaultViewport: null,
+    const googleTranslateScanner = new GoogleTranslateScanner({
+      op: 'translate',
+      to: 'en',
+      from: 'he',
     });
-    const GTPage = await browser.newPage();
-    await this.noImageRequest(GTPage);
+
+    const { browser, page } = await PuppeteerSetup.lunchInstance({ defaultViewport: null });
 
     for (const { text, ...jobPost } of data) {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title || !text) continue;
       if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
-      const googleTranslateScanner = new GoogleTranslateScanner({
-        op: 'translate',
-        to: 'en',
-        text,
-      });
 
-      const translateText = await googleTranslateScanner.goTranslate(GTPage);
+      const translateText = await googleTranslateScanner.goTranslate(page, text);
 
       console.log('translateText', translateText);
-      const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
+      const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
 
       // const newJob = { ...jobPost };
       const newJob = { ...jobPost, reason };
@@ -80,8 +69,8 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
     return jobs;
   }
 
-  async scanning(profile: Profile, preJobs: Job[]) {
-    const jobs: Job[] = [];
+  async scanning(preJobs: Job[]) {
+    const jobsPost: JobPost[] = [];
     let data: JobPost[] = [];
     let page = 1;
     data = await this.getJobPostsData(page);
@@ -92,10 +81,13 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
       console.log(`Page number ${page}`);
       firstResult = data[0].jobID;
 
-      jobs.push(...(await this.initPuppeteer(data, profile, preJobs)));
-      page++;
       data = await this.getJobPostsData(page);
+      jobsPost.push(...data);
+      page++;
     }
+
+    const jobs = await this.initPuppeteer(jobsPost, preJobs);
+    // const jobs = await this.initPuppeteer(jobsPost, profile, preJobs);
 
     console.log(`finish found ${jobs.length} jobs in allJobs`);
     return jobs;

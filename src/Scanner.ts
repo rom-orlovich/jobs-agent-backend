@@ -1,7 +1,13 @@
+import axios from 'axios';
 import { Page } from 'puppeteer';
 import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
+import throat from 'throat';
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
+import { PuppeteerSetup } from '../lib/PuppeteerSetup';
+import { RequirementsReader } from '../lib/RequirementsReader';
+import { JobPost } from './AllJobScanner';
+import { GoogleTranslateScanner } from './GoogleTranslateScanner';
 
 export interface TaskProps {
   profile: Profile;
@@ -11,43 +17,68 @@ export interface TaskProps {
 
 export interface ScannerAPI<T, K, R = unknown> {
   queryOptions: T;
-  getURL(page?: number): string;
-
-  getHTML(page: number): Promise<string>;
+  profile: Profile;
+  getURL(pageNum?: number, ...args: any[]): string;
+  getAxiosData<D>(page: number): Promise<D | undefined>;
   taskCreator(): TaskFunction<K, R>;
-  scanning(profile: Profile, preJobs: R): Promise<R>;
+  scanning(preJobs: R): Promise<R>;
 }
 export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
   queryOptions: T;
-  constructor(queryOptions: T) {
+  profile: Profile;
+  googleTranslate: GoogleTranslateScanner;
+
+  constructor(queryOptions: T, profile: Profile) {
     this.queryOptions = queryOptions;
+    this.profile = profile;
+    this.googleTranslate = new GoogleTranslateScanner(
+      { to: 'en', from: 'he', op: 'translate' },
+      profile
+    );
   }
 
-  getURL(page?: number): string {
+  getURL(pageNum?: number, ...args: any[]): string {
     throw new Error('Method not implemented.');
   }
 
-  async getHTML(page: number): Promise<string> {
-    throw new Error('Method not implemented.');
+  getReason(text: string) {
+    return RequirementsReader.checkIsRequirementsMatch(text, this.profile).reason;
   }
 
-  async scanning(profile: Profile, preJobs: R): Promise<R> {
-    throw new Error('Method not implemented.');
+  async getAxiosData<D>(page: number): Promise<D | undefined> {
+    console.log(this.getURL(page));
+    try {
+      const res = await axios(this.getURL(page));
+      const data = res.data;
+      return data;
+    } catch (error) {
+      return undefined;
+    }
   }
 
-  async noImageRequest(page: Page) {
-    await page.setRequestInterception(true);
-    page.on('request', (req) => {
-      if (req.resourceType() === 'image') {
-        req.abort();
-      } else {
-        req.continue();
-      }
-    });
+  async translateText(jobsPosts: JobPost[]) {
+    const { browser } = await PuppeteerSetup.lunchInstance({ headless: false });
+    const promises = jobsPosts.map(
+      throat(5, async ({ text, ...job }) => {
+        const newPage = await browser.newPage();
+        const translateText = await this.googleTranslate.goTranslate(newPage, text);
+        await newPage.close();
+
+        return {
+          ...job,
+          reason: this.getReason(translateText),
+        };
+      })
+    );
+
+    const jobs = await Promise.all(promises);
+    await browser.close();
+    return jobs;
   }
-  // async initPuppeteer(page: Page): Promise<R> {
-  //   throw new Error('Method not implemented.');
-  // }
+
+  async scanning(preJobs: R): Promise<R> {
+    throw new Error('Method not implemented.');
+  }
 
   taskCreator(): TaskFunction<K, R> {
     throw new Error('Method not implemented.');
