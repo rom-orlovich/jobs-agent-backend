@@ -1,5 +1,5 @@
 import { Page } from 'puppeteer';
-import { untilSuccess } from '../lib/Utils';
+import { untilSuccess } from '../lib/utils';
 
 export class LinkedinRequirementScanner {
   // constructor(queryOptions: null) {}

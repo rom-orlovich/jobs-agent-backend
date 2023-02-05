@@ -5,7 +5,7 @@ import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 import { RequirementsReader } from '../lib/RequirementsReader';
 
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
-import { untilSuccess } from '../lib/Utils';
+import { untilSuccess } from '../lib/utils';
 import { JobPost } from './AllJobScanner';
 import { Scanner } from './Scanner';
 
