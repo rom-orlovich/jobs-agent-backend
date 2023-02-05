@@ -41,11 +41,11 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
   }
   async initPuppeteer(data: JobPost[], preJobs: Job[]) {
     const jobs: Job[] = [];
-    const googleTranslateScanner = new GoogleTranslateScanner({
-      op: 'translate',
-      to: 'en',
-      from: 'he',
-    });
+    // const googleTranslateScanner = new GoogleTranslateScanner({
+    //   op: 'translate',
+    //   to: 'en',
+    //   from: 'he',
+    // });
 
     const { browser, page } = await PuppeteerSetup.lunchInstance({ defaultViewport: null });
 
@@ -54,16 +54,16 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
       if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
 
-      const translateText = await googleTranslateScanner.goTranslate(page, text);
+      // const translateText = await googleTranslateScanner.goTranslate(page, text);
 
-      console.log('translateText', translateText);
-      const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
+      // console.log('translateText', translateText);
+      // const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
 
       // const newJob = { ...jobPost };
-      const newJob = { ...jobPost, reason };
+      // const newJob = { ...jobPost, reason };
 
-      console.log(newJob, `${count} words`);
-      jobs.push(newJob);
+      // console.log(newJob, `${count} words`);
+      // jobs.push(newJob);
     }
     await browser.close();
     return jobs;

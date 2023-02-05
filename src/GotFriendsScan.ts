@@ -77,20 +77,20 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
         for (const { text, ...jobPost } of jobsPosts) {
           if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
 
-          const googleTranslate = new GoogleTranslateScanner({
-            op: 'translate',
-            to: 'en',
-            text,
-          });
+          // const googleTranslate = new GoogleTranslateScanner({
+          //   op: 'translate',
+          //   to: 'en',
+          //   text,
+          // });
 
-          const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
+          // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
 
-          const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(string, data.profile);
+          // const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(string, data.profile);
 
-          const newJob = { ...jobPost, reason };
-          console.log(newJob);
-          // await data.JobsDB.insertOne(newJob);
-          jobs.push(newJob);
+          // const newJob = { ...jobPost, reason };
+          // console.log(newJob);
+          // // await data.JobsDB.insertOne(newJob);
+          // jobs.push(newJob);
         }
         i++;
         await page.click('#rightLeft a');
@@ -108,11 +108,11 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
     await this.initialFilters(page);
     let i = 0;
-    const googleTranslateScanner = new GoogleTranslateScanner({
-      op: 'translate',
-      to: 'en',
-      from: 'he',
-    });
+    // const googleTranslateScanner = new GoogleTranslateScanner({
+    //   op: 'translate',
+    //   to: 'en',
+    //   from: 'he',
+    // });
     while (i < 20) {
       const nav = await page.waitForSelector('a.position');
       if (nav) console.log(`page number ${i + 1}`);
@@ -128,15 +128,15 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
         const GTPage = await browser.newPage();
 
-        const translateText = await googleTranslateScanner.goTranslate(GTPage, text);
+        // const translateText = await googleTranslateScanner.goTranslate(GTPage, text);
 
         await GTPage.close();
         // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
-        const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
+        // const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, this.profile);
 
-        const newJob = { ...jobPost, reason };
-        console.log(newJob);
-        jobs.push(newJob);
+        // const newJob = { ...jobPost, reason };
+        // console.log(newJob);
+        // jobs.push(newJob);
         // this.JobsDB.insertOne(newJob);
       }
 
