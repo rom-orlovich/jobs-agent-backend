@@ -30,11 +30,26 @@ export class ScanningFS {
       console.log(error);
     }
   }
+  private static orderKey<T extends GenericRecord<any>>(data: T[]) {
+    return Object.keys(data[0])
+      .sort((a, b) => {
+        if (a.match(/id/gi)) return -1;
+        if (b.match(/id/gi)) return 1;
+        if (a === 'title') return -1;
+        if (b === 'title') return 1;
+        if (a === 'from') return -1;
+        if (b === 'from') return 1;
+        if (a === 'reason') return -1;
+        if (b === 'reason') return 1;
+        return 0;
+      })
+      .map((el) => ({ field: el, title: el }));
+  }
 
   static async writeCSV<T extends GenericRecord<any>>(data: T[], path: string) {
     try {
       const csv = await json2csvAsync(data, {
-        keys: Object.keys(data[0]).map((el) => ({ field: el, title: el })),
+        keys: ScanningFS.orderKey(data),
       });
       await writeFile(path, csv || '', 'utf-8');
       console.log(`finish create json file in ${path}`);
