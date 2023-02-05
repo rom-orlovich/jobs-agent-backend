@@ -7,10 +7,15 @@ import { GotFriendsScan } from './GotFriendsScan';
 import { JobsDB } from '../lib/JobsDB';
 import { LinkedinQueryOptions } from '../lib/LinkedinQueryOptions';
 import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
+import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
+import { AllJobScanner } from './AllJobScanner';
+import { ScanningFS } from '../lib/ScanningFS';
+import { Job } from '../lib/types/linkedinScanner';
 
 interface JobsScanQueryOptions {
   linkedinScannerQueryOptions: LinkedinQueryOptions;
   gotFriendsQueryOptions: GotFriendQueryOptions;
+  allJobsQueryOptions: AllJobsQueryOptions;
 }
 
 export class JobsScan {
@@ -18,6 +23,7 @@ export class JobsScan {
   profile: Profile;
   linkedinScanner: LinkedinScanner;
   gotFriendsScanner: GotFriendsScan;
+  allJobsScanner: AllJobScanner;
   jobs: JobsDB;
 
   constructor(profile: Profile, queryOptions: JobsScanQueryOptions) {
@@ -27,16 +33,22 @@ export class JobsScan {
     this.jobs = new JobsDB();
     this.gotFriendsScanner = new GotFriendsScan(queryOptions.gotFriendsQueryOptions, this.jobs);
     this.linkedinScanner = new LinkedinScanner(queryOptions.linkedinScannerQueryOptions, this.jobs);
+    this.allJobsScanner = new AllJobScanner(queryOptions.allJobsQueryOptions);
   }
 
   async scanning() {
     console.log('start');
+    const preJobs = await ScanningFS.loadData<Job>();
+    console.log(`Found ${preJobs.length} jobs `);
+    const data = (
+      await Promise.all([
+        this.linkedinScanner.initPuppeteer(this.profile, preJobs),
+        this.gotFriendsScanner.initPuppeteer(this.profile, preJobs),
+        this.allJobsScanner.scanning(this.profile, preJobs),
+      ])
+    ).flat(1);
 
-    await Promise.all([
-      this.linkedinScanner.initPuppeteer(this.profile),
-      this.gotFriendsScanner.initPuppeteer(this.profile),
-    ]);
-
+    await ScanningFS.writeData(data);
     console.log('end');
   }
 }

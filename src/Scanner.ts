@@ -10,18 +10,29 @@ export interface TaskProps {
 }
 
 export interface ScannerAPI<T, K, R = unknown> {
-  //   getURL?: () => string;
   queryOptions: T;
-  delay(ms: number): Promise<unknown>;
+  getURL(page?: number): string;
+
+  getHTML(page: number): Promise<string>;
   taskCreator(): TaskFunction<K, R>;
+  scanning(profile: Profile, preJobs: R): Promise<R>;
 }
 export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
   queryOptions: T;
   constructor(queryOptions: T) {
     this.queryOptions = queryOptions;
   }
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+
+  getURL(page?: number): string {
+    throw new Error('Method not implemented.');
+  }
+
+  async getHTML(page: number): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
+
+  async scanning(profile: Profile, preJobs: R): Promise<R> {
+    throw new Error('Method not implemented.');
   }
 
   async noImageRequest(page: Page) {
@@ -34,6 +45,9 @@ export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
       }
     });
   }
+  // async initPuppeteer(page: Page): Promise<R> {
+  //   throw new Error('Method not implemented.');
+  // }
 
   taskCreator(): TaskFunction<K, R> {
     throw new Error('Method not implemented.');

@@ -130,7 +130,7 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
     return task;
   }
 
-  async initPuppeteer(profile: Profile) {
+  async initPuppeteer(profile: Profile, preJobs: Job[]) {
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: null,
@@ -138,7 +138,7 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
       // args: ['--no-sandbox'],
     });
     const page = await browser.newPage();
-
+    const jobs: Job[] = [];
     let start = 0;
     let continueWhile = true;
 
@@ -156,9 +156,10 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
         console.log(jobPost.link);
 
         if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
+        if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
         if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
-        const job = await this.JobsDB?.getJob(jobPost.jobID);
-        if (job) continue;
+        // const job = await this.JobsDB?.getJob(jobPost.jobID);
+        // if (job) continue;
         const linkedinRequirementScanner = new LinkedinRequirementScanner(null);
         const REPage = await browser.newPage();
         await linkedinRequirementScanner.goToRequirement(REPage, jobPost.link);
@@ -169,15 +170,16 @@ export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Jo
 
         const newJob = { reason, ...jobPost };
         console.log(newJob);
-        // jobs.push(newJob);
-        this.JobsDB.insertOne(newJob);
+        jobs.push(newJob);
+        // this.JobsDB.insertOne(newJob);
       }
 
       start += 25;
     }
 
     await browser.close();
+    console.log(`finish found ${jobs.length} jobs in linkedin`);
 
-    console.log('finish');
+    return jobs;
   }
 }

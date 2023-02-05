@@ -1,6 +1,6 @@
 import { QueryOptionsBase, QueryOptionsBaseProps } from './QueryOptionsBase';
 
-export class AllJobsQueryOptions extends QueryOptionsBase {
+export class DrushimQueryOptions extends QueryOptionsBase {
   constructor(queryOptions: QueryOptionsBaseProps) {
     super(queryOptions);
   }

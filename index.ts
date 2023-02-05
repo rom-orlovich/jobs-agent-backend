@@ -10,6 +10,7 @@ import { JobsScan } from './src/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';
 import { GotFriendQueryOptions } from './lib/GotFriendsQuery';
+import { AllJobsQueryOptions } from './lib/AllJobQueryOptions';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
@@ -100,17 +101,18 @@ export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
 
 const main = async () => {
   try {
-    await mongoDB.connect();
+    // await mongoDB.connect();
     const jobScan = new JobsScan(profile, {
-      gotFriendsQueryOptions: new GotFriendQueryOptions({}),
       linkedinScannerQueryOptions: queryOptions,
+      gotFriendsQueryOptions: new GotFriendQueryOptions(queryOptions),
+      allJobsQueryOptions: new AllJobsQueryOptions(queryOptions),
     });
 
     await jobScan.scanning();
   } catch (error) {
     console.log(error);
-    await mongoDB.close();
+    // await mongoDB.close();
   }
 };
 
-// main();
+main();

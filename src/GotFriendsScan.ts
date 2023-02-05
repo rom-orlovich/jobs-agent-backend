@@ -109,7 +109,8 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
     return task;
   }
 
-  async initPuppeteer(profile: Profile) {
+  async initPuppeteer(profile: Profile, preJobs: Job[]) {
+    const jobs: Job[] = [];
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: null,
@@ -130,25 +131,29 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
 
       for (const { text, ...jobPost } of jobsPosts) {
         console.log(jobPost.link);
-        if (!jobPost.link || !jobPost.jobID || !jobPost.title || text) continue;
+        if (!jobPost.link || !jobPost.jobID || !jobPost.title || !text) continue;
         if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
-        const job = await this.JobsDB?.getJob(jobPost.jobID);
-        if (job) continue;
+        if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
+        // const job = await this.JobsDB?.getJob(jobPost.jobID);
+        // if (job) continue;
 
         const GTPage = await browser.newPage();
-        await GoogleTranslateScanner.goTranslatePage(GTPage, {
+        const googleTranslateScanner = new GoogleTranslateScanner({
           op: 'translate',
           to: 'en',
           text,
         });
-        const translateText = await GTPage.evaluate(GoogleTranslateScanner.getTranslate);
+
+        const translateText = await googleTranslateScanner.goTranslate(GTPage);
+
         await GTPage.close();
         // const string = await data.cluster?.execute({ text }, googleTranslate.taskCreator());
         const { reason } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
 
         const newJob = { ...jobPost, reason };
         console.log(newJob);
-        this.JobsDB.insertOne(newJob);
+        jobs.push(newJob);
+        // this.JobsDB.insertOne(newJob);
       }
 
       i++;
@@ -156,6 +161,8 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, vo
     }
 
     await browser.close();
-    console.log('finish');
+    console.log(`finish found ${jobs.length} jobs in gotFriends`);
+
+    return jobs;
   }
 }

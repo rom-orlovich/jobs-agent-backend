@@ -1,25 +1,25 @@
-import { Page } from 'puppeteer';
+import { Page, EvaluateFunc } from 'puppeteer';
 
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
 import { Scanner } from './Scanner';
 
 export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text: string }, string> {
-  // constructor(queryOptions: GoogleTranslateQuery) {
-  //   super(queryOptions);
-  // }
-
-  static getURL(opt: GoogleTranslateQuery): string {
-    const { text, to, op } = opt;
+  constructor(queryOptions: GoogleTranslateQuery) {
+    super(queryOptions);
+    this.queryOptions = queryOptions;
+  }
+  getURL(): string {
+    const { text, to, op } = this.queryOptions;
     if (!text) return '';
-    const from: string = opt.from || 'auto';
-    if (opt.op === 'translate') {
+    const from: string = this.queryOptions.from || 'auto';
+    if (op === 'translate') {
       if (text.length > 5000) return '';
       if (text.length === 0) return '';
     }
     return `https://translate.google.com/?text=${encodeURIComponent(text)}&sl=${from}&tl=${to}&op=${op}`;
   }
 
-  static getTranslate() {
+  getTranslate() {
     const spans = Array.from(document.querySelectorAll("span[jsname*='W297wb']"));
     return spans
       .filter((el) => el.textContent)
@@ -48,8 +48,8 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
   //   return task;
   // }
 
-  static async goTranslatePage(page: Page, queryOptions: GoogleTranslateQuery) {
-    const url = GoogleTranslateScanner.getURL(queryOptions);
+  async goTranslate(page: Page): Promise<string> {
+    const url = this.getURL();
 
     console.log('go to google translate');
     await page.goto(url);
@@ -60,5 +60,7 @@ export class GoogleTranslateScanner extends Scanner<GoogleTranslateQuery, { text
       console.log(error);
       await page.goto(url);
     }
+
+    return await page.evaluate<unknown[], () => string>(this.getTranslate());
   }
 }

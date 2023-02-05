@@ -6,11 +6,12 @@ import { Scanner } from './Scanner';
 import { GoogleTranslateScanner } from '../src/GoogleTranslateScanner';
 import { RequirementsReader } from '../lib/RequirementsReader';
 import { Profile } from '../lib/Profile';
-import { profile, queryOptions } from '../index';
-import { AllFriendQueryOptions } from '../lib/AllJobQueryOptions';
+
+import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
 import { load } from 'cheerio';
 
-export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
+export type JobPost = Job & { text: string };
+export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
   getURL(page = 1) {
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?page=${page}&position=1712&type=37&source=779&duration=20&exc=&region=`;
   }
@@ -45,25 +46,26 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
         return { jobID, title, link, company, location, text, from: 'allJobs' };
       });
   }
-  async insertData(jobs: (Job & { text: string })[], profile: Profile) {
+  async initPuppeteer(data: JobPost[], profile: Profile, preJobs: Job[]) {
+    const jobs: Job[] = [];
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       defaultViewport: null,
-      // slowMo: 250,
-      // args: ['--no-sandbox'],
     });
-    const page = await browser.newPage();
-    await this.noImageRequest(page);
+    const GTPage = await browser.newPage();
+    await this.noImageRequest(GTPage);
 
-    for (const { text, ...jobPost } of jobs) {
+    for (const { text, ...jobPost } of data) {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title || !text) continue;
       if (this.queryOptions.checkWordInBlackList(jobPost.title)) continue;
-      await GoogleTranslateScanner.goTranslatePage(page, {
+      if (preJobs.find((el) => el.jobID === jobPost.jobID)) continue;
+      const googleTranslateScanner = new GoogleTranslateScanner({
         op: 'translate',
         to: 'en',
         text,
       });
-      const translateText = await page.evaluate(GoogleTranslateScanner.getTranslate);
+
+      const translateText = await googleTranslateScanner.goTranslate(GTPage);
 
       console.log('translateText', translateText);
       const { reason, count } = RequirementsReader.checkIsRequirementsMatch(translateText, profile);
@@ -72,13 +74,15 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
       const newJob = { ...jobPost, reason };
 
       console.log(newJob, `${count} words`);
+      jobs.push(newJob);
     }
     await browser.close();
+    return jobs;
   }
 
-  async scanning(profile: Profile) {
-    // const jobs: Job[] = [];
-    let data: (Job & { text: string })[] = [];
+  async scanning(profile: Profile, preJobs: Job[]) {
+    const jobs: Job[] = [];
+    let data: JobPost[] = [];
     let page = 1;
     data = await this.getJobPostsData(page);
 
@@ -88,16 +92,19 @@ export class AllJobScanner extends Scanner<AllFriendQueryOptions, any, any> {
       console.log(`Page number ${page}`);
       firstResult = data[0].jobID;
 
-      await this.insertData(data, profile);
+      jobs.push(...(await this.initPuppeteer(data, profile, preJobs)));
       page++;
       data = await this.getJobPostsData(page);
     }
+
+    console.log(`finish found ${jobs.length} jobs in allJobs`);
+    return jobs;
   }
 }
 
-(async () => {
-  const allJobScanner = new AllJobScanner(queryOptions);
+// (async () => {
+//   const allJobScanner = new AllJobScanner(queryOptions);
 
-  await allJobScanner.scanning(profile);
-  console.log('finish');
-})();
+//   await allJobScanner.scanning(profile);
+//   console.log('finish');
+// })();

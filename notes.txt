@@ -236,3 +236,46 @@ type:
 
 https://www.alljobs.co.il/SearchResultsGuest.aspx?page=1&position=1731&type=4,5,14&source=779&duration=21&exc=&region=
 https://www.alljobs.co.il/SearchResultsGuest.aspx?page=3&position=&type=&freetxt=%D7%AA%D7%95%D7%9B%D7%A0%D7%94%20%D7%9C%D7%9C%D7%90%20%D7%A0%D7%99%D7%A1%D7%99%D7%95%D7%9F&city=779&region=
+
+דרושים
+https://www.drushim.co.il/jobs/area/1/?searchterm=%D7%91%D7%96%D7%A7&geolexid=537905&range=3&ssaen=1
+
+https://www.drushim.co.il/jobs/cat32/ המספר זה מספר קטגוריה ראשית
+https://www.drushim.co.il/jobs/subcat/543/ המספר זה מספר קטגוריה משנה
+
+display-14.primary--text.no-underline.py-1.cat-list-item קטגוריה ראשית
+black--text.display-14.no-underline.mr-1.cat-list-item קטגוריה משנית
+
+https://www.drushim.co.il/api/jobs/search?area=1-2-3-4-5-6-7-8-9&catdir=6&geolexid=539071&range=3&ssaen=3&isAA=true
+
+var t=Array.from(document.querySelectorAll("ul[data-cy]"))
+var obj={}
+t.forEach(el=>{
+    obj={
+    ...obj,[el.dataset.cy]:Array.from(el.querySelectorAll("li")).reduce((pre,cur)=>{
+var input=cur.querySelector("input").value
+        var label=cur.querySelector("label").textContent
+        pre[label]=input;
+        return pre
+    },{})
+        
+    
+    }
+})
+scope: 
+1
+geolexid: 
+539072
+isaa: 
+true
+ssaen: 
+3
+range: 
+3
+
+
+https://www.drushim.co.il/jobs/subcat/508/area/1/?experience=2&scope=1&geolexid=537905&range=3&ssaen=3&catdir=6
+https://www.drushim.co.il/api/jobs/search?area=1&subcat=508&scope=1&experience=2&geolexid=537905&range=3&ssaen=3&catdir=6&isAA=true&page=1&isAA=true
+
+https://www.drushim.co.il/api/jobs/searchssa?area=1&searchterm=Fullstack%2520Developer&geolexid=537905&range=3&ssaen=1&isAA=true&page=1
+https://www.drushim.co.il/api/jobs/search?area=1&searchterm=Fullstack%20Developer&geolexid=537905&range=3&ssaen=1&isAA=true&page=3&isAA=true
