@@ -26,12 +26,6 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, an
     await page.click('#professionAreaTitle');
     await page.click(`label[for='radioAreas-1108']`);
 
-    // await page.click('#professionTitle');
-    // try {
-    //   await page.waitForSelector("label[for='checkboxProfessions-1970']");
-    // } catch (error) {
-
-    // }
     await page.click('#professionTitle');
     await page.click(`label[for='checkboxProfessions-1970']`);
     await page.click(`label[for='checkboxProfessions-1947']`);
@@ -39,12 +33,6 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, an
     await page.click(`label[for='checkboxProfessions-8010']`);
 
     await page.click('#regionTitle');
-
-    // try {
-    //   await page.waitForSelector("li label[for*='checkboxRegions-1']");
-    // } catch (error) {
-    //   await page.click('#regionTitle');
-    // }
 
     await page.click(`li label[for='checkboxRegions-1']`);
     await page.click('#searchButton');

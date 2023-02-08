@@ -33,6 +33,27 @@ export const WHITE_LIST_WORDS = [
   'Front End',
   'Back End',
 ];
+// f_WT
+const REMOTE_FILTER_RANGE = {
+  'on site': '1',
+  remote: '2',
+  hybrid: '3',
+};
+//f_E
+const EXPERINCE_RANGE = {
+  internship: '1', //without
+  'entry level': '2', //1-2
+  associate: '3', //3-4
+  senior: '4', //4-6
+  director: '5', //7+
+  executive: '6',
+};
+// f_JT
+const JOB_TYPE_RANGE = {
+  'full time': 'F',
+
+  'part time': 'P',
+};
 
 export const BLACK_LIST_WORDS = ['Angular', 'Senior', 'Lead'];
 
