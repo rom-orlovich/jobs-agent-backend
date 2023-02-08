@@ -1,0 +1,3826 @@
+{
+  "cy-button-subcat-filter": {
+    "מפתח WEB": "75",
+    "Angular": "505",
+    "ASP.NET": "245",
+    "Backend": "616",
+    "C#": "372",
+    "Full Stack": "504",
+    "JAVA": "68",
+    "JavaScript": "508",
+    "LINUX / UNIX": "175",
+    "NET.": "69",
+    "NodeJS": "513",
+    "PHP": "246",
+    "PL \\ SQL": "548",
+    "Python": "481",
+    "React": "506",
+    "מהנדס תוכנה": "380",
+    "מומחה UI / UX": "467",
+    "מתכנת": "183",
+    "ראש צוות פיתוח": "315",
+    "תוכניתן ERP / CRM": "73"
+  },
+  "cy-button-experience-filter": {
+    "ללא ניסון": "1",
+    "1-2 שנים": "2",
+    "3-4 שנים": "3",
+    "5-6 שנים": "4",
+    "7 שנים ומעלה": "5"
+  },
+  "cy-button-scope-filter": {
+    "משרה מלאה": "1",
+    "משמרות": "4",
+    "משרה זמנית": "3",
+    "משרה חלקית": "2",
+    "עבודה מהבית": "5"
+  },
+  "f": {
+    "ResultList": [
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/543/",
+            "Categories": [2, 30],
+            "Code": 543,
+            "NameInHebrew": "מנהל אבטחת מידע"
+          },
+          {
+            "Link": "/jobs/subcat/236/",
+            "Categories": [5, 30],
+            "Code": 236,
+            "NameInHebrew": "מומחה אבטחת מידע"
+          },
+          {
+            "Link": "/jobs/subcat/537/",
+            "Categories": [30],
+            "Code": 537,
+            "NameInHebrew": "SOC Operator"
+          },
+          {
+            "Link": "/jobs/subcat/538/",
+            "Categories": [30],
+            "Code": 538,
+            "NameInHebrew": "Cyber Analyst"
+          },
+          {
+            "Link": "/jobs/subcat/539/",
+            "Categories": [30],
+            "Code": 539,
+            "NameInHebrew": "חוקר נוזקות"
+          },
+          {
+            "Link": "/jobs/subcat/540/",
+            "Categories": [30],
+            "Code": 540,
+            "NameInHebrew": "חוקר חולשות"
+          },
+          {
+            "Link": "/jobs/subcat/541/",
+            "Categories": [30],
+            "Code": 541,
+            "NameInHebrew": "מומחה תקיפה Penetration Test"
+          },
+          {
+            "Link": "/jobs/subcat/542/",
+            "Categories": [30],
+            "Code": 542,
+            "NameInHebrew": "אנליסט אבטחת מידע"
+          }
+        ],
+        "NumberOfJobs": 75,
+        "Link": "/jobs/cat30/",
+        "Code": 30,
+        "NameInHebrew": "אבטחת מידע"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/16/",
+            "Categories": [1],
+            "Code": 16,
+            "NameInHebrew": "מנהל/ת משרד"
+          },
+          {
+            "Link": "/jobs/subcat/17/",
+            "Categories": [1],
+            "Code": 17,
+            "NameInHebrew": "מזכיר/ה אנגלית"
+          },
+          {
+            "Link": "/jobs/subcat/18/",
+            "Categories": [1],
+            "Code": 18,
+            "NameInHebrew": "מזכיר/ה עברית"
+          },
+          {
+            "Link": "/jobs/subcat/19/",
+            "Categories": [1],
+            "Code": 19,
+            "NameInHebrew": "מרכזן/ית"
+          },
+          {
+            "Link": "/jobs/subcat/20/",
+            "Categories": [1],
+            "Code": 20,
+            "NameInHebrew": "פקיד/ה"
+          },
+          {
+            "Link": "/jobs/subcat/21/",
+            "Categories": [1],
+            "Code": 21,
+            "NameInHebrew": "קלדן/ית"
+          },
+          {
+            "Link": "/jobs/subcat/185/",
+            "Categories": [1],
+            "Code": 185,
+            "NameInHebrew": "מנהל/ת אדמינסטרטיבית"
+          },
+          {
+            "Link": "/jobs/subcat/237/",
+            "Categories": [1, 12],
+            "Code": 237,
+            "NameInHebrew": "פקיד/ת קבלה"
+          },
+          {
+            "Link": "/jobs/subcat/252/",
+            "Categories": [1],
+            "Code": 252,
+            "NameInHebrew": "מזכיר/ה בכיר/ה"
+          },
+          {
+            "Link": "/jobs/subcat/253/",
+            "Categories": [1],
+            "Code": 253,
+            "NameInHebrew": "עוזר/ת אישי/ת"
+          },
+          {
+            "Link": "/jobs/subcat/318/",
+            "Categories": [1],
+            "Code": 318,
+            "NameInHebrew": "Back office - אדמיניסטרציה"
+          },
+          {
+            "Link": "/jobs/subcat/437/",
+            "Categories": [1, 16],
+            "Code": 437,
+            "NameInHebrew": "מזכירה רפואית"
+          },
+          {
+            "Link": "/jobs/subcat/440/",
+            "Categories": [1, 14],
+            "Code": 440,
+            "NameInHebrew": "מזכירה משפטית"
+          },
+          {
+            "Link": "/jobs/subcat/605/",
+            "Categories": [1],
+            "Code": 605,
+            "NameInHebrew": "רכז/ת אדמיניסטרטיבית"
+          }
+        ],
+        "NumberOfJobs": 976,
+        "Link": "/jobs/cat1/",
+        "Code": 1,
+        "NameInHebrew": "אדמיניסטרציה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/269/",
+            "Categories": [3, 32],
+            "Code": 269,
+            "NameInHebrew": "תפירה / תדמיתנות"
+          },
+          {
+            "Link": "/jobs/subcat/553/",
+            "Categories": [21, 32],
+            "Code": 553,
+            "NameInHebrew": "קניין אופנה"
+          },
+          {
+            "Link": "/jobs/subcat/358/",
+            "Categories": [26, 32],
+            "Code": 358,
+            "NameInHebrew": "עיצוב אופנה"
+          },
+          {
+            "Link": "/jobs/subcat/361/",
+            "Categories": [26, 32],
+            "Code": 361,
+            "NameInHebrew": "עיצוב מסחרי / VM"
+          },
+          {
+            "Link": "/jobs/subcat/577/",
+            "Categories": [32],
+            "Code": 577,
+            "NameInHebrew": "מכירות אופנה"
+          },
+          {
+            "Link": "/jobs/subcat/578/",
+            "Categories": [32],
+            "Code": 578,
+            "NameInHebrew": "ניהול אופנה"
+          }
+        ],
+        "NumberOfJobs": 40,
+        "Link": "/jobs/cat32/",
+        "Code": 32,
+        "NameInHebrew": "אופנה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/75/",
+            "Categories": [6, 28],
+            "Code": 75,
+            "NameInHebrew": "מפתח WEB"
+          },
+          {
+            "Link": "/jobs/subcat/383/",
+            "Categories": [15, 21, 28],
+            "Code": 383,
+            "NameInHebrew": "רכש מדיה"
+          },
+          {
+            "Link": "/jobs/subcat/423/",
+            "Categories": [26, 28],
+            "Code": 423,
+            "NameInHebrew": "מעצב Flash / Flex"
+          },
+          {
+            "Link": "/jobs/subcat/424/",
+            "Categories": [26, 28],
+            "Code": 424,
+            "NameInHebrew": "עיצוב אתרים"
+          },
+          {
+            "Link": "/jobs/subcat/551/",
+            "Categories": [27, 28],
+            "Code": 551,
+            "NameInHebrew": "מנהל שיווק דיגיטל"
+          },
+          {
+            "Link": "/jobs/subcat/421/",
+            "Categories": [27, 28],
+            "Code": 421,
+            "NameInHebrew": "כתיבת תוכן"
+          },
+          {
+            "Link": "/jobs/subcat/403/",
+            "Categories": [27, 28],
+            "Code": 403,
+            "NameInHebrew": "אנליסט שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/477/",
+            "Categories": [28],
+            "Code": 477,
+            "NameInHebrew": "מנהל אתר"
+          },
+          {
+            "Link": "/jobs/subcat/467/",
+            "Categories": [28],
+            "Code": 467,
+            "NameInHebrew": "מומחה UI / UX"
+          },
+          {
+            "Link": "/jobs/subcat/451/",
+            "Categories": [28],
+            "Code": 451,
+            "NameInHebrew": "Web Marketing"
+          },
+          {
+            "Link": "/jobs/subcat/442/",
+            "Categories": [28],
+            "Code": 442,
+            "NameInHebrew": "סחר אלקטרוני"
+          },
+          {
+            "Link": "/jobs/subcat/422/",
+            "Categories": [28],
+            "Code": 422,
+            "NameInHebrew": "מכירת מדיה באינטרנט"
+          },
+          {
+            "Link": "/jobs/subcat/417/",
+            "Categories": [28],
+            "Code": 417,
+            "NameInHebrew": "מומחה SEM / PPC"
+          },
+          {
+            "Link": "/jobs/subcat/418/",
+            "Categories": [28],
+            "Code": 418,
+            "NameInHebrew": "מומחה SEO"
+          },
+          {
+            "Link": "/jobs/subcat/419/",
+            "Categories": [28],
+            "Code": 419,
+            "NameInHebrew": "Webmaster"
+          },
+          {
+            "Link": "/jobs/subcat/420/",
+            "Categories": [28],
+            "Code": 420,
+            "NameInHebrew": "Affiliate Manager"
+          },
+          {
+            "Link": "/jobs/subcat/621/",
+            "Categories": [28],
+            "Code": 621,
+            "NameInHebrew": "מנהל פרויקטים באינטרנט"
+          },
+          {
+            "Link": "/jobs/subcat/622/",
+            "Categories": [28],
+            "Code": 622,
+            "NameInHebrew": "מנהל מוצר - אינטרנט"
+          }
+        ],
+        "NumberOfJobs": 85,
+        "Link": "/jobs/cat28/",
+        "Code": 28,
+        "NameInHebrew": "אינטרנט"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/211/",
+            "Categories": [9, 23],
+            "Code": 211,
+            "NameInHebrew": "יועץ פנסיוני"
+          },
+          {
+            "Link": "/jobs/subcat/408/",
+            "Categories": [23],
+            "Code": 408,
+            "NameInHebrew": "אנשי מכירות ביטוח"
+          },
+          {
+            "Link": "/jobs/subcat/409/",
+            "Categories": [23],
+            "Code": 409,
+            "NameInHebrew": "שירות לקוחות ביטוח"
+          },
+          {
+            "Link": "/jobs/subcat/368/",
+            "Categories": [23],
+            "Code": 368,
+            "NameInHebrew": "שמאי"
+          },
+          {
+            "Link": "/jobs/subcat/466/",
+            "Categories": [23],
+            "Code": 466,
+            "NameInHebrew": "ביטוח - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/288/",
+            "Categories": [23],
+            "Code": 288,
+            "NameInHebrew": "מסלק תביעות"
+          },
+          {
+            "Link": "/jobs/subcat/289/",
+            "Categories": [23],
+            "Code": 289,
+            "NameInHebrew": "Back Office - ביטוח"
+          },
+          {
+            "Link": "/jobs/subcat/290/",
+            "Categories": [23],
+            "Code": 290,
+            "NameInHebrew": "מנהל תיקי לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/291/",
+            "Categories": [23],
+            "Code": 291,
+            "NameInHebrew": "רפרנט"
+          },
+          {
+            "Link": "/jobs/subcat/292/",
+            "Categories": [23],
+            "Code": 292,
+            "NameInHebrew": "חתם"
+          },
+          {
+            "Link": "/jobs/subcat/293/",
+            "Categories": [23],
+            "Code": 293,
+            "NameInHebrew": "פקיד/ת ביטוח"
+          },
+          {
+            "Link": "/jobs/subcat/294/",
+            "Categories": [23],
+            "Code": 294,
+            "NameInHebrew": "מפקח פיננסי"
+          },
+          {
+            "Link": "/jobs/subcat/295/",
+            "Categories": [23],
+            "Code": 295,
+            "NameInHebrew": "אקטואר"
+          },
+          {
+            "Link": "/jobs/subcat/296/",
+            "Categories": [23],
+            "Code": 296,
+            "NameInHebrew": "סוכן ביטוח"
+          }
+        ],
+        "NumberOfJobs": 284,
+        "Link": "/jobs/cat23/",
+        "Code": 23,
+        "NameInHebrew": "ביטוח"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/618/",
+            "Categories": [2],
+            "Code": 618,
+            "NameInHebrew": "סמנכ\"ל רכש ולוגיסטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/619/",
+            "Categories": [2],
+            "Code": 619,
+            "NameInHebrew": "סמנכ\"ל שירות"
+          },
+          {
+            "Link": "/jobs/subcat/620/",
+            "Categories": [2],
+            "Code": 620,
+            "NameInHebrew": "מנהל/ת עמותה / ארגון"
+          },
+          {
+            "Link": "/jobs/subcat/522/",
+            "Categories": [2],
+            "Code": 522,
+            "NameInHebrew": "סמנכ\"ל מערכות מידע"
+          },
+          {
+            "Link": "/jobs/subcat/519/",
+            "Categories": [2],
+            "Code": 519,
+            "NameInHebrew": "מנהל סחר"
+          },
+          {
+            "Link": "/jobs/subcat/543/",
+            "Categories": [2, 30],
+            "Code": 543,
+            "NameInHebrew": "מנהל אבטחת מידע"
+          },
+          {
+            "Link": "/jobs/subcat/556/",
+            "Categories": [2],
+            "Code": 556,
+            "NameInHebrew": "מנהל/ת נכסים"
+          },
+          {
+            "Link": "/jobs/subcat/386/",
+            "Categories": [2],
+            "Code": 386,
+            "NameInHebrew": "סמנכ\"ל מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/387/",
+            "Categories": [2],
+            "Code": 387,
+            "NameInHebrew": "סמנכ\"ל שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/388/",
+            "Categories": [2],
+            "Code": 388,
+            "NameInHebrew": "סמנכ\"ל תפעול"
+          },
+          {
+            "Link": "/jobs/subcat/389/",
+            "Categories": [2],
+            "Code": 389,
+            "NameInHebrew": "סמנכ\"ל פיתוח עסקי"
+          },
+          {
+            "Link": "/jobs/subcat/390/",
+            "Categories": [2],
+            "Code": 390,
+            "NameInHebrew": "סמנכ\"ל כספים"
+          },
+          {
+            "Link": "/jobs/subcat/391/",
+            "Categories": [2, 13],
+            "Code": 391,
+            "NameInHebrew": "סמנכ\"ל משאבי אנוש"
+          },
+          {
+            "Link": "/jobs/subcat/392/",
+            "Categories": [2, 5],
+            "Code": 392,
+            "NameInHebrew": "סמנכ\"ל פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/243/",
+            "Categories": [2],
+            "Code": 243,
+            "NameInHebrew": "מנהל פיתוח עסקי"
+          },
+          {
+            "Link": "/jobs/subcat/204/",
+            "Categories": [2],
+            "Code": 204,
+            "NameInHebrew": "מנהל/ת ייצור"
+          },
+          {
+            "Link": "/jobs/subcat/22/",
+            "Categories": [2],
+            "Code": 22,
+            "NameInHebrew": "בכירים כללי"
+          },
+          {
+            "Link": "/jobs/subcat/23/",
+            "Categories": [2],
+            "Code": 23,
+            "NameInHebrew": "מנכ\"ל"
+          },
+          {
+            "Link": "/jobs/subcat/24/",
+            "Categories": [2],
+            "Code": 24,
+            "NameInHebrew": "מנהל/ת כספים"
+          },
+          {
+            "Link": "/jobs/subcat/25/",
+            "Categories": [2],
+            "Code": 25,
+            "NameInHebrew": "מנהל/ת מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/27/",
+            "Categories": [2, 27],
+            "Code": 27,
+            "NameInHebrew": "מנהל/ת שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/28/",
+            "Categories": [2],
+            "Code": 28,
+            "NameInHebrew": "מנהל/ת תפעול"
+          },
+          {
+            "Link": "/jobs/subcat/29/",
+            "Categories": [2],
+            "Code": 29,
+            "NameInHebrew": "מנהל/ת רכש"
+          }
+        ],
+        "NumberOfJobs": 137,
+        "Link": "/jobs/cat2/",
+        "Code": 2,
+        "NameInHebrew": "בכירים / ניהול"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/30/",
+            "Categories": [3],
+            "Code": 30,
+            "NameInHebrew": "אחר"
+          },
+          {
+            "Link": "/jobs/subcat/31/",
+            "Categories": [3],
+            "Code": 31,
+            "NameInHebrew": "אינסטלציה"
+          },
+          {
+            "Link": "/jobs/subcat/32/",
+            "Categories": [3],
+            "Code": 32,
+            "NameInHebrew": "גינון וחקלאות"
+          },
+          {
+            "Link": "/jobs/subcat/33/",
+            "Categories": [3],
+            "Code": 33,
+            "NameInHebrew": "חשמלאי"
+          },
+          {
+            "Link": "/jobs/subcat/34/",
+            "Categories": [3, 18],
+            "Code": 34,
+            "NameInHebrew": "רתכים / מסגרים"
+          },
+          {
+            "Link": "/jobs/subcat/35/",
+            "Categories": [3],
+            "Code": 35,
+            "NameInHebrew": "נגרות"
+          },
+          {
+            "Link": "/jobs/subcat/42/",
+            "Categories": [3],
+            "Code": 42,
+            "NameInHebrew": "זגגות"
+          },
+          {
+            "Link": "/jobs/subcat/195/",
+            "Categories": [3],
+            "Code": 195,
+            "NameInHebrew": "מיזוג אוויר"
+          },
+          {
+            "Link": "/jobs/subcat/319/",
+            "Categories": [3],
+            "Code": 319,
+            "NameInHebrew": "אחזקה"
+          },
+          {
+            "Link": "/jobs/subcat/320/",
+            "Categories": [3],
+            "Code": 320,
+            "NameInHebrew": "צבעים"
+          },
+          {
+            "Link": "/jobs/subcat/321/",
+            "Categories": [3],
+            "Code": 321,
+            "NameInHebrew": "עובדי גבס"
+          },
+          {
+            "Link": "/jobs/subcat/275/",
+            "Categories": [3],
+            "Code": 275,
+            "NameInHebrew": "עובדי בניין"
+          },
+          {
+            "Link": "/jobs/subcat/268/",
+            "Categories": [3],
+            "Code": 268,
+            "NameInHebrew": "מנהל עבודה"
+          },
+          {
+            "Link": "/jobs/subcat/269/",
+            "Categories": [3, 32],
+            "Code": 269,
+            "NameInHebrew": "תפירה / תדמיתנות"
+          },
+          {
+            "Link": "/jobs/subcat/415/",
+            "Categories": [3],
+            "Code": 415,
+            "NameInHebrew": "מתקינים"
+          },
+          {
+            "Link": "/jobs/subcat/444/",
+            "Categories": [3],
+            "Code": 444,
+            "NameInHebrew": "טכנאי"
+          },
+          {
+            "Link": "/jobs/subcat/499/",
+            "Categories": [3],
+            "Code": 499,
+            "NameInHebrew": "טכנאי סלולר"
+          },
+          {
+            "Link": "/jobs/subcat/500/",
+            "Categories": [3],
+            "Code": 500,
+            "NameInHebrew": "טכנאי מעליות"
+          },
+          {
+            "Link": "/jobs/subcat/518/",
+            "Categories": [3],
+            "Code": 518,
+            "NameInHebrew": "מנהל אחזקה"
+          },
+          {
+            "Link": "/jobs/subcat/633/",
+            "Categories": [3],
+            "Code": 633,
+            "NameInHebrew": "טכנאי מתח נמוך"
+          },
+          {
+            "Link": "/jobs/subcat/558/",
+            "Categories": [3],
+            "Code": 558,
+            "NameInHebrew": "טכנאי גז"
+          }
+        ],
+        "NumberOfJobs": 434,
+        "Link": "/jobs/cat3/",
+        "Code": 3,
+        "NameInHebrew": "בעלי מקצוע"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/79/",
+            "Categories": [7],
+            "Code": 79,
+            "NameInHebrew": "מורים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/81/",
+            "Categories": [7, 16],
+            "Code": 81,
+            "NameInHebrew": "עבודה סוציאלית"
+          },
+          {
+            "Link": "/jobs/subcat/76/",
+            "Categories": [7],
+            "Code": 76,
+            "NameInHebrew": "גננים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/77/",
+            "Categories": [7],
+            "Code": 77,
+            "NameInHebrew": "טיפול ושמרטפות"
+          },
+          {
+            "Link": "/jobs/subcat/78/",
+            "Categories": [7, 16],
+            "Code": 78,
+            "NameInHebrew": "ייעוץ ופסיכולוגיה"
+          },
+          {
+            "Link": "/jobs/subcat/82/",
+            "Categories": [7],
+            "Code": 82,
+            "NameInHebrew": "הדרכה"
+          },
+          {
+            "Link": "/jobs/subcat/459/",
+            "Categories": [7],
+            "Code": 459,
+            "NameInHebrew": "סייעים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/482/",
+            "Categories": [7],
+            "Code": 482,
+            "NameInHebrew": "הדרכת ספורט"
+          },
+          {
+            "Link": "/jobs/subcat/445/",
+            "Categories": [7],
+            "Code": 445,
+            "NameInHebrew": "ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/453/",
+            "Categories": [7],
+            "Code": 453,
+            "NameInHebrew": "מרצים"
+          },
+          {
+            "Link": "/jobs/subcat/454/",
+            "Categories": [7],
+            "Code": 454,
+            "NameInHebrew": "חינוך מיוחד"
+          },
+          {
+            "Link": "/jobs/subcat/617/",
+            "Categories": [7],
+            "Code": 617,
+            "NameInHebrew": "מנחה קבוצות"
+          }
+        ],
+        "NumberOfJobs": 315,
+        "Link": "/jobs/cat7/",
+        "Code": 7,
+        "NameInHebrew": "הדרכה / הוראה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/489/",
+            "Categories": [6, 24],
+            "Code": 489,
+            "NameInHebrew": "פיתוח כלי בדיקות"
+          },
+          {
+            "Link": "/jobs/subcat/297/",
+            "Categories": [24],
+            "Code": 297,
+            "NameInHebrew": "איש QA"
+          },
+          {
+            "Link": "/jobs/subcat/298/",
+            "Categories": [24],
+            "Code": 298,
+            "NameInHebrew": "ראש צוות QA"
+          },
+          {
+            "Link": "/jobs/subcat/299/",
+            "Categories": [24],
+            "Code": 299,
+            "NameInHebrew": "מהנדס QA"
+          },
+          {
+            "Link": "/jobs/subcat/300/",
+            "Categories": [24],
+            "Code": 300,
+            "NameInHebrew": "מנהל QA"
+          },
+          {
+            "Link": "/jobs/subcat/301/",
+            "Categories": [24],
+            "Code": 301,
+            "NameInHebrew": "מנהל אבטחת איכות"
+          },
+          {
+            "Link": "/jobs/subcat/302/",
+            "Categories": [24],
+            "Code": 302,
+            "NameInHebrew": "איש אימות פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/303/",
+            "Categories": [24],
+            "Code": 303,
+            "NameInHebrew": "ראש צוות אימות פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/304/",
+            "Categories": [24],
+            "Code": 304,
+            "NameInHebrew": "אחראי בקרת תצורה"
+          },
+          {
+            "Link": "/jobs/subcat/305/",
+            "Categories": [24],
+            "Code": 305,
+            "NameInHebrew": "ראש צוות בקרת תצורה"
+          },
+          {
+            "Link": "/jobs/subcat/306/",
+            "Categories": [24],
+            "Code": 306,
+            "NameInHebrew": "בדיקות ידניות"
+          },
+          {
+            "Link": "/jobs/subcat/307/",
+            "Categories": [24],
+            "Code": 307,
+            "NameInHebrew": "בדיקות אוטומטיות"
+          },
+          {
+            "Link": "/jobs/subcat/384/",
+            "Categories": [24],
+            "Code": 384,
+            "NameInHebrew": "בודק ERP / CRM"
+          },
+          {
+            "Link": "/jobs/subcat/490/",
+            "Categories": [24],
+            "Code": 490,
+            "NameInHebrew": "בדיקת עומסים"
+          },
+          {
+            "Link": "/jobs/subcat/604/",
+            "Categories": [24],
+            "Code": 604,
+            "NameInHebrew": "סטודנטים - QA"
+          }
+        ],
+        "NumberOfJobs": 127,
+        "Link": "/jobs/cat24/",
+        "Code": 24,
+        "NameInHebrew": "הייטק-QA"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/520/",
+            "Categories": [4],
+            "Code": 520,
+            "NameInHebrew": "ראש צוות חומרה"
+          },
+          {
+            "Link": "/jobs/subcat/478/",
+            "Categories": [4],
+            "Code": 478,
+            "NameInHebrew": "חומרה - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/405/",
+            "Categories": [4],
+            "Code": 405,
+            "NameInHebrew": "סטודנטים - חומרה"
+          },
+          {
+            "Link": "/jobs/subcat/371/",
+            "Categories": [4],
+            "Code": 371,
+            "NameInHebrew": "וריפיקציה / ואלידציה"
+          },
+          {
+            "Link": "/jobs/subcat/381/",
+            "Categories": [4],
+            "Code": 381,
+            "NameInHebrew": "מהנדס Board Design"
+          },
+          {
+            "Link": "/jobs/subcat/184/",
+            "Categories": [4, 10],
+            "Code": 184,
+            "NameInHebrew": "מהנדס מערכת"
+          },
+          {
+            "Link": "/jobs/subcat/191/",
+            "Categories": [4],
+            "Code": 191,
+            "NameInHebrew": "QC"
+          },
+          {
+            "Link": "/jobs/subcat/257/",
+            "Categories": [4, 10],
+            "Code": 257,
+            "NameInHebrew": "מהנדס אלקטרוניקה"
+          },
+          {
+            "Link": "/jobs/subcat/43/",
+            "Categories": [4],
+            "Code": 43,
+            "NameInHebrew": "מהנדס רכיבים VLSI"
+          },
+          {
+            "Link": "/jobs/subcat/44/",
+            "Categories": [4],
+            "Code": 44,
+            "NameInHebrew": "מהנדס / הנדסאי ASIC"
+          },
+          {
+            "Link": "/jobs/subcat/45/",
+            "Categories": [4, 10],
+            "Code": 45,
+            "NameInHebrew": "הנדסאי אלקטרוניקה"
+          },
+          {
+            "Link": "/jobs/subcat/38/",
+            "Categories": [4],
+            "Code": 38,
+            "NameInHebrew": "מפתח/ת אלגוריתמים"
+          },
+          {
+            "Link": "/jobs/subcat/40/",
+            "Categories": [4],
+            "Code": 40,
+            "NameInHebrew": "מהנדס אנלוגי"
+          },
+          {
+            "Link": "/jobs/subcat/41/",
+            "Categories": [4, 10],
+            "Code": 41,
+            "NameInHebrew": "מהנדס אלקטרואופטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/46/",
+            "Categories": [4],
+            "Code": 46,
+            "NameInHebrew": "מהנדס / הנדסאי FPGA"
+          },
+          {
+            "Link": "/jobs/subcat/48/",
+            "Categories": [4],
+            "Code": 48,
+            "NameInHebrew": "מהנדס / הנדסאי RF"
+          },
+          {
+            "Link": "/jobs/subcat/49/",
+            "Categories": [4],
+            "Code": 49,
+            "NameInHebrew": "מהנדס / הנדסאי תקשורת"
+          },
+          {
+            "Link": "/jobs/subcat/50/",
+            "Categories": [4],
+            "Code": 50,
+            "NameInHebrew": "פיתוח חומרה"
+          },
+          {
+            "Link": "/jobs/subcat/51/",
+            "Categories": [4],
+            "Code": 51,
+            "NameInHebrew": "עורך מעגלים"
+          }
+        ],
+        "NumberOfJobs": 84,
+        "Link": "/jobs/cat4/",
+        "Code": 4,
+        "NameInHebrew": "הייטק-חומרה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/392/",
+            "Categories": [2, 5],
+            "Code": 392,
+            "NameInHebrew": "סמנכ\"ל פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/52/",
+            "Categories": [5],
+            "Code": 52,
+            "NameInHebrew": "כתיבה טכנית"
+          },
+          {
+            "Link": "/jobs/subcat/53/",
+            "Categories": [5],
+            "Code": 53,
+            "NameInHebrew": "מנהל מכירות הייטק"
+          },
+          {
+            "Link": "/jobs/subcat/54/",
+            "Categories": [5],
+            "Code": 54,
+            "NameInHebrew": "מנהל מוצר"
+          },
+          {
+            "Link": "/jobs/subcat/56/",
+            "Categories": [5],
+            "Code": 56,
+            "NameInHebrew": "מנהל פרוייקטים"
+          },
+          {
+            "Link": "/jobs/subcat/57/",
+            "Categories": [5],
+            "Code": 57,
+            "NameInHebrew": "מנהל שיווק הייטק"
+          },
+          {
+            "Link": "/jobs/subcat/59/",
+            "Categories": [5],
+            "Code": 59,
+            "NameInHebrew": "sys admin unix"
+          },
+          {
+            "Link": "/jobs/subcat/60/",
+            "Categories": [5],
+            "Code": 60,
+            "NameInHebrew": "sys admin win"
+          },
+          {
+            "Link": "/jobs/subcat/61/",
+            "Categories": [5],
+            "Code": 61,
+            "NameInHebrew": "Help Desk / תמיכה"
+          },
+          {
+            "Link": "/jobs/subcat/62/",
+            "Categories": [5],
+            "Code": 62,
+            "NameInHebrew": "תקשורת / שו\"ב"
+          },
+          {
+            "Link": "/jobs/subcat/70/",
+            "Categories": [5, 6],
+            "Code": 70,
+            "NameInHebrew": "BI"
+          },
+          {
+            "Link": "/jobs/subcat/249/",
+            "Categories": [5],
+            "Code": 249,
+            "NameInHebrew": "הדרכה / הטמעה"
+          },
+          {
+            "Link": "/jobs/subcat/242/",
+            "Categories": [5],
+            "Code": 242,
+            "NameInHebrew": "טכנאי מחשבים"
+          },
+          {
+            "Link": "/jobs/subcat/227/",
+            "Categories": [5],
+            "Code": 227,
+            "NameInHebrew": "Pre Sales"
+          },
+          {
+            "Link": "/jobs/subcat/228/",
+            "Categories": [5],
+            "Code": 228,
+            "NameInHebrew": "Post Sales"
+          },
+          {
+            "Link": "/jobs/subcat/231/",
+            "Categories": [5],
+            "Code": 231,
+            "NameInHebrew": "מנהל מערכות מידע"
+          },
+          {
+            "Link": "/jobs/subcat/235/",
+            "Categories": [5],
+            "Code": 235,
+            "NameInHebrew": "ניתוח מערכות"
+          },
+          {
+            "Link": "/jobs/subcat/236/",
+            "Categories": [5, 30],
+            "Code": 236,
+            "NameInHebrew": "מומחה אבטחת מידע"
+          },
+          {
+            "Link": "/jobs/subcat/209/",
+            "Categories": [5],
+            "Code": 209,
+            "NameInHebrew": "משרות הייטק כללי"
+          },
+          {
+            "Link": "/jobs/subcat/270/",
+            "Categories": [5],
+            "Code": 270,
+            "NameInHebrew": "מנהל רשת"
+          },
+          {
+            "Link": "/jobs/subcat/324/",
+            "Categories": [5],
+            "Code": 324,
+            "NameInHebrew": "מיישם"
+          },
+          {
+            "Link": "/jobs/subcat/407/",
+            "Categories": [5],
+            "Code": 407,
+            "NameInHebrew": "אינטגרטור"
+          },
+          {
+            "Link": "/jobs/subcat/400/",
+            "Categories": [5, 27],
+            "Code": 400,
+            "NameInHebrew": "מרקום"
+          },
+          {
+            "Link": "/jobs/subcat/469/",
+            "Categories": [5, 10, 17],
+            "Code": 469,
+            "NameInHebrew": "מהנדס מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/474/",
+            "Categories": [5, 17],
+            "Code": 474,
+            "NameInHebrew": "מכירות בינלאומיות"
+          },
+          {
+            "Link": "/jobs/subcat/436/",
+            "Categories": [5],
+            "Code": 436,
+            "NameInHebrew": "תשתיות"
+          },
+          {
+            "Link": "/jobs/subcat/546/",
+            "Categories": [5, 6],
+            "Code": 546,
+            "NameInHebrew": "Cloud"
+          },
+          {
+            "Link": "/jobs/subcat/491/",
+            "Categories": [5, 6],
+            "Code": 491,
+            "NameInHebrew": "DevOps"
+          },
+          {
+            "Link": "/jobs/subcat/581/",
+            "Categories": [5],
+            "Code": 581,
+            "NameInHebrew": "Data Analyst"
+          },
+          {
+            "Link": "/jobs/subcat/614/",
+            "Categories": [5],
+            "Code": 614,
+            "NameInHebrew": "איש IT"
+          },
+          {
+            "Link": "/jobs/subcat/615/",
+            "Categories": [5],
+            "Code": 615,
+            "NameInHebrew": "איש מערכות מידע"
+          }
+        ],
+        "NumberOfJobs": 839,
+        "Link": "/jobs/cat5/",
+        "Code": 5,
+        "NameInHebrew": "הייטק-כללי"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/70/",
+            "Categories": [5, 6],
+            "Code": 70,
+            "NameInHebrew": "BI"
+          },
+          {
+            "Link": "/jobs/subcat/546/",
+            "Categories": [5, 6],
+            "Code": 546,
+            "NameInHebrew": "Cloud"
+          },
+          {
+            "Link": "/jobs/subcat/491/",
+            "Categories": [5, 6],
+            "Code": 491,
+            "NameInHebrew": "DevOps"
+          },
+          {
+            "Link": "/jobs/subcat/616/",
+            "Categories": [6],
+            "Code": 616,
+            "NameInHebrew": "Backend"
+          },
+          {
+            "Link": "/jobs/subcat/582/",
+            "Categories": [6],
+            "Code": 582,
+            "NameInHebrew": "Data Engineer"
+          },
+          {
+            "Link": "/jobs/subcat/584/",
+            "Categories": [6],
+            "Code": 584,
+            "NameInHebrew": "Program Manager"
+          },
+          {
+            "Link": "/jobs/subcat/494/",
+            "Categories": [6],
+            "Code": 494,
+            "NameInHebrew": "Big Data"
+          },
+          {
+            "Link": "/jobs/subcat/488/",
+            "Categories": [6],
+            "Code": 488,
+            "NameInHebrew": "מפתח/ת אלגוריתמים"
+          },
+          {
+            "Link": "/jobs/subcat/489/",
+            "Categories": [6, 24],
+            "Code": 489,
+            "NameInHebrew": "פיתוח כלי בדיקות"
+          },
+          {
+            "Link": "/jobs/subcat/504/",
+            "Categories": [6],
+            "Code": 504,
+            "NameInHebrew": "Full Stack"
+          },
+          {
+            "Link": "/jobs/subcat/505/",
+            "Categories": [6],
+            "Code": 505,
+            "NameInHebrew": "Angular"
+          },
+          {
+            "Link": "/jobs/subcat/506/",
+            "Categories": [6],
+            "Code": 506,
+            "NameInHebrew": "React"
+          },
+          {
+            "Link": "/jobs/subcat/507/",
+            "Categories": [6],
+            "Code": 507,
+            "NameInHebrew": "React Native"
+          },
+          {
+            "Link": "/jobs/subcat/508/",
+            "Categories": [6],
+            "Code": 508,
+            "NameInHebrew": "JavaScript"
+          },
+          {
+            "Link": "/jobs/subcat/509/",
+            "Categories": [6],
+            "Code": 509,
+            "NameInHebrew": "Scala"
+          },
+          {
+            "Link": "/jobs/subcat/510/",
+            "Categories": [6],
+            "Code": 510,
+            "NameInHebrew": "GO"
+          },
+          {
+            "Link": "/jobs/subcat/511/",
+            "Categories": [6],
+            "Code": 511,
+            "NameInHebrew": "Data Scientist"
+          },
+          {
+            "Link": "/jobs/subcat/512/",
+            "Categories": [6],
+            "Code": 512,
+            "NameInHebrew": "Machine Learning"
+          },
+          {
+            "Link": "/jobs/subcat/513/",
+            "Categories": [6],
+            "Code": 513,
+            "NameInHebrew": "NodeJS"
+          },
+          {
+            "Link": "/jobs/subcat/514/",
+            "Categories": [6],
+            "Code": 514,
+            "NameInHebrew": "iOS"
+          },
+          {
+            "Link": "/jobs/subcat/515/",
+            "Categories": [6],
+            "Code": 515,
+            "NameInHebrew": "Android"
+          },
+          {
+            "Link": "/jobs/subcat/547/",
+            "Categories": [6],
+            "Code": 547,
+            "NameInHebrew": "Vue"
+          },
+          {
+            "Link": "/jobs/subcat/548/",
+            "Categories": [6],
+            "Code": 548,
+            "NameInHebrew": "PL \\ SQL"
+          },
+          {
+            "Link": "/jobs/subcat/554/",
+            "Categories": [6],
+            "Code": 554,
+            "NameInHebrew": "NLP"
+          },
+          {
+            "Link": "/jobs/subcat/545/",
+            "Categories": [6],
+            "Code": 545,
+            "NameInHebrew": "AS400"
+          },
+          {
+            "Link": "/jobs/subcat/565/",
+            "Categories": [6],
+            "Code": 565,
+            "NameInHebrew": "ABAP"
+          },
+          {
+            "Link": "/jobs/subcat/566/",
+            "Categories": [6],
+            "Code": 566,
+            "NameInHebrew": "Unity3D"
+          },
+          {
+            "Link": "/jobs/subcat/480/",
+            "Categories": [6],
+            "Code": 480,
+            "NameInHebrew": "Ruby on Rails"
+          },
+          {
+            "Link": "/jobs/subcat/481/",
+            "Categories": [6],
+            "Code": 481,
+            "NameInHebrew": "Python"
+          },
+          {
+            "Link": "/jobs/subcat/460/",
+            "Categories": [6],
+            "Code": 460,
+            "NameInHebrew": "Mobile"
+          },
+          {
+            "Link": "/jobs/subcat/465/",
+            "Categories": [6],
+            "Code": 465,
+            "NameInHebrew": "ארכיטקט מערכת"
+          },
+          {
+            "Link": "/jobs/subcat/406/",
+            "Categories": [6],
+            "Code": 406,
+            "NameInHebrew": "סטודנטים - תוכנה"
+          },
+          {
+            "Link": "/jobs/subcat/372/",
+            "Categories": [6],
+            "Code": 372,
+            "NameInHebrew": "C#"
+          },
+          {
+            "Link": "/jobs/subcat/380/",
+            "Categories": [6],
+            "Code": 380,
+            "NameInHebrew": "מהנדס תוכנה"
+          },
+          {
+            "Link": "/jobs/subcat/315/",
+            "Categories": [6],
+            "Code": 315,
+            "NameInHebrew": "ראש צוות פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/316/",
+            "Categories": [6],
+            "Code": 316,
+            "NameInHebrew": "ETL"
+          },
+          {
+            "Link": "/jobs/subcat/245/",
+            "Categories": [6],
+            "Code": 245,
+            "NameInHebrew": "ASP.NET"
+          },
+          {
+            "Link": "/jobs/subcat/246/",
+            "Categories": [6],
+            "Code": 246,
+            "NameInHebrew": "PHP"
+          },
+          {
+            "Link": "/jobs/subcat/255/",
+            "Categories": [6],
+            "Code": 255,
+            "NameInHebrew": "בקרת תצורה"
+          },
+          {
+            "Link": "/jobs/subcat/259/",
+            "Categories": [6],
+            "Code": 259,
+            "NameInHebrew": "מנהל פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/72/",
+            "Categories": [6],
+            "Code": 72,
+            "NameInHebrew": "RT / Embedded"
+          },
+          {
+            "Link": "/jobs/subcat/73/",
+            "Categories": [6],
+            "Code": 73,
+            "NameInHebrew": "תוכניתן ERP / CRM"
+          },
+          {
+            "Link": "/jobs/subcat/75/",
+            "Categories": [6, 28],
+            "Code": 75,
+            "NameInHebrew": "מפתח WEB"
+          },
+          {
+            "Link": "/jobs/subcat/64/",
+            "Categories": [6],
+            "Code": 64,
+            "NameInHebrew": "C++ / C"
+          },
+          {
+            "Link": "/jobs/subcat/65/",
+            "Categories": [6],
+            "Code": 65,
+            "NameInHebrew": "COBOL"
+          },
+          {
+            "Link": "/jobs/subcat/66/",
+            "Categories": [6],
+            "Code": 66,
+            "NameInHebrew": "DBA"
+          },
+          {
+            "Link": "/jobs/subcat/68/",
+            "Categories": [6],
+            "Code": 68,
+            "NameInHebrew": "JAVA"
+          },
+          {
+            "Link": "/jobs/subcat/69/",
+            "Categories": [6],
+            "Code": 69,
+            "NameInHebrew": "NET."
+          },
+          {
+            "Link": "/jobs/subcat/183/",
+            "Categories": [6],
+            "Code": 183,
+            "NameInHebrew": "מתכנת"
+          },
+          {
+            "Link": "/jobs/subcat/175/",
+            "Categories": [6],
+            "Code": 175,
+            "NameInHebrew": "LINUX / UNIX"
+          }
+        ],
+        "NumberOfJobs": 619,
+        "Link": "/jobs/cat6/",
+        "Code": 6,
+        "NameInHebrew": "הייטק-תוכנה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/184/",
+            "Categories": [4, 10],
+            "Code": 184,
+            "NameInHebrew": "מהנדס מערכת"
+          },
+          {
+            "Link": "/jobs/subcat/257/",
+            "Categories": [4, 10],
+            "Code": 257,
+            "NameInHebrew": "מהנדס אלקטרוניקה"
+          },
+          {
+            "Link": "/jobs/subcat/45/",
+            "Categories": [4, 10],
+            "Code": 45,
+            "NameInHebrew": "הנדסאי אלקטרוניקה"
+          },
+          {
+            "Link": "/jobs/subcat/41/",
+            "Categories": [4, 10],
+            "Code": 41,
+            "NameInHebrew": "מהנדס אלקטרואופטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/469/",
+            "Categories": [5, 10, 17],
+            "Code": 469,
+            "NameInHebrew": "מהנדס מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/603/",
+            "Categories": [10],
+            "Code": 603,
+            "NameInHebrew": "סטודנטים - הנדסה"
+          },
+          {
+            "Link": "/jobs/subcat/629/",
+            "Categories": [10],
+            "Code": 629,
+            "NameInHebrew": "מהנדס מיזוג אוויר"
+          },
+          {
+            "Link": "/jobs/subcat/516/",
+            "Categories": [10],
+            "Code": 516,
+            "NameInHebrew": "אדריכל נוף"
+          },
+          {
+            "Link": "/jobs/subcat/493/",
+            "Categories": [10],
+            "Code": 493,
+            "NameInHebrew": "מהנדס תהליך"
+          },
+          {
+            "Link": "/jobs/subcat/495/",
+            "Categories": [10, 18],
+            "Code": 495,
+            "NameInHebrew": "תכנן מכאני"
+          },
+          {
+            "Link": "/jobs/subcat/356/",
+            "Categories": [10],
+            "Code": 356,
+            "NameInHebrew": "שרטט"
+          },
+          {
+            "Link": "/jobs/subcat/479/",
+            "Categories": [10],
+            "Code": 479,
+            "NameInHebrew": "מהנדס סביבה"
+          },
+          {
+            "Link": "/jobs/subcat/450/",
+            "Categories": [10],
+            "Code": 450,
+            "NameInHebrew": "הנדסה - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/452/",
+            "Categories": [10],
+            "Code": 452,
+            "NameInHebrew": "פלנר"
+          },
+          {
+            "Link": "/jobs/subcat/463/",
+            "Categories": [10],
+            "Code": 463,
+            "NameInHebrew": "מנהל פרוייקטים"
+          },
+          {
+            "Link": "/jobs/subcat/104/",
+            "Categories": [10],
+            "Code": 104,
+            "NameInHebrew": "אדריכלים"
+          },
+          {
+            "Link": "/jobs/subcat/105/",
+            "Categories": [10],
+            "Code": 105,
+            "NameInHebrew": "מהנדסים כללי"
+          },
+          {
+            "Link": "/jobs/subcat/106/",
+            "Categories": [10],
+            "Code": 106,
+            "NameInHebrew": "מהנדס בניין"
+          },
+          {
+            "Link": "/jobs/subcat/108/",
+            "Categories": [10],
+            "Code": 108,
+            "NameInHebrew": "מהנדס אזרחי"
+          },
+          {
+            "Link": "/jobs/subcat/109/",
+            "Categories": [10],
+            "Code": 109,
+            "NameInHebrew": "מהנדס חשמל"
+          },
+          {
+            "Link": "/jobs/subcat/110/",
+            "Categories": [10],
+            "Code": 110,
+            "NameInHebrew": "מהנדס מכונות"
+          },
+          {
+            "Link": "/jobs/subcat/111/",
+            "Categories": [10],
+            "Code": 111,
+            "NameInHebrew": "מהנדס תעו\"נ"
+          },
+          {
+            "Link": "/jobs/subcat/112/",
+            "Categories": [10],
+            "Code": 112,
+            "NameInHebrew": "הנדסאים כללי"
+          },
+          {
+            "Link": "/jobs/subcat/176/",
+            "Categories": [10, 18, 21],
+            "Code": 176,
+            "NameInHebrew": "תפ\"י"
+          },
+          {
+            "Link": "/jobs/subcat/198/",
+            "Categories": [10],
+            "Code": 198,
+            "NameInHebrew": "מהנדס כימיה"
+          },
+          {
+            "Link": "/jobs/subcat/199/",
+            "Categories": [10],
+            "Code": 199,
+            "NameInHebrew": "מהנדס מזון"
+          },
+          {
+            "Link": "/jobs/subcat/263/",
+            "Categories": [10],
+            "Code": 263,
+            "NameInHebrew": "מהנדס חומרים"
+          },
+          {
+            "Link": "/jobs/subcat/343/",
+            "Categories": [10],
+            "Code": 343,
+            "NameInHebrew": "הנדסאי חשמל"
+          },
+          {
+            "Link": "/jobs/subcat/344/",
+            "Categories": [10],
+            "Code": 344,
+            "NameInHebrew": "הנדסאי תעו\"נ"
+          },
+          {
+            "Link": "/jobs/subcat/345/",
+            "Categories": [10],
+            "Code": 345,
+            "NameInHebrew": "הנדסאי בניין"
+          },
+          {
+            "Link": "/jobs/subcat/346/",
+            "Categories": [10],
+            "Code": 346,
+            "NameInHebrew": "הנדסאי מכונות"
+          },
+          {
+            "Link": "/jobs/subcat/267/",
+            "Categories": [10],
+            "Code": 267,
+            "NameInHebrew": "מהנדס איכות"
+          },
+          {
+            "Link": "/jobs/subcat/309/",
+            "Categories": [10, 31],
+            "Code": 309,
+            "NameInHebrew": "מהנדס אווירונאוטיקה"
+          }
+        ],
+        "NumberOfJobs": 799,
+        "Link": "/jobs/cat10/",
+        "Code": 10,
+        "NameInHebrew": "הנדסה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/602/",
+            "Categories": [8],
+            "Code": 602,
+            "NameInHebrew": "משגיחי בחינות"
+          },
+          {
+            "Link": "/jobs/subcat/555/",
+            "Categories": [8],
+            "Code": 555,
+            "NameInHebrew": "בלשנות"
+          },
+          {
+            "Link": "/jobs/subcat/501/",
+            "Categories": [8, 21, 33],
+            "Code": 501,
+            "NameInHebrew": "מלקטים"
+          },
+          {
+            "Link": "/jobs/subcat/485/",
+            "Categories": [8, 12],
+            "Code": 485,
+            "NameInHebrew": "מציל"
+          },
+          {
+            "Link": "/jobs/subcat/497/",
+            "Categories": [8],
+            "Code": 497,
+            "NameInHebrew": "מידען / ספרן"
+          },
+          {
+            "Link": "/jobs/subcat/447/",
+            "Categories": [8, 33],
+            "Code": 447,
+            "NameInHebrew": "עובדי קצבייה / מעדניה/ ירקות"
+          },
+          {
+            "Link": "/jobs/subcat/426/",
+            "Categories": [8, 29],
+            "Code": 426,
+            "NameInHebrew": "נהגים"
+          },
+          {
+            "Link": "/jobs/subcat/458/",
+            "Categories": [8, 15],
+            "Code": 458,
+            "NameInHebrew": "מתרגמים"
+          },
+          {
+            "Link": "/jobs/subcat/83/",
+            "Categories": [8],
+            "Code": 83,
+            "NameInHebrew": "משרות כלליות"
+          },
+          {
+            "Link": "/jobs/subcat/84/",
+            "Categories": [8],
+            "Code": 84,
+            "NameInHebrew": "דיילים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/85/",
+            "Categories": [8],
+            "Code": 85,
+            "NameInHebrew": "אקדמאים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/86/",
+            "Categories": [8],
+            "Code": 86,
+            "NameInHebrew": "חיילים משוחררים"
+          },
+          {
+            "Link": "/jobs/subcat/87/",
+            "Categories": [8, 17, 33],
+            "Code": 87,
+            "NameInHebrew": "מוכר / מוכרת"
+          },
+          {
+            "Link": "/jobs/subcat/88/",
+            "Categories": [8],
+            "Code": 88,
+            "NameInHebrew": "סטודנטים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/89/",
+            "Categories": [8],
+            "Code": 89,
+            "NameInHebrew": "עבודות בחו\"ל"
+          },
+          {
+            "Link": "/jobs/subcat/90/",
+            "Categories": [8],
+            "Code": 90,
+            "NameInHebrew": "עבודות ניקיון"
+          },
+          {
+            "Link": "/jobs/subcat/91/",
+            "Categories": [8],
+            "Code": 91,
+            "NameInHebrew": "פנסיונרים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/92/",
+            "Categories": [8],
+            "Code": 92,
+            "NameInHebrew": "שליחויות"
+          },
+          {
+            "Link": "/jobs/subcat/94/",
+            "Categories": [8],
+            "Code": 94,
+            "NameInHebrew": "קוסמטיקה / איפור"
+          },
+          {
+            "Link": "/jobs/subcat/95/",
+            "Categories": [8, 33],
+            "Code": 95,
+            "NameInHebrew": "קופאים"
+          },
+          {
+            "Link": "/jobs/subcat/120/",
+            "Categories": [8, 12],
+            "Code": 120,
+            "NameInHebrew": "מלצרים / ברמנים / בריסטה"
+          },
+          {
+            "Link": "/jobs/subcat/325/",
+            "Categories": [8],
+            "Code": 325,
+            "NameInHebrew": "עבודה מועדפת"
+          },
+          {
+            "Link": "/jobs/subcat/326/",
+            "Categories": [8, 25],
+            "Code": 326,
+            "NameInHebrew": "מאבטחים"
+          }
+        ],
+        "NumberOfJobs": 702,
+        "Link": "/jobs/cat8/",
+        "Code": 8,
+        "NameInHebrew": "כללי"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/317/",
+            "Categories": [9],
+            "Code": 317,
+            "NameInHebrew": "ביקורת פנים"
+          },
+          {
+            "Link": "/jobs/subcat/347/",
+            "Categories": [9],
+            "Code": 347,
+            "NameInHebrew": "גזבר"
+          },
+          {
+            "Link": "/jobs/subcat/256/",
+            "Categories": [9],
+            "Code": 256,
+            "NameInHebrew": "חשב/ת שכר"
+          },
+          {
+            "Link": "/jobs/subcat/244/",
+            "Categories": [9],
+            "Code": 244,
+            "NameInHebrew": "גבייה"
+          },
+          {
+            "Link": "/jobs/subcat/210/",
+            "Categories": [9],
+            "Code": 210,
+            "NameInHebrew": "מנהל השקעות / תיקים"
+          },
+          {
+            "Link": "/jobs/subcat/211/",
+            "Categories": [9, 23],
+            "Code": 211,
+            "NameInHebrew": "יועץ פנסיוני"
+          },
+          {
+            "Link": "/jobs/subcat/212/",
+            "Categories": [9],
+            "Code": 212,
+            "NameInHebrew": "יועץ פיננסי"
+          },
+          {
+            "Link": "/jobs/subcat/213/",
+            "Categories": [9],
+            "Code": 213,
+            "NameInHebrew": "סוחרים"
+          },
+          {
+            "Link": "/jobs/subcat/194/",
+            "Categories": [9],
+            "Code": 194,
+            "NameInHebrew": "יועצי מס"
+          },
+          {
+            "Link": "/jobs/subcat/208/",
+            "Categories": [9],
+            "Code": 208,
+            "NameInHebrew": "יועצי השקעות"
+          },
+          {
+            "Link": "/jobs/subcat/223/",
+            "Categories": [9, 21],
+            "Code": 223,
+            "NameInHebrew": "רכש"
+          },
+          {
+            "Link": "/jobs/subcat/96/",
+            "Categories": [9],
+            "Code": 96,
+            "NameInHebrew": "אנליסטים"
+          },
+          {
+            "Link": "/jobs/subcat/97/",
+            "Categories": [9],
+            "Code": 97,
+            "NameInHebrew": "בנקאות כללי"
+          },
+          {
+            "Link": "/jobs/subcat/98/",
+            "Categories": [9],
+            "Code": 98,
+            "NameInHebrew": "חשב"
+          },
+          {
+            "Link": "/jobs/subcat/100/",
+            "Categories": [9],
+            "Code": 100,
+            "NameInHebrew": "כלכלנים"
+          },
+          {
+            "Link": "/jobs/subcat/102/",
+            "Categories": [9],
+            "Code": 102,
+            "NameInHebrew": "הנהלת חשבונות"
+          },
+          {
+            "Link": "/jobs/subcat/103/",
+            "Categories": [9],
+            "Code": 103,
+            "NameInHebrew": "רואה חשבון"
+          },
+          {
+            "Link": "/jobs/subcat/476/",
+            "Categories": [9],
+            "Code": 476,
+            "NameInHebrew": "Back Office - כספים"
+          },
+          {
+            "Link": "/jobs/subcat/455/",
+            "Categories": [9],
+            "Code": 455,
+            "NameInHebrew": "מנהל כספים"
+          },
+          {
+            "Link": "/jobs/subcat/456/",
+            "Categories": [9],
+            "Code": 456,
+            "NameInHebrew": "ניהול סיכונים"
+          },
+          {
+            "Link": "/jobs/subcat/385/",
+            "Categories": [9],
+            "Code": 385,
+            "NameInHebrew": "טלר"
+          },
+          {
+            "Link": "/jobs/subcat/393/",
+            "Categories": [9],
+            "Code": 393,
+            "NameInHebrew": "מתמחה"
+          },
+          {
+            "Link": "/jobs/subcat/394/",
+            "Categories": [9],
+            "Code": 394,
+            "NameInHebrew": "יועץ משכנתאות"
+          },
+          {
+            "Link": "/jobs/subcat/498/",
+            "Categories": [9],
+            "Code": 498,
+            "NameInHebrew": "סטודנטים (כספים)"
+          },
+          {
+            "Link": "/jobs/subcat/517/",
+            "Categories": [9],
+            "Code": 517,
+            "NameInHebrew": "תמחירן/ית"
+          },
+          {
+            "Link": "/jobs/subcat/630/",
+            "Categories": [9],
+            "Code": 630,
+            "NameInHebrew": "יועץ כלכלי"
+          },
+          {
+            "Link": "/jobs/subcat/631/",
+            "Categories": [9],
+            "Code": 631,
+            "NameInHebrew": "רפרנט אשראי"
+          }
+        ],
+        "NumberOfJobs": 1340,
+        "Link": "/jobs/cat9/",
+        "Code": 9,
+        "NameInHebrew": "כספים / שוק ההון"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/501/",
+            "Categories": [8, 21, 33],
+            "Code": 501,
+            "NameInHebrew": "מלקטים"
+          },
+          {
+            "Link": "/jobs/subcat/223/",
+            "Categories": [9, 21],
+            "Code": 223,
+            "NameInHebrew": "רכש"
+          },
+          {
+            "Link": "/jobs/subcat/176/",
+            "Categories": [10, 18, 21],
+            "Code": 176,
+            "NameInHebrew": "תפ\"י"
+          },
+          {
+            "Link": "/jobs/subcat/383/",
+            "Categories": [15, 21, 28],
+            "Code": 383,
+            "NameInHebrew": "רכש מדיה"
+          },
+          {
+            "Link": "/jobs/subcat/224/",
+            "Categories": [18, 21],
+            "Code": 224,
+            "NameInHebrew": "קניין"
+          },
+          {
+            "Link": "/jobs/subcat/258/",
+            "Categories": [21],
+            "Code": 258,
+            "NameInHebrew": "מלגזן"
+          },
+          {
+            "Link": "/jobs/subcat/225/",
+            "Categories": [21],
+            "Code": 225,
+            "NameInHebrew": "מחסנאים"
+          },
+          {
+            "Link": "/jobs/subcat/226/",
+            "Categories": [21],
+            "Code": 226,
+            "NameInHebrew": "יבוא / יצוא"
+          },
+          {
+            "Link": "/jobs/subcat/232/",
+            "Categories": [21],
+            "Code": 232,
+            "NameInHebrew": "מתאם משלוחים"
+          },
+          {
+            "Link": "/jobs/subcat/241/",
+            "Categories": [21],
+            "Code": 241,
+            "NameInHebrew": "לוגיסטיקה כללי"
+          },
+          {
+            "Link": "/jobs/subcat/222/",
+            "Categories": [21],
+            "Code": 222,
+            "NameInHebrew": "תפעול"
+          },
+          {
+            "Link": "/jobs/subcat/611/",
+            "Categories": [21],
+            "Code": 611,
+            "NameInHebrew": "פקיד/ת רכש"
+          },
+          {
+            "Link": "/jobs/subcat/612/",
+            "Categories": [21],
+            "Code": 612,
+            "NameInHebrew": "פקיד/ת מחסן"
+          },
+          {
+            "Link": "/jobs/subcat/613/",
+            "Categories": [21],
+            "Code": 613,
+            "NameInHebrew": "מנהל מחסן"
+          },
+          {
+            "Link": "/jobs/subcat/553/",
+            "Categories": [21, 32],
+            "Code": 553,
+            "NameInHebrew": "קניין אופנה"
+          },
+          {
+            "Link": "/jobs/subcat/410/",
+            "Categories": [21],
+            "Code": 410,
+            "NameInHebrew": "מנהל הפצה"
+          },
+          {
+            "Link": "/jobs/subcat/411/",
+            "Categories": [21],
+            "Code": 411,
+            "NameInHebrew": "לוגיסטיקה - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/401/",
+            "Categories": [21],
+            "Code": 401,
+            "NameInHebrew": "שילוח"
+          },
+          {
+            "Link": "/jobs/subcat/402/",
+            "Categories": [21],
+            "Code": 402,
+            "NameInHebrew": "עמילות מכס"
+          }
+        ],
+        "NumberOfJobs": 676,
+        "Link": "/jobs/cat21/",
+        "Code": 21,
+        "NameInHebrew": "לוגיסטיקה / שילוח"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/215/",
+            "Categories": [16, 20],
+            "Code": 215,
+            "NameInHebrew": "רוקח"
+          },
+          {
+            "Link": "/jobs/subcat/182/",
+            "Categories": [16, 20],
+            "Code": 182,
+            "NameInHebrew": "לבורנט"
+          },
+          {
+            "Link": "/jobs/subcat/473/",
+            "Categories": [20],
+            "Code": 473,
+            "NameInHebrew": "אגרונום"
+          },
+          {
+            "Link": "/jobs/subcat/521/",
+            "Categories": [20],
+            "Code": 521,
+            "NameInHebrew": "מתמטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/601/",
+            "Categories": [20],
+            "Code": 601,
+            "NameInHebrew": "סטודנטים - מדעים / ביוטק"
+          },
+          {
+            "Link": "/jobs/subcat/179/",
+            "Categories": [20],
+            "Code": 179,
+            "NameInHebrew": "כימיה"
+          },
+          {
+            "Link": "/jobs/subcat/180/",
+            "Categories": [20],
+            "Code": 180,
+            "NameInHebrew": "ביולוגיה"
+          },
+          {
+            "Link": "/jobs/subcat/181/",
+            "Categories": [20],
+            "Code": 181,
+            "NameInHebrew": "פיזיקה"
+          },
+          {
+            "Link": "/jobs/subcat/217/",
+            "Categories": [20],
+            "Code": 217,
+            "NameInHebrew": "אבטחת איכות"
+          },
+          {
+            "Link": "/jobs/subcat/218/",
+            "Categories": [20],
+            "Code": 218,
+            "NameInHebrew": "עורך פטנטים"
+          },
+          {
+            "Link": "/jobs/subcat/219/",
+            "Categories": [20],
+            "Code": 219,
+            "NameInHebrew": "פיתוח"
+          },
+          {
+            "Link": "/jobs/subcat/214/",
+            "Categories": [20],
+            "Code": 214,
+            "NameInHebrew": "חוקר"
+          },
+          {
+            "Link": "/jobs/subcat/266/",
+            "Categories": [20],
+            "Code": 266,
+            "NameInHebrew": "מחקרים קליניים"
+          },
+          {
+            "Link": "/jobs/subcat/332/",
+            "Categories": [20],
+            "Code": 332,
+            "NameInHebrew": "סטטיסטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/333/",
+            "Categories": [20],
+            "Code": 333,
+            "NameInHebrew": "מנהל מעבדה"
+          },
+          {
+            "Link": "/jobs/subcat/334/",
+            "Categories": [20],
+            "Code": 334,
+            "NameInHebrew": "רישום"
+          },
+          {
+            "Link": "/jobs/subcat/310/",
+            "Categories": [20],
+            "Code": 310,
+            "NameInHebrew": "ביוטכנולוגיה"
+          },
+          {
+            "Link": "/jobs/subcat/311/",
+            "Categories": [20],
+            "Code": 311,
+            "NameInHebrew": "רגולציה"
+          },
+          {
+            "Link": "/jobs/subcat/312/",
+            "Categories": [20],
+            "Code": 312,
+            "NameInHebrew": "שיווק רפואי"
+          },
+          {
+            "Link": "/jobs/subcat/313/",
+            "Categories": [20],
+            "Code": 313,
+            "NameInHebrew": "ביורפואה"
+          }
+        ],
+        "NumberOfJobs": 188,
+        "Link": "/jobs/cat20/",
+        "Code": 20,
+        "NameInHebrew": "מדעים / ביוטק"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/469/",
+            "Categories": [5, 10, 17],
+            "Code": 469,
+            "NameInHebrew": "מהנדס מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/474/",
+            "Categories": [5, 17],
+            "Code": 474,
+            "NameInHebrew": "מכירות בינלאומיות"
+          },
+          {
+            "Link": "/jobs/subcat/87/",
+            "Categories": [8, 17, 33],
+            "Code": 87,
+            "NameInHebrew": "מוכר / מוכרת"
+          },
+          {
+            "Link": "/jobs/subcat/413/",
+            "Categories": [11, 17],
+            "Code": 413,
+            "NameInHebrew": "מנהל/ת מוקד"
+          },
+          {
+            "Link": "/jobs/subcat/138/",
+            "Categories": [16, 17],
+            "Code": 138,
+            "NameInHebrew": "תועמלנים"
+          },
+          {
+            "Link": "/jobs/subcat/143/",
+            "Categories": [17],
+            "Code": 143,
+            "NameInHebrew": "אנשי מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/145/",
+            "Categories": [17],
+            "Code": 145,
+            "NameInHebrew": "טלמרקטינג"
+          },
+          {
+            "Link": "/jobs/subcat/147/",
+            "Categories": [17],
+            "Code": 147,
+            "NameInHebrew": "מנהל מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/148/",
+            "Categories": [17],
+            "Code": 148,
+            "NameInHebrew": "סוכני מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/220/",
+            "Categories": [17],
+            "Code": 220,
+            "NameInHebrew": "מנהל צוות"
+          },
+          {
+            "Link": "/jobs/subcat/221/",
+            "Categories": [17],
+            "Code": 221,
+            "NameInHebrew": "אחראי משמרת"
+          },
+          {
+            "Link": "/jobs/subcat/190/",
+            "Categories": [17],
+            "Code": 190,
+            "NameInHebrew": "זכיינים"
+          },
+          {
+            "Link": "/jobs/subcat/192/",
+            "Categories": [17],
+            "Code": 192,
+            "NameInHebrew": "מנהל תיקי לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/251/",
+            "Categories": [17],
+            "Code": 251,
+            "NameInHebrew": "מתאמי פגישות"
+          },
+          {
+            "Link": "/jobs/subcat/323/",
+            "Categories": [17],
+            "Code": 323,
+            "NameInHebrew": "מכירות שטח"
+          },
+          {
+            "Link": "/jobs/subcat/448/",
+            "Categories": [17],
+            "Code": 448,
+            "NameInHebrew": "יועץ/ת לימודים"
+          },
+          {
+            "Link": "/jobs/subcat/483/",
+            "Categories": [17],
+            "Code": 483,
+            "NameInHebrew": "מנהל אזור"
+          },
+          {
+            "Link": "/jobs/subcat/484/",
+            "Categories": [17],
+            "Code": 484,
+            "NameInHebrew": "מכירות פרונטלי"
+          },
+          {
+            "Link": "/jobs/subcat/397/",
+            "Categories": [17],
+            "Code": 397,
+            "NameInHebrew": "נציגי מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/314/",
+            "Categories": [17],
+            "Code": 314,
+            "NameInHebrew": "סוכני נדל\"ן"
+          },
+          {
+            "Link": "/jobs/subcat/367/",
+            "Categories": [17],
+            "Code": 367,
+            "NameInHebrew": "מנהל סניף"
+          },
+          {
+            "Link": "/jobs/subcat/625/",
+            "Categories": [17],
+            "Code": 625,
+            "NameInHebrew": "Back office - מכירות"
+          }
+        ],
+        "NumberOfJobs": 1162,
+        "Link": "/jobs/cat17/",
+        "Code": 17,
+        "NameInHebrew": "מכירות"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/237/",
+            "Categories": [1, 12],
+            "Code": 237,
+            "NameInHebrew": "פקיד/ת קבלה"
+          },
+          {
+            "Link": "/jobs/subcat/485/",
+            "Categories": [8, 12],
+            "Code": 485,
+            "NameInHebrew": "מציל"
+          },
+          {
+            "Link": "/jobs/subcat/120/",
+            "Categories": [8, 12],
+            "Code": 120,
+            "NameInHebrew": "מלצרים / ברמנים / בריסטה"
+          },
+          {
+            "Link": "/jobs/subcat/610/",
+            "Categories": [12],
+            "Code": 610,
+            "NameInHebrew": "מארח/ת"
+          },
+          {
+            "Link": "/jobs/subcat/575/",
+            "Categories": [12],
+            "Code": 575,
+            "NameInHebrew": "מנהל קבלה"
+          },
+          {
+            "Link": "/jobs/subcat/576/",
+            "Categories": [12],
+            "Code": 576,
+            "NameInHebrew": "מנהל מזון ומשקאות"
+          },
+          {
+            "Link": "/jobs/subcat/549/",
+            "Categories": [12],
+            "Code": 549,
+            "NameInHebrew": "מנהל אירועים"
+          },
+          {
+            "Link": "/jobs/subcat/550/",
+            "Categories": [12],
+            "Code": 550,
+            "NameInHebrew": "מנהל מטבח"
+          },
+          {
+            "Link": "/jobs/subcat/414/",
+            "Categories": [12, 31],
+            "Code": 414,
+            "NameInHebrew": "ניהול תיירות / מלונאות"
+          },
+          {
+            "Link": "/jobs/subcat/349/",
+            "Categories": [12, 31],
+            "Code": 349,
+            "NameInHebrew": "אופרציה"
+          },
+          {
+            "Link": "/jobs/subcat/350/",
+            "Categories": [12],
+            "Code": 350,
+            "NameInHebrew": "מסעדנות - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/471/",
+            "Categories": [12],
+            "Code": 471,
+            "NameInHebrew": "קונדיטור"
+          },
+          {
+            "Link": "/jobs/subcat/475/",
+            "Categories": [12],
+            "Code": 475,
+            "NameInHebrew": "שף / סו שף"
+          },
+          {
+            "Link": "/jobs/subcat/118/",
+            "Categories": [12],
+            "Code": 118,
+            "NameInHebrew": "טבחים"
+          },
+          {
+            "Link": "/jobs/subcat/119/",
+            "Categories": [12],
+            "Code": 119,
+            "NameInHebrew": "מלונאות כללי"
+          },
+          {
+            "Link": "/jobs/subcat/121/",
+            "Categories": [12],
+            "Code": 121,
+            "NameInHebrew": "עבודות מטבח"
+          },
+          {
+            "Link": "/jobs/subcat/264/",
+            "Categories": [12],
+            "Code": 264,
+            "NameInHebrew": "עובדי דלפק"
+          },
+          {
+            "Link": "/jobs/subcat/260/",
+            "Categories": [12],
+            "Code": 260,
+            "NameInHebrew": "מנהל / אחראי משמרת"
+          },
+          {
+            "Link": "/jobs/subcat/238/",
+            "Categories": [12],
+            "Code": 238,
+            "NameInHebrew": "חדרן/ית"
+          },
+          {
+            "Link": "/jobs/subcat/239/",
+            "Categories": [12],
+            "Code": 239,
+            "NameInHebrew": "משק ותחזוקה"
+          },
+          {
+            "Link": "/jobs/subcat/348/",
+            "Categories": [12, 31],
+            "Code": 348,
+            "NameInHebrew": "סוכני נסיעות"
+          }
+        ],
+        "NumberOfJobs": 167,
+        "Link": "/jobs/cat12/",
+        "Code": 12,
+        "NameInHebrew": "מלונאות / מסעדנות"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/391/",
+            "Categories": [2, 13],
+            "Code": 391,
+            "NameInHebrew": "סמנכ\"ל משאבי אנוש"
+          },
+          {
+            "Link": "/jobs/subcat/248/",
+            "Categories": [13],
+            "Code": 248,
+            "NameInHebrew": "מראיין / מראיינת"
+          },
+          {
+            "Link": "/jobs/subcat/234/",
+            "Categories": [13],
+            "Code": 234,
+            "NameInHebrew": "ייעוץ ארגוני"
+          },
+          {
+            "Link": "/jobs/subcat/250/",
+            "Categories": [13],
+            "Code": 250,
+            "NameInHebrew": "רכז/ת משאבי אנוש"
+          },
+          {
+            "Link": "/jobs/subcat/122/",
+            "Categories": [13],
+            "Code": 122,
+            "NameInHebrew": "מאבחנים"
+          },
+          {
+            "Link": "/jobs/subcat/123/",
+            "Categories": [13],
+            "Code": 123,
+            "NameInHebrew": "מנהל/ת משאבי אנוש"
+          },
+          {
+            "Link": "/jobs/subcat/124/",
+            "Categories": [13],
+            "Code": 124,
+            "NameInHebrew": "רכזי גיוס"
+          },
+          {
+            "Link": "/jobs/subcat/186/",
+            "Categories": [13],
+            "Code": 186,
+            "NameInHebrew": "מנהל/ת גיוס"
+          },
+          {
+            "Link": "/jobs/subcat/187/",
+            "Categories": [13],
+            "Code": 187,
+            "NameInHebrew": "רווחה"
+          },
+          {
+            "Link": "/jobs/subcat/188/",
+            "Categories": [13],
+            "Code": 188,
+            "NameInHebrew": "הדרכה"
+          },
+          {
+            "Link": "/jobs/subcat/443/",
+            "Categories": [13],
+            "Code": 443,
+            "NameInHebrew": "שכר והטבות"
+          },
+          {
+            "Link": "/jobs/subcat/559/",
+            "Categories": [13],
+            "Code": 559,
+            "NameInHebrew": "פיתוח ארגוני"
+          }
+        ],
+        "NumberOfJobs": 234,
+        "Link": "/jobs/cat13/",
+        "Code": 13,
+        "NameInHebrew": "משאבי אנוש"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/178/",
+            "Categories": [19],
+            "Code": 178,
+            "NameInHebrew": "עבודה מהבית כללי"
+          },
+          {
+            "Link": "/jobs/subcat/189/",
+            "Categories": [19],
+            "Code": 189,
+            "NameInHebrew": "זכיינים"
+          },
+          {
+            "Link": "/jobs/subcat/168/",
+            "Categories": [19],
+            "Code": 168,
+            "NameInHebrew": "שיווק רב שכבתי"
+          },
+          {
+            "Link": "/jobs/subcat/170/",
+            "Categories": [19],
+            "Code": 170,
+            "NameInHebrew": "טלמרקטינג"
+          },
+          {
+            "Link": "/jobs/subcat/171/",
+            "Categories": [19],
+            "Code": 171,
+            "NameInHebrew": "קלדנות"
+          },
+          {
+            "Link": "/jobs/subcat/351/",
+            "Categories": [19],
+            "Code": 351,
+            "NameInHebrew": "פרילנסר"
+          }
+        ],
+        "NumberOfJobs": 19,
+        "Link": "/jobs/cat19/",
+        "Code": 19,
+        "NameInHebrew": "עבודה מהבית"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/335/",
+            "Categories": [15, 26],
+            "Code": 335,
+            "NameInHebrew": "מעצב גרפי"
+          },
+          {
+            "Link": "/jobs/subcat/364/",
+            "Categories": [15, 26],
+            "Code": 364,
+            "NameInHebrew": "אנימטור"
+          },
+          {
+            "Link": "/jobs/subcat/544/",
+            "Categories": [15, 26],
+            "Code": 544,
+            "NameInHebrew": "עורך וידאו / אפטריסט"
+          },
+          {
+            "Link": "/jobs/subcat/423/",
+            "Categories": [26, 28],
+            "Code": 423,
+            "NameInHebrew": "מעצב Flash / Flex"
+          },
+          {
+            "Link": "/jobs/subcat/424/",
+            "Categories": [26, 28],
+            "Code": 424,
+            "NameInHebrew": "עיצוב אתרים"
+          },
+          {
+            "Link": "/jobs/subcat/370/",
+            "Categories": [26],
+            "Code": 370,
+            "NameInHebrew": "שזירת פרחים"
+          },
+          {
+            "Link": "/jobs/subcat/366/",
+            "Categories": [26],
+            "Code": 366,
+            "NameInHebrew": "ביצועיסט"
+          },
+          {
+            "Link": "/jobs/subcat/363/",
+            "Categories": [26],
+            "Code": 363,
+            "NameInHebrew": "עיצוב מטבחים"
+          },
+          {
+            "Link": "/jobs/subcat/357/",
+            "Categories": [26],
+            "Code": 357,
+            "NameInHebrew": "מעצב פנים"
+          },
+          {
+            "Link": "/jobs/subcat/358/",
+            "Categories": [26, 32],
+            "Code": 358,
+            "NameInHebrew": "עיצוב אופנה"
+          },
+          {
+            "Link": "/jobs/subcat/359/",
+            "Categories": [26],
+            "Code": 359,
+            "NameInHebrew": "מעצב תעשייתי"
+          },
+          {
+            "Link": "/jobs/subcat/360/",
+            "Categories": [26],
+            "Code": 360,
+            "NameInHebrew": "מעצב מוצר"
+          },
+          {
+            "Link": "/jobs/subcat/361/",
+            "Categories": [26, 32],
+            "Code": 361,
+            "NameInHebrew": "עיצוב מסחרי / VM"
+          }
+        ],
+        "NumberOfJobs": 43,
+        "Link": "/jobs/cat26/",
+        "Code": 26,
+        "NameInHebrew": "עיצוב"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/440/",
+            "Categories": [1, 14],
+            "Code": 440,
+            "NameInHebrew": "מזכירה משפטית"
+          },
+          {
+            "Link": "/jobs/subcat/125/",
+            "Categories": [14],
+            "Code": 125,
+            "NameInHebrew": "יועץ משפטי"
+          },
+          {
+            "Link": "/jobs/subcat/126/",
+            "Categories": [14],
+            "Code": 126,
+            "NameInHebrew": "מתמחה"
+          },
+          {
+            "Link": "/jobs/subcat/127/",
+            "Categories": [14],
+            "Code": 127,
+            "NameInHebrew": "עורכי דין"
+          }
+        ],
+        "NumberOfJobs": 101,
+        "Link": "/jobs/cat14/",
+        "Code": 14,
+        "NameInHebrew": "עריכת דין"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/458/",
+            "Categories": [8, 15],
+            "Code": 458,
+            "NameInHebrew": "מתרגמים"
+          },
+          {
+            "Link": "/jobs/subcat/128/",
+            "Categories": [15],
+            "Code": 128,
+            "NameInHebrew": "יחסי ציבור"
+          },
+          {
+            "Link": "/jobs/subcat/129/",
+            "Categories": [15],
+            "Code": 129,
+            "NameInHebrew": "עיתונאים ועורכים"
+          },
+          {
+            "Link": "/jobs/subcat/131/",
+            "Categories": [15],
+            "Code": 131,
+            "NameInHebrew": "עובדי/ות צילום"
+          },
+          {
+            "Link": "/jobs/subcat/132/",
+            "Categories": [15],
+            "Code": 132,
+            "NameInHebrew": "פרסום כללי"
+          },
+          {
+            "Link": "/jobs/subcat/134/",
+            "Categories": [15],
+            "Code": 134,
+            "NameInHebrew": "תקציבאות"
+          },
+          {
+            "Link": "/jobs/subcat/247/",
+            "Categories": [15],
+            "Code": 247,
+            "NameInHebrew": "הפקת אירועים"
+          },
+          {
+            "Link": "/jobs/subcat/335/",
+            "Categories": [15, 26],
+            "Code": 335,
+            "NameInHebrew": "מעצב גרפי"
+          },
+          {
+            "Link": "/jobs/subcat/338/",
+            "Categories": [15],
+            "Code": 338,
+            "NameInHebrew": "קריאייטיב"
+          },
+          {
+            "Link": "/jobs/subcat/339/",
+            "Categories": [15],
+            "Code": 339,
+            "NameInHebrew": "מנהל מדיה"
+          },
+          {
+            "Link": "/jobs/subcat/340/",
+            "Categories": [15],
+            "Code": 340,
+            "NameInHebrew": "קופירייטר"
+          },
+          {
+            "Link": "/jobs/subcat/341/",
+            "Categories": [15],
+            "Code": 341,
+            "NameInHebrew": "עורך / מנהל תוכן"
+          },
+          {
+            "Link": "/jobs/subcat/412/",
+            "Categories": [15],
+            "Code": 412,
+            "NameInHebrew": "פלנר"
+          },
+          {
+            "Link": "/jobs/subcat/383/",
+            "Categories": [15, 21, 28],
+            "Code": 383,
+            "NameInHebrew": "רכש מדיה"
+          },
+          {
+            "Link": "/jobs/subcat/364/",
+            "Categories": [15, 26],
+            "Code": 364,
+            "NameInHebrew": "אנימטור"
+          },
+          {
+            "Link": "/jobs/subcat/586/",
+            "Categories": [15],
+            "Code": 586,
+            "NameInHebrew": "טכנאי חדר שידור"
+          },
+          {
+            "Link": "/jobs/subcat/587/",
+            "Categories": [15],
+            "Code": 587,
+            "NameInHebrew": "במאי"
+          },
+          {
+            "Link": "/jobs/subcat/588/",
+            "Categories": [15],
+            "Code": 588,
+            "NameInHebrew": "עוזר במאי"
+          },
+          {
+            "Link": "/jobs/subcat/590/",
+            "Categories": [15],
+            "Code": 590,
+            "NameInHebrew": "תחקירן"
+          },
+          {
+            "Link": "/jobs/subcat/592/",
+            "Categories": [15],
+            "Code": 592,
+            "NameInHebrew": "ארט דירקטור"
+          },
+          {
+            "Link": "/jobs/subcat/593/",
+            "Categories": [15],
+            "Code": 593,
+            "NameInHebrew": "מנהל הפקה"
+          },
+          {
+            "Link": "/jobs/subcat/594/",
+            "Categories": [15],
+            "Code": 594,
+            "NameInHebrew": "מפיק"
+          },
+          {
+            "Link": "/jobs/subcat/595/",
+            "Categories": [15],
+            "Code": 595,
+            "NameInHebrew": "עוזר הפקה"
+          },
+          {
+            "Link": "/jobs/subcat/598/",
+            "Categories": [15],
+            "Code": 598,
+            "NameInHebrew": "סאונד"
+          },
+          {
+            "Link": "/jobs/subcat/599/",
+            "Categories": [15],
+            "Code": 599,
+            "NameInHebrew": "תאורן"
+          },
+          {
+            "Link": "/jobs/subcat/544/",
+            "Categories": [15, 26],
+            "Code": 544,
+            "NameInHebrew": "עורך וידאו / אפטריסט"
+          }
+        ],
+        "NumberOfJobs": 62,
+        "Link": "/jobs/cat15/",
+        "Code": 15,
+        "NameInHebrew": "פרסום / מדיה / תקשורת"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/501/",
+            "Categories": [8, 21, 33],
+            "Code": 501,
+            "NameInHebrew": "מלקטים"
+          },
+          {
+            "Link": "/jobs/subcat/447/",
+            "Categories": [8, 33],
+            "Code": 447,
+            "NameInHebrew": "עובדי קצבייה / מעדניה/ ירקות"
+          },
+          {
+            "Link": "/jobs/subcat/87/",
+            "Categories": [8, 17, 33],
+            "Code": 87,
+            "NameInHebrew": "מוכר / מוכרת"
+          },
+          {
+            "Link": "/jobs/subcat/95/",
+            "Categories": [8, 33],
+            "Code": 95,
+            "NameInHebrew": "קופאים"
+          },
+          {
+            "Link": "/jobs/subcat/579/",
+            "Categories": [33],
+            "Code": 579,
+            "NameInHebrew": "ניהול קמעונאות"
+          },
+          {
+            "Link": "/jobs/subcat/580/",
+            "Categories": [33],
+            "Code": 580,
+            "NameInHebrew": "סדרנים"
+          }
+        ],
+        "NumberOfJobs": 83,
+        "Link": "/jobs/cat33/",
+        "Code": 33,
+        "NameInHebrew": "קמעונאות"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/426/",
+            "Categories": [8, 29],
+            "Code": 426,
+            "NameInHebrew": "נהגים"
+          },
+          {
+            "Link": "/jobs/subcat/557/",
+            "Categories": [29],
+            "Code": 557,
+            "NameInHebrew": "נהג מעל 15 טון"
+          },
+          {
+            "Link": "/jobs/subcat/486/",
+            "Categories": [29],
+            "Code": 486,
+            "NameInHebrew": "דיאגנוסטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/502/",
+            "Categories": [29],
+            "Code": 502,
+            "NameInHebrew": "מפעיל צמ\"ה"
+          },
+          {
+            "Link": "/jobs/subcat/503/",
+            "Categories": [29],
+            "Code": 503,
+            "NameInHebrew": "מפעיל מנוף"
+          },
+          {
+            "Link": "/jobs/subcat/606/",
+            "Categories": [29],
+            "Code": 606,
+            "NameInHebrew": "נהג חלוקה"
+          },
+          {
+            "Link": "/jobs/subcat/607/",
+            "Categories": [29],
+            "Code": 607,
+            "NameInHebrew": "נהג אוטובוס / הסעות"
+          },
+          {
+            "Link": "/jobs/subcat/608/",
+            "Categories": [29],
+            "Code": 608,
+            "NameInHebrew": "יועץ שירות ומכירות רכב"
+          },
+          {
+            "Link": "/jobs/subcat/609/",
+            "Categories": [29],
+            "Code": 609,
+            "NameInHebrew": "שמאי רכב"
+          },
+          {
+            "Link": "/jobs/subcat/425/",
+            "Categories": [29],
+            "Code": 425,
+            "NameInHebrew": "חשמלאי רכב"
+          },
+          {
+            "Link": "/jobs/subcat/427/",
+            "Categories": [29],
+            "Code": 427,
+            "NameInHebrew": "קצין רכב"
+          },
+          {
+            "Link": "/jobs/subcat/428/",
+            "Categories": [29],
+            "Code": 428,
+            "NameInHebrew": "קצין בטיחות בתעבורה"
+          },
+          {
+            "Link": "/jobs/subcat/429/",
+            "Categories": [29],
+            "Code": 429,
+            "NameInHebrew": "בוחן רכב"
+          },
+          {
+            "Link": "/jobs/subcat/430/",
+            "Categories": [29],
+            "Code": 430,
+            "NameInHebrew": "מכונאי רכב"
+          },
+          {
+            "Link": "/jobs/subcat/431/",
+            "Categories": [29],
+            "Code": 431,
+            "NameInHebrew": "גרירה וחילוץ"
+          },
+          {
+            "Link": "/jobs/subcat/432/",
+            "Categories": [29],
+            "Code": 432,
+            "NameInHebrew": "מנהל מוסך"
+          },
+          {
+            "Link": "/jobs/subcat/433/",
+            "Categories": [29],
+            "Code": 433,
+            "NameInHebrew": "סדרנים"
+          },
+          {
+            "Link": "/jobs/subcat/434/",
+            "Categories": [29],
+            "Code": 434,
+            "NameInHebrew": "פחח"
+          },
+          {
+            "Link": "/jobs/subcat/435/",
+            "Categories": [29],
+            "Code": 435,
+            "NameInHebrew": "רכב כללי"
+          },
+          {
+            "Link": "/jobs/subcat/461/",
+            "Categories": [29],
+            "Code": 461,
+            "NameInHebrew": "נהג ג'"
+          },
+          {
+            "Link": "/jobs/subcat/468/",
+            "Categories": [29],
+            "Code": 468,
+            "NameInHebrew": "רכב - ניהול"
+          }
+        ],
+        "NumberOfJobs": 356,
+        "Link": "/jobs/cat29/",
+        "Code": 29,
+        "NameInHebrew": "רכב / תחבורה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/437/",
+            "Categories": [1, 16],
+            "Code": 437,
+            "NameInHebrew": "מזכירה רפואית"
+          },
+          {
+            "Link": "/jobs/subcat/81/",
+            "Categories": [7, 16],
+            "Code": 81,
+            "NameInHebrew": "עבודה סוציאלית"
+          },
+          {
+            "Link": "/jobs/subcat/78/",
+            "Categories": [7, 16],
+            "Code": 78,
+            "NameInHebrew": "ייעוץ ופסיכולוגיה"
+          },
+          {
+            "Link": "/jobs/subcat/560/",
+            "Categories": [16],
+            "Code": 560,
+            "NameInHebrew": "טכנאי מכשור רפואי"
+          },
+          {
+            "Link": "/jobs/subcat/561/",
+            "Categories": [16],
+            "Code": 561,
+            "NameInHebrew": "שיננית"
+          },
+          {
+            "Link": "/jobs/subcat/562/",
+            "Categories": [16],
+            "Code": 562,
+            "NameInHebrew": "סייעת לרופא שיניים"
+          },
+          {
+            "Link": "/jobs/subcat/583/",
+            "Categories": [16],
+            "Code": 583,
+            "NameInHebrew": "טיפול באמנות"
+          },
+          {
+            "Link": "/jobs/subcat/378/",
+            "Categories": [16],
+            "Code": 378,
+            "NameInHebrew": "ריפוי בעיסוק"
+          },
+          {
+            "Link": "/jobs/subcat/352/",
+            "Categories": [16],
+            "Code": 352,
+            "NameInHebrew": "פרמדיק / נהג אמבולנס"
+          },
+          {
+            "Link": "/jobs/subcat/353/",
+            "Categories": [16],
+            "Code": 353,
+            "NameInHebrew": "קלינאי תקשורת"
+          },
+          {
+            "Link": "/jobs/subcat/354/",
+            "Categories": [16],
+            "Code": 354,
+            "NameInHebrew": "כוח עזר"
+          },
+          {
+            "Link": "/jobs/subcat/355/",
+            "Categories": [16],
+            "Code": 355,
+            "NameInHebrew": "וטרינר"
+          },
+          {
+            "Link": "/jobs/subcat/395/",
+            "Categories": [16],
+            "Code": 395,
+            "NameInHebrew": "תזונאית"
+          },
+          {
+            "Link": "/jobs/subcat/464/",
+            "Categories": [16],
+            "Code": 464,
+            "NameInHebrew": "טכנאי רנטגן"
+          },
+          {
+            "Link": "/jobs/subcat/449/",
+            "Categories": [16],
+            "Code": 449,
+            "NameInHebrew": "רפואה - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/438/",
+            "Categories": [16],
+            "Code": 438,
+            "NameInHebrew": "מכירת ציוד רפואי"
+          },
+          {
+            "Link": "/jobs/subcat/337/",
+            "Categories": [16],
+            "Code": 337,
+            "NameInHebrew": "מנהל רפואי"
+          },
+          {
+            "Link": "/jobs/subcat/322/",
+            "Categories": [16],
+            "Code": 322,
+            "NameInHebrew": "סיעוד"
+          },
+          {
+            "Link": "/jobs/subcat/331/",
+            "Categories": [16, 25],
+            "Code": 331,
+            "NameInHebrew": "חובש / מע\"ר"
+          },
+          {
+            "Link": "/jobs/subcat/271/",
+            "Categories": [16],
+            "Code": 271,
+            "NameInHebrew": "שיקום / טיפול"
+          },
+          {
+            "Link": "/jobs/subcat/308/",
+            "Categories": [16],
+            "Code": 308,
+            "NameInHebrew": "רפואה כללי"
+          },
+          {
+            "Link": "/jobs/subcat/265/",
+            "Categories": [16],
+            "Code": 265,
+            "NameInHebrew": "אופטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/215/",
+            "Categories": [16, 20],
+            "Code": 215,
+            "NameInHebrew": "רוקח"
+          },
+          {
+            "Link": "/jobs/subcat/135/",
+            "Categories": [16],
+            "Code": 135,
+            "NameInHebrew": "אחים/ות"
+          },
+          {
+            "Link": "/jobs/subcat/137/",
+            "Categories": [16],
+            "Code": 137,
+            "NameInHebrew": "פיזיוטרפיה"
+          },
+          {
+            "Link": "/jobs/subcat/138/",
+            "Categories": [16, 17],
+            "Code": 138,
+            "NameInHebrew": "תועמלנים"
+          },
+          {
+            "Link": "/jobs/subcat/182/",
+            "Categories": [16, 20],
+            "Code": 182,
+            "NameInHebrew": "לבורנט"
+          },
+          {
+            "Link": "/jobs/subcat/139/",
+            "Categories": [16],
+            "Code": 139,
+            "NameInHebrew": "רפואת שיניים"
+          },
+          {
+            "Link": "/jobs/subcat/140/",
+            "Categories": [16],
+            "Code": 140,
+            "NameInHebrew": "רפואה אלטרנטיבית"
+          },
+          {
+            "Link": "/jobs/subcat/141/",
+            "Categories": [16],
+            "Code": 141,
+            "NameInHebrew": "רופאים/ות"
+          }
+        ],
+        "NumberOfJobs": 329,
+        "Link": "/jobs/cat16/",
+        "Code": 16,
+        "NameInHebrew": "רפואה / בריאות"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/27/",
+            "Categories": [2, 27],
+            "Code": 27,
+            "NameInHebrew": "מנהל/ת שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/400/",
+            "Categories": [5, 27],
+            "Code": 400,
+            "NameInHebrew": "מרקום"
+          },
+          {
+            "Link": "/jobs/subcat/551/",
+            "Categories": [27, 28],
+            "Code": 551,
+            "NameInHebrew": "מנהל שיווק דיגיטל"
+          },
+          {
+            "Link": "/jobs/subcat/552/",
+            "Categories": [27],
+            "Code": 552,
+            "NameInHebrew": "גיוס ופיתוח משאבים"
+          },
+          {
+            "Link": "/jobs/subcat/600/",
+            "Categories": [27],
+            "Code": 600,
+            "NameInHebrew": "מנהל/ת סושיאל מדיה"
+          },
+          {
+            "Link": "/jobs/subcat/626/",
+            "Categories": [27],
+            "Code": 626,
+            "NameInHebrew": "מנהל פרויקטים בשיווק"
+          },
+          {
+            "Link": "/jobs/subcat/627/",
+            "Categories": [27],
+            "Code": 627,
+            "NameInHebrew": "מתאם/ת שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/421/",
+            "Categories": [27, 28],
+            "Code": 421,
+            "NameInHebrew": "כתיבת תוכן"
+          },
+          {
+            "Link": "/jobs/subcat/403/",
+            "Categories": [27, 28],
+            "Code": 403,
+            "NameInHebrew": "אנליסט שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/398/",
+            "Categories": [27],
+            "Code": 398,
+            "NameInHebrew": "מנהל מוצר"
+          },
+          {
+            "Link": "/jobs/subcat/399/",
+            "Categories": [27],
+            "Code": 399,
+            "NameInHebrew": "מנהל מותג"
+          },
+          {
+            "Link": "/jobs/subcat/396/",
+            "Categories": [27],
+            "Code": 396,
+            "NameInHebrew": "איש שיווק"
+          },
+          {
+            "Link": "/jobs/subcat/472/",
+            "Categories": [27],
+            "Code": 472,
+            "NameInHebrew": "ייעוץ אסטרטגי"
+          }
+        ],
+        "NumberOfJobs": 146,
+        "Link": "/jobs/cat27/",
+        "Code": 27,
+        "NameInHebrew": "שיווק"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/273/",
+            "Categories": [11],
+            "Code": 273,
+            "NameInHebrew": "נציגי שימור לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/274/",
+            "Categories": [11],
+            "Code": 274,
+            "NameInHebrew": "נציגים פרונטליים"
+          },
+          {
+            "Link": "/jobs/subcat/262/",
+            "Categories": [11],
+            "Code": 262,
+            "NameInHebrew": "אחמ\"ש"
+          },
+          {
+            "Link": "/jobs/subcat/207/",
+            "Categories": [11],
+            "Code": 207,
+            "NameInHebrew": "נציגי מכירות"
+          },
+          {
+            "Link": "/jobs/subcat/193/",
+            "Categories": [11],
+            "Code": 193,
+            "NameInHebrew": "תמיכה טכנית"
+          },
+          {
+            "Link": "/jobs/subcat/113/",
+            "Categories": [11],
+            "Code": 113,
+            "NameInHebrew": "טלפנים"
+          },
+          {
+            "Link": "/jobs/subcat/116/",
+            "Categories": [11],
+            "Code": 116,
+            "NameInHebrew": "מוקדנים"
+          },
+          {
+            "Link": "/jobs/subcat/117/",
+            "Categories": [11],
+            "Code": 117,
+            "NameInHebrew": "שירות לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/342/",
+            "Categories": [11],
+            "Code": 342,
+            "NameInHebrew": "סוקרים"
+          },
+          {
+            "Link": "/jobs/subcat/413/",
+            "Categories": [11, 17],
+            "Code": 413,
+            "NameInHebrew": "מנהל/ת מוקד"
+          },
+          {
+            "Link": "/jobs/subcat/623/",
+            "Categories": [11],
+            "Code": 623,
+            "NameInHebrew": "Back office - שירות לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/624/",
+            "Categories": [11],
+            "Code": 624,
+            "NameInHebrew": "נציג שירות דיגיטלי"
+          },
+          {
+            "Link": "/jobs/subcat/632/",
+            "Categories": [11],
+            "Code": 632,
+            "NameInHebrew": "אחראי פניות הציבור"
+          },
+          {
+            "Link": "/jobs/subcat/563/",
+            "Categories": [11],
+            "Code": 563,
+            "NameInHebrew": "מנהלי תיקי לקוחות"
+          },
+          {
+            "Link": "/jobs/subcat/564/",
+            "Categories": [11],
+            "Code": 564,
+            "NameInHebrew": "מנהל צוות"
+          }
+        ],
+        "NumberOfJobs": 732,
+        "Link": "/jobs/cat11/",
+        "Code": 11,
+        "NameInHebrew": "שירות לקוחות"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/326/",
+            "Categories": [8, 25],
+            "Code": 326,
+            "NameInHebrew": "מאבטחים"
+          },
+          {
+            "Link": "/jobs/subcat/331/",
+            "Categories": [16, 25],
+            "Code": 331,
+            "NameInHebrew": "חובש / מע\"ר"
+          },
+          {
+            "Link": "/jobs/subcat/628/",
+            "Categories": [25],
+            "Code": 628,
+            "NameInHebrew": "פקיד/ת לובי"
+          },
+          {
+            "Link": "/jobs/subcat/585/",
+            "Categories": [25],
+            "Code": 585,
+            "NameInHebrew": "חקירות"
+          },
+          {
+            "Link": "/jobs/subcat/487/",
+            "Categories": [25],
+            "Code": 487,
+            "NameInHebrew": "שומרים"
+          },
+          {
+            "Link": "/jobs/subcat/496/",
+            "Categories": [25],
+            "Code": 496,
+            "NameInHebrew": "שמירה ואבטחה – ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/462/",
+            "Categories": [25],
+            "Code": 462,
+            "NameInHebrew": "בקר / מוקדן"
+          },
+          {
+            "Link": "/jobs/subcat/441/",
+            "Categories": [25],
+            "Code": 441,
+            "NameInHebrew": "סוהר/ת"
+          },
+          {
+            "Link": "/jobs/subcat/327/",
+            "Categories": [25],
+            "Code": 327,
+            "NameInHebrew": "קב\"ט"
+          },
+          {
+            "Link": "/jobs/subcat/328/",
+            "Categories": [25],
+            "Code": 328,
+            "NameInHebrew": "סיירים"
+          },
+          {
+            "Link": "/jobs/subcat/329/",
+            "Categories": [25],
+            "Code": 329,
+            "NameInHebrew": "אחראי משמרת"
+          },
+          {
+            "Link": "/jobs/subcat/330/",
+            "Categories": [25],
+            "Code": 330,
+            "NameInHebrew": "סלקטורים"
+          }
+        ],
+        "NumberOfJobs": 409,
+        "Link": "/jobs/cat25/",
+        "Code": 25,
+        "NameInHebrew": "שמירה / אבטחה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/309/",
+            "Categories": [10, 31],
+            "Code": 309,
+            "NameInHebrew": "מהנדס אווירונאוטיקה"
+          },
+          {
+            "Link": "/jobs/subcat/414/",
+            "Categories": [12, 31],
+            "Code": 414,
+            "NameInHebrew": "ניהול תיירות / מלונאות"
+          },
+          {
+            "Link": "/jobs/subcat/349/",
+            "Categories": [12, 31],
+            "Code": 349,
+            "NameInHebrew": "אופרציה"
+          },
+          {
+            "Link": "/jobs/subcat/348/",
+            "Categories": [12, 31],
+            "Code": 348,
+            "NameInHebrew": "סוכני נסיעות"
+          },
+          {
+            "Link": "/jobs/subcat/567/",
+            "Categories": [31],
+            "Code": 567,
+            "NameInHebrew": "דיילי אוויר / קרקע"
+          },
+          {
+            "Link": "/jobs/subcat/568/",
+            "Categories": [31],
+            "Code": 568,
+            "NameInHebrew": "פקח רחבה"
+          },
+          {
+            "Link": "/jobs/subcat/569/",
+            "Categories": [31],
+            "Code": 569,
+            "NameInHebrew": "מכונאי תעופה"
+          },
+          {
+            "Link": "/jobs/subcat/570/",
+            "Categories": [31],
+            "Code": 570,
+            "NameInHebrew": "ניהול תעופה"
+          },
+          {
+            "Link": "/jobs/subcat/571/",
+            "Categories": [31],
+            "Code": 571,
+            "NameInHebrew": "מכונאי ימאות"
+          },
+          {
+            "Link": "/jobs/subcat/572/",
+            "Categories": [31],
+            "Code": 572,
+            "NameInHebrew": "טייס"
+          },
+          {
+            "Link": "/jobs/subcat/573/",
+            "Categories": [31],
+            "Code": 573,
+            "NameInHebrew": "סקיפר/ משיט"
+          },
+          {
+            "Link": "/jobs/subcat/574/",
+            "Categories": [31],
+            "Code": 574,
+            "NameInHebrew": "פקח/ בקר תעופה"
+          }
+        ],
+        "NumberOfJobs": 36,
+        "Link": "/jobs/cat31/",
+        "Code": 31,
+        "NameInHebrew": "תיירות/ תעופה"
+      },
+      {
+        "Areas": [
+          {
+            "Link": "/jobs/subcat/34/",
+            "Categories": [3, 18],
+            "Code": 34,
+            "NameInHebrew": "רתכים / מסגרים"
+          },
+          {
+            "Link": "/jobs/subcat/495/",
+            "Categories": [10, 18],
+            "Code": 495,
+            "NameInHebrew": "תכנן מכאני"
+          },
+          {
+            "Link": "/jobs/subcat/176/",
+            "Categories": [10, 18, 21],
+            "Code": 176,
+            "NameInHebrew": "תפ\"י"
+          },
+          {
+            "Link": "/jobs/subcat/369/",
+            "Categories": [18],
+            "Code": 369,
+            "NameInHebrew": "ממונה בטיחות"
+          },
+          {
+            "Link": "/jobs/subcat/365/",
+            "Categories": [18],
+            "Code": 365,
+            "NameInHebrew": "כרסם / חרט"
+          },
+          {
+            "Link": "/jobs/subcat/470/",
+            "Categories": [18],
+            "Code": 470,
+            "NameInHebrew": "תעשיה / ייצור - ניהול"
+          },
+          {
+            "Link": "/jobs/subcat/457/",
+            "Categories": [18],
+            "Code": 457,
+            "NameInHebrew": "מנהל איכות"
+          },
+          {
+            "Link": "/jobs/subcat/446/",
+            "Categories": [18],
+            "Code": 446,
+            "NameInHebrew": "מכשור ובקרה"
+          },
+          {
+            "Link": "/jobs/subcat/439/",
+            "Categories": [18],
+            "Code": 439,
+            "NameInHebrew": "מרכיב מכאני"
+          },
+          {
+            "Link": "/jobs/subcat/254/",
+            "Categories": [18],
+            "Code": 254,
+            "NameInHebrew": "מלחים / מחווט"
+          },
+          {
+            "Link": "/jobs/subcat/224/",
+            "Categories": [18, 21],
+            "Code": 224,
+            "NameInHebrew": "קניין"
+          },
+          {
+            "Link": "/jobs/subcat/202/",
+            "Categories": [18],
+            "Code": 202,
+            "NameInHebrew": "בקרת איכות"
+          },
+          {
+            "Link": "/jobs/subcat/203/",
+            "Categories": [18],
+            "Code": 203,
+            "NameInHebrew": "CNC"
+          },
+          {
+            "Link": "/jobs/subcat/150/",
+            "Categories": [18],
+            "Code": 150,
+            "NameInHebrew": "חשמל ואלקטרוניקה"
+          },
+          {
+            "Link": "/jobs/subcat/151/",
+            "Categories": [18],
+            "Code": 151,
+            "NameInHebrew": "טכנאי (תעשיה/ייצור)"
+          },
+          {
+            "Link": "/jobs/subcat/153/",
+            "Categories": [18],
+            "Code": 153,
+            "NameInHebrew": "מכונאות"
+          },
+          {
+            "Link": "/jobs/subcat/154/",
+            "Categories": [18],
+            "Code": 154,
+            "NameInHebrew": "מפעילי מכונות"
+          },
+          {
+            "Link": "/jobs/subcat/156/",
+            "Categories": [18],
+            "Code": 156,
+            "NameInHebrew": "עובדי ייצור"
+          },
+          {
+            "Link": "/jobs/subcat/158/",
+            "Categories": [18],
+            "Code": 158,
+            "NameInHebrew": "עובדי דפוס"
+          },
+          {
+            "Link": "/jobs/subcat/159/",
+            "Categories": [18],
+            "Code": 159,
+            "NameInHebrew": "פועל/ת"
+          },
+          {
+            "Link": "/jobs/subcat/160/",
+            "Categories": [18],
+            "Code": 160,
+            "NameInHebrew": "תחזוקה"
+          },
+          {
+            "Link": "/jobs/subcat/177/",
+            "Categories": [18],
+            "Code": 177,
+            "NameInHebrew": "מנהל ייצור"
+          }
+        ],
+        "NumberOfJobs": 563,
+        "Link": "/jobs/cat18/",
+        "Code": 18,
+        "NameInHebrew": "תעשיה / ייצור"
+      }
+    ]
+  }
+}

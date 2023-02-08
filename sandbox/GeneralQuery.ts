@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import axios from 'axios';
-import { GenericRecord } from './types/types';
+import { GenericRecord } from '../lib/types/types';
 
 class GeneralQuery {
   buildLocationQuery() {
@@ -17,7 +17,7 @@ const q = {
   scope: '1,2', // 1 full, 2:part
   experience: '1,2', //without -1 ,between 1-2,
 };
-const q = {
+const qu = {
   exp: {
     linkedin: {
       f_e: {
@@ -50,6 +50,18 @@ const q = {
     gotFriends: undefined,
     allJobs: { durations: { '1': '10', '2': '25', '3': '50' } },
     drushim: { range: { '1': '2', '2': '3', '3': '4' } },
+  },
+  position: {
+    linkedin: { keywords: 'freeSearch' },
+    gotFriends: undefined,
+    allJobs: {},
+    drushim: { searchterm: '' },
+  },
+  locations: {
+    linkedin: { location: 'freeSearch' },
+    gotFriends: undefined,
+    allJobs: {},
+    drushim: {},
   },
 };
 
@@ -147,89 +159,3 @@ export interface Result {
 // value: 'jd~he,jd~en,geo_multiple_city_id',
 // value:"skill_facet"
 // },
-async () => {
-  const res1 = await axios<any, { data: Result }, Root>(
-    'https://www.drushim.co.il/offerSearchAutoSuggest/',
-    {
-      method: 'post',
-      data: {
-        application: 'drushim',
-        country: 'il',
-        environment: 'live',
-        searchType: 'offerSearchAutoSuggest',
-        queryItems: [],
-        mainResultParameter: {
-          max: 500,
-          offset: 0,
-          sortings: [],
-          parameters: [],
-          options: [],
-          infos: [],
-        },
-        resultParameters: {},
-        cookies: [],
-        httpRequestInfo: {},
-        parameters: [
-          {
-            name: 'suggestPrefix',
-            value: '',
-          },
-          {
-            name: 'suggestTypes',
-
-            value: 'geo_multiple_city_id~he',
-          },
-        ],
-        options: [],
-        infos: [],
-      },
-    }
-  );
-  // const res2 = await axios<any, { data: Result }, Root>(
-  //   'https://www.drushim.co.il/offerSearchAutoSuggest/',
-  //   {
-  //     method: 'post',
-  //     data: {
-  //       application: 'drushim',
-  //       country: 'il',
-  //       environment: 'live',
-  //       searchType: 'offerSearchAutoSuggest',
-  //       queryItems: [],
-  //       mainResultParameter: {
-  //         max: 5,
-  //         offset: 0,
-  //         sortings: [],
-  //         parameters: [],
-  //         options: [],
-  //         infos: [],
-  //       },
-  //       resultParameters: {},
-  //       cookies: [],
-  //       httpRequestInfo: {},
-  //       parameters: [
-  //         {
-  //           name: 'suggestPrefix',
-  //           value: '',
-  //         },
-  //         {
-  //           name: 'suggestTypes',
-
-  //           value: 'jd~en,company_name',
-  //         },
-  //       ],
-  //       options: [],
-  //       infos: [],
-  //     },
-  //   }
-  // );
-  // console.log(res1.data.resultList.rows);
-  // console.log(res2.data.resultList.rows);
-  // const data1 = res1.data;
-  // const data2 = res2.data;
-  const translateCity = (data1: (string | undefined)[][], data2: (string | undefined)[][]) => {
-    const map: GenericRecord<{ id: string; en: string; he: string }> = {};
-    for (const el of data1) {
-      console.log();
-    }
-  };
-};

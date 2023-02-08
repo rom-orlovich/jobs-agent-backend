@@ -13,12 +13,12 @@ export class ScanningFS {
   }
 
   //Todo: move these function to fs class.
-  static async loadJSON<T>(path: string): Promise<T[]> {
+  static async readJSON<T>(path: string): Promise<T | undefined> {
     try {
       return JSON.parse(await readFile(path, 'utf8'));
     } catch (error) {
       console.log(error);
-      return [];
+      return undefined;
     }
   }
 
