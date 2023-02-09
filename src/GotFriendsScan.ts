@@ -1,4 +1,4 @@
-import { Scanner, TaskProps } from './Scanner';
+import { Scanner } from './Scanner';
 
 import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
 import { Job } from '../lib/types/linkedinScanner';
@@ -7,15 +7,15 @@ import { JobsDB } from '../lib/JobsDB';
 import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { ScannerName, UserInput } from '../lib/GeneralQuery';
+import { UserInput } from '../lib/GeneralQuery';
 import { Page } from 'puppeteer';
 
 export class GotFriendsScan extends Scanner {
   JobsDB: JobsDB;
   gotFriendsQuery: GotFriendQueryOptions;
 
-  constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super(scannerName, userInput, profile);
+  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+    super('gotFriends', userInput, profile);
     this.gotFriendsQuery = new GotFriendQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }

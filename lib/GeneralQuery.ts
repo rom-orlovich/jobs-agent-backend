@@ -83,7 +83,7 @@ export type GeneralQueryDistance<T extends ScannerName> =
 export interface QueryOptionsProps {
   exp: string;
   scope: string;
-  type: string;
+  jobType: string;
   distance: string;
   position: string;
   location: string;
@@ -92,7 +92,7 @@ export interface QueryOptionsProps {
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
   exp: string;
   scope: string;
-  type: string;
+  jobType: string;
   distance: string;
   position: string;
   location: string;
@@ -104,11 +104,11 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
     this.scannerName = scannerName;
     this.queryOptions = SCANNER_QUERY_OPTIONS;
     this.userInput = UserInput;
-    this.location = this.convertLocation();
-    this.position = this.convertPosition();
+    this.location = this.convertLocation().split(' ').join('%20');
+    this.position = this.convertPosition().split(' ').join('%20');
     this.exp = this.convertExperience();
     this.scope = this.convertScope();
-    this.type = this.convertJobType();
+    this.jobType = this.convertJobType();
     this.distance = this.convertDistance();
   }
 
@@ -200,14 +200,6 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
     if (this.scannerName === 'drushim') distance = this.queryOptions.distance.drushim.range[userInput];
     return distance;
   }
-
-  // protected convertScope(): string {
-  //   throw new Error('Method not implemented.');
-  // }
-
-  // protected convertExperience(): string {
-  //   throw new Error('Method not implemented.');
-  // }
 
   checkWordInBlackList(word: string) {
     return (

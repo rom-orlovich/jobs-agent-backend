@@ -1,6 +1,5 @@
-import { profile, queryOptions } from '..';
-
 import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
+import { UserInput } from '../lib/GeneralQuery';
 import { Profile } from '../lib/Profile';
 import { DrushimAPI, DrushimResult } from '../lib/types/drushim';
 import { Job } from '../lib/types/linkedinScanner';
@@ -8,14 +7,19 @@ import { JobPost } from './AllJobScanner';
 
 import { Scanner } from './Scanner';
 
-export class DrushimScanner extends Scanner<DrushimQueryOptions, null, JobPost[][]> {
-  constructor(scannerName: string, queryOptions: DrushimQueryOptions, profile: Profile) {
-    super(scannerName, queryOptions, profile);
+export class DrushimScanner extends Scanner {
+  drushimQueryOptions: DrushimQueryOptions;
+  constructor(userInput: UserInput, profile: Profile) {
+    super('drushim', userInput, profile);
+    this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }
-  getURL(page?: number | undefined): string {
-    return `https://www.drushim.co.il/api/jobs/search?area=1&searchterm=Fullstack%20Developer&geolexid=537905&range=3&ssaen=1&isAA=true&page=${
-      page || 0
-    }&isAA=true`;
+  getURL(page: number): string {
+    //     experience
+    // scope
+    // scope
+    // range
+    const { exp, scope, location, distance, jobType, position } = this.drushimQueryOptions;
+    return `https://www.drushim.co.il/api/jobs/search?experience=${exp}&scope=${scope}-${jobType}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
   }
 
   getJobsData(results: DrushimResult[] | undefined): JobPost[] {
@@ -36,7 +40,7 @@ export class DrushimScanner extends Scanner<DrushimQueryOptions, null, JobPost[]
     const data = await this.getAxiosData<DrushimAPI>(page);
     return this.getJobsData(data?.ResultList).filter((jobPost) => {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-      if (this.queryOptions.checkWordInBlackList(jobPost.title)) return false;
+      if (this.drushimQueryOptions.checkWordInBlackList(jobPost.title)) return false;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
       return true;
     });
