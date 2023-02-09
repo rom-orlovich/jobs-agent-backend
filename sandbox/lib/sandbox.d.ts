@@ -1,3 +1,5 @@
+import { HebrewPosKeys } from '../hebrewPos';
+
 export interface ChildCategory {
   ID: number;
   ParentID: number;

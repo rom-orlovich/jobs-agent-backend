@@ -16,12 +16,12 @@ import { DrushimScanner } from './DrushimScanner';
 import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
 import { GeneralQuery, UserInput } from '../lib/GeneralQuery';
 
-interface JobsScanQueryOptions {
-  linkedinScannerQueryOptions: LinkedinQueryOptions;
-  gotFriendsQueryOptions: GotFriendQueryOptions;
-  allJobsQueryOptions: AllJobsQueryOptions;
-  drushimQueryOptions: DrushimQueryOptions;
-}
+// interface JobsScanQueryOptions {
+//   linkedinScannerQueryOptions: LinkedinQueryOptions;
+//   gotFriendsQueryOptions: GotFriendQueryOptions;
+//   allJobsQueryOptions: AllJobsQueryOptions;
+//   drushimQueryOptions: DrushimQueryOptions;
+// }
 
 export class JobsScan {
   profile: Profile;
@@ -34,11 +34,11 @@ export class JobsScan {
   constructor(profile: Profile, userInput: UserInput) {
     this.profile = profile;
     this.jobs = new JobsDB();
-    this.linkedinScanner = new LinkedinScanner('linkedin', userInput, this.profile, this.jobs);
-    this.gotFriendsScanner = new GotFriendsScan('gotFriends', userInput, this.profile, this.jobs);
+    this.linkedinScanner = new LinkedinScanner(userInput, this.profile, this.jobs);
+    this.gotFriendsScanner = new GotFriendsScan(userInput, this.profile, this.jobs);
 
-    this.allJobsScanner = new AllJobScanner('allJobs', userInput, this.profile);
-    this.drushimScanner = new DrushimScanner('drushim', userInput, this.profile);
+    this.allJobsScanner = new AllJobScanner(userInput, this.profile, this.jobs);
+    this.drushimScanner = new DrushimScanner(userInput, this.profile, this.jobs);
   }
 
   async scanning() {

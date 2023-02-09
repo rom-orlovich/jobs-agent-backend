@@ -28,7 +28,7 @@ export class LinkedinScanner extends Scanner {
     return url;
   }
 
-  getAllJobsPostData(preJobs: Job[]) {
+  getAllJobsPostData() {
     const jobDIVList = Array.from(document.body.querySelectorAll<HTMLDivElement>('.job-search-card'));
     if (jobDIVList.length === 0) return [];
     return jobDIVList.map((jobDIV) => {
@@ -44,86 +44,6 @@ export class LinkedinScanner extends Scanner {
     });
   }
 
-  // taskCreator() {
-  //   const task: TaskFunction<TaskProps, Job[]> = async ({ data, page }) => {
-  //     let start = 0;
-  //     let continueWhile = true;
-  //     const jobs: Job[] = [];
-  //     await this.noImageRequest(page);
-
-  //     while (continueWhile) {
-  //       console.log(`page num ${start}`);
-  //       const url = this.getURL(start);
-  //       console.log(url);
-  //       await page.goto(url, { waitUntil: 'load' });
-
-  //       const jobsPosts = await page.evaluate(LinkedinScanner.getAllJobsData);
-  //       continueWhile = !!jobsPosts.length;
-  //       for (const jobPost of jobsPosts) {
-  //         console.log(jobPost.link);
-
-  //         if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
-  //         const job = await data?.JobsDB?.getJob(jobPost.jobID);
-  //         if (job) continue;
-
-  //         // const jobPostApiHTML = await data.cluster?.execute(
-  //         //   { ...data, URL: jobPost.link },
-  //         //   LinkedinRequirementScanner.taskCreator()
-  //         // );
-
-  //         console.log(jobPost);
-  //         // const { reason } = RequirementsReader.checkIsRequirementsMatch(jobPostApiHTML, data.profile);
-
-  //         jobs.push({ ...jobPost });
-  //       }
-
-  //       // await data.jobs.insertMany(jobs);
-  //       // const $ = load(html);
-
-  //       // continueWhile = !!posts.length;
-
-  //       // for (const post of posts) {
-  //       //   const postApi = $(post);
-  //       //   const link = postApi.find('a.base-card__full-link').attr('href');
-  //       //   if (!link) continue;
-
-  //       //   const jobURlSplit = link.split('?')[0].split('-');
-  //       //   const jobID = jobURlSplit[jobURlSplit.length - 1];
-
-  //       //   const job = await data?.jobs?.getJob(jobID);
-
-  //       //   if (job) continue;
-
-  //       //   const title = postApi.find('h3.base-search-card__title').text().trim();
-  //       //   if (this.queryOptions.checkWordInBlackList(title)) continue;
-
-  //       //   console.log(link);
-  //       //   await Promise.all([page.goto(link), page.waitForNavigation({ waitUntil: 'load' })]);
-  //       //   const jobPostApiHTML = await page.evaluate(() => document.body.innerHTML);
-
-  //       //   if (!jobPostApiHTML) continue;
-
-  //       //   const text = $(jobPostApiHTML)?.find('.show-more-less-html ul li').text();
-  //       //   const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(text, data.profile);
-
-  //       //   await this.delay(4000);
-  //       //   await Promise.all([page.goBack(), page.waitForNavigation({ waitUntil: 'load' })]);
-  //       //   const company = postApi.find('h4.base-search-card__subtitle').text().trim();
-  //       //   const location = postApi.find('span.job-search-card__location').text().trim();
-  //       //   const date = postApi.find('.job-search-card__listdate--new').attr('datetime');
-
-  //       //   const newJob = { jobID, title, link, company, location, reason, date, from: this.scannerName'linkedin' };
-
-  //       //
-  //       // }
-  //       start += 25;
-  //     }
-
-  //     console.log('finish');
-  //     return jobs;
-  //   };
-  //   return task;
-  // }
   async getPageData(pageNum: number, page: Page, preJobs: Job[]) {
     const url = this.getURL(pageNum);
     console.log(url);
@@ -131,7 +51,7 @@ export class LinkedinScanner extends Scanner {
 
     await page.goto(url, { waitUntil: 'load' });
 
-    const jobsPosts = (await page.evaluate(this.getAllJobsPostData, preJobs)).filter((jobPost) => {
+    const jobsPosts = (await page.evaluate(this.getAllJobsPostData)).filter((jobPost) => {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title) return false;
       if (this.linkedinQuery.checkWordInBlackList(jobPost.title)) return false;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
@@ -153,13 +73,12 @@ export class LinkedinScanner extends Scanner {
 
     while (continueWhile) {
       const data = await this.getPageData(start, page, preJobs);
-      console.log('158', data);
+
       jobsPosts.push(...data);
       continueWhile = !!data.length;
       start += 25;
     }
     console.log('number', jobsPosts.length);
-    console.log(jobsPosts);
 
     const promises: Promise<Job>[] = jobsPosts.map(
       throat(5, async (jobPost) => {
@@ -197,3 +116,83 @@ export class LinkedinScanner extends Scanner {
 //   const lin = new LinkedinScanner('linkedin', queryOptions, profile, new JobsDB());
 //   const t = await lin.scanning([]);
 // })();
+// taskCreator() {
+//   const task: TaskFunction<TaskProps, Job[]> = async ({ data, page }) => {
+//     let start = 0;
+//     let continueWhile = true;
+//     const jobs: Job[] = [];
+//     await this.noImageRequest(page);
+
+//     while (continueWhile) {
+//       console.log(`page num ${start}`);
+//       const url = this.getURL(start);
+//       console.log(url);
+//       await page.goto(url, { waitUntil: 'load' });
+
+//       const jobsPosts = await page.evaluate(LinkedinScanner.getAllJobsData);
+//       continueWhile = !!jobsPosts.length;
+//       for (const jobPost of jobsPosts) {
+//         console.log(jobPost.link);
+
+//         if (!jobPost.link || !jobPost.jobID || !jobPost.title) continue;
+//         const job = await data?.JobsDB?.getJob(jobPost.jobID);
+//         if (job) continue;
+
+//         // const jobPostApiHTML = await data.cluster?.execute(
+//         //   { ...data, URL: jobPost.link },
+//         //   LinkedinRequirementScanner.taskCreator()
+//         // );
+
+//         console.log(jobPost);
+//         // const { reason } = RequirementsReader.checkIsRequirementsMatch(jobPostApiHTML, data.profile);
+
+//         jobs.push({ ...jobPost });
+//       }
+
+//       // await data.jobs.insertMany(jobs);
+//       // const $ = load(html);
+
+//       // continueWhile = !!posts.length;
+
+//       // for (const post of posts) {
+//       //   const postApi = $(post);
+//       //   const link = postApi.find('a.base-card__full-link').attr('href');
+//       //   if (!link) continue;
+
+//       //   const jobURlSplit = link.split('?')[0].split('-');
+//       //   const jobID = jobURlSplit[jobURlSplit.length - 1];
+
+//       //   const job = await data?.jobs?.getJob(jobID);
+
+//       //   if (job) continue;
+
+//       //   const title = postApi.find('h3.base-search-card__title').text().trim();
+//       //   if (this.queryOptions.checkWordInBlackList(title)) continue;
+
+//       //   console.log(link);
+//       //   await Promise.all([page.goto(link), page.waitForNavigation({ waitUntil: 'load' })]);
+//       //   const jobPostApiHTML = await page.evaluate(() => document.body.innerHTML);
+
+//       //   if (!jobPostApiHTML) continue;
+
+//       //   const text = $(jobPostApiHTML)?.find('.show-more-less-html ul li').text();
+//       //   const { pass, reason } = RequirementsReader.checkIsRequirementsMatch(text, data.profile);
+
+//       //   await this.delay(4000);
+//       //   await Promise.all([page.goBack(), page.waitForNavigation({ waitUntil: 'load' })]);
+//       //   const company = postApi.find('h4.base-search-card__subtitle').text().trim();
+//       //   const location = postApi.find('span.job-search-card__location').text().trim();
+//       //   const date = postApi.find('.job-search-card__listdate--new').attr('datetime');
+
+//       //   const newJob = { jobID, title, link, company, location, reason, date, from: this.scannerName'linkedin' };
+
+//       //
+//       // }
+//       start += 25;
+//     }
+
+//     console.log('finish');
+//     return jobs;
+//   };
+//   return task;
+// }

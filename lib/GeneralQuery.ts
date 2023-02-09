@@ -4,8 +4,8 @@ import { BLACK_LIST_WORDS } from './LinkedinQueryOptions';
 import { ExtractKey, OmitKey, PickKey } from './types/types';
 
 export interface UserInput {
-  location: string;
-  position: string;
+  location: keyof typeof LOCATIONS_DICT_DB;
+  position: keyof typeof POSITIONS_DICT_DB;
   distance: '1' | '2' | '3';
   jobType: string;
   scope: string;
@@ -117,8 +117,8 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
     return this.queryOptions.positions[userInput].he;
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.position as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.positions[userInput].he;
+    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[userInput].he;
   }
 
   protected convertExperience() {
