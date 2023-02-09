@@ -93,10 +93,9 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
     this.sortBy = this.convertSortBy();
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
-    console.log(userInput);
-    console.log(this.queryOptions.positions[userInput]);
-    return this.queryOptions.positions[userInput].en;
+    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
+
+    return this.queryOptions.locations[userInput].en;
   }
 
   protected convertPosition(): string {

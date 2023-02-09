@@ -15,6 +15,8 @@ export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
 
   protected convertPositionGotFriends(): GotFriendsPositions {
     const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
+
+    console.log(this.queryOptions.positions[userInput]);
     return (
       this.queryOptions.positions[userInput]?.gotFriends || {
         checkboxProfessions: '',

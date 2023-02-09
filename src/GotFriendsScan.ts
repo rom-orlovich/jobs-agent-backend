@@ -9,6 +9,7 @@ import throat from 'throat';
 
 import { UserInput } from '../lib/GeneralQuery';
 import { Page } from 'puppeteer';
+import { exampleQuery, profile } from '..';
 
 export class GotFriendsScan extends Scanner {
   JobsDB: JobsDB;
@@ -27,28 +28,11 @@ export class GotFriendsScan extends Scanner {
 
     await page.click('#professionTitle');
     await page.click(`label[for='${checkboxProfessions}']`);
-    // await page.click(`label[for='checkboxProfessions-1947']`);
-    // await page.click(`label[for='checkboxProfessions-1965']`);
-    // await page.click(`label[for='checkboxProfessions-8010']`);
 
     await page.click('#regionTitle');
 
     await page.click(`li label[for='${location}']`);
     await page.click('#searchButton');
-    // const {}=this.gotFriendsQuery
-    // await page.click('#professionAreaTitle');
-    // await page.click(`label[for='radioAreas-1108']`);
-
-    // await page.click('#professionTitle');
-    // await page.click(`label[for='checkboxProfessions-1970']`);
-    // await page.click(`label[for='checkboxProfessions-1947']`);
-    // await page.click(`label[for='checkboxProfessions-1965']`);
-    // await page.click(`label[for='checkboxProfessions-8010']`);
-
-    // await page.click('#regionTitle');
-
-    // await page.click(`li label[for='checkboxRegions-1']`);
-    // await page.click('#searchButton');
   }
   getAllJobsData() {
     const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
@@ -65,7 +49,7 @@ export class GotFriendsScan extends Scanner {
 
   async initPuppeteer(preJobs: Job[]) {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
-      headless: true,
+      headless: false,
       defaultViewport: null,
       args: ['--no-sandbox'],
       slowMo: 75,
@@ -108,7 +92,7 @@ export class GotFriendsScan extends Scanner {
   }
 }
 // (async () => {
-//   const lin = new GotFriendsScan('gotFriends', queryOptions, profile, new JobsDB());
+//   const lin = new GotFriendsScan(exampleQuery, profile, new JobsDB());
 //   const t = await lin.scanning([]);
 // })();
 
