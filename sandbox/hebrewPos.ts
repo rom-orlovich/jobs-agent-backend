@@ -11658,4 +11658,6 @@ export const hebrewPos = [
   'בקרת תעופה',
   'פיקוח תעופה',
   'פיקוח טיסה',
-];
+] as const;
+
+export type HebrewPosKeys = (typeof hebrewPos)[number];

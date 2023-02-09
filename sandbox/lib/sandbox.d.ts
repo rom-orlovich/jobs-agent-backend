@@ -20,11 +20,14 @@ export interface AllPositionName {
   regularName: string;
   gotFriends: GotFriendsPositions;
 }
-export type PositionData = GenericRecord<{
-  he: string;
-  gotFriends: GotFriendsPositions;
-  en: string;
-}>;
+export type PositionData = Record<
+  HebrewPosKeys,
+  {
+    he: string;
+    gotFriends?: GotFriendsPositions;
+    en: string;
+  }
+>;
 
 interface DrushimCitiesData {
   he: string;

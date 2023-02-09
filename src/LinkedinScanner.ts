@@ -24,11 +24,8 @@ export class LinkedinScanner extends Scanner {
   getURL(start: number) {
     // const { jobQuery, location, period, distance, positionsQuery, sortBy } = this.queryOptions;
     const { type, exp, location, position, distance, scope, period, sortBy } = this.linkedinQuery;
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${position}&location=${location}&f_TPR=${period}&distance=${distance}&f_e=${exp}&f_JT=${scope}&sortBy=${sortBy}&f_WT=${type}&start=${start}`;
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${position}&location=${location}&f_TPR=${period}&distance=${distance}&f_E=${exp}&f_JT=${scope}&sortBy=${sortBy}&f_WT=${type}&start=${start}`;
     return url;
-  }
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   getAllJobsPostData(preJobs: Job[]) {

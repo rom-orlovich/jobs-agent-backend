@@ -1,4 +1,8 @@
-export const POSITIONS_DICT_NAME = {
+import { GenericRecord } from '../lib/types/types';
+import { HebrewPosKeys } from './hebrewPos';
+import { PositionData } from './lib/sandbox';
+
+export const POSITIONS_DICT_NAME: PositionData = {
   '8200': { he: '8200', en: '8200' },
   'אחראית משמרת - אבטחה': { he: 'אחראית משמרת - אבטחה', en: 'shift manager - security' },
   'אחראי משמרת - אבטחה': { he: 'אחראי משמרת - אבטחה', en: 'shift manager - security' },
@@ -11462,11 +11466,6 @@ export const POSITIONS_DICT_NAME = {
     en: 'executive vice president of operations and service',
   },
   'סמנכ``לי תפעול ושירות': { he: 'סמנכ``לי תפעול ושירות', en: 'operations and service vps' },
-  'סמנכ``ליות תפעול ושירות': { he: 'סמנכ``ליות תפעול ושירות' },
-  'סמנכל תפעול ושירות': { he: 'סמנכל תפעול ושירות' },
-  'סמנכלית תפעול ושירות': { he: 'סמנכלית תפעול ושירות' },
-  'סמנכלי תפעול ושירות': { he: 'סמנכלי תפעול ושירות' },
-  'סמנכליות תפעול ושירות': { he: 'סמנכליות תפעול ושירות' },
   'c#': { he: 'c#', en: 'c#' },
   'Backend Engineer': { he: 'Backend Engineer', en: 'backend engineer' },
   'Computer Vision Engineer': { he: 'Computer Vision Engineer', en: 'computer vision engineer' },
