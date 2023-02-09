@@ -1,4 +1,4 @@
-import { QueryOptionsBase } from './QueryOptionsBase';
+import { QueryOptionsBase } from './GeneralQuery';
 import { ValueObj } from './types/types';
 
 export const POSITIONS = {

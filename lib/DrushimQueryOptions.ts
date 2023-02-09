@@ -1,4 +1,4 @@
-import { QueryOptionsBase, QueryOptionsBaseProps } from './QueryOptionsBase';
+import { QueryOptionsBase, QueryOptionsBaseProps } from './GeneralQuery';
 
 export class DrushimQueryOptions extends QueryOptionsBase {
   constructor(queryOptions: QueryOptionsBaseProps) {

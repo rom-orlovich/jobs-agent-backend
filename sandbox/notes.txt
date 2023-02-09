@@ -277,6 +277,15 @@ https://www.linkedin.com/jobs-guest/api/typeaheadHits?query=Israel%20south&typea
     tel-aviv
 }
 
+// {name: "suggestTypes", value: "jd~he,jd~en,company_name"}
+// {
+// name: 'suggestTypes',
+// value: 'geo_multiple_city_id~en,geo_multiple_city_id~he',
+// value: 'geo_multiple_city_id~he',
+// value: 'jd~he,jd~en,geo_multiple_city_id',
+// value:"skill_facet"
+// },
+
 
 async () => {
   const res1 = await axios<any, { data: Result }, Root>(
