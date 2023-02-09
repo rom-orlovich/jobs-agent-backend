@@ -66,29 +66,3 @@ export class DrushimScanner extends Scanner {
 //   const t = await drushim.scanning([]);
 //   console.log('Finish scanning drushim');
 // })();
-
-// getReason(text: string) {
-//   return RequirementsReader.checkIsRequirementsMatch(text, this.profile).reason;
-// }
-
-// async normalizeJobs(jobsPosts: JobPost[]) {
-//   const GoogleTranslate = new GoogleTranslate({ to: 'en', from: this.scannerName'he', op: 'translate' });
-
-//   const { browser } = await PuppeteerSetup.lunchInstance({ headless: false });
-//   const promises = jobsPosts.map(
-//     throat(5, async ({ text, ...job }) => {
-//       const newPage = await browser.newPage();
-//       const translateText = await GoogleTranslate.goTranslate(newPage, text);
-//       await newPage.close();
-
-//       return {
-//         ...job,
-//         reason: this.getReason(translateText),
-//       };
-//     })
-//   );
-
-//   const jobs = await Promise.all(promises);
-//   await browser.close();
-//   return jobs;
-// }

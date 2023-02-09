@@ -271,7 +271,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeFalsy();
   });
-  test.only(`Test many sentences from real text that its match the user experience-ex1`, () => {
+  test(`Test many sentences from real text that its match the user experience-ex1`, () => {
     const profile = new Profile({
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},

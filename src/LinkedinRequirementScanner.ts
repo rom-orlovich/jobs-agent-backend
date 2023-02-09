@@ -2,7 +2,6 @@ import { Page } from 'puppeteer';
 import { untilSuccess } from '../lib/utils';
 
 export class LinkedinRequirementScanner {
-  // constructor(queryOptions: null) {}
   static getJobPostData() {
     const ul = Array.from(document.body.querySelectorAll<HTMLLIElement>('.show-more-less-html ul li'));
 

@@ -26,7 +26,7 @@ import { GeneralQuery, UserInput } from '../lib/GeneralQuery';
 export class JobsScan {
   profile: Profile;
   linkedinScanner: LinkedinScanner;
-  GotFriendsScannerner: GotFriendsScanner;
+  GotFriendsScanner: GotFriendsScanner;
   allJobsScanner: AllJobScanner;
   jobs: JobsDB;
   drushimScanner: DrushimScanner;
@@ -35,7 +35,7 @@ export class JobsScan {
     this.profile = profile;
     this.jobs = new JobsDB();
     this.linkedinScanner = new LinkedinScanner(userInput, this.profile, this.jobs);
-    this.GotFriendsScannerner = new GotFriendsScanner(userInput, this.profile, this.jobs);
+    this.GotFriendsScanner = new GotFriendsScanner(userInput, this.profile, this.jobs);
 
     this.allJobsScanner = new AllJobScanner(userInput, this.profile, this.jobs);
     this.drushimScanner = new DrushimScanner(userInput, this.profile, this.jobs);
@@ -49,7 +49,7 @@ export class JobsScan {
     const data = (
       await Promise.all([
         this.linkedinScanner.scanning(preJobs),
-        this.GotFriendsScannerner.scanning(preJobs),
+        this.GotFriendsScanner.scanning(preJobs),
         this.allJobsScanner.scanning(preJobs),
         this.drushimScanner.scanning(preJobs),
       ])

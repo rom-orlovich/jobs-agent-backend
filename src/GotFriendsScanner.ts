@@ -102,8 +102,8 @@ export class GotFriendsScanner extends Scanner {
     return results;
   }
 }
-(async () => {
-  const got = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
-  const t = await got.scanning([]);
-  console.log('Finish scanning');
-})();
+// (async () => {
+//   const got = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
+//   const t = await got.scanning([]);
+//   console.log('Finish scanning');
+// })();

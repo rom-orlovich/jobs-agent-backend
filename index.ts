@@ -3,15 +3,13 @@ import { config } from 'dotenv';
 config();
 
 import { Profile } from './lib/Profile';
-import { LinkedinQueryOptions } from './lib/LinkedinQueryOptions';
+
 import { ExperienceRange } from './lib/types/profile';
 import { GenericRecord } from './lib/types/types';
 import { JobsScan } from './src/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';
-import { GotFriendQueryOptions } from './lib/GotFriendsQuery';
-import { AllJobsQueryOptions } from './lib/AllJobQueryOptions';
-import { DrushimQueryOptions } from './lib/DrushimQueryOptions';
+
 import { UserInput } from './lib/GeneralQuery';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },

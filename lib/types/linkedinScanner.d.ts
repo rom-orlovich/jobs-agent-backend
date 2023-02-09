@@ -6,5 +6,5 @@ export interface Job {
   link: string;
   reason?: string;
   date?: string;
-  from?: string;
+  from: string;
 }

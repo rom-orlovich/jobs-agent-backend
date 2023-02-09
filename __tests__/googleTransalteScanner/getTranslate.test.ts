@@ -1,16 +1,17 @@
 import { Browser, Page } from 'puppeteer';
-import { GoogleTranslate } from '../../src/GoogleTranslate';
+import { profile } from '../..';
 
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
+import { GoogleTranslate } from '../../src/GoogleTranslateScanner';
 import { TRANSLATE_EX1_HTML, TRANSLATE_EX2_HTML, TRANSLATE_EX3_HTML } from './mocks/htmlContext';
 // import { J } from './mocks/htmlContext';
 
 describe('Test getAllJobsData.test.ts', () => {
   const { lunchInstance, evaluateContent } = PuppeteerSetup;
-  const GoogleTranslate = new GoogleTranslate({ op: 'translate', to: 'en', from: this.scannerName'he' });
+  const googleTranslate = new GoogleTranslate({ op: 'translate', to: 'en', from: 'he' }, profile);
   let page: Page, browser: Browser;
   beforeAll(async () => {
-    ({ browser, page } = await lunchInstance());
+    ({ browser, page } = await lunchInstance({}));
   });
 
   afterAll(async () => {
@@ -19,7 +20,7 @@ describe('Test getAllJobsData.test.ts', () => {
   });
 
   test('Test get the translate test result from html content-ex1.', async () => {
-    const res = await evaluateContent(page, TRANSLATE_EX1_HTML, GoogleTranslate.getTranslate);
+    const res = await evaluateContent(page, TRANSLATE_EX1_HTML, googleTranslate.getTranslate);
 
     expect(res.replace(/\s+/g, '')).toBe(
       `A startup company in the field of technology for the retail world needs a Full-Stack Developer.
@@ -35,7 +36,7 @@ describe('Test getAllJobsData.test.ts', () => {
     );
   });
   test('Test get the translate test result from html content-ex2.', async () => {
-    const res = await evaluateContent(page, TRANSLATE_EX2_HTML, GoogleTranslate.getTranslate);
+    const res = await evaluateContent(page, TRANSLATE_EX2_HTML, googleTranslate.getTranslate);
 
     expect(res.replace(/\s+/g, '')).toBe(
       `
@@ -57,7 +58,7 @@ describe('Test getAllJobsData.test.ts', () => {
     );
   });
   test('Test get the translate test result from html content-ex3.', async () => {
-    const res = await evaluateContent(page, TRANSLATE_EX3_HTML, GoogleTranslate.getTranslate);
+    const res = await evaluateContent(page, TRANSLATE_EX3_HTML, googleTranslate.getTranslate);
 
     expect(res.replace(/\s+/g, '')).toBe(
       `

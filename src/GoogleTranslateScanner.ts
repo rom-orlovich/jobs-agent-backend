@@ -68,24 +68,3 @@ export class GoogleTranslate {
     return jobs;
   }
 }
-// taskCreator(): TaskFunction<{ text: string }, string> {
-//   const task: TaskFunction<{ text: string }, string> = async ({ data, page }) => {
-//     const url = this.getURL({ op: 'translate', to: 'en', text: data.text });
-
-//     console.log('go to google translate');
-//     await page.goto(url);
-
-//     try {
-//       await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 10000 });
-//     } catch (error) {
-//       console.log(error);
-//       await page.goto(url);
-//     }
-
-//     const translateText = await page.evaluate(GoogleTranslate.getTranslate);
-
-//     return translateText;
-//   };
-
-//   return task;
-// }
