@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
 import throat from 'throat';
+import { GeneralQuery, UserInput } from '../lib/GeneralQuery';
 
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
@@ -14,22 +15,22 @@ export interface TaskProps {
   cluster?: Cluster;
 }
 
-export interface ScannerAPI<T, K, R = unknown> {
-  queryOptions: T;
+export interface ScannerAPI {
+  queryOptions: GeneralQuery;
   profile: Profile;
   getURL(pageNum?: number, ...args: any[]): string;
   getAxiosData<D>(page: number): Promise<D | undefined>;
-  taskCreator(): TaskFunction<K, R>;
+  // taskCreator(): TaskFunction<K, R>;
   // scanning(preJobs: R): Promise<R[]>;
 }
-export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
-  queryOptions: T;
+export class Scanner implements ScannerAPI {
+  queryOptions: GeneralQuery;
   profile: Profile;
   googleTranslate: GoogleTranslate;
   scannerName: string;
 
-  constructor(scannerName: string, queryOptions: T, profile: Profile) {
-    this.queryOptions = queryOptions;
+  constructor(scannerName: string, userInput: UserInput, profile: Profile) {
+    this.queryOptions = new GeneralQuery(userInput);
     this.profile = profile;
     this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;
@@ -56,7 +57,7 @@ export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
     return jobs;
   }
 
-  taskCreator(): TaskFunction<K, R> {
-    throw new Error('Method not implemented.');
-  }
+  // taskCreator(): TaskFunction<K, R> {
+  //   throw new Error('Method not implemented.');
+  // }
 }

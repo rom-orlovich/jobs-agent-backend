@@ -10,9 +10,8 @@ import { JobsDB } from '../lib/JobsDB';
 import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 import { Page } from 'puppeteer';
 import throat from 'throat';
-import { profile, queryOptions } from '..';
 
-export class LinkedinScanner extends Scanner<LinkedinQueryOptions, TaskProps, Job[]> {
+export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;
 
   constructor(
