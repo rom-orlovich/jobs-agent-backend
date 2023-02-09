@@ -1,4 +1,12 @@
-import { QueryOptionsBase } from './GeneralQuery';
+import {
+  GeneralQuery,
+  ScannerExperienceKeysValue,
+  ScannerJobTypeKeysValue,
+  ScannerLocationsNames,
+  ScannerPositionsNames,
+  ScannerScopeKeysValue,
+  UserInput,
+} from './GeneralQuery';
 import { ValueObj } from './types/types';
 
 export const POSITIONS = {
@@ -81,53 +89,95 @@ const DISTANCE_MILE = {
   '100 mi (160 km)': '100',
 } as const;
 
-export class LinkedinQueryOptions extends QueryOptionsBase {
-  jobQuery: string;
-  positionsQuery: string;
-  location: string;
-  limit: number;
-  distance: ValueObj<typeof DISTANCE_MILE>;
-  period: ValueObj<typeof PERIOD>;
-  sortBy: ValueObj<typeof SORT_BY>;
+export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
+  period: string;
+  sortBy: string;
+  // jobQuery: string;
+  // positionsQuery: string;
+  // location: string;
+  // limit: number;
+  // distance: ValueObj<typeof DISTANCE_MILE>;
+  // period: ValueObj<typeof PERIOD>;
+  // sortBy: ValueObj<typeof SORT_BY>;
 
-  constructor(queryOptions: {
-    jobQuery?: string;
-    positions?: (keyof typeof POSITIONS)[];
-    limit?: number;
-    distance?: keyof typeof DISTANCE_MILE;
-    location?: string;
-    whiteList?: typeof WHITE_LIST_WORDS;
-    blackList?: typeof BLACK_LIST_WORDS;
-    sortBy?: keyof typeof SORT_BY;
-    period?: keyof typeof PERIOD;
-  }) {
-    super({ blackList: queryOptions.blackList, whiteList: queryOptions.whiteList });
-    this.limit = queryOptions.limit || 1000;
+  // {
+  //   jobQuery?: string;
+  //   positions?: (keyof typeof POSITIONS)[];
+  //   limit?: number;
+  //   distance?: keyof typeof DISTANCE_MILE;
+  //   location?: string;
+  //   whiteList?: typeof WHITE_LIST_WORDS;
+  //   blackList?: typeof BLACK_LIST_WORDS;
+  //   sortBy?: keyof typeof SORT_BY;
+  //   period?: keyof typeof PERIOD;
+  // }
 
-    this.distance = this.convertDistanceMile(queryOptions.distance);
-    this.location = this.convertLocation(queryOptions.location);
-    this.jobQuery = this.convertJob(queryOptions.jobQuery);
-    this.positionsQuery = this.convertPositions(queryOptions.positions);
-    this.period = this.convertPeriod(queryOptions.period);
-    this.sortBy = this.convertSortBy(queryOptions.sortBy);
+  constructor(userInput: UserInput) {
+    super(userInput);
+    this.period = this.convertPeriod();
+    this.sortBy = this.convertSortBy();
+    // this.limit = queryOptions.limit || 1000;
+
+    // this.distance = this.convertDistanceMile(queryOptions.distance.linkedin);
+    // this.location = this.convertLocation(queryOptions.location);
+    // this.jobQuery = this.convertJob(queryOptions.jobQuery);
+    // this.positionsQuery = this.convertPositions(queryOptions.positions);
+    // this.period = this.convertPeriod(queryOptions.period);
+    // this.sortBy = this.convertSortBy(queryOptions.sortBy);
   }
 
-  private convertJob(job = '') {
-    return job.split(' ').join('+');
+  protected convertPosition() {
+    const positionDict = this.queryOptions.positions[
+      this.userInput.position as ScannerPositionsNames
+    ] as { en: string; he: string };
+    if (!positionDict) return this.userInput.position;
+    return positionDict.en.split(' ').join('+');
   }
-  private convertLocation(location = '') {
-    return location.split(' ').join('%20');
+  protected convertLocation() {
+    const locationDict =
+      this.queryOptions.locations[this.userInput.location as ScannerLocationsNames].en;
+    if (!locationDict) return this.userInput.location;
+    return locationDict.split(' ').join('%20');
   }
-  private convertPositions(positions: (keyof typeof POSITIONS)[] = []) {
-    return positions.map((namesPosition) => POSITIONS[namesPosition]).join('%2C');
+  //  convertPositions(positions: (keyof typeof POSITIONS)[] = []) {
+  //   return this.queryOptions.position[this.userInput.position as ScannerPositionsNames];
+  //   // return positions.map((namesPosition) => POSITIONS[namesPosition]).join('%2C');
+  // }
+  // type
+  // scope
+  // experience
+  protected convertScope() {
+    const scopesArr = this.userInput.scope.split(',').map((el) => {
+      const scope = el as keyof ScannerScopeKeysValue;
+      return this.queryOptions.scope.linkedin.f_JT[scope];
+    });
+
+    return scopesArr.join(',');
   }
-  private convertPeriod(period: keyof typeof PERIOD = 'past month') {
+  protected convertType() {
+    const scopesArr = this.userInput.scope.split(',').map((el) => {
+      const scope = el as keyof ScannerJobTypeKeysValue;
+      return this.queryOptions.scope.linkedin.f_JT[scope];
+    });
+
+    return scopesArr.join(',');
+  }
+
+  protected convertExperience() {
+    const yearExperienceArr = this.userInput.experience.split(',').map((el) => {
+      const expY = el as keyof ScannerExperienceKeysValue;
+      return this.queryOptions.exp.linkedin.f_e[expY];
+    });
+    return yearExperienceArr.join(',');
+  }
+
+  protected convertPeriod(period: keyof typeof PERIOD = 'past month') {
     return PERIOD[period];
   }
-  private convertSortBy(sortBy: keyof typeof SORT_BY = 'relevant') {
+  protected convertSortBy(sortBy: keyof typeof SORT_BY = 'relevant') {
     return SORT_BY[sortBy];
   }
-  private convertDistanceMile(distanceMile: keyof typeof DISTANCE_MILE = '10 mi (15km)') {
-    return DISTANCE_MILE[distanceMile];
+  protected convertDistance() {
+    return this.queryOptions.distance.linkedin.distance[this.userInput.distance];
   }
 }

@@ -24,7 +24,6 @@ interface JobsScanQueryOptions {
 }
 
 export class JobsScan {
-  queryOptions: GeneralQuery;
   profile: Profile;
   linkedinScanner: LinkedinScanner;
   gotFriendsScanner: GotFriendsScan;
@@ -33,24 +32,13 @@ export class JobsScan {
   drushimScanner: DrushimScanner;
 
   constructor(profile: Profile, userInput: UserInput) {
-
     this.profile = profile;
     this.jobs = new JobsDB();
-    this.linkedinScanner = new LinkedinScanner(
-      'linkedin',
-      this.queryOptions
-      this.profile,
-      this.jobs
-    );
-    this.gotFriendsScanner = new GotFriendsScan(
-      'gotFriends',
-      this.queryOptions
-      this.profile,
-      this.jobs
-    );
+    this.linkedinScanner = new LinkedinScanner('linkedin', userInput, this.profile, this.jobs);
+    this.gotFriendsScanner = new GotFriendsScan('gotFriends', userInput, this.profile, this.jobs);
 
-    this.allJobsScanner = new AllJobScanner('allJobs',  this.queryOptions, this.profile);
-    this.drushimScanner = new DrushimScanner('drushim',  this.queryOptions, this.profile);
+    this.allJobsScanner = new AllJobScanner('allJobs', userInput, this.profile);
+    this.drushimScanner = new DrushimScanner('drushim', userInput, this.profile);
   }
 
   async scanning() {

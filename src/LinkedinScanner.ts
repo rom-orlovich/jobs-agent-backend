@@ -10,23 +10,21 @@ import { JobsDB } from '../lib/JobsDB';
 import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 import { Page } from 'puppeteer';
 import throat from 'throat';
+import { ScannerName, UserInput } from '../lib/GeneralQuery';
 
 export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;
-
-  constructor(
-    scannerName: string,
-    queryOptions: LinkedinQueryOptions,
-    profile: Profile,
-    JobsDB: JobsDB
-  ) {
-    super(scannerName, queryOptions, profile);
+  linkedinQuery: LinkedinQueryOptions;
+  constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+    super(scannerName, userInput, profile);
+    this.linkedinQuery = new LinkedinQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }
 
   getURL(start: number) {
-    const { jobQuery, location, period, distance, positionsQuery, sortBy } = this.queryOptions;
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${jobQuery}&location=${location}&f_TPR=${period}&distance=${distance}&f_E=2&f_T=${positionsQuery}&sortBy=${sortBy}&start=${start}`;
+    // const { jobQuery, location, period, distance, positionsQuery, sortBy } = this.queryOptions;
+    const { type, exp, location, position, distance, scope, period, sortBy } = this.linkedinQuery;
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${position}&location=${location}&f_TPR=${period}&distance=${distance}&f_e=${exp}&f_JT=${scope}&sortBy=${sortBy}&f_WT=${type}&start=${start}`;
     return url;
   }
   delay(ms: number) {
@@ -138,7 +136,7 @@ export class LinkedinScanner extends Scanner {
 
     const jobsPosts = (await page.evaluate(this.getAllJobsPostData, preJobs)).filter((jobPost) => {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title) return false;
-      if (this.queryOptions.checkWordInBlackList(jobPost.title)) return false;
+      if (this.linkedinQuery.checkWordInBlackList(jobPost.title)) return false;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
       return true;
     });
