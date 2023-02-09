@@ -15,8 +15,8 @@ import { ScannerName, UserInput } from '../lib/GeneralQuery';
 export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;
   linkedinQuery: LinkedinQueryOptions;
-  constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super(scannerName, userInput, profile);
+  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+    super('linkedin', userInput, profile);
     this.linkedinQuery = new LinkedinQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }

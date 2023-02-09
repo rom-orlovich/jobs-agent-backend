@@ -1,5 +1,6 @@
 import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
 import { UserInput } from '../lib/GeneralQuery';
+import { JobsDB } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
 import { DrushimAPI, DrushimResult } from '../lib/types/drushim';
 import { Job } from '../lib/types/linkedinScanner';
@@ -9,7 +10,7 @@ import { Scanner } from './Scanner';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
-  constructor(userInput: UserInput, profile: Profile) {
+  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
     super('drushim', userInput, profile);
     this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }

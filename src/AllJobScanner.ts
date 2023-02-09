@@ -5,14 +5,20 @@ import { Profile } from '../lib/Profile';
 
 import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
+import { UserInput } from '../lib/GeneralQuery';
+import { JobsDB } from '../lib/JobsDB';
 
 export type JobPost = Job & { text: string };
-export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
-  constructor(scannerName: string, queryOptions: AllJobsQueryOptions, profile: Profile) {
-    super(scannerName, queryOptions, profile);
+export class AllJobScanner extends Scanner {
+  allJobsQueryOptions: AllJobsQueryOptions;
+  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+    super('allJobs', userInput, profile);
+    this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }
   getURL(page = 1) {
-    return `https://www.alljobs.co.il/SearchResultsGuest.aspx?page=${page}&position=1712&type=37&source=779&duration=20&exc=&region=`;
+    //freetxt
+    const { location, distance, scope, position, jobType } = this.allJobsQueryOptions;
+    return `https://www.alljobs.co.il/SearchResultsGuest.aspx?type=${jobType}page=${page}&freetxt=${position}&type=37&source=${location}&duration=${distance}&exc=&region=`;
   }
 
   async getJobPostsData($: CheerioAPI) {
@@ -40,7 +46,7 @@ export class AllJobScanner extends Scanner<AllJobsQueryOptions, any, any> {
     const $ = await this.get$(page);
     const data = (await this.getJobPostsData($)).filter((jobPost) => {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-      if (this.queryOptions.checkWordInBlackList(jobPost.title)) return false;
+      if (this.allJobsQueryOptions.checkWordInBlackList(jobPost.title)) return false;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
       return true;
     });

@@ -174,13 +174,6 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
         return this.queryOptions.jobType.linkedin.f_WT[jobType];
       });
 
-    if (this.scannerName === 'allJobs') {
-      jobTypeArr = userInputSplit.map((el) => {
-        const jobType = el as GeneralQueryJobType<typeof this.scannerName>;
-        if (jobType === '2') return '';
-        return this.queryOptions.jobType.allJobs.type[jobType];
-      });
-    }
     if (this.scannerName === 'drushim')
       jobTypeArr = userInputSplit.map((el) => {
         const jobType = el as GeneralQueryJobType<typeof this.scannerName>;
