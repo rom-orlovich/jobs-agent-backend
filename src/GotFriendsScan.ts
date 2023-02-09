@@ -9,7 +9,6 @@ import throat from 'throat';
 
 import { UserInput } from '../lib/GeneralQuery';
 import { Page } from 'puppeteer';
-import { exampleQuery, profile } from '..';
 
 export class GotFriendsScan extends Scanner {
   JobsDB: JobsDB;
@@ -49,7 +48,7 @@ export class GotFriendsScan extends Scanner {
 
   async initPuppeteer(preJobs: Job[]) {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
-      headless: false,
+      headless: true,
       defaultViewport: null,
       args: ['--no-sandbox'],
       slowMo: 75,

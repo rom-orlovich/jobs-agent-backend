@@ -39,7 +39,7 @@ export class GoogleTranslate {
     await untilSuccess(async () => {
       console.log('go to google translate');
       await page.goto(url);
-      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 0 });
+      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 20000 });
     });
 
     const translateText = await page.evaluate<unknown[], () => string>(this.getTranslate);
@@ -48,7 +48,7 @@ export class GoogleTranslate {
   }
 
   async checkJobRequirements(jobsPosts: JobPost[]) {
-    const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'] });
+    const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'], headless: true });
     const promises = jobsPosts.map(
       throat(5, async ({ text, ...job }) => {
         const newPage = await browser.newPage();

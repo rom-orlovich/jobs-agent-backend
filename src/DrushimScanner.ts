@@ -1,3 +1,4 @@
+import { exampleQuery, profile } from '..';
 import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
 import { UserInput } from '../lib/GeneralQuery';
 import { JobsDB } from '../lib/JobsDB';
@@ -15,12 +16,9 @@ export class DrushimScanner extends Scanner {
     this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }
   getURL(page: number): string {
-    //     experience
-    // scope
-    // scope
-    // range
-    const { exp, scope, location, distance, jobType, position } = this.drushimQueryOptions;
-    return `https://www.drushim.co.il/api/jobs/search?experience=${exp}&scope=${scope}-${jobType}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
+    const { exp, scope, location, distance, position } = this.drushimQueryOptions;
+
+    return `https://www.drushim.co.il/api/jobs/search?experience=${exp}&scope=${scope}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
   }
 
   getJobsData(results: DrushimResult[] | undefined): JobPost[] {
@@ -29,7 +27,7 @@ export class DrushimScanner extends Scanner {
       jobID: String(result.Code),
       company: result.Company.CompanyDisplayName,
       link: 'https://www.drushim.co.il' + result.JobInfo.Link,
-      location: result.JobContent.Addresses[0].CityEnglish,
+      location: result.JobContent.Addresses.map((el) => el.CityEnglish).join(','),
       title: result.JobContent.FullName,
       date: result.JobInfo.Date,
       from: this.scannerName,
@@ -58,13 +56,15 @@ export class DrushimScanner extends Scanner {
       promises.push(this.getNormalizeData(page, preJobs));
       page++;
     }
+
     return await this.getResultScanning(promises);
   }
 }
 
 // (async () => {
-//   const drushim = new DrushimScanner('drushim', new DrushimQueryOptions(queryOptions), profile);
+//   const drushim = new DrushimScanner(exampleQuery, profile, new JobsDB());
 //   const t = await drushim.scanning([]);
+//   console.log('Finish scanning drushim');
 // })();
 
 // getReason(text: string) {

@@ -7,6 +7,7 @@ import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
 import { UserInput } from '../lib/GeneralQuery';
 import { JobsDB } from '../lib/JobsDB';
+import { exampleQuery, profile } from '..';
 
 export type JobPost = Job & { text: string };
 export class AllJobScanner extends Scanner {
@@ -18,7 +19,7 @@ export class AllJobScanner extends Scanner {
   getURL(page = 1) {
     //freetxt
     const { location, distance, scope, position, jobType } = this.allJobsQueryOptions;
-    return `https://www.alljobs.co.il/SearchResultsGuest.aspx?type=${jobType}page=${page}&freetxt=${position}&type=37&source=${location}&duration=${distance}&exc=&region=`;
+    return `https://www.alljobs.co.il/SearchResultsGuest.aspx?type=${jobType}&page=${page}&freetxt=${position}&type=37&source=${location}&duration=${distance}`;
   }
 
   async getJobPostsData($: CheerioAPI) {
@@ -31,7 +32,11 @@ export class AllJobScanner extends Scanner {
         const linkSplit = link.split('=');
         const jobID = linkSplit[linkSplit.length - 1];
         const company = $(el).find('.T14 a').text().trim();
-        const location = $(el).find('.job-content-top-location a').text().trim();
+        const location = $(el)
+          .find('.job-content-top-location a')
+          .toArray()
+          .map((el) => $(el).text())
+          .join(',');
         const text = $(el).find('.job-content-top-desc').text().trim();
         return { jobID, title, link, company, location, text, from: this.scannerName };
       });
@@ -71,7 +76,8 @@ export class AllJobScanner extends Scanner {
   }
 }
 
-// (async () => {
-//   const lin = new AllJobScanner('allJobs', queryOptions, profile);
-//   const t = await lin.scanning([]);
-// })();
+(async () => {
+  const lin = new AllJobScanner(exampleQuery, profile, new JobsDB());
+  const t = await lin.scanning([]);
+  console.log('Ffinish scanning AllJobs');
+})();

@@ -16,21 +16,16 @@ export interface TaskProps {
 }
 
 export interface ScannerAPI {
-  // generalQuery: GeneralQuery;
   profile: Profile;
   getURL(pageNum?: number, ...args: any[]): string;
   getAxiosData<D>(page: number): Promise<D | undefined>;
-  // taskCreator(): TaskFunction<K, R>;
-  // scanning(preJobs: R): Promise<R[]>;
 }
 export class Scanner implements ScannerAPI {
-  // generalQuery: GeneralQuery;
   profile: Profile;
   googleTranslate: GoogleTranslate;
   scannerName: ScannerName;
 
   constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile) {
-    // this.generalQuery = new GeneralQuery(userInput);
     this.profile = profile;
     this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;
@@ -41,9 +36,10 @@ export class Scanner implements ScannerAPI {
   }
 
   async getAxiosData<D>(page: number): Promise<D | undefined> {
-    console.log(this.getURL(page));
+    const url = this.getURL(page);
+    console.log(url);
     try {
-      const res = await axios(this.getURL(page));
+      const res = await axios(url);
       const data = res.data;
       return data;
     } catch (error) {
@@ -56,8 +52,4 @@ export class Scanner implements ScannerAPI {
     const jobs = await this.googleTranslate.checkJobRequirements(jobsPosts);
     return jobs;
   }
-
-  // taskCreator(): TaskFunction<K, R> {
-  //   throw new Error('Method not implemented.');
-  // }
 }

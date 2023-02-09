@@ -39,7 +39,7 @@ const SCANNER_QUERY_OPTIONS = {
     linkedin: { f_WT: { '1': '3', '2': '2', '3': '1' } },
     gotFriends: undefined,
     allJobs: { type: { '1': '37', '2': { region: '11' }, '3': '' } },
-    drushim: { scope: { '2': '5', '1': '', '3': '' } },
+    drushim: { scope: { '2': '5' } },
   },
   distance: {
     linkedin: { distance: { '1': '10', '2': '25', '3': '50' } },
@@ -50,15 +50,6 @@ const SCANNER_QUERY_OPTIONS = {
   positions: POSITIONS_DICT_DB,
   locations: LOCATIONS_DICT_DB,
 };
-
-// export type ScannerPositionsNames = keyof (typeof SCANNER_QUERY_OPTIONS)['positions'];
-// export type ScannerLocationsNames = keyof (typeof SCANNER_QUERY_OPTIONS)['locations'];
-// export type ScannerExperience = keyof (typeof SCANNER_QUERY_OPTIONS)['exp'];
-// export type ScannerExperienceKeysValue = (typeof SCANNER_QUERY_OPTIONS)['exp'][ScannerExperience];
-// export type ScannerScope = keyof (typeof SCANNER_QUERY_OPTIONS)['scope'];
-// export type ScannerScopeKeysValue = (typeof SCANNER_QUERY_OPTIONS)['scope'][ScannerScope];
-// export type ScannerJobType = keyof (typeof SCANNER_QUERY_OPTIONS)['type'];
-// export type ScannerJobTypeKeysValue = (typeof SCANNER_QUERY_OPTIONS)['type'][ScannerJobType];
 
 export type ScannerName = 'linkedin' | 'gotFriends' | 'allJobs' | 'drushim';
 
@@ -123,7 +114,9 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
 
   protected convertExperience() {
     let yearExperienceArr: string[] = [];
-    const userInputSplit = this.userInput.jobType.split(',');
+
+    const userInputSplit = this.userInput.experience.split(',');
+    if (userInputSplit.length === 0) return '';
     if (this.scannerName === 'linkedin') {
       yearExperienceArr = userInputSplit.map((el) => {
         const expY = el as GeneralQueryExp<'linkedin'>;
@@ -142,45 +135,29 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
 
   protected convertScope() {
     let scopesArr: string[] = [];
-    const userInputSplit = this.userInput.jobType.split(',');
-    if (this.scannerName === 'linkedin')
-      scopesArr = userInputSplit.map((el) => {
-        const scope = el as GeneralQueryScope<'linkedin'>;
-        return this.queryOptions.scope.linkedin.f_JT[scope];
-      });
+    const userInputSplit = this.userInput.scope.split(',');
+    if (userInputSplit.length === 0) return '';
 
-    if (this.scannerName === 'allJobs') {
-      scopesArr = userInputSplit.map((el) => {
-        const scope = el as GeneralQueryScope<'allJobs'>;
-        return this.queryOptions.scope.allJobs.type[scope];
-      });
-    }
-    if (this.scannerName === 'drushim')
-      scopesArr = userInputSplit.map((el) => {
-        const scope = el as GeneralQueryScope<'drushim'>;
-        return this.queryOptions.scope.drushim.scope[scope];
-      });
+    scopesArr = userInputSplit.map((el) => {
+      const scope = el as GeneralQueryScope<'linkedin'>;
+      return this.queryOptions.scope.linkedin.f_JT[scope];
+    });
 
-    return this.scannerName === 'drushim' ? scopesArr.join('-') : scopesArr.join(',');
+    return scopesArr.join(',');
   }
 
   protected convertJobType(): string {
     let jobTypeArr: string[] = [];
 
     const userInputSplit = this.userInput.jobType.split(',');
-    if (this.scannerName === 'linkedin')
-      jobTypeArr = userInputSplit.map((el) => {
-        const jobType = el as GeneralQueryJobType<typeof this.scannerName>;
-        return this.queryOptions.jobType.linkedin.f_WT[jobType];
-      });
+    if (userInputSplit.length === 0) return '';
 
-    if (this.scannerName === 'drushim')
-      jobTypeArr = userInputSplit.map((el) => {
-        const jobType = el as GeneralQueryJobType<typeof this.scannerName>;
-        return this.queryOptions.jobType.drushim.scope[jobType];
-      });
+    jobTypeArr = userInputSplit.map((el) => {
+      const jobType = el as GeneralQueryJobType<'linkedin'>;
+      return this.queryOptions.jobType.linkedin.f_WT[jobType];
+    });
 
-    return this.scannerName === 'drushim' ? jobTypeArr.join('-') : jobTypeArr.join(',');
+    return jobTypeArr.join(',');
   }
 
   protected convertDistance(): string {

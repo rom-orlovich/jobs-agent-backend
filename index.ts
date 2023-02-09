@@ -41,69 +41,12 @@ export const profile = new Profile({
   },
 });
 
-// export const queryOptions = new LinkedinQueryOptions({
-//   sortBy: 'recent',
-//   period: 'past week',
-//   jobQuery: 'front end',
-//   distance: '10 mi (15km)',
-//   location: 'Tel-Aviv',
-
-// blackList: [
-//   'senior',
-//   'lead',
-//   'angular',
-//   'devops',
-//   'cloud',
-//   'wordpress',
-//   'devops',
-//   'data analyst',
-//   'data',
-//   'ux',
-//   'ui',
-//   'quality assurance',
-//   'qa',
-//   'csv',
-//   'php',
-//   'communications',
-//   'embedded',
-//   'power supply',
-//   'java',
-//   'ruby',
-//   'go',
-//   'etl',
-//   'technical solution',
-//   'tax',
-//   'eae',
-//   'associate embedded systems engineer',
-//   'ese',
-//   'system test',
-//   ' Tier 2 Support Agent',
-//   'Sales Manager',
-// ],
-//   whiteList: [
-//     'front-end',
-//     'frontend',
-//     'full-stack',
-//     'fullstack',
-//     'javascript',
-//     'react',
-//     'react.js',
-//     'node.js',
-//     'node',
-//     'js',
-//     'junior',
-//     'fe',
-//     'fw',
-//     'web',
-//     'software',
-//   ],
-// });
 export const exampleQuery: UserInput = {
   location: 'תל אביב',
-  position: 'full stack',
-  distance: '2', // 10,25,50,75,
+  position: 'Full Stack',
+  distance: '1', // 10,25,50,75,
 
-  jobType: '1', // 1 hybrid, 2:home ,3:onsite
+  jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
   scope: '1,2', // 1 full, 2:part
   experience: '1,2', //without -1 ,between 1-2,
   blackList: [
