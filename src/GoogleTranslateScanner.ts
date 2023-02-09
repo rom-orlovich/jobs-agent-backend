@@ -7,7 +7,6 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { GoogleTranslateQuery } from '../lib/types/google-translate';
 import { untilSuccess } from '../lib/utils';
 import { JobPost } from './AllJobScanner';
-import { Scanner } from './Scanner';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;
@@ -16,7 +15,7 @@ export class GoogleTranslate {
     this.queryOptions = queryOptions;
     this.profile = profile;
   }
-  getURL(pageNum?: number, text?: string): string {
+  getURL(text?: string): string {
     const { to, op } = this.queryOptions;
     if (!text) return '';
     const from: string = this.queryOptions.from || 'auto';
@@ -35,7 +34,7 @@ export class GoogleTranslate {
       .join('');
   }
   async goTranslate(page: Page, text?: string): Promise<string> {
-    const url = this.getURL(undefined, text);
+    const url = this.getURL(text);
 
     await untilSuccess(async () => {
       console.log('go to google translate');
@@ -48,7 +47,7 @@ export class GoogleTranslate {
     return translateText;
   }
 
-  async translateJobTexts(jobsPosts: JobPost[]) {
+  async checkJobRequirements(jobsPosts: JobPost[]) {
     const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'] });
     const promises = jobsPosts.map(
       throat(5, async ({ text, ...job }) => {

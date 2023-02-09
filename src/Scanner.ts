@@ -52,7 +52,7 @@ export class Scanner<T, K, R> implements ScannerAPI<T, K, R> {
   async getResultScanning(promises: Promise<JobPost[]>[], throatNum = 10) {
     const jobsPosts = (await Promise.all(promises.map(throat(throatNum, (el) => el)))).flat(1);
     console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    const jobs = await this.googleTranslate.translateJobTexts(jobsPosts);
+    const jobs = await this.googleTranslate.checkJobRequirements(jobsPosts);
     return jobs;
   }
 

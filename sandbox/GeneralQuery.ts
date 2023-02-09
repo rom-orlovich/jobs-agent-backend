@@ -112,7 +112,7 @@ export interface ResultList {
   total: number;
   columnNames: string[];
   columnPosition: ColumnPosition;
-  rows: string | undefined[][];
+  rows: (string | undefined)[][];
 }
 
 export interface ColumnPosition {
