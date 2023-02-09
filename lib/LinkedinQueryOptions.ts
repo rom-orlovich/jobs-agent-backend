@@ -1,5 +1,5 @@
-import { LOCATIONS_DB } from '../sandbox/locationDB';
-import { POSITIONS_DICT_NAME } from '../sandbox/positionDictDB';
+import { LOCATIONS_DICT_DB } from '../sandbox/locationDB';
+import { POSITIONS_DICT_DB } from '../sandbox/positionDictDB';
 import { GeneralQuery, UserInput } from './GeneralQuery';
 // import { ValueObj } from './types/types';
 
@@ -93,12 +93,12 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
     this.sortBy = this.convertSortBy();
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.position as keyof typeof LOCATIONS_DB;
+    const userInput = this.userInput.position as keyof typeof LOCATIONS_DICT_DB;
     return this.queryOptions.positions[userInput].en;
   }
 
   protected convertPosition(): string {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_NAME;
+    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
     return this.queryOptions.positions[userInput].en;
   }
   protected convertPeriod(period: keyof typeof PERIOD = 'past month') {

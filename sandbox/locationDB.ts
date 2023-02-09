@@ -1,4 +1,4 @@
-export const LOCATIONS_DB = {
+export const LOCATIONS_DICT_DB = {
   ירושלים: {
     he: 'ירושלים',
     geolexid: '537511',

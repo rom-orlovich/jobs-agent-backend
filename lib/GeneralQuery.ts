@@ -1,5 +1,5 @@
-import { LOCATIONS_DB } from '../sandbox/locationDB';
-import { POSITIONS_DICT_NAME } from '../sandbox/positionDictDB';
+import { LOCATIONS_DICT_DB } from '../sandbox/locationDB';
+import { POSITIONS_DICT_DB } from '../sandbox/positionDictDB';
 import { BLACK_LIST_WORDS } from './LinkedinQueryOptions';
 import { ExtractKey, OmitKey, PickKey } from './types/types';
 
@@ -47,8 +47,8 @@ const SCANNER_QUERY_OPTIONS = {
     allJobs: { durations: { '1': '10', '2': '25', '3': '50' } },
     drushim: { range: { '1': '2', '2': '3', '3': '4' } },
   },
-  positions: POSITIONS_DICT_NAME,
-  locations: LOCATIONS_DB,
+  positions: POSITIONS_DICT_DB,
+  locations: LOCATIONS_DICT_DB,
 };
 
 // export type ScannerPositionsNames = keyof (typeof SCANNER_QUERY_OPTIONS)['positions'];
@@ -67,8 +67,8 @@ export interface GeneralQueryProps<T extends ScannerName> {
   scope: Record<T, (typeof SCANNER_QUERY_OPTIONS)['scope'][T]>;
   type: Record<T, (typeof SCANNER_QUERY_OPTIONS)['jobType'][T]>;
   distance: Record<T, (typeof SCANNER_QUERY_OPTIONS)['distance'][T]>;
-  positions: typeof POSITIONS_DICT_NAME;
-  locations: typeof LOCATIONS_DB;
+  positions: typeof POSITIONS_DICT_DB;
+  locations: typeof LOCATIONS_DICT_DB;
 }
 
 export type GeneralQueryExp<T extends ScannerName> =
@@ -113,11 +113,11 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsProps {
   }
 
   protected convertPosition(): string {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_NAME;
+    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
     return this.queryOptions.positions[userInput].he;
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.position as keyof typeof LOCATIONS_DB;
+    const userInput = this.userInput.position as keyof typeof LOCATIONS_DICT_DB;
     return this.queryOptions.positions[userInput].he;
   }
 

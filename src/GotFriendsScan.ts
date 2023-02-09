@@ -6,36 +6,49 @@ import { Profile } from '../lib/Profile';
 import { JobsDB } from '../lib/JobsDB';
 import { PuppeteerSetup } from '../lib/PuppeteerSetup';
 import throat from 'throat';
-import { Browser, Page } from 'puppeteer';
-import { profile, queryOptions } from '..';
 
-export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, any> {
+import { ScannerName, UserInput } from '../lib/GeneralQuery';
+import { Page } from 'puppeteer';
+
+export class GotFriendsScan extends Scanner {
   JobsDB: JobsDB;
+  gotFriendsQuery: GotFriendQueryOptions;
 
-  constructor(
-    scannerName: string,
-    queryOptions: GotFriendQueryOptions,
-    profile: Profile,
-    JobsDB: JobsDB
-  ) {
-    super(scannerName, queryOptions, profile);
+  constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+    super(scannerName, userInput, profile);
+    this.gotFriendsQuery = new GotFriendQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }
 
   private async initialFilters(page: Page) {
+    const { radioAreas, checkboxProfessions, location } = this.gotFriendsQuery;
     await page.click('#professionAreaTitle');
-    await page.click(`label[for='radioAreas-1108']`);
+    await page.click(`label[for='${radioAreas}']`);
 
     await page.click('#professionTitle');
-    await page.click(`label[for='checkboxProfessions-1970']`);
-    await page.click(`label[for='checkboxProfessions-1947']`);
-    await page.click(`label[for='checkboxProfessions-1965']`);
-    await page.click(`label[for='checkboxProfessions-8010']`);
+    await page.click(`label[for='${checkboxProfessions}']`);
+    // await page.click(`label[for='checkboxProfessions-1947']`);
+    // await page.click(`label[for='checkboxProfessions-1965']`);
+    // await page.click(`label[for='checkboxProfessions-8010']`);
 
     await page.click('#regionTitle');
 
-    await page.click(`li label[for='checkboxRegions-1']`);
+    await page.click(`li label[for='${location}']`);
     await page.click('#searchButton');
+    // const {}=this.gotFriendsQuery
+    // await page.click('#professionAreaTitle');
+    // await page.click(`label[for='radioAreas-1108']`);
+
+    // await page.click('#professionTitle');
+    // await page.click(`label[for='checkboxProfessions-1970']`);
+    // await page.click(`label[for='checkboxProfessions-1947']`);
+    // await page.click(`label[for='checkboxProfessions-1965']`);
+    // await page.click(`label[for='checkboxProfessions-8010']`);
+
+    // await page.click('#regionTitle');
+
+    // await page.click(`li label[for='checkboxRegions-1']`);
+    // await page.click('#searchButton');
   }
   getAllJobsData() {
     const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
@@ -74,7 +87,7 @@ export class GotFriendsScan extends Scanner<GotFriendQueryOptions, TaskProps, an
           await newPage.goto(url);
           const data = (await newPage.evaluate(this.getAllJobsData)).filter((jobPost) => {
             if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-            if (this.queryOptions.checkWordInBlackList(jobPost.title)) return false;
+            if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
             if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
             return true;
           });

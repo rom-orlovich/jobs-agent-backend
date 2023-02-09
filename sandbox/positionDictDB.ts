@@ -2,7 +2,7 @@ import { GenericRecord } from '../lib/types/types';
 import { HebrewPosKeys } from './hebrewPos';
 import { PositionData } from './lib/sandbox';
 
-export const POSITIONS_DICT_NAME: PositionData = {
+export const POSITIONS_DICT_DB: PositionData = {
   '8200': { he: '8200', en: '8200' },
   'אחראית משמרת - אבטחה': { he: 'אחראית משמרת - אבטחה', en: 'shift manager - security' },
   'אחראי משמרת - אבטחה': { he: 'אחראי משמרת - אבטחה', en: 'shift manager - security' },
