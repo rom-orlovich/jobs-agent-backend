@@ -9,8 +9,11 @@ import throat from 'throat';
 
 import { UserInput } from '../lib/GeneralQuery';
 import { Page } from 'puppeteer';
+import { untilSuccess } from '../lib/utils';
+import { JobPost } from './AllJobScanner';
+import { exampleQuery, profile } from '..';
 
-export class GotFriendsScan extends Scanner {
+export class GotFriendsScanner extends Scanner {
   JobsDB: JobsDB;
   gotFriendsQuery: GotFriendQueryOptions;
 
@@ -51,9 +54,10 @@ export class GotFriendsScan extends Scanner {
       headless: true,
       defaultViewport: null,
       args: ['--no-sandbox'],
-      slowMo: 75,
+      slowMo: 100,
     });
     await page.goto('https://www.gotfriends.co.il/jobs/');
+
     await this.initialFilters(page);
     await page.waitForSelector('.pagination li a');
 
@@ -67,13 +71,17 @@ export class GotFriendsScan extends Scanner {
         throat(10, async (url) => {
           const newPage = await browser.newPage();
           console.log(url);
-          await newPage.goto(url);
-          const data = (await newPage.evaluate(this.getAllJobsData)).filter((jobPost) => {
-            if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-            if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
-            if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-            return true;
+          let data: JobPost[] = [];
+          await untilSuccess(async () => {
+            await newPage.goto(url);
+            data = (await newPage.evaluate(this.getAllJobsData)).filter((jobPost) => {
+              if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
+              if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
+              if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
+              return true;
+            });
           });
+
           await newPage.close();
           return data;
         })
@@ -86,7 +94,16 @@ export class GotFriendsScan extends Scanner {
   }
 
   async scanning(preJobs: Job[]): Promise<Job[]> {
+    if (!this.gotFriendsQuery.checkboxProfessions || !this.gotFriendsQuery.radioAreas) {
+      console.log('There are no jobs in GotFriends that match the query.');
+      return [];
+    }
     const results = await this.initPuppeteer(preJobs);
     return results;
   }
 }
+(async () => {
+  const got = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
+  const t = await got.scanning([]);
+  console.log('Finish scanning');
+})();

@@ -118,7 +118,7 @@ export class LinkedinScanner extends Scanner {
     return this.initPuppeteer(preJobs);
   }
 }
-(async () => {
-  const lin = new LinkedinScanner(exampleQuery, profile, new JobsDB());
-  const t = await lin.scanning([]);
-})();
+// (async () => {
+//   const lin = new LinkedinScanner(exampleQuery, profile, new JobsDB());
+//   const t = await lin.scanning([]);
+// })();
