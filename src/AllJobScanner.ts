@@ -17,7 +17,6 @@ export class AllJobScanner extends Scanner {
     this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }
   getURL(page = 1) {
-    //freetxt
     const { location, distance, scope, position, jobType } = this.allJobsQueryOptions;
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?type=${jobType}&page=${page}&freetxt=${position}&type=37&source=${location}&duration=${distance}`;
   }
@@ -76,8 +75,8 @@ export class AllJobScanner extends Scanner {
   }
 }
 
-(async () => {
-  const lin = new AllJobScanner(exampleQuery, profile, new JobsDB());
-  const t = await lin.scanning([]);
-  console.log('Ffinish scanning AllJobs');
-})();
+// (async () => {
+//   const lin = new AllJobScanner(exampleQuery, profile, new JobsDB());
+//   const t = await lin.scanning([]);
+//   console.log('Ffinish scanning AllJobs');
+// })();

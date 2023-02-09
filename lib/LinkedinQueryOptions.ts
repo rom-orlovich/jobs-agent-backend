@@ -152,39 +152,3 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   //   return this.queryOptions.distance.linkedin.distance[this.userInput.distance];
   // }
 }
-
-// jobQuery: string;
-// positionsQuery: string;
-// location: string;
-// limit: number;
-// distance: ValueObj<typeof DISTANCE_MILE>;
-// period: ValueObj<typeof PERIOD>;
-// sortBy: ValueObj<typeof SORT_BY>;
-
-// {
-//   jobQuery?: string;
-//   positions?: (keyof typeof POSITIONS)[];
-//   limit?: number;
-//   distance?: keyof typeof DISTANCE_MILE;
-//   location?: string;
-//   whiteList?: typeof WHITE_LIST_WORDS;
-//   blackList?: typeof BLACK_LIST_WORDS;
-//   sortBy?: keyof typeof SORT_BY;
-//   period?: keyof typeof PERIOD;
-// }
-
-// this.limit = queryOptions.limit || 1000;
-
-// this.distance = this.convertDistanceMile(queryOptions.distance.linkedin);
-// this.location = this.convertLocation(queryOptions.location);
-// this.jobQuery = this.convertJob(queryOptions.jobQuery);
-// this.positionsQuery = this.convertPositions(queryOptions.positions);
-// this.period = this.convertPeriod(queryOptions.period);
-// this.sortBy = this.convertSortBy(queryOptions.sortBy);
-//  convertPositions(positions: (keyof typeof POSITIONS)[] = []) {
-//   return this.queryOptions.position[this.userInput.position as ScannerPositionsNames];
-//   // return positions.map((namesPosition) => POSITIONS[namesPosition]).join('%2C');
-// }
-// type
-// scope
-// experience
