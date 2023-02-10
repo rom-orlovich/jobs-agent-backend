@@ -2,6 +2,7 @@ import { benchmarkTimeMS } from './utils';
 import { Profile } from './Profile';
 
 export class RequirementsReader {
+  static WORDS_COUNT_KILL = 500;
   static getSentences = (text: string) => {
     const sentences = text
       .split(/[.\n]+/)
@@ -52,7 +53,7 @@ export class RequirementsReader {
       for (let j = 0; j < sentence.length; j++) {
         k++;
         // console.log(j, i, k);
-        if (k === 500) {
+        if (k === RequirementsReader.WORDS_COUNT_KILL) {
           console.log(
             `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i},
             count ${k} words`

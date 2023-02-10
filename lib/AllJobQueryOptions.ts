@@ -18,7 +18,7 @@ export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
       if (jobType === '2') return this.queryOptions.jobType.allJobs['type'][2].region;
       return this.queryOptions.jobType.allJobs.type[jobType];
     });
-    console.log(jobTypeArr);
+
     const userInputSplitScope = this.userInput.jobType.split(',');
     const jobScopeArr = userInputSplitScope.map((el) => {
       const scope = el as GeneralQueryScope<'allJobs'>;

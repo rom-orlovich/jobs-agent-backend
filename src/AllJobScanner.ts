@@ -17,26 +17,29 @@ export class AllJobScanner extends Scanner {
     this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }
   getURL(page = 1) {
-    const { location, distance, scope, position, jobType } = this.allJobsQueryOptions;
+    const { location, distance, position, jobType } = this.allJobsQueryOptions;
     return `https://www.alljobs.co.il/SearchResultsGuest.aspx?type=${jobType}&page=${page}&freetxt=${position}&type=37&source=${location}&duration=${distance}`;
   }
 
-  async getJobPostsData($: CheerioAPI) {
+  async getAllJobsData($: CheerioAPI) {
     return $('.job-content-top')
       .toArray()
       .map((el) => {
         const titleEl = $(el).find('.job-content-top a[title]');
-        const title = titleEl.text().trim();
+        const title = titleEl.find('h3').text();
+
         const link = `https://www.alljobs.co.il` + titleEl.attr('href') || '';
         const linkSplit = link.split('=');
         const jobID = linkSplit[linkSplit.length - 1];
-        const company = $(el).find('.T14 a').text().trim();
+        const company = $(el).find('.T14 a:first-child').text().trim();
+
         const location = $(el)
           .find('.job-content-top-location a')
           .toArray()
           .map((el) => $(el).text())
           .join(',');
-        const text = $(el).find('.job-content-top-desc').text().trim();
+        const text = $(el).find('.PT15').text().trim();
+        console.log(text);
         return { jobID, title, link, company, location, text, from: this.scannerName };
       });
   }
@@ -48,7 +51,7 @@ export class AllJobScanner extends Scanner {
   }
   async getDataFromHTML(page: number, preJobs: Job[]) {
     const $ = await this.get$(page);
-    const data = (await this.getJobPostsData($)).filter((jobPost) => {
+    const data = (await this.getAllJobsData($)).filter((jobPost) => {
       if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
       if (this.allJobsQueryOptions.checkWordInBlackList(jobPost.title)) return false;
       if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
