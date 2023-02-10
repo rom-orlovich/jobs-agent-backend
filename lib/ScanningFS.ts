@@ -51,7 +51,7 @@ export class ScanningFS {
       const csv = await json2csvAsync(data, {
         keys: ScanningFS.orderKey(data),
       });
-      await writeFile(path, csv || '', 'utf-8');
+      await writeFile(path + '.csv', csv || '', 'utf-8');
       console.log(`finish create json file in ${path}`);
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ export class ScanningFS {
 
   static async readCSV<T extends GenericRecord<any>>(path: string) {
     try {
-      const json = await readFile(path, 'utf8');
+      const json = await readFile(path + '.csv', 'utf8');
       const csv = await csv2jsonAsync(json);
       console.log(`finish create json file in ${path}`);
       return csv as T[];

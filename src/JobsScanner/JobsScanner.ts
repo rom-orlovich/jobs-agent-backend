@@ -37,7 +37,7 @@ export class JobsScanner {
     return (
       position.toLowerCase().replace(' ', '-') +
       ',' +
-      new Date().toLocaleDateString().split('/').join('-')
+      new Date().toLocaleString().replace(/\s+/g, '').split('/').join('-')
     );
   }
 
