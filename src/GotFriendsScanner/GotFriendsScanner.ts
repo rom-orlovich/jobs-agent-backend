@@ -54,7 +54,7 @@ export class GotFriendsScanner extends Scanner {
 
   async initPuppeteer(preJobs: Job[]) {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
-      headless: false,
+      // headless: false,
       defaultViewport: null,
       args: ['--no-sandbox'],
       slowMo: 100,

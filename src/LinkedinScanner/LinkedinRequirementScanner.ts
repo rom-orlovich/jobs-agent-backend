@@ -24,7 +24,7 @@ export class LinkedinRequirementScanner {
     await untilSuccess(async () => {
       await page.goto('https://google.com/', { waitUntil: 'load' });
       await page.goto(url, { waitUntil: 'load' });
-      await page.waitForSelector('.show-more-less-html', { timeout: 2000 });
+      await page.waitForSelector('.show-more-less-html', { timeout: 3000 });
     });
   }
 }

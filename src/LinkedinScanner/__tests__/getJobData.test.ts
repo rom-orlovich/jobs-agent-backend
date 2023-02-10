@@ -1,9 +1,10 @@
 import { Browser, Page } from 'puppeteer';
 import { JobsDB } from '../../../lib/JobsDB';
 import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
-import { ExperienceRange } from '../../../lib/types/profile';
+
 import { GenericRecord } from '../../../lib/types';
 import { UserInput } from '../../GeneralQuery';
+import { ExperienceRange } from '../../Profile/profile';
 import { Profile } from '../../Profile/Profile';
 import { LinkedinScanner } from '../LinkedinScanner';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';

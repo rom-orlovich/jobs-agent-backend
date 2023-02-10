@@ -1,5 +1,5 @@
-import { ExperienceRange } from '../../../lib/types/profile';
 import { GenericRecord } from '../../../lib/types';
+import { ExperienceRange } from '../../Profile/profile';
 import { Profile } from '../../Profile/Profile';
 import { RequirementsReader } from '../RequirementsReader';
 
@@ -16,9 +16,9 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     db: { min: 0, max: 3 },
   };
   const profile = new Profile({
-    overallEx: 1,
+    overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeTechs: {},
+    excludeTechs: { '.net': true, 'c#': true },
   });
   test(`Tests many sentences from real text that its not match the user experience-ex`, () => {
     const sentences = [
@@ -605,5 +605,85 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
+  });
+  test('Tests many sentences from real text where the job from linkedin should pass -ex16', () => {
+    const sentences = RequirementsReader.getSentences(
+      `What will you do?
+
+      Deliver state-of-the-art user interfaces by collaborating with product, design teams, and other functions to build a user experience that matters.
+      You are a versatile, passionate problem-solver developer with a track record of contributing to multiple aspects of a company and successful projects.
+      End-to-end contribution to each step of the product development process, from ideation to implementation and release;
+      You strive to take a key role in influencing the success and growth of products.
+      Our technologies: Javascript, Typescript, HTML, CSS, ReactJS, Python, GCP
+      What you bring to the table?
+      
+      Minimum 2-4 years of experience in building web applications.
+      Experience in Javascript/Typescript, HTML CSS, and ReactJS.
+      Familiarity with Python, GCP, Docker, and K8s.
+      Nice to have: Experience in building a VSCode Extension
+      You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeTruthy();
+  });
+  test('Tests many sentences from real text where the job from linkedin should pass -ex17', () => {
+    const sentences = RequirementsReader.getSentences(
+      `B.Sc in computer science or equivalent.
+      At least 2-3 years of previous experience as a Backend / Full Stack developer, Server side - .net, C#.
+      At least 2 years of experience in JavaScript.
+      knowledge in HTML & CSS.
+      Experience in SQL server databases (or equivalent).
+      Knowledge or experience in web frameworks & libraries: Angular/React – an advantage.
+      Experience in APIs (REST, SOAP)
+      
+      Nice-to-haves:
+      
+      Experience working with AWS services
+      Experience in NoSQL databases
+      Experience in Columnar databases
+      Soft Skils:
+      
+      Excellent self-learning ability.
+      Independent and reliable.
+      Strong analytical and problem-solving skills.
+      Strong interpersonal skills, with excellent verbal, and written communication skills (English & Hebrew).
+      Ability to work under pressure and meet deliveries.
+      Flexible and able to adapt in a changing and growing company.
+      `
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`.net is not in your stack`);
+  });
+  test('Tests many sentences from real text where the job from linkedin should pass -ex18', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Minimum 2-4 years of experience in building web applications.
+      Experience in Javascript/Typescript, HTML CSS, and ReactJS.
+      Familiarity with Python, GCP, Docker, and K8s.
+      Nice to have: Experience in building a VSCode Extension
+      You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus `
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeTruthy();
+  });
+  test('Tests many sentences from real text where the job from drushim should now pass but with the right reason -ex18', () => {
+    const sentences = RequirementsReader.getSentences(
+      `Appropriate education (degree in information systems/ computer science/ other relevant studies)
+      - At least two years of experience in SharePoint implementation and development
+      - At least one year of experience as a Server side developer including working with NET.
+      - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
+      - Experience working with SQL databases `
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(` NET. is not in your stack`);
   });
 });
