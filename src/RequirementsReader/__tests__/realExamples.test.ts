@@ -686,4 +686,57 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(` NET. is not in your stack`);
   });
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex19`, () => {
+    const sentences = RequirementsReader.getSentences(
+      `3 years of experience in Full Stack/Frontend development
+      - Experience in React
+      - Experience in Python/NodeJS/Go
+      - Cloud experience
+      - Experience from start-up/high-tech/SaaS companies`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(` Go. is not in your stack`);
+  });
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex20`, () => {
+    const sentences = RequirementsReader.getSentences(
+      `4 years of experience in Node.js
+      - 4 years of experience in Angular/Vue.js/React
+      - high level English`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+  });
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex21`, () => {
+    const sentences = RequirementsReader.getSentences(
+      ` 4 years of development experience
+      - Net Web experience
+      - Client experience
+      - A technological degree or graduate of a technological unit`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+  });
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
+    const sentences = RequirementsReader.getSentences(
+      ` 5 years of development experience
+      - Experience in Node
+      - Experience in React
+      - Experience in AWS
+      - Experience from start-up companies`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+  });
 });
