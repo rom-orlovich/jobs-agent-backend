@@ -1,6 +1,6 @@
 import { GenericRecord } from '../../lib/types';
 import { benchmarkTimeMS } from '../../lib/utils';
-import { DataWithText } from '../JobsScanner/JobsScanner';
+import { DataWithText } from '../JobsScanner/jobsScanner';
 import { Profile } from '../Profile/Profile';
 
 export class RequirementsReader {

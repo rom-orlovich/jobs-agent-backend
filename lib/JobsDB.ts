@@ -1,6 +1,6 @@
-import { Collection, Condition, ObjectId } from 'mongodb';
+import { Collection } from 'mongodb';
 import { mongoDB } from '..';
-import { Job } from '../src/JobsScanner/JobsScanner';
+import { Job } from '../src/JobsScanner/jobsScanner';
 
 export class JobsDB {
   jobs: Collection;
