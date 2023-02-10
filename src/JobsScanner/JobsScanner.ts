@@ -43,7 +43,7 @@ export class JobsScanner {
 
   async scanning() {
     console.log('start');
-    const preJobs = await ScanningFS.loadData<Job>(this.fileName);
+    const preJobs = await ScanningFS.loadData<Job>();
     console.log(`Found ${preJobs.length} jobs `);
 
     const data = (
@@ -55,7 +55,7 @@ export class JobsScanner {
       ])
     ).flat(1);
 
-    await ScanningFS.writeData(data, this.fileName);
+    await ScanningFS.writeData(data);
     console.log('end');
   }
 }

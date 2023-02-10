@@ -155,7 +155,7 @@ export class RequirementsReader {
   ) {
     return data.map((el) => {
       const reason = RequirementsReader.checkIsRequirementsMatch(el.text, profile).reason;
-      console.log(reason);
+
       return {
         ...el,
         reason,
