@@ -58,7 +58,7 @@ export const profile = new Profile({
 
 export const exampleQuery: UserInput = {
   location: 'תל אביב',
-  position: 'Full Stack',
+  position: 'Fullstack Developer',
   distance: '1', // 10,25,50,75,
 
   jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
