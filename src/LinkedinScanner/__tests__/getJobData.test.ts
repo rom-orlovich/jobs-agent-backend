@@ -8,7 +8,7 @@ import { Profile } from '../../Profile';
 import { LinkedinScanner } from '../LinkedinScanner';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
 
-describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
+describe('Tests getAllJobsData method of LinkedinScanner', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },

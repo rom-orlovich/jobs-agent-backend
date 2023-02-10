@@ -6,9 +6,8 @@ import { Profile } from '../../Profile';
 import { GoogleTranslate } from '../GoogleTranslateScanner';
 
 import { TRANSLATE_EX1_HTML, TRANSLATE_EX2_HTML, TRANSLATE_EX3_HTML } from './mocks/htmlContext';
-// import { J } from './mocks/htmlContext';
 
-describe('Test getAllJobsData.test.ts', () => {
+describe('Tests getTranslate method of GoogleTranslateScanner', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },

@@ -9,7 +9,7 @@ import { Profile } from '../../Profile';
 import { GotFriendsScanner } from '../GotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
-describe.skip('Test getAllJobsData.test.ts of gotFriends Scanner', () => {
+describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },

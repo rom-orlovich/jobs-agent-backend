@@ -3,7 +3,7 @@ import { GenericRecord } from '../../../lib/types/types';
 import { Profile } from '../../Profile';
 import { RequirementsReader } from '../RequirementsReader';
 
-describe('Testss real examples of checkIsRequirementsMatch function', () => {
+describe.only('Testss real examples of checkIsRequirementsMatch function', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },

@@ -39,7 +39,7 @@ export class AllJobScanner extends Scanner {
           .map((el) => $(el).text())
           .join(',');
         const text = $(el).find('.PT15').text().trim();
-        console.log(text);
+
         return { jobID, title, link, company, location, text, from: this.scannerName };
       });
   }

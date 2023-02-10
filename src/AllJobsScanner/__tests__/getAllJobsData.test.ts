@@ -8,7 +8,7 @@ import { AllJobScanner, JobPost } from '../AllJobScanner';
 import { load } from 'cheerio';
 import { profile } from '../../..';
 
-describe('Test getAllJobsData.test.ts of allJobs Scanner', () => {
+describe('Tests getAllJobsData method of AllJobScanner', () => {
   const exampleQuery: UserInput = {
     location: 'תל אביב',
     position: 'Full Stack',
