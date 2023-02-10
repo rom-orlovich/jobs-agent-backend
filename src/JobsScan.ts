@@ -1,16 +1,16 @@
 import { Profile } from '../lib/Profile';
 
-import { LinkedinScanner } from './LinkedinScanner';
+import { LinkedinScanner } from './LinkedinScanner/LinkedinScanner';
 
-import { GotFriendsScanner } from './GotFriendsScanner';
+import { GotFriendsScanner } from './GotFriendsScanner/GotFriendsScanner';
 
 import { JobsDB } from '../lib/JobsDB';
 
-import { AllJobScanner } from './AllJobScanner';
+import { AllJobScanner } from './AllJobsScanner/AllJobScanner';
 import { ScanningFS } from '../lib/ScanningFS';
 import { Job } from '../lib/types/linkedinScanner';
 
-import { DrushimScanner } from './DrushimScanner';
+import { DrushimScanner } from './DrushimScanner/DrushimScanner';
 
 import { UserInput } from '../lib/GeneralQuery';
 

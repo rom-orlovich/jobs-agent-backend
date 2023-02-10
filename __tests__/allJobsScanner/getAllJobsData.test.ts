@@ -4,7 +4,7 @@ import { UserInput } from '../../lib/GeneralQuery';
 
 import { JobsDB } from '../../lib/JobsDB';
 
-import { AllJobScanner, JobPost } from '../../src/AllJobScanner';
+import { AllJobScanner, JobPost } from '../../src/AllJobsScanner/AllJobScanner';
 import { load } from 'cheerio';
 import { profile } from '../..';
 

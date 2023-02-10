@@ -1,19 +1,19 @@
-import { RequirementsReader } from '../lib/RequirementsReader';
+import { RequirementsReader } from '../../lib/RequirementsReader';
 
-import { Scanner } from './Scanner';
-import { LinkedinQueryOptions } from '../lib/LinkedinQueryOptions';
+import { Scanner } from '../Scanner';
+import { LinkedinQueryOptions } from './LinkedinQueryOptions';
 
-import { Job } from '../lib/types/linkedinScanner';
+import { Job } from '../../lib/types/linkedinScanner';
 import { LinkedinRequirementScanner } from './LinkedinRequirementScanner';
-import { Profile } from '../lib/Profile';
-import { JobsDB } from '../lib/JobsDB';
-import { PuppeteerSetup } from '../lib/PuppeteerSetup';
+import { Profile } from '../../lib/Profile';
+import { JobsDB } from '../../lib/JobsDB';
+import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { Page } from 'puppeteer';
 import throat from 'throat';
-import { UserInput } from '../lib/GeneralQuery';
-import { exampleQuery, profile } from '..';
-import { untilSuccess } from '../lib/utils';
-import { JobPost } from './AllJobScanner';
+import { UserInput } from '../../lib/GeneralQuery';
+import { exampleQuery, profile } from '../..';
+import { untilSuccess } from '../../lib/utils';
+import { JobPost } from '../AllJobsScanner/AllJobScanner';
 
 export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;

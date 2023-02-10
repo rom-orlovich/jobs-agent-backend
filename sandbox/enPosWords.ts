@@ -11656,7 +11656,6 @@ export const englishPos = [
   'flight controls',
   'Flight Control',
   'air traffic control',
-  '',
   'aviation control',
   'flight control',
 ];

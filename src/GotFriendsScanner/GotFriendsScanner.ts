@@ -1,17 +1,17 @@
-import { Scanner } from './Scanner';
+import { Scanner } from '../Scanner';
 
-import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
-import { Job } from '../lib/types/linkedinScanner';
-import { Profile } from '../lib/Profile';
-import { JobsDB } from '../lib/JobsDB';
-import { PuppeteerSetup } from '../lib/PuppeteerSetup';
+import { GotFriendQueryOptions } from './GotFriendsQuery';
+import { Job } from '../../lib/types/linkedinScanner';
+import { Profile } from '../../lib/Profile';
+import { JobsDB } from '../../lib/JobsDB';
+import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { UserInput } from '../lib/GeneralQuery';
+import { UserInput } from '../../lib/GeneralQuery';
 import { Page } from 'puppeteer';
-import { untilSuccess } from '../lib/utils';
-import { JobPost } from './AllJobScanner';
-import { exampleQuery, profile } from '..';
+import { untilSuccess } from '../../lib/utils';
+import { JobPost } from '../AllJobsScanner/AllJobScanner';
+import { exampleQuery, profile } from '../..';
 
 export class GotFriendsScanner extends Scanner {
   JobsDB: JobsDB;

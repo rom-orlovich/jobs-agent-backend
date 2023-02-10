@@ -1,13 +1,13 @@
-import { Job } from '../lib/types/linkedinScanner';
-import { Scanner } from './Scanner';
+import { Job } from '../../lib/types/linkedinScanner';
+import { Scanner } from '../Scanner';
 
-import { Profile } from '../lib/Profile';
+import { Profile } from '../../lib/Profile';
 
-import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
+import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserInput } from '../lib/GeneralQuery';
-import { JobsDB } from '../lib/JobsDB';
-import { exampleQuery, profile } from '..';
+import { UserInput } from '../../lib/GeneralQuery';
+import { JobsDB } from '../../lib/JobsDB';
+import { exampleQuery, profile } from '../..';
 
 export type JobPost = Job & { text: string };
 export class AllJobScanner extends Scanner {

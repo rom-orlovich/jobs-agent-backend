@@ -1,6 +1,6 @@
 import { Browser, Page } from 'puppeteer';
 
-import { LinkedinScanner } from '../../src/LinkedinScanner';
+import { LinkedinScanner } from '../../src/LinkedinScanner/LinkedinScanner';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
 import { exampleQuery, profile } from '../..';

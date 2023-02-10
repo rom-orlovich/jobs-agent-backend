@@ -4,8 +4,8 @@ import { GenericRecord, OmitKey } from '../lib/types/types';
 import axios from 'axios';
 
 import { allJobCities } from './allJobCities';
-import { hebrewPos } from './hebrewPos';
-import { englishPos } from './englishPos';
+import { hebrewPos } from './hePosWords';
+import { englishPos } from './enPosWords';
 import {
   AllJobCityData,
   AllJobsCats,
@@ -18,7 +18,7 @@ import {
 
 const createPositionDB = async () => {
   const gotFriendsCatArr = await ScanningFS.readJSON<GenericRecord<string>[]>(
-    path.join(__dirname, 'JSON', 'gotFriends.json')
+    path.join(__dirname, 'JSON', 'gotFriendsFilters.json')
   );
   if (!gotFriendsCatArr) return;
   const gotFriendsCat = gotFriendsCatArr[0];
@@ -37,9 +37,11 @@ const createPositionDB = async () => {
     posDict[el] = englishPos[i];
   });
 
-  const cats = await ScanningFS.readJSON<AllJobsCats[]>(path.join(__dirname, 'JSON', 'cat.json'));
+  const cats = await ScanningFS.readJSON<AllJobsCats[]>(
+    path.join(__dirname, 'JSON', 'allJobsCategories.json')
+  );
   if (!cats) return;
-  const positionsData: PositionData = {};
+  const positionsData = {} as PositionData;
   for (const cat of cats) {
     cat.ChildCategories.forEach((el) => {
       const keywords = el.Keywords.split(',');
@@ -54,7 +56,7 @@ const createPositionDB = async () => {
     });
   }
 
-  await ScanningFS.writeJSON(positionsData, path.join(__dirname, 'JSON', 'positionHeNames.json'));
+  await ScanningFS.writeJSON(positionsData, path.join(__dirname, 'JSON', 'posHeWords.json'));
 };
 
 const createCitiesDB = async () => {

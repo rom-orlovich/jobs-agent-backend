@@ -6,7 +6,7 @@ import { GeneralQuery, ScannerName, UserInput } from '../lib/GeneralQuery';
 
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from '../lib/Profile';
-import { JobPost } from './AllJobScanner';
+import { JobPost } from './AllJobsScanner/AllJobScanner';
 import { GoogleTranslate } from './GoogleTranslateScanner';
 
 export interface TaskProps {

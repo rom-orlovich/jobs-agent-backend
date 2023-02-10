@@ -1,6 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../sandbox/locationDB';
 import { POSITIONS_DICT_DB } from '../sandbox/positionDictDB';
-import { BLACK_LIST_WORDS } from './LinkedinQueryOptions';
+import { BLACK_LIST_WORDS } from '../src/LinkedinScanner/LinkedinQueryOptions';
 import { ExtractKey, OmitKey, PickKey } from './types/types';
 
 export interface UserInput {

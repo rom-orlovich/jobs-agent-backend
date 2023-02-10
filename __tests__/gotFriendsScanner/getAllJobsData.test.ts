@@ -6,8 +6,8 @@ import { exampleQuery, profile } from '../..';
 import { UserInput } from '../../lib/GeneralQuery';
 
 import { JobsDB } from '../../lib/JobsDB';
-import { GotFriendsScanner } from '../../src/GotFriendsScanner';
-import { JobPost } from '../../src/AllJobScanner';
+import { GotFriendsScanner } from '../../src/GotFriendsScanner/GotFriendsScanner';
+import { JobPost } from '../../src/AllJobsScanner/AllJobScanner';
 
 describe.skip('Test getAllJobsData.test.ts of gotFriends Scanner', () => {
   const exampleQuery: UserInput = {

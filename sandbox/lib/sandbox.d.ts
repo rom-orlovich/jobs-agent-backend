@@ -1,4 +1,4 @@
-import { HebrewPosKeys } from '../hebrewPos';
+import { HebrewPosKeys } from '../hePosWords';
 
 export interface ChildCategory {
   ID: number;

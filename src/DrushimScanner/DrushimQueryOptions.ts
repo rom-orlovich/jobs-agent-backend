@@ -1,5 +1,5 @@
-import { LOCATIONS_DICT_DB } from '../sandbox/locationDB';
-import { GeneralQuery, GeneralQueryJobType, GeneralQueryScope, UserInput } from './GeneralQuery';
+import { LOCATIONS_DICT_DB } from '../../sandbox/locationDB';
+import { GeneralQuery, GeneralQueryJobType, GeneralQueryScope, UserInput } from '../../lib/GeneralQuery';
 
 export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
   constructor(userInput: UserInput) {

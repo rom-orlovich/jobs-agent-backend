@@ -1,13 +1,13 @@
-import { exampleQuery, profile } from '..';
-import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
-import { UserInput } from '../lib/GeneralQuery';
-import { JobsDB } from '../lib/JobsDB';
-import { Profile } from '../lib/Profile';
-import { DrushimAPI, DrushimResult } from '../lib/types/drushim';
-import { Job } from '../lib/types/linkedinScanner';
-import { JobPost } from './AllJobScanner';
+import { exampleQuery, profile } from '../..';
+import { DrushimQueryOptions } from './DrushimQueryOptions';
+import { UserInput } from '../../lib/GeneralQuery';
+import { JobsDB } from '../../lib/JobsDB';
+import { Profile } from '../../lib/Profile';
+import { DrushimAPI, DrushimResult } from '../../lib/types/drushim';
+import { Job } from '../../lib/types/linkedinScanner';
+import { JobPost } from '../AllJobsScanner/AllJobScanner';
 
-import { Scanner } from './Scanner';
+import { Scanner } from '../Scanner';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
