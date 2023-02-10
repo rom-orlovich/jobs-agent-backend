@@ -1,6 +1,6 @@
-import { ScanningFS } from '../lib/ScanningFS';
+import { ScanningFS } from '../../lib/ScanningFS';
 import path from 'path';
-import { GenericRecord, OmitKey } from '../lib/types/types';
+import { GenericRecord, OmitKey } from '../../lib/types/types';
 import axios from 'axios';
 
 import { allJobCities } from './allJobCities';

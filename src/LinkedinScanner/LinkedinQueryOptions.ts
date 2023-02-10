@@ -1,5 +1,5 @@
-import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
-import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
+import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
+import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery, UserInput } from '../GeneralQuery';
 // import { ValueObj } from './types/types';
 

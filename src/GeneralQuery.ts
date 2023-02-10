@@ -1,5 +1,5 @@
-import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
-import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
+import { LOCATIONS_DICT_DB } from './createQueryDB/locationDB';
+import { POSITIONS_DICT_DB } from './createQueryDB/positionDictDB';
 import { BLACK_LIST_WORDS } from './LinkedinScanner/LinkedinQueryOptions';
 import { ExtractKey, OmitKey, PickKey } from '../lib/types/types';
 

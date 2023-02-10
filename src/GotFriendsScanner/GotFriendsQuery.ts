@@ -1,6 +1,6 @@
-import { GotFriendsPositions } from '../../createQueryDB/lib/sandbox';
-import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
-import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
+import { GotFriendsPositions } from '../createQueryDB/lib/sandbox';
+import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
+import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery, UserInput } from '../GeneralQuery';
 
 export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {

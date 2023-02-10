@@ -1,4 +1,4 @@
-import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
+import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { GeneralQuery, GeneralQueryJobType, GeneralQueryScope, UserInput } from '../GeneralQuery';
 
 export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
