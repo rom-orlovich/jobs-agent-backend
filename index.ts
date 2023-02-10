@@ -18,7 +18,7 @@ export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   typescript: { min: 0, max: 3 },
   ts: { min: 0, max: 3 },
   js: { min: 0, max: 3 },
-  node: { min: 0, max: 3 },
+  node: { min: 0, max: 2 },
   nextjs: { min: 0, max: 3 },
   git: { min: 0, max: 3 },
   github: { min: 0, max: 3 },
@@ -58,7 +58,7 @@ export const profile = new Profile({
 
 export const exampleQuery: UserInput = {
   location: 'תל אביב',
-  position: 'Full Stack Developer',
+  position: 'Backend Developer',
   distance: '1', // 10,25,50,75,
 
   jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite

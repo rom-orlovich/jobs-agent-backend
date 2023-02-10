@@ -54,12 +54,15 @@ export class LinkedinScanner extends Scanner {
     await untilSuccess(async () => {
       await page.goto(url, { waitUntil: 'load' });
 
-      jobsPosts = (await page.evaluate(this.getAllJobsPostData, this.scannerName)).filter((jobPost) => {
-        if (!jobPost.link || !jobPost.jobID || !jobPost.title) return false;
-        if (this.linkedinQuery.checkWordInBlackList(jobPost.title)) return false;
-        if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-        return true;
-      });
+      jobsPosts = (await page.evaluate(this.getAllJobsPostData, this.scannerName)).filter(
+        //   (jobPost) => {
+        //   if (!jobPost.link || !jobPost.jobID || !jobPost.title) return false;
+        //   if (this.linkedinQuery.checkWordInBlackList(jobPost.title)) return false;
+        //   if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
+        //   return true;
+        // }
+        this.filterJobsPosts(this.linkedinQuery, preJobs)
+      );
     });
 
     return jobsPosts;
