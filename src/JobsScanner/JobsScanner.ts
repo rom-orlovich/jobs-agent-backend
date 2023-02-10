@@ -55,7 +55,7 @@ export class JobsScanner {
       ])
     ).flat(1);
 
-    await ScanningFS.writeData(data);
+    await ScanningFS.writeData([...preJobs, ...data]);
     console.log('end');
   }
 }
