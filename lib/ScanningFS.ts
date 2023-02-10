@@ -70,8 +70,8 @@ export class ScanningFS {
     }
   }
 
-  static async loadData<T extends GenericRecord<any>>() {
-    const jobs = await ScanningFS.readCSV(ScanningFS.createPathJobsCSV());
+  static async loadData<T extends GenericRecord<any>>(fileName?: string) {
+    const jobs = await ScanningFS.readCSV(ScanningFS.createPathJobsCSV(fileName));
 
     return jobs as T[];
   }

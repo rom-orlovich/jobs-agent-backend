@@ -25,7 +25,7 @@ export class JobsScanner {
 
   constructor(profile: Profile, userInput: UserInput) {
     this.profile = profile;
-    this.fileName = userInput.position + '-' + new Date().toLocaleDateString();
+    this.fileName = JobsScanner.getFileName(userInput.position);
     this.jobs = new JobsDB();
     this.linkedinScanner = new LinkedinScanner(userInput, this.profile, this.jobs);
     this.GotFriendsScanner = new GotFriendsScanner(userInput, this.profile, this.jobs);
@@ -33,10 +33,17 @@ export class JobsScanner {
     this.allJobsScanner = new AllJobScanner(userInput, this.profile, this.jobs);
     this.drushimScanner = new DrushimScanner(userInput, this.profile, this.jobs);
   }
+  private static getFileName(position: string) {
+    return (
+      position.toLowerCase().replace(' ', '-') +
+      ',' +
+      new Date().toLocaleDateString().split('/').join('-')
+    );
+  }
 
   async scanning() {
     console.log('start');
-    const preJobs = await ScanningFS.loadData<Job>();
+    const preJobs = await ScanningFS.loadData<Job>(this.fileName);
     console.log(`Found ${preJobs.length} jobs `);
 
     const data = (
