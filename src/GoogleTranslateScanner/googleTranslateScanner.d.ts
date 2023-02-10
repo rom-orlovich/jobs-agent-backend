@@ -112,6 +112,32 @@ export type lang =
   | 'zu'
   | 'la';
 
+export interface GoogleTranslateAPI {
+  sentences: Sentence[];
+  dict: Dict[];
+  src: string;
+  spell: any;
+}
+
+export interface Sentence {
+  trans: string;
+  orig: string;
+  backend: number;
+}
+
+export interface Dict {
+  pos: string;
+  terms: string[];
+  entry: Entry[];
+  base_form: string;
+  pos_enum: number;
+}
+
+export interface Entry {
+  word: string;
+  reverse_translation: string[];
+  score?: number;
+}
 export interface GoogleTranslateQuery {
   op: 'translate' | 'docs';
   text?: string;

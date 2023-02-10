@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GenericRecord } from '../lib/types';
 import { benchmarkTimeMS } from '../lib/utils';
 
-import { GoogleTranslate2 } from '../src/GoogleTranslateScanner/GoogleTranslateScanner2';
+import { GoogleTranslate } from '../src/GoogleTranslateScanner/GoogleTranslateScanner';
 import { Profile } from '../src/Profile/Profile';
 import { ExperienceRange } from '../src/Profile/profile';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
@@ -67,7 +67,7 @@ params.append(
 //   })
 //   .then((data) => console.log(data.data.sentences.map((el: any) => el.trans)));
 
-const googleTranslate = new GoogleTranslate2({ op: 'translate', from: 'en', to: 'he' });
+const googleTranslate = new GoogleTranslate({ op: 'translate', from: 'en', to: 'he' });
 
 googleTranslate.getTranslate('hey how are you?').then((el) => console.log(el));
 const d = [

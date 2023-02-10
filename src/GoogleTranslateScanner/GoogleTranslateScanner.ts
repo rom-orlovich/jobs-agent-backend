@@ -1,70 +1,79 @@
-import { Page } from 'puppeteer';
 import throat from 'throat';
-import { Profile } from '../Profile/Profile';
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
-import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
 
 import { untilSuccess } from '../../lib/utils';
-import { GoogleTranslateQuery } from './googleTranslateScanner';
-import { JobPost } from '../JobScan/jobScan';
+import { GoogleTranslateAPI, GoogleTranslateQuery } from './googleTranslateScanner';
+
+import axios, { AxiosResponse } from 'axios';
+import { GenericRecord } from '../../lib/types';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;
-  profile: Profile;
-  constructor(queryOptions: GoogleTranslateQuery, profile: Profile) {
+  //   profile: Profile;
+  constructor(queryOptions: GoogleTranslateQuery) {
     this.queryOptions = queryOptions;
-    this.profile = profile;
-  }
-  getURL(text?: string): string {
-    const { to, op } = this.queryOptions;
-    if (!text) return '';
-    const from: string = this.queryOptions.from || 'auto';
-    if (op === 'translate') {
-      if (text.length > 5000) return '';
-      if (text.length === 0) return '';
-    }
-    return `https://translate.google.com/?text=${encodeURIComponent(text)}&sl=${from}&tl=${to}&op=${op}`;
+    // this.profile = profile;
   }
 
-  getTranslate() {
-    const spans = Array.from(document.querySelectorAll("span[jsname*='W297wb']"));
-    return spans
-      .filter((el) => el.textContent)
-      .map((el) => el.textContent?.trim())
-      .join('');
+  getURL(text: string) {
+    const { op, to, from } = this.queryOptions;
+    const params = new URLSearchParams();
+    params.append('client', 'gtx');
+    params.append('sl', from || 'auto');
+    params.append('tl', to);
+    params.append('hl', 'en-US');
+    params.append('dt', 't');
+    params.append('dt', 'bd');
+    params.append('dj', '1');
+    params.append('source', 'bubble');
+    params.append('tk', '322062.322062');
+    params.append('q', text);
+
+    return { params, url: 'https://translate.googleapis.com/translate_a/single' };
   }
-  async goTranslate(page: Page, text?: string): Promise<string> {
-    const url = this.getURL(text);
 
-    await untilSuccess(async () => {
-      console.log('go to google translate');
-      await page.goto(url);
-      await page.waitForSelector(`span[jsname*='W297wb']`, { timeout: 20000 });
-    });
-
-    const translateText = await page.evaluate<unknown[], () => string>(this.getTranslate);
-
+  private transformToText(res: AxiosResponse<GoogleTranslateAPI>) {
+    const data = res.data;
+    const translateText = data.sentences.map((el) => el.trans).join('');
     return translateText;
   }
 
-  async checkJobRequirements(jobsPosts: JobPost[]) {
-    const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'], headless: true });
-    const promises = jobsPosts.map(
-      throat(5, async ({ text, ...job }) => {
-        const newPage = await browser.newPage();
-        const translateText = await this.goTranslate(newPage, text);
-        await newPage.close();
+  async getTranslate(text: string): Promise<string> {
+    const { params, url } = this.getURL(text);
+    let res: undefined | AxiosResponse<GoogleTranslateAPI>;
+    await untilSuccess(async () => {
+      res = await axios<any, AxiosResponse<GoogleTranslateAPI>>(url, {
+        params,
+        headers: { authority: 'translate.googleapis.com' },
+      });
+    });
+    if (!res) return '';
+
+    return this.transformToText(res);
+  }
+
+  async translateArrayText<T extends GenericRecord<any>>(
+    data: (T & { text: string })[],
+    // profile: Profile
+    throatNum = 5
+  ) {
+    // const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'], headless: true });
+    const promises = data.map(
+      throat(throatNum, async ({ text, ...rest }) => {
+        // const newPage = await browser.newPage();
+        const translateText = await this.getTranslate(text);
+        // await newPage.close();
         const newJob = {
-          ...job,
-          reason: RequirementsReader.checkIsRequirementsMatch(translateText, this.profile).reason,
+          ...rest,
+          // reason: RequirementsReader.checkIsRequirementsMatch(translateText, profile).reason,
+          text: translateText,
         };
         console.log(newJob);
         return newJob;
       })
     );
 
-    const jobs = await Promise.all(promises);
-    await browser.close();
-    return jobs;
+    const response = await Promise.all(promises);
+
+    return response;
   }
 }

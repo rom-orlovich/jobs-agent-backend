@@ -9,7 +9,7 @@ import { Profile } from './Profile/Profile';
 
 // import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { JobPost } from './JobScan/jobScan';
-import { GoogleTranslate2 } from './GoogleTranslateScanner/GoogleTranslateScanner2';
+import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { RequirementsReader } from './RequirementsReader/RequirementsReader';
 
 export interface TaskProps {
@@ -25,13 +25,13 @@ export interface ScannerAPI {
 }
 export class Scanner implements ScannerAPI {
   profile: Profile;
-  googleTranslate: GoogleTranslate2;
+  googleTranslate: GoogleTranslate;
   // googleTranslate: GoogleTranslate;
   scannerName: ScannerName;
 
   constructor(scannerName: ScannerName, profile: Profile) {
     this.profile = profile;
-    this.googleTranslate = new GoogleTranslate2({ op: 'translate', from: 'he', to: 'en' });
+    this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' });
     // this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;
   }
