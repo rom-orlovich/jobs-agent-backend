@@ -5,7 +5,7 @@ config();
 import { Profile } from './src/Profile/Profile';
 
 import { GenericRecord } from './lib/types';
-import { JobsScan } from './src/JobScan/JobsScan';
+import { JobsScanner } from './src/JobsScanner/JobsScanner';
 
 import { MongoDBClient } from './lib/MongoClient';
 
@@ -86,7 +86,7 @@ export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
 const main = async () => {
   try {
     // await mongoDB.connect();
-    const jobScan = new JobsScan(profile, exampleQuery);
+    const jobScan = new JobsScanner(profile, exampleQuery);
 
     await jobScan.scanning();
   } catch (error) {

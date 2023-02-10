@@ -12,9 +12,9 @@ import { ScanningFS } from '../../lib/ScanningFS';
 import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
 import { UserInput } from '../GeneralQuery';
-import { Job } from './jobScan';
+import { Job } from './JobsScanner';
 
-export class JobsScan {
+export class JobsScanner {
   profile: Profile;
   linkedinScanner: LinkedinScanner;
   GotFriendsScanner: GotFriendsScanner;

@@ -13,7 +13,7 @@ import { UserInput } from '../GeneralQuery';
 
 import { untilSuccess } from '../../lib/utils';
 
-import { Job } from '../JobScan/jobScan';
+import { Job } from '../JobsScanner/JobsScanner';
 
 export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;

@@ -7,8 +7,7 @@ import { ScannerName } from './GeneralQuery';
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from './Profile/Profile';
 
-// import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
-import { JobPost } from './JobScan/jobScan';
+import { JobPost } from './JobsScanner/JobsScanner';
 import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { RequirementsReader } from './RequirementsReader/RequirementsReader';
 
@@ -32,7 +31,6 @@ export class Scanner implements ScannerAPI {
   constructor(scannerName: ScannerName, profile: Profile) {
     this.profile = profile;
     this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' });
-    // this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;
   }
 
