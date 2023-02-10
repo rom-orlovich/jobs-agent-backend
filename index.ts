@@ -4,13 +4,13 @@ config();
 
 import { Profile } from './src/Profile/Profile';
 
-import { ExperienceRange } from './lib/types/profile';
 import { GenericRecord } from './lib/types';
-import { JobsScan } from './src/JobsScan';
+import { JobsScan } from './src/JobScan/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';
 
 import { UserInput } from './src/GeneralQuery';
+import { ExperienceRange } from './src/Profile/profile';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },

@@ -1,17 +1,17 @@
-import { Profile } from './Profile/Profile';
+import { Profile } from '../Profile/Profile';
 
-import { LinkedinScanner } from './LinkedinScanner/LinkedinScanner';
+import { LinkedinScanner } from '../LinkedinScanner/LinkedinScanner';
 
-import { GotFriendsScanner } from './GotFriendsScanner/GotFriendsScanner';
+import { GotFriendsScanner } from '../GotFriendsScanner/GotFriendsScanner';
 
-import { JobsDB } from '../lib/JobsDB';
+import { JobsDB } from '../../lib/JobsDB';
 
-import { AllJobScanner } from './AllJobsScanner/AllJobScanner';
-import { ScanningFS } from '../lib/ScanningFS';
+import { AllJobScanner } from '../AllJobsScanner/AllJobScanner';
+import { ScanningFS } from '../../lib/ScanningFS';
 
-import { DrushimScanner } from './DrushimScanner/DrushimScanner';
+import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
-import { UserInput } from './GeneralQuery';
+import { UserInput } from '../GeneralQuery';
 import { Job } from './jobScan';
 
 export class JobsScan {

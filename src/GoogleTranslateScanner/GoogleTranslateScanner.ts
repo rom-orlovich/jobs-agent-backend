@@ -6,7 +6,7 @@ import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
 
 import { untilSuccess } from '../../lib/utils';
 import { GoogleTranslateQuery } from './googleTranslateScanner';
-import { JobPost } from '../jobScan';
+import { JobPost } from '../JobScan/jobScan';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;

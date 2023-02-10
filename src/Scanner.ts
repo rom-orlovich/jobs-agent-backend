@@ -7,8 +7,10 @@ import { ScannerName } from './GeneralQuery';
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from './Profile/Profile';
 
-import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
-import { JobPost } from './jobScan';
+// import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
+import { JobPost } from './JobScan/jobScan';
+import { GoogleTranslate2 } from './GoogleTranslateScanner/GoogleTranslateScanner2';
+import { RequirementsReader } from './RequirementsReader/RequirementsReader';
 
 export interface TaskProps {
   profile: Profile;
@@ -23,12 +25,14 @@ export interface ScannerAPI {
 }
 export class Scanner implements ScannerAPI {
   profile: Profile;
-  googleTranslate: GoogleTranslate;
+  googleTranslate: GoogleTranslate2;
+  // googleTranslate: GoogleTranslate;
   scannerName: ScannerName;
 
   constructor(scannerName: ScannerName, profile: Profile) {
     this.profile = profile;
-    this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
+    this.googleTranslate = new GoogleTranslate2({ op: 'translate', from: 'he', to: 'en' });
+    // this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;
   }
 
@@ -50,7 +54,8 @@ export class Scanner implements ScannerAPI {
   async getResultScanning(promises: Promise<JobPost[]>[], throatNum = 10) {
     const jobsPosts = (await Promise.all(promises.map(throat(throatNum, (el) => el)))).flat(1);
     console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    const jobs = await this.googleTranslate.checkJobRequirements(jobsPosts);
+    const jobsTranslate = await this.googleTranslate.translateArrayText(jobsPosts);
+    const jobs = RequirementsReader.checkRequirementMatchForArray(jobsTranslate, this.profile);
     return jobs;
   }
 }

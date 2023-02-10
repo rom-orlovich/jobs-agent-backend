@@ -6,7 +6,8 @@ import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
 import { UserInput } from '../GeneralQuery';
 import { JobsDB } from '../../lib/JobsDB';
-import { Job, JobPost } from '../jobScan';
+import { Job, JobPost } from '../JobScan/jobScan';
+import { exampleQuery, profile } from '../..';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
@@ -72,6 +73,7 @@ export class AllJobScanner extends Scanner {
     }
 
     const jobs = await this.getResultScanning(promises);
+
     return jobs;
   }
 }
@@ -79,5 +81,7 @@ export class AllJobScanner extends Scanner {
 // (async () => {
 //   const lin = new AllJobScanner(exampleQuery, profile, new JobsDB());
 //   const t = await lin.scanning([]);
-//   console.log('Ffinish scanning AllJobs');
+
+//   console.log(t);
+//   console.log('finish scanning AllJobs');
 // })();

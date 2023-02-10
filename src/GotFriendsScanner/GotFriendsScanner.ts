@@ -10,7 +10,8 @@ import throat from 'throat';
 import { UserInput } from '../GeneralQuery';
 import { Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
-import { Job, JobPost } from '../jobScan';
+import { Job, JobPost } from '../JobScan/jobScan';
+import { exampleQuery, profile } from '../..';
 
 export class GotFriendsScanner extends Scanner {
   JobsDB: JobsDB;
@@ -53,7 +54,7 @@ export class GotFriendsScanner extends Scanner {
 
   async initPuppeteer(preJobs: Job[]) {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
-      headless: true,
+      headless: false,
       defaultViewport: null,
       args: ['--no-sandbox'],
       slowMo: 100,
@@ -94,6 +95,7 @@ export class GotFriendsScanner extends Scanner {
 
     const jobs = await this.getResultScanning(promises);
     await browser.close();
+
     return jobs;
   }
 
@@ -110,4 +112,5 @@ export class GotFriendsScanner extends Scanner {
 //   const got = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
 //   const t = await got.scanning([]);
 //   console.log('Finish scanning');
+//   console.log(t);
 // })();

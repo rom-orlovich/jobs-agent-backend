@@ -5,7 +5,7 @@ import { JobsDB } from '../../lib/JobsDB';
 import { Profile } from '../Profile/Profile';
 import { DrushimAPI, DrushimResult } from './drushimScanner';
 import { Scanner } from '../Scanner';
-import { Job, JobPost } from '../jobScan';
+import { Job, JobPost } from '../JobScan/jobScan';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
@@ -62,5 +62,7 @@ export class DrushimScanner extends Scanner {
 // (async () => {
 //   const drushim = new DrushimScanner(exampleQuery, profile, new JobsDB());
 //   const t = await drushim.scanning([]);
+
 //   console.log('Finish scanning drushim');
+//   console.log(t);
 // })();

@@ -1,6 +1,6 @@
 import { Collection, Condition, ObjectId } from 'mongodb';
 import { mongoDB } from '..';
-import { Job } from './types/linkedinScanner';
+import { Job } from '../src/JobScan/jobScan';
 
 export class JobsDB {
   jobs: Collection;

@@ -1,4 +1,6 @@
+import { GenericRecord } from '../../lib/types';
 import { benchmarkTimeMS } from '../../lib/utils';
+import { DataWithText } from '../JobScan/jobScan';
 import { Profile } from '../Profile/Profile';
 
 export class RequirementsReader {
@@ -144,9 +146,21 @@ export class RequirementsReader {
 
   static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {
     const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
-
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
     return isRequirementsMatch;
+  }
+  static checkRequirementMatchForArray<T extends GenericRecord<any>>(
+    data: DataWithText<T>[],
+    profile: Profile
+  ) {
+    return data.map((el) => {
+      const reason = RequirementsReader.checkIsRequirementsMatch(el.text, profile).reason;
+      console.log(reason);
+      return {
+        ...el,
+        reason,
+      };
+    });
   }
 }
 
