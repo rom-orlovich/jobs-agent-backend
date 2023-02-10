@@ -12,7 +12,7 @@ import { Scanner } from './Scanner';
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('drushim', userInput, profile);
+    super('drushim', profile);
     this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }
   getURL(page: number): string {

@@ -5,23 +5,14 @@ import { LinkedinScanner } from './LinkedinScanner';
 import { GotFriendsScanner } from './GotFriendsScanner';
 
 import { JobsDB } from '../lib/JobsDB';
-import { LinkedinQueryOptions } from '../lib/LinkedinQueryOptions';
-import { GotFriendQueryOptions } from '../lib/GotFriendsQuery';
-import { AllJobsQueryOptions } from '../lib/AllJobQueryOptions';
+
 import { AllJobScanner } from './AllJobScanner';
 import { ScanningFS } from '../lib/ScanningFS';
 import { Job } from '../lib/types/linkedinScanner';
 
 import { DrushimScanner } from './DrushimScanner';
-import { DrushimQueryOptions } from '../lib/DrushimQueryOptions';
-import { GeneralQuery, UserInput } from '../lib/GeneralQuery';
 
-// interface JobsScanQueryOptions {
-//   linkedinScannerQueryOptions: LinkedinQueryOptions;
-//   gotFriendsQueryOptions: GotFriendQueryOptions;
-//   allJobsQueryOptions: AllJobsQueryOptions;
-//   drushimQueryOptions: DrushimQueryOptions;
-// }
+import { UserInput } from '../lib/GeneralQuery';
 
 export class JobsScan {
   profile: Profile;

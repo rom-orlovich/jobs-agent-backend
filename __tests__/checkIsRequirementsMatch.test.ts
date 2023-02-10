@@ -4,7 +4,7 @@ import { RequirementsReader } from '../lib/RequirementsReader';
 import { ExperienceRange } from '../lib/types/profile';
 import { GenericRecord } from '../lib/types/types';
 
-describe.only('test checkIsRequirementsMatch.test function', () => {
+describe('test checkIsRequirementsMatch.test function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
@@ -18,7 +18,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     db: { min: 0, max: 3 },
   };
   const profile = new Profile({
-    overallEx: 1,
+    overallEx: 2,
     requirementsOptions: REQUIREMENTS,
     excludeTechs: { 'c#.net': true },
   });
@@ -251,7 +251,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res.pass).toBeTruthy();
   });
-  test(`Test many sentence from real text that its not match the user experince-ex`, () => {
+  test(`Test many sentences from real text that its not match the user experience-ex`, () => {
     const profile = new Profile({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
@@ -288,7 +288,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
   });
-  test(`Test many sentence from real text that not match the user experience-ex2`, () => {
+  test(`Test many sentences from real text that not match the user experience-ex2`, () => {
     const profile = new Profile({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
@@ -409,7 +409,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeFalsy();
   });
-  test(`Test many sentence from real text that match the user experience-ex3`, () => {
+  test(`Test many sentences from real text that match the user experience-ex3`, () => {
     const profile = new Profile({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
@@ -491,7 +491,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeTruthy();
   });
-  test(`Test many sentence from real text that match the user experience-ex4`, () => {
+  test(`Test many sentences from real text that match the user experience-ex4`, () => {
     const profile = new Profile({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
@@ -597,7 +597,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
       RequirementsReader.checkIsRequirementsMatch(createFullSentences(sentences), profile).pass
     ).toBeTruthy();
   });
-  test(`Test many sentence from real text that match the user experience-ex5`, () => {
+  test(`Test many sentences from real text that match the user experience-ex5`, () => {
     const profile = new Profile({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
@@ -696,7 +696,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
   });
 
-  test('Test many sentence from real text that match the user experience-ex6', () => {
+  test('Test many sentences from real text that match the user experience-ex6', () => {
     const sentences = RequirementsReader.getSentences(
       `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done -the right way.The acquisition by MasterCard has expanded DY’s horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the team’s contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
     );
@@ -704,7 +704,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res).toBeFalsy();
   });
-  test('Test many sentence from real text that cause to infinite loop-ex7', () => {
+  test('Test many sentences from real text that cause to infinite loop-ex7', () => {
     const sentences = RequirementsReader.getSentences(
       `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.
       Join the team specializing in Share Point based portals in the Digital and Data Department in the Information Systems Division, at the organization's headquarters.
@@ -722,7 +722,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res.pass).toBeFalsy();
   });
-  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
+  test('Test many sentences from real text that cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
       ` Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
       If youre interested in creating a user-friendly platform by writing clean code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design.
@@ -747,7 +747,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
 
     expect(res).toBeTruthy();
   });
-  test('Test many sentence from real text that cause to infinite loop-ex8', () => {
+  test('Test many sentences from real text that cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
       `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`
     );
@@ -757,7 +757,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     expect(res).toBeFalsy();
   });
 
-  test('Test many sentence from real text that not match to any word in my stack but it does-ex9', () => {
+  test('Test many sentences from real text that not match to any word in my stack but it does-ex9', () => {
     const sentences = RequirementsReader.getSentences(
       `Softwave company needs a FS developer
       Job definition: work against specific characterizations and business requirements.
@@ -775,7 +775,7 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
-  test('Test many sentence from real text that the overall experience is bigger than mine.-ex10', () => {
+  test('Test many sentences from real text that the overall experience is bigger than mine.-ex10', () => {
     const sentences = RequirementsReader.getSentences(
       `5 years of experience in .Net technologies - ASP.Net and Net Core.
       Development in MSSQL or Oracle
@@ -789,15 +789,26 @@ describe.only('test checkIsRequirementsMatch.test function', () => {
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
-  test('Test many sentence from real text where the technologies are not in my stack but the job is not fit to my profile.-ex11', () => {
+
+  test('Test many sentences from real text where the some technologies fit my stack but other are not but still the job pass-ex11', () => {
     const sentences = RequirementsReader.getSentences(
-      `Requirements
-      Two or more years of experience in WEB development - mandatory.
-      A year or more experience in development in Angular - mandatory.
-      Development experience in .NET - mandatory.
-      Development experience in .NET Core - a significant advantage.
-      Development experience in React Native - a significant advantage.
-      System development experience in Microservices architecture - an advantage.`
+      `This is a company that has developed a product that optimizes and shortens the sales processes of insurance for businesses, specifically in the field of cyber insurance. This is a long and complicated process that they know how to optimize with a few clicks of a button (saving a few business days and serious savings in insurance prices). It is a SaaS platform that is very easy to operate and the product is B2B2C, with an increasing number of customers every quarter and so are the revenues. The main customers are small and large companies in the USA on the one hand, and the huge insurance companies on the other. They are located in Tel Aviv with a train line and incorporate a hybrid work model. There are 65 employees.
+      The essence of the position - joining the development team, reporting to the team leader. The backend is written in Python, the frontend in React. The role includes end-to-end development with a tendency towards Frontend (up to 80%, 50/50 is also possible). Work on AWS, Microservices, NoSQL.
+      Job requirements:
+      - 3 years of experience in Full Stack/Frontend development
+      - Experience in React
+      - Experience in Python/NodeJS/Go
+      - Cloud experience
+      - Experience from start-up/high-tech/SaaS companies`
+    );
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+  });
+  test.only('Test many sentences from real text where the jobs in all jobs not fit at all-ex12', () => {
+    const sentences = RequirementsReader.getSentences(
+      `An exciting company in the field of gaming in Tel Aviv needs Fullstack development people to work in a young environment, with advanced technologies! Requirements: 6 years of experience in Fullstack development - mandatory experience in one of the languages - Java / Python / GO / Node.js The actual development will be done in Node .js and React The job is intended for both women and men.`
     );
     console.log(sentences);
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);

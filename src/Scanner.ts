@@ -25,7 +25,7 @@ export class Scanner implements ScannerAPI {
   googleTranslate: GoogleTranslate;
   scannerName: ScannerName;
 
-  constructor(scannerName: ScannerName, userInput: UserInput, profile: Profile) {
+  constructor(scannerName: ScannerName, profile: Profile) {
     this.profile = profile;
     this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' }, profile);
     this.scannerName = scannerName;

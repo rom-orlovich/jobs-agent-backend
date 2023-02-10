@@ -19,7 +19,7 @@ export class LinkedinScanner extends Scanner {
   JobsDB: JobsDB;
   linkedinQuery: LinkedinQueryOptions;
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('linkedin', userInput, profile);
+    super('linkedin', profile);
     this.linkedinQuery = new LinkedinQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }
@@ -30,7 +30,7 @@ export class LinkedinScanner extends Scanner {
     return url;
   }
 
-  getAllJobsPostData() {
+  getAllJobsPostData(scannerName: string) {
     const jobDIVList = Array.from(document.body.querySelectorAll<HTMLDivElement>('.job-search-card'));
     if (jobDIVList.length === 0) return [];
     return jobDIVList.map((jobDIV) => {
@@ -42,7 +42,7 @@ export class LinkedinScanner extends Scanner {
       const company = jobDIV?.querySelector('h4.base-search-card__subtitle')?.textContent?.trim() || '';
       const location = jobDIV?.querySelector('span.job-search-card__location')?.innerHTML?.trim() || '';
       const date = jobDIV?.querySelector<HTMLTimeElement>('.job-search-card__listdate')?.dateTime;
-      return { jobID, link, title, company, location, date, from: this.scannerName };
+      return { jobID, link, title, company, location, date, from: scannerName };
     });
   }
 
@@ -54,7 +54,7 @@ export class LinkedinScanner extends Scanner {
     await untilSuccess(async () => {
       await page.goto(url, { waitUntil: 'load' });
 
-      jobsPosts = (await page.evaluate(this.getAllJobsPostData)).filter((jobPost) => {
+      jobsPosts = (await page.evaluate(this.getAllJobsPostData, this.scannerName)).filter((jobPost) => {
         if (!jobPost.link || !jobPost.jobID || !jobPost.title) return false;
         if (this.linkedinQuery.checkWordInBlackList(jobPost.title)) return false;
         if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;

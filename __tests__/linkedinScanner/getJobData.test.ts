@@ -8,7 +8,7 @@ import { UserInput } from '../../lib/GeneralQuery';
 import { Db } from 'mongodb';
 import { JobsDB } from '../../lib/JobsDB';
 
-describe.skip('Test getAllJobsData.test.ts', () => {
+describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
   const exampleQuery: UserInput = {
     location: 'תל אביב',
     position: 'Full Stack',

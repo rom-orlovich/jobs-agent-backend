@@ -13,7 +13,7 @@ export type JobPost = Job & { text: string };
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('allJobs', userInput, profile);
+    super('allJobs', profile);
     this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }
   getURL(page = 1) {

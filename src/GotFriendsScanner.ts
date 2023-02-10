@@ -18,7 +18,7 @@ export class GotFriendsScanner extends Scanner {
   gotFriendsQuery: GotFriendQueryOptions;
 
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('gotFriends', userInput, profile);
+    super('gotFriends', profile);
     this.gotFriendsQuery = new GotFriendQueryOptions(userInput);
     this.JobsDB = JobsDB;
   }
@@ -36,16 +36,19 @@ export class GotFriendsScanner extends Scanner {
     await page.click(`li label[for='${location}']`);
     await page.click('#searchButton');
   }
-  getAllJobsData() {
+  getAllJobsPostData(scannerName: string) {
     const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
+
     return jobsPosts.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
+
       const link = jobLink?.href || '';
-      const text = job.querySelector('.desc')?.textContent || '';
+      const text = job.querySelector('.desc:nth-of-type(2)')?.textContent || '';
       const jobID = job.querySelector('.career_num')?.textContent?.split(':')[1].trim() || '';
       const title = jobLink?.textContent?.trim().replace(/\n/, '') || '';
       const location = job.querySelector('.info-data')?.textContent?.trim() || '';
-      return { link, title, jobID, location, company: '', from: this.scannerName, text };
+
+      return { link, title, jobID, location, company: '', from: scannerName, text };
     });
   }
 
@@ -74,12 +77,14 @@ export class GotFriendsScanner extends Scanner {
           let data: JobPost[] = [];
           await untilSuccess(async () => {
             await newPage.goto(url);
-            data = (await newPage.evaluate(this.getAllJobsData)).filter((jobPost) => {
-              if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-              if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
-              if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-              return true;
-            });
+            data = (await newPage.evaluate(this.getAllJobsPostData, this.scannerName)).filter(
+              (jobPost) => {
+                if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
+                if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
+                if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
+                return true;
+              }
+            );
           });
 
           await newPage.close();
