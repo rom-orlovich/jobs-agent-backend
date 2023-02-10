@@ -14,13 +14,27 @@ import { ExperienceRange } from './src/Profile/profile';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },
+  reactjs: { min: 0, max: 3 },
   typescript: { min: 0, max: 3 },
   ts: { min: 0, max: 3 },
   js: { min: 0, max: 3 },
-  'node.js': { min: 0, max: 3 },
+  node: { min: 0, max: 3 },
+  nextjs: { min: 0, max: 3 },
   git: { min: 0, max: 3 },
+  github: { min: 0, max: 3 },
+  html: { min: 0, max: 3 },
+  css: { min: 0, max: 3 },
+  scss: { min: 0, max: 3 },
+  tailwinds: { min: 0, max: 3 },
+  mui: { min: 0, max: 3 },
+  express: { min: 0, max: 3 },
   fullstack: { min: 0, max: 3 },
   frontend: { min: 0, max: 3 },
+  sql: { min: 0, max: 3 },
+  python: { min: 0, max: 2 },
+  mongo: { min: 0, max: 3 },
+  nosql: { min: 0, max: 3 },
+  noSQL: { min: 0, max: 3 },
 };
 
 export const profile = new Profile({
@@ -36,6 +50,9 @@ export const profile = new Profile({
     embedded: true,
     go: true,
     ruby: true,
+    angular: true,
+    net: true,
+    qa: true,
   },
 });
 
