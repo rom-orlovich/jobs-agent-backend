@@ -1,15 +1,42 @@
 import { Browser, Page } from 'puppeteer';
-
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
+import { JobsDB } from '../../../lib/JobsDB';
+import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
+import { ExperienceRange } from '../../../lib/types/profile';
+import { GenericRecord } from '../../../lib/types/types';
+import { JobPost } from '../../AllJobsScanner/AllJobScanner';
+import { UserInput } from '../../GeneralQuery';
+import { Profile } from '../../Profile';
+import { GotFriendsScanner } from '../GotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
-import { exampleQuery, profile } from '../..';
-import { UserInput } from '../../lib/GeneralQuery';
-
-import { JobsDB } from '../../lib/JobsDB';
-import { GotFriendsScanner } from '../../src/GotFriendsScanner/GotFriendsScanner';
-import { JobPost } from '../../src/AllJobsScanner/AllJobScanner';
 
 describe.skip('Test getAllJobsData.test.ts of gotFriends Scanner', () => {
+  const REQUIREMENTS: GenericRecord<ExperienceRange> = {
+    javascript: { min: 0, max: 3 },
+    react: { min: 0, max: 3 },
+    typescript: { min: 0, max: 3 },
+    ts: { min: 0, max: 3 },
+    js: { min: 0, max: 3 },
+    'node.js': { min: 0, max: 3 },
+    git: { min: 0, max: 3 },
+    fullstack: { min: 0, max: 3 },
+    frontend: { min: 0, max: 3 },
+  };
+
+  const profile = new Profile({
+    overallEx: 2,
+    requirementsOptions: REQUIREMENTS,
+    excludeTechs: {
+      'c#.net': true,
+      php: true,
+      c: true,
+      'c#': true,
+      java: true,
+      'system administration': true,
+      embedded: true,
+      go: true,
+      ruby: true,
+    },
+  });
   const exampleQuery: UserInput = {
     location: 'תל אביב',
     position: 'Full Stack',

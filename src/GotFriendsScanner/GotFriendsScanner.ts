@@ -2,12 +2,12 @@ import { Scanner } from '../Scanner';
 
 import { GotFriendQueryOptions } from './GotFriendsQuery';
 import { Job } from '../../lib/types/linkedinScanner';
-import { Profile } from '../../lib/Profile';
+import { Profile } from '../Profile';
 import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { UserInput } from '../../lib/GeneralQuery';
+import { UserInput } from '../GeneralQuery';
 import { Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
 import { JobPost } from '../AllJobsScanner/AllJobScanner';

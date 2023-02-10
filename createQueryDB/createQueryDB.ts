@@ -46,7 +46,7 @@ const createPositionDB = async () => {
     cat.ChildCategories.forEach((el) => {
       const keywords = el.Keywords.split(',');
       keywords.forEach((el) => {
-        const keyPos = el.trim();
+        const keyPos = el.trim() as keyof PositionData;
         positionsData[keyPos] = {
           he: keyPos,
           gotFriends: gotFriendsPos[keyPos],

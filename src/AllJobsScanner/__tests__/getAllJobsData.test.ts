@@ -1,12 +1,12 @@
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
-import { UserInput } from '../../lib/GeneralQuery';
+import { UserInput } from '../../GeneralQuery';
 
-import { JobsDB } from '../../lib/JobsDB';
+import { JobsDB } from '../../../lib/JobsDB';
 
-import { AllJobScanner, JobPost } from '../../src/AllJobsScanner/AllJobScanner';
+import { AllJobScanner, JobPost } from '../AllJobScanner';
 import { load } from 'cheerio';
-import { profile } from '../..';
+import { profile } from '../../..';
 
 describe('Test getAllJobsData.test.ts of allJobs Scanner', () => {
   const exampleQuery: UserInput = {

@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 
 config();
 
-import { Profile } from './lib/Profile';
+import { Profile } from './src/Profile';
 
 import { ExperienceRange } from './lib/types/profile';
 import { GenericRecord } from './lib/types/types';
@@ -10,7 +10,7 @@ import { JobsScan } from './src/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';
 
-import { UserInput } from './lib/GeneralQuery';
+import { UserInput } from './src/GeneralQuery';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
   react: { min: 0, max: 3 },

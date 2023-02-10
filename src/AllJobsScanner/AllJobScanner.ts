@@ -1,11 +1,11 @@
 import { Job } from '../../lib/types/linkedinScanner';
 import { Scanner } from '../Scanner';
 
-import { Profile } from '../../lib/Profile';
+import { Profile } from '../Profile';
 
 import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserInput } from '../../lib/GeneralQuery';
+import { UserInput } from '../GeneralQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { exampleQuery, profile } from '../..';
 

@@ -1,6 +1,6 @@
-import { LOCATIONS_DICT_DB } from '../../sandbox/locationDB';
-import { POSITIONS_DICT_DB } from '../../sandbox/positionDictDB';
-import { GeneralQuery, UserInput } from '../../lib/GeneralQuery';
+import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
+import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
+import { GeneralQuery, UserInput } from '../GeneralQuery';
 // import { ValueObj } from './types/types';
 
 // export const POSITIONS = {

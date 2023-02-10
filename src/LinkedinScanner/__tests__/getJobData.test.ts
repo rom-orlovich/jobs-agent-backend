@@ -1,14 +1,41 @@
 import { Browser, Page } from 'puppeteer';
-
-import { LinkedinScanner } from '../../src/LinkedinScanner/LinkedinScanner';
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
+import { JobsDB } from '../../../lib/JobsDB';
+import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
+import { ExperienceRange } from '../../../lib/types/profile';
+import { GenericRecord } from '../../../lib/types/types';
+import { UserInput } from '../../GeneralQuery';
+import { Profile } from '../../Profile';
+import { LinkedinScanner } from '../LinkedinScanner';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
-import { exampleQuery, profile } from '../..';
-import { UserInput } from '../../lib/GeneralQuery';
-import { Db } from 'mongodb';
-import { JobsDB } from '../../lib/JobsDB';
 
 describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
+  const REQUIREMENTS: GenericRecord<ExperienceRange> = {
+    javascript: { min: 0, max: 3 },
+    react: { min: 0, max: 3 },
+    typescript: { min: 0, max: 3 },
+    ts: { min: 0, max: 3 },
+    js: { min: 0, max: 3 },
+    'node.js': { min: 0, max: 3 },
+    git: { min: 0, max: 3 },
+    fullstack: { min: 0, max: 3 },
+    frontend: { min: 0, max: 3 },
+  };
+
+  const profile = new Profile({
+    overallEx: 2,
+    requirementsOptions: REQUIREMENTS,
+    excludeTechs: {
+      'c#.net': true,
+      php: true,
+      c: true,
+      'c#': true,
+      java: true,
+      'system administration': true,
+      embedded: true,
+      go: true,
+      ruby: true,
+    },
+  });
   const exampleQuery: UserInput = {
     location: 'תל אביב',
     position: 'Full Stack',
@@ -63,7 +90,12 @@ describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
   });
 
   test('Test simple get 1 job data-ex1', async () => {
-    const res = await evaluateContent(page, JOB_POST_EX1_HTML, linkedinScanner.getAllJobsPostData);
+    const res = await evaluateContent(
+      page,
+      JOB_POST_EX1_HTML,
+      linkedinScanner.getAllJobsPostData,
+      'linkedin'
+    );
 
     expect(res).toEqual([
       {
@@ -78,7 +110,12 @@ describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
     ]);
   });
   test('Test simple get 1 job data-ex2', async () => {
-    const res = await evaluateContent(page, JOB_POST_EX2_HTML, linkedinScanner.getAllJobsPostData);
+    const res = await evaluateContent(
+      page,
+      JOB_POST_EX2_HTML,
+      linkedinScanner.getAllJobsPostData,
+      'linkedin'
+    );
 
     expect(res).toEqual([
       {
@@ -93,7 +130,12 @@ describe.skip('Test getAllJobsData.test.ts of linkedin scanner', () => {
     ]);
   });
   test('Test many jobs data', async () => {
-    const res = await evaluateContent(page, JOB_POST_EX3_HTML, linkedinScanner.getAllJobsPostData);
+    const res = await evaluateContent(
+      page,
+      JOB_POST_EX3_HTML,
+      linkedinScanner.getAllJobsPostData,
+      'linkedin'
+    );
 
     expect(res).toEqual([
       {

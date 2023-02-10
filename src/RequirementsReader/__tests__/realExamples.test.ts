@@ -1,7 +1,7 @@
-import { Profile } from '../../src/Profile';
-import { RequirementsReader } from '../../src/RequirementsReader/RequirementsReader';
-import { ExperienceRange } from '../../lib/types/profile';
-import { GenericRecord } from '../../lib/types/types';
+import { ExperienceRange } from '../../../lib/types/profile';
+import { GenericRecord } from '../../../lib/types/types';
+import { Profile } from '../../Profile';
+import { RequirementsReader } from '../RequirementsReader';
 
 describe('Testss real examples of checkIsRequirementsMatch function', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {

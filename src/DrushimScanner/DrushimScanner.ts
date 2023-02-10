@@ -1,8 +1,8 @@
 import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './DrushimQueryOptions';
-import { UserInput } from '../../lib/GeneralQuery';
+import { UserInput } from '../GeneralQuery';
 import { JobsDB } from '../../lib/JobsDB';
-import { Profile } from '../../lib/Profile';
+import { Profile } from '../Profile';
 import { DrushimAPI, DrushimResult } from '../../lib/types/drushim';
 import { Job } from '../../lib/types/linkedinScanner';
 import { JobPost } from '../AllJobsScanner/AllJobScanner';

@@ -1,12 +1,41 @@
 import { Browser, Page } from 'puppeteer';
-import { profile } from '../..';
+import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
+import { ExperienceRange } from '../../../lib/types/profile';
+import { GenericRecord } from '../../../lib/types/types';
+import { Profile } from '../../Profile';
+import { GoogleTranslate } from '../GoogleTranslateScanner';
 
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
-import { GoogleTranslate } from '../../src/GoogleTranslateScanner/GoogleTranslateScanner';
 import { TRANSLATE_EX1_HTML, TRANSLATE_EX2_HTML, TRANSLATE_EX3_HTML } from './mocks/htmlContext';
 // import { J } from './mocks/htmlContext';
 
 describe('Test getAllJobsData.test.ts', () => {
+  const REQUIREMENTS: GenericRecord<ExperienceRange> = {
+    javascript: { min: 0, max: 3 },
+    react: { min: 0, max: 3 },
+    typescript: { min: 0, max: 3 },
+    ts: { min: 0, max: 3 },
+    js: { min: 0, max: 3 },
+    'node.js': { min: 0, max: 3 },
+    git: { min: 0, max: 3 },
+    fullstack: { min: 0, max: 3 },
+    frontend: { min: 0, max: 3 },
+  };
+
+  const profile = new Profile({
+    overallEx: 2,
+    requirementsOptions: REQUIREMENTS,
+    excludeTechs: {
+      'c#.net': true,
+      php: true,
+      c: true,
+      'c#': true,
+      java: true,
+      'system administration': true,
+      embedded: true,
+      go: true,
+      ruby: true,
+    },
+  });
   const { lunchInstance, evaluateContent } = PuppeteerSetup;
   const googleTranslate = new GoogleTranslate({ op: 'translate', to: 'en', from: 'he' }, profile);
   let page: Page, browser: Browser;
