@@ -7,9 +7,9 @@ import { ScannerName } from './GeneralQuery';
 import { JobsDB } from '../lib/JobsDB';
 import { Profile } from './Profile/Profile';
 
-import { JobPost } from './JobsScanner/JobsScanner';
 import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { RequirementsReader } from './RequirementsReader/RequirementsReader';
+import { JobPost } from './JobsScanner/jobsScanner';
 
 export interface TaskProps {
   profile: Profile;
@@ -25,7 +25,7 @@ export interface ScannerAPI {
 export class Scanner implements ScannerAPI {
   profile: Profile;
   googleTranslate: GoogleTranslate;
-  // googleTranslate: GoogleTranslate;
+
   scannerName: ScannerName;
 
   constructor(scannerName: ScannerName, profile: Profile) {

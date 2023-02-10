@@ -10,7 +10,7 @@ import throat from 'throat';
 import { UserInput } from '../GeneralQuery';
 import { Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
-import { Job, JobPost } from '../JobsScanner/JobsScanner';
+import { Job, JobPost } from '../JobsScanner/jobsScanner';
 import { exampleQuery, profile } from '../..';
 
 export class GotFriendsScanner extends Scanner {

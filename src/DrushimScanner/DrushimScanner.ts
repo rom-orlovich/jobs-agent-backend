@@ -5,7 +5,7 @@ import { JobsDB } from '../../lib/JobsDB';
 import { Profile } from '../Profile/Profile';
 import { DrushimAPI, DrushimResult } from './drushimScanner';
 import { Scanner } from '../Scanner';
-import { Job, JobPost } from '../JobsScanner/JobsScanner';
+import { Job, JobPost } from '../JobsScanner/jobsScanner';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;

@@ -12,7 +12,7 @@ import { ScanningFS } from '../../lib/ScanningFS';
 import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
 import { UserInput } from '../GeneralQuery';
-import { Job } from './JobsScanner';
+import { Job } from './jobsScanner';
 
 export class JobsScanner {
   profile: Profile;
@@ -21,9 +21,11 @@ export class JobsScanner {
   allJobsScanner: AllJobScanner;
   jobs: JobsDB;
   drushimScanner: DrushimScanner;
+  fileName: string;
 
   constructor(profile: Profile, userInput: UserInput) {
     this.profile = profile;
+    this.fileName = userInput.position + '-' + new Date().toLocaleDateString();
     this.jobs = new JobsDB();
     this.linkedinScanner = new LinkedinScanner(userInput, this.profile, this.jobs);
     this.GotFriendsScanner = new GotFriendsScanner(userInput, this.profile, this.jobs);
@@ -46,7 +48,7 @@ export class JobsScanner {
       ])
     ).flat(1);
 
-    await ScanningFS.writeData(data);
+    await ScanningFS.writeData(data, this.fileName);
     console.log('end');
   }
 }

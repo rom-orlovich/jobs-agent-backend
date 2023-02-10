@@ -75,8 +75,8 @@ export class ScanningFS {
 
     return jobs as T[];
   }
-  static async writeData<T extends GenericRecord<any>>(data: T[]) {
-    const jobs = await ScanningFS.writeCSV(data, ScanningFS.createPathJobsCSV());
+  static async writeData<T extends GenericRecord<any>>(data: T[], fileName?: string) {
+    const jobs = await ScanningFS.writeCSV(data, ScanningFS.createPathJobsCSV(fileName));
     return jobs;
   }
 }
