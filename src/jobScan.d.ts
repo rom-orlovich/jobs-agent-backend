@@ -8,3 +8,4 @@ export interface Job {
   date?: string;
   from: string;
 }
+export type JobPost = Job & { text: string };

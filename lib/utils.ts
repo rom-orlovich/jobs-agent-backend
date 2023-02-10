@@ -1,4 +1,4 @@
-import { AnyFun } from './types/types';
+import { AnyFun } from './types';
 
 export const benchmarkTimeMS = async (cb: AnyFun) => {
   const timePre = new Date().getMilliseconds();

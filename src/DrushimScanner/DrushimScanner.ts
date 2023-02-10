@@ -2,12 +2,10 @@ import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './DrushimQueryOptions';
 import { UserInput } from '../GeneralQuery';
 import { JobsDB } from '../../lib/JobsDB';
-import { Profile } from '../Profile';
-import { DrushimAPI, DrushimResult } from '../../lib/types/drushim';
-import { Job } from '../../lib/types/linkedinScanner';
-import { JobPost } from '../AllJobsScanner/AllJobScanner';
-
+import { Profile } from '../Profile/Profile';
+import { DrushimAPI, DrushimResult } from './drushimScanner';
 import { Scanner } from '../Scanner';
+import { Job, JobPost } from '../jobScan';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;

@@ -1,8 +1,8 @@
 import { Browser, Page } from 'puppeteer';
 import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
 import { ExperienceRange } from '../../../lib/types/profile';
-import { GenericRecord } from '../../../lib/types/types';
-import { Profile } from '../../Profile';
+import { GenericRecord } from '../../../lib/types';
+import { Profile } from '../../Profile/Profile';
 import { GoogleTranslate } from '../GoogleTranslateScanner';
 
 import { TRANSLATE_EX1_HTML, TRANSLATE_EX2_HTML, TRANSLATE_EX3_HTML } from './mocks/htmlContext';

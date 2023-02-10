@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb';
-import { GenericRecord } from './types/types';
+import { GenericRecord } from './types';
 
 export class MongoDBClient {
   client: MongoClient;

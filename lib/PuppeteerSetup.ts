@@ -1,5 +1,5 @@
 import puppeteer, { Page, PuppeteerLaunchOptions } from 'puppeteer';
-import { AnyFun } from './types/types';
+import { AnyFun } from './types';
 
 export class PuppeteerSetup {
   static async noImageRequest(page: Page) {

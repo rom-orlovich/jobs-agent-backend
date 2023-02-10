@@ -1,4 +1,4 @@
-import { GotFriendsPositions } from '../createQueryDB/lib/sandbox';
+import { GotFriendsPositions } from '../createQueryDB/lib/createQueryDB';
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery, UserInput } from '../GeneralQuery';

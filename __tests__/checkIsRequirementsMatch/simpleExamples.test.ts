@@ -1,7 +1,7 @@
-import { ExperienceRange } from '../../../lib/types/profile';
-import { GenericRecord } from '../../../lib/types';
-import { Profile } from '../../Profile/Profile';
-import { RequirementsReader } from '../RequirementsReader';
+import { Profile } from '../../src/Profile/Profile';
+import { RequirementsReader } from '../../src/RequirementsReader/RequirementsReader';
+import { ExperienceRange } from '../../lib/types/profile';
+import { GenericRecord } from '../../lib/types';
 
 describe.skip('Tests simple examples of checkIsRequirementsMatch function', () => {
   // Note: All the keys in the requirementsOptions map and excludeTechs should be lowercase!

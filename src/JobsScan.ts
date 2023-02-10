@@ -1,4 +1,4 @@
-import { Profile } from './Profile';
+import { Profile } from './Profile/Profile';
 
 import { LinkedinScanner } from './LinkedinScanner/LinkedinScanner';
 
@@ -8,11 +8,11 @@ import { JobsDB } from '../lib/JobsDB';
 
 import { AllJobScanner } from './AllJobsScanner/AllJobScanner';
 import { ScanningFS } from '../lib/ScanningFS';
-import { Job } from '../lib/types/linkedinScanner';
 
 import { DrushimScanner } from './DrushimScanner/DrushimScanner';
 
 import { UserInput } from './GeneralQuery';
+import { Job } from './jobScan';
 
 export class JobsScan {
   profile: Profile;

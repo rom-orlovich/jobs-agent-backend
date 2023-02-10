@@ -1,7 +1,7 @@
 import { LOCATIONS_DICT_DB } from './createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from './createQueryDB/positionDictDB';
 import { BLACK_LIST_WORDS } from './LinkedinScanner/LinkedinQueryOptions';
-import { ExtractKey, OmitKey, PickKey } from '../lib/types/types';
+import { ExtractKey, OmitKey, PickKey } from '../lib/types';
 
 export interface UserInput {
   location: keyof typeof LOCATIONS_DICT_DB;

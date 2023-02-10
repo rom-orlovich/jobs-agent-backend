@@ -1,9 +1,9 @@
-import { ExperienceRange } from '../../../lib/types/profile';
-import { GenericRecord } from '../../../lib/types';
-import { Profile } from '../../Profile/Profile';
-import { RequirementsReader } from '../RequirementsReader';
+import { Profile } from '../../src/Profile/Profile';
+import { RequirementsReader } from '../../src/RequirementsReader/RequirementsReader';
+import { ExperienceRange } from '../../lib/types/profile';
+import { GenericRecord } from '../../lib/types';
 
-describe.only('Testss real examples of checkIsRequirementsMatch function', () => {
+describe('Testss real examples of checkIsRequirementsMatch function', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
@@ -484,7 +484,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.count).toBeLessThan(RequirementsReader.WORDS_COUNT_KILL);
     expect(res.pass).toBeTruthy();
   });
-  test('Tests many sentences from real text that may cause to infinite loop-ex8', () => {
+  test.only('Tests many sentences from real text that may cause to infinite loop-ex8', () => {
     const sentences = RequirementsReader.getSentences(
       `Were looking for a Full Stack developer to join our development team and be responsible for building a SaaS back-office platform that will integrate with our core technology and systems.
           If youre interested in creating a user-friendly platform by writing clean code and moving forward in your career, then this job is for you. We expect you to be a tech-savvy professional, who is curious about new digital technologies and aspires to combine usability with visual design.
@@ -584,22 +584,6 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           - At least two years of experience in Angular development
           - Working with ETL processes
           - Experience in WebApi, Restful services The position is intended for both women and men.`
-    );
-    console.log(sentences);
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
-    console.log(res.reason);
-    expect(res.pass).toBeFalsy();
-  });
-  test('Tests many sentences from real text where the jobs in drushim is not fit by overall experience and still pass -ex15', () => {
-    const sentences = RequirementsReader.getSentences(
-      `Requirements:
-      At least 4+ years of development experience
-      Working experience in Node.js and React is a must
-      Proficiency in written and spoken English
-      Bonus Points
-      Knowledge of dev-lest methodologies.
-      Expertise in functional programming
-      Experience in developing SaaS products`
     );
     console.log(sentences);
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);

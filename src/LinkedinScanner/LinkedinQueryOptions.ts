@@ -1,23 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery, UserInput } from '../GeneralQuery';
-// import { ValueObj } from './types/types';
-
-// export const POSITIONS = {
-//   'Javascript Developer': '25170',
-//   'Frontend Developer': '3172',
-//   'Full Stack Engineer': '25201',
-//   'Quality Assurance Engineer': '292',
-//   'Electrical Engineer': '293',
-//   'Quality Assurance Automation Engineer': '11227',
-//   'Data Engineer': '2732',
-//   'Automation Engineer': '1510',
-//   'DevOps Engineer': '25764',
-//   'Software Engineer': '9',
-//   'Python Developer': '25169',
-//   Engineer: '10',
-//   'Back End Developer': '25194',
-// } as const;
 
 const PERIOD = {
   'past month': 'r2592000',
@@ -25,63 +8,12 @@ const PERIOD = {
   '24hr': 'r86400',
 } as const;
 
-// export const WHITE_LIST_WORDS = [
-//   'React',
-//   'Javascript',
-//   'Full Stack',
-//   'Frontend',
-//   'Backend',
-//   'Web',
-//   'Front End',
-//   'Back End',
-// ];
-// f_WT
-// const REMOTE_FILTER_RANGE = {
-//   'on site': '1',
-//   remote: '2',
-//   hybrid: '3',
-// };
-//f_E
-// const EXPERINCE_RANGE = {
-//   internship: '1', //without
-//   'entry level': '2', //1-2
-//   associate: '3', //3-4
-//   senior: '4', //4-6
-//   director: '5', //7+
-//   executive: '6',
-// };
-// f_JT
-// const JOB_TYPE_RANGE = {
-//   'full time': 'F',
-
-//   'part time': 'P',
-// };
-
 export const BLACK_LIST_WORDS = ['Angular', 'Senior', 'Lead'];
 
 const SORT_BY = {
   relevant: 'R',
   recent: 'DD',
 } as const;
-
-// export const lan = [
-//   'Javascript',
-//   'React',
-//   'Typescript',
-//   'Nodejs',
-//   'node',
-//   'javascript',
-//   'mongoDB',
-//   'SQL',
-// ];
-
-// const DISTANCE_MILE = {
-//   '10 mi (15km)': '10',
-//   '25 mi (40 km)': '25',
-//   '50 mi (80 km)': '50',
-//   '75 mi (120 km)': '75',
-//   '100 mi (160 km)': '100',
-// } as const;
 
 export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   period: string;

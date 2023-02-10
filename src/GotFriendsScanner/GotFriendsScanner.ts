@@ -1,8 +1,8 @@
 import { Scanner } from '../Scanner';
 
 import { GotFriendQueryOptions } from './GotFriendsQuery';
-import { Job } from '../../lib/types/linkedinScanner';
-import { Profile } from '../Profile';
+
+import { Profile } from '../Profile/Profile';
 import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
@@ -10,8 +10,7 @@ import throat from 'throat';
 import { UserInput } from '../GeneralQuery';
 import { Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
-import { JobPost } from '../AllJobsScanner/AllJobScanner';
-import { exampleQuery, profile } from '../..';
+import { Job, JobPost } from '../jobScan';
 
 export class GotFriendsScanner extends Scanner {
   JobsDB: JobsDB;

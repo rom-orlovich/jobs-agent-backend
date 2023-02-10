@@ -2,10 +2,10 @@ import { config } from 'dotenv';
 
 config();
 
-import { Profile } from './src/Profile';
+import { Profile } from './src/Profile/Profile';
 
 import { ExperienceRange } from './lib/types/profile';
-import { GenericRecord } from './lib/types/types';
+import { GenericRecord } from './lib/types';
 import { JobsScan } from './src/JobsScan';
 
 import { MongoDBClient } from './lib/MongoClient';

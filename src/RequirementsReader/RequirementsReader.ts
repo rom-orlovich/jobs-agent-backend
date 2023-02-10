@@ -1,5 +1,5 @@
 import { benchmarkTimeMS } from '../../lib/utils';
-import { Profile } from '../Profile';
+import { Profile } from '../Profile/Profile';
 
 export class RequirementsReader {
   static WORDS_COUNT_KILL = 500;

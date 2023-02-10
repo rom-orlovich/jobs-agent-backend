@@ -1,6 +1,6 @@
 import { ScanningFS } from '../../lib/ScanningFS';
 import path from 'path';
-import { GenericRecord, OmitKey } from '../../lib/types/types';
+import { GenericRecord, OmitKey } from '../../lib/types';
 import axios from 'axios';
 
 import { allJobCities } from './allJobCities';
@@ -14,7 +14,7 @@ import {
   PositionData,
   Result,
   Root,
-} from './lib/sandbox';
+} from './lib/createQueryDB';
 
 const createPositionDB = async () => {
   const gotFriendsCatArr = await ScanningFS.readJSON<GenericRecord<string>[]>(

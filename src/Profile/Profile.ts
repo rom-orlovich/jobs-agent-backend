@@ -1,9 +1,4 @@
-import {
-  ExcludeTechsOptions,
-  ExperienceRange,
-  ProfileOptions,
-  RequirementsOptions,
-} from '../lib/types/profile';
+import { ExcludeTechsOptions, ExperienceRange, ProfileOptions, RequirementsOptions } from './profile';
 
 /**
  * @param excludeTechs An object that contains the tech stack which the user doesn't want to include the in jobs list.

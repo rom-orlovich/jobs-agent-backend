@@ -2,7 +2,7 @@ import path from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import { Job } from './types/linkedinScanner';
 import { json2csvAsync, csv2jsonAsync } from 'json-2-csv';
-import { GenericRecord } from './types/types';
+import { GenericRecord } from './types';
 export class ScanningFS {
   static createPathJobsJSON(fileName = `jobs2.json`) {
     return path.join(__dirname, '../', 'JSON', fileName);

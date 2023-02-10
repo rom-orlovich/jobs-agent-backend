@@ -1,12 +1,12 @@
 import { Page } from 'puppeteer';
 import throat from 'throat';
-import { Profile } from '../Profile';
+import { Profile } from '../Profile/Profile';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
 
-import { GoogleTranslateQuery } from '../../lib/types/google-translate';
 import { untilSuccess } from '../../lib/utils';
-import { JobPost } from '../AllJobsScanner/AllJobScanner';
+import { GoogleTranslateQuery } from './googleTranslateScanner';
+import { JobPost } from '../jobScan';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;

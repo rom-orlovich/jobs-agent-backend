@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-import Cluster, { TaskFunction } from 'puppeteer-cluster/dist/Cluster';
+import Cluster from 'puppeteer-cluster/dist/Cluster';
 import throat from 'throat';
-import { GeneralQuery, ScannerName, UserInput } from './GeneralQuery';
+import { ScannerName } from './GeneralQuery';
 
 import { JobsDB } from '../lib/JobsDB';
-import { Profile } from './Profile';
-import { JobPost } from './AllJobsScanner/AllJobScanner';
+import { Profile } from './Profile/Profile';
+
 import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
+import { JobPost } from './jobScan';
 
 export interface TaskProps {
   profile: Profile;

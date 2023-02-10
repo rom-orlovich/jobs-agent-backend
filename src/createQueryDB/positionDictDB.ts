@@ -1,4 +1,4 @@
-import { PositionData } from './lib/sandbox';
+import { PositionData } from './lib/createQueryDB';
 
 export const POSITIONS_DICT_DB: PositionData = {
   '8200': { he: '8200', en: '8200' },
