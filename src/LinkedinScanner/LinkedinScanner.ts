@@ -67,7 +67,7 @@ export class LinkedinScanner extends Scanner {
       // headless: false,
       defaultViewport: null,
       args: ['--no-sandbox'],
-      slowMo: 100,
+      slowMo: 200,
     });
     const jobsPosts: Job[] = [];
     let start = 0;
@@ -84,7 +84,7 @@ export class LinkedinScanner extends Scanner {
     console.log('number', jobsPosts.length);
 
     const promises: Promise<Job>[] = jobsPosts.map(
-      throat(3, async (jobPost) => {
+      throat(5, async (jobPost) => {
         console.log(jobPost.link);
         const REPage = await browser.newPage();
         await PuppeteerSetup.noImageRequest(REPage);

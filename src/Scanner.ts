@@ -48,6 +48,7 @@ export class Scanner {
     preJobs: Job[]
   ) {
     return (curJob: JP) => {
+      console.log(this.jobMap.get(curJob.jobID), curJob.jobID);
       if (this.jobMap.get(curJob.jobID)) return false;
       else {
         this.jobMap.set(curJob.jobID, true);

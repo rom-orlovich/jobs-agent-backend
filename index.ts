@@ -58,49 +58,50 @@ export const profile = new Profile({
 
 export const exampleQuery: UserInput = {
   location: 'תל אביב',
-  position: 'Backend Developer',
+  position: 'Frontend Developer',
   distance: '1', // 10,25,50,75,
 
   jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
   scope: '1,2', // 1 full, 2:part
   experience: '1,2', //without -1 ,between 1-2,
   blackList: [
-    'senior',
-    'lead',
-    'angular',
-    'devops',
-    'cloud',
-    'wordpress',
-    'devops',
-    'data analyst',
-    'data',
-    'ux',
-    'ui',
-    'quality assurance',
-    'qa',
-    'csv',
-    'php',
-    'communications',
-    'embedded',
-    'power supply',
-    'java',
-    'ruby',
-    'go',
-    'etl',
-    'technical solution',
-    'tax',
-    'eae',
-    'associate embedded systems engineer',
-    'ese',
-    'system test',
-    'Tier 2 Support Agent',
-    'Sales Manager',
+    // 'senior',
+    // 'lead',
+    // 'angular',
+    // 'devops',
+    // 'cloud',
+    // 'wordpress',
+    // 'devops',
+    // 'data analyst',
+    // 'data',
+    // 'ux',
+    // 'ui',
+    // 'quality assurance',
+    // 'qa',
+    // 'csv',
+    // 'php',
+    // 'communications',
+    // 'embedded',
+    // 'power supply',
+    // 'java',
+    // 'ruby',
+    // 'go',
+    // 'etl',
+    // 'technical solution',
+    // 'tax',
+    // 'eae',
+    // 'associate embedded systems engineer',
+    // 'ese',
+    // 'system test',
+    // 'Tier 2 Support Agent',
+    // 'Sales Manager',
   ],
 };
 export const mongoDB = new MongoDBClient();
 export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
 
 const main = async () => {
+  console.time('time');
   try {
     // await mongoDB.connect();
     const jobScan = new JobsScanner(profile, exampleQuery);
@@ -110,6 +111,7 @@ const main = async () => {
     console.log(error);
     // await mongoDB.close();
   }
+  console.timeEnd('time');
 };
 
 main();

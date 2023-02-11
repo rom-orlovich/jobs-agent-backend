@@ -4,11 +4,11 @@ import { readFile, writeFile } from 'fs/promises';
 import { json2csvAsync, csv2jsonAsync } from 'json-2-csv';
 import { GenericRecord } from './types';
 export class ScanningFS {
-  static createPathJobsJSON(fileName = `jobs2.json`) {
+  static createPathJobsJSON(fileName = `jobs.json`) {
     return path.join(__dirname, '../', 'JSON', fileName);
   }
 
-  static createPathJobsCSV(fileName = 'jobs.csv') {
+  static createPathJobsCSV(fileName = 'jobs2.csv') {
     return path.join(__dirname, '../', 'csv', fileName);
   }
 
