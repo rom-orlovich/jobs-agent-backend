@@ -110,8 +110,7 @@ export class RequirementsReader {
 
         // const langEx = profile.getRequirement(word);
         const langEx = profile.checkRequirementExist(word);
-        console.log(langEx);
-        console.log(word, excludeTech);
+
         if (langEx) {
           noneOfTechStackExist = true;
           languageMatch = langEx;
