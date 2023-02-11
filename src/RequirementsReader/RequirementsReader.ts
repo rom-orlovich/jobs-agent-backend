@@ -1,31 +1,26 @@
 import { GenericRecord } from '../../lib/types';
 import { benchmarkTimeMS } from '../../lib/utils';
 import { DataWithText } from '../JobsScanner/jobsScanner';
+import { ExperienceRange } from '../Profile/profile';
 import { Profile } from '../Profile/Profile';
 
 export class RequirementsReader {
   static WORDS_COUNT_KILL = 500;
+
   static getSentences = (text: string) => {
     const sentences = text
-      .split(/[.\n]+[^\w]/g)
-      .filter((el) => el)
-      .map((el) => el.split(' ').filter((el) => el))
-      .filter((el) => el.length);
+      .split(/[.\n]+[^\w]/g) //split sentences.
+      .filter((el) => el) //filter empty string.
+      .map(
+        (el) =>
+          el
+            .toLowerCase()
+            .split(/,|\/| /g) // split ','| '/' and spaces between words.
+            .filter((el) => el) // filter empty words.
+      );
 
     return sentences;
   };
-
-  private static checkNumberIsLowerTheRange(numCheck: number | undefined, range: RegExpMatchArray) {
-    if (range[0][1] === '-') {
-      const [min, max] = range[0].split('-');
-      if (numCheck && Number(min) > numCheck) return true;
-    }
-  }
-
-  private static checkDigitMatchIsBigger(numCheck: number | undefined, digitMatch: RegExpMatchArray) {
-    const yearNum = Number(digitMatch[0]);
-    if (numCheck && yearNum > numCheck) return true;
-  }
   private static convertWordToNumber(word: string) {
     const wordNumberDict: Record<string, string> = {
       zero: '0',
@@ -40,7 +35,47 @@ export class RequirementsReader {
       eleven: '9',
       ten: '10',
     };
-    return wordNumberDict[word.toLowerCase()];
+    return wordNumberDict[word];
+  }
+  private static getNumberRange(strRange: string) {
+    if (strRange[1] !== '-') return;
+    return strRange.split('-').map(Number);
+  }
+
+  private static getNumber(str: string) {
+    const digit = str.match(/[\d]+/)?.[0];
+    // console.log(digit);
+    const num = Number(digit);
+
+    return isFinite(num) ? [num] : undefined;
+  }
+
+  private static getPatternDigits(str: string) {
+    const number = RequirementsReader.getNumber(str);
+    if (number) return number;
+    const range = RequirementsReader.getNumberRange(str);
+    if (range) return range;
+  }
+  private static checkOverallExBiggerThanDigitMatch(digitMatch: number[], overallEx?: number) {
+    if (digitMatch.length !== 1) return false;
+    if (!overallEx) return false;
+    if (overallEx < digitMatch[0]) return true;
+  }
+
+  private static checkOverallExInRange(range: number[], overallEx?: number) {
+    if (range.length !== 2) return false;
+    if (!overallEx) return false;
+    if (!(range[0] <= overallEx && overallEx <= range[1])) return true;
+  }
+
+  private static checkDigitMatchIsBetLangEx(langEx: ExperienceRange, digitMatch: number[]) {
+    if (digitMatch.length !== 1) return false;
+    if (!(langEx.min <= digitMatch[0] && digitMatch[0] <= langEx.max)) return true;
+  }
+
+  private static checkLangExInRange(langEx: ExperienceRange, range: number[]) {
+    if (range.length !== 2) return false;
+    if (!(langEx.min >= range[0] && langEx.max <= range[1])) return true;
   }
 
   private static scanRequirements(sentences: string[][], profile: Profile) {
@@ -50,8 +85,9 @@ export class RequirementsReader {
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
       let yearsIndex = -1;
-      let digitMatch: RegExpMatchArray | null = null;
-      let languageMatch;
+      let digitMatch: number[] | undefined = undefined;
+      let langEx;
+      let startSearchLang = false;
 
       for (let j = 0; j < sentence.length; j++) {
         k++;
@@ -67,79 +103,68 @@ export class RequirementsReader {
             count: k,
           };
         }
-        const convertToNum = this.convertWordToNumber(sentence[j]);
-        const word = convertToNum ? convertToNum : sentence[j].replace(',', '').toLowerCase();
 
-        // console.log('word', word);
-        // Check if the word is include in the excluded tech
+        const convertToNum = RequirementsReader.convertWordToNumber(sentence[j]);
+        const word = convertToNum ? convertToNum : sentence[j];
 
-        const excludeTech = profile.checkExcludedTechExist(word);
+        const excludeTech = profile.getExcludeTech(word);
+        // console.log(word, excludeTech);
+        if (excludeTech) return { pass: false, reason: `${word} is not in your stack`, count: k };
 
-        if (excludeTech) return { pass: false, reason: `${excludeTech} is not in your stack`, count: k };
+        langEx = profile.getRequirement(word);
 
-        // Check a match of digit is already exist.
-        if (!digitMatch) {
-          digitMatch = word.match(/\d\d|\d-\d|\d/g);
+        if (langEx) noneOfTechStackExist = true;
 
-          // Check if there is match.
-          // If it does check if the next word contains the word 'year'.
-          // If there is digit match and the next word is not contains the word year so digitMatch will reset
-          // and the algorithm will keep search for the next match.
-          if (digitMatch && j < sentence.length - 1 && sentence[j + 1].match(/year/)) {
-            // Check if the match is range.
-            if (this.checkNumberIsLowerTheRange(profile.overallEx, digitMatch))
-              return {
-                pass: false,
-                reason: `Your ${profile.overallEx}  years experience is lower than ${digitMatch}`,
-                count: k,
-              };
-            // Check if the overallEx is smaller than digitMatch.
-            if (this.checkDigitMatchIsBigger(profile.overallEx, digitMatch))
-              return {
-                pass: false,
-                reason: `Your ${profile.overallEx} years experience is lower than ${digitMatch} years`,
-                count: k,
-              };
+        if (!digitMatch)
+          if (j < sentence.length - 1 && sentence[j + 1].includes('year'))
+            digitMatch = RequirementsReader.getPatternDigits(word);
 
-            yearsIndex = j;
-            j = 0;
-          } else {
-            digitMatch = null;
+        if (digitMatch) {
+          if (this.checkOverallExInRange(digitMatch, profile.overallEx))
+            return {
+              pass: false,
+              reason: `Your ${profile.overallEx} years experience is not in the range ${digitMatch[0]}-${digitMatch[1]}`,
+              count: k,
+            };
+
+          if (this.checkOverallExBiggerThanDigitMatch(digitMatch, profile.overallEx))
+            return {
+              pass: false,
+              reason: `Your ${profile.overallEx} years experience is lower than ${digitMatch[0]} years`,
+              count: k,
+            };
+
+          if (!startSearchLang) {
+            yearsIndex = j; // save the last time index when digit of years was display.
+            j = -1;
+            startSearchLang = true;
           }
-        }
 
-        // const langEx = profile.getRequirement(word);
-        const langEx = profile.checkRequirementExist(word);
-
-        if (langEx) {
-          noneOfTechStackExist = true;
-          languageMatch = langEx;
-        }
-
-        // Check if there is language  and digit were match.
-        if (languageMatch && digitMatch) {
-          if (this.checkNumberIsLowerTheRange(languageMatch.max, digitMatch))
-            return {
-              pass: false,
-              reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} range years.`,
-              count: k,
-            };
-          else if (this.checkDigitMatchIsBigger(languageMatch.max, digitMatch))
-            return {
-              pass: false,
-              reason: `Your ${languageMatch.max} years experience in ${word} is lower than ${digitMatch} years.`,
-              count: k,
-            };
-          else {
-            j = yearsIndex + 1;
+          if (langEx) {
+            if (this.checkLangExInRange(langEx, digitMatch))
+              return {
+                pass: false,
+                reason: `Your ${langEx.min}-${langEx.max} years experience in ${word} is not in the range between ${digitMatch[0]}-${digitMatch[1]} years.`,
+                count: k,
+              };
+            if (this.checkDigitMatchIsBetLangEx(langEx, digitMatch))
+              return {
+                pass: false,
+                reason: `Your ${langEx.min}-${langEx.max} years experience in ${word} is not match to ${digitMatch[0]} years experience.`,
+                count: k,
+              };
+            langEx = undefined;
+            digitMatch = undefined;
+            j = yearsIndex + 1; // move to the next word after the last position match with the years experience.
             yearsIndex = -1;
+            startSearchLang = false;
           }
-
-          digitMatch = null;
         }
       }
-      digitMatch = null;
-      languageMatch = undefined;
+      digitMatch = undefined;
+      langEx = undefined;
+      yearsIndex = -1;
+      startSearchLang = false;
     }
 
     if (!noneOfTechStackExist)

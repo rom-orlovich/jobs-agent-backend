@@ -13,9 +13,9 @@ export class LinkedinRequirementScanner {
       .map((el) =>
         el.textContent
           ? el.textContent
-              .trim()
-              .replace(/[,:'"]/g, '')
-              .split(' ')
+              .toLowerCase()
+              .split(/,|\/| /g) // split ','| '/' and spaces between words.
+              .filter((el) => el) // filter empty words.
           : []
       );
   }

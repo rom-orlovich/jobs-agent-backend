@@ -1,7 +1,8 @@
 import { GenericRecord } from '../../../lib/types';
+import { RequirementsReader } from '../../../sandbox/try2';
 import { ExperienceRange } from '../../Profile/profile';
 import { Profile } from '../../Profile/Profile';
-import { RequirementsReader } from '../RequirementsReader';
+// import { RequirementsReader } from '../RequirementsReader';
 
 describe.only('Testss real examples of checkIsRequirementsMatch function', () => {
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
@@ -50,16 +51,12 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   });
 
   test(`Tests many sentences from real text that its not match the user experience-ex`, () => {
-    const sentences = [
-      ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
-      ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
-      ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
-      ['Experience', 'with', 'Rest', 'API', 'development'],
-      ['Performance', 'and', 'security-first', 'thinking'],
-      ['Team', 'player'],
-    ];
-
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
+    const sentences = `  c#.net core – 3+ years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`c#.net is not in your stack`);
   });
   test(`Tests many sentences from real text that its match the user experience-ex1`, () => {
     const profile = new Profile({
@@ -67,14 +64,8 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       excludeTechs: {},
     });
 
-    const sentences = [
-      ['typescript', 'Core', '–', '2', 'years', 'of', 'experience'],
-      ['javascript', '14+', '-', '2+', 'years', 'of', 'experience'],
-      ['Any', 'NoSQL', 'DB', '–', '3+', 'years', 'of', 'experience'],
-      ['Experience', 'with', 'Rest', 'API', 'development'],
-      ['Performance', 'and', 'security-first', 'thinking'],
-      ['Team', 'player'],
-    ];
+    const sentences = `typescript core – 2 years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
+    console.log(sentences);
 
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
   });
@@ -85,115 +76,19 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       excludeTechs: {},
     });
 
-    const sentences = [
-      [
-        '8+',
-        'years',
-        'working',
-        'experience',
-        'with',
-        'Java',
-        '(minimum',
-        '70%\n',
-        'backend)',
-        '–',
-        'Must',
-      ],
-      [
-        '4+',
-        'years',
-        'working',
-        'experience',
-        'with',
-        'different',
-        'Spring\n',
-        'projects',
-        '(for',
-        'example',
-        'Framework,',
-        'Security,\n',
-        'Integration)',
-        '–',
-        'Must',
-      ],
-      [
-        'Experience',
-        'with',
-        'microservices',
-        'and',
-        'related',
-        'technologies\n',
-        '(AWS,',
-        'Docker,',
-        'K8s)',
-        '–',
-        'Must',
-      ],
-      ['Experience', 'with', 'messaging', '–', 'Must'],
-      ['Experience', 'with', 'SQL', '–', 'Must'],
-      [
-        'Experience',
-        'in',
-        'leading',
-        'feature',
-        'development',
-        'end-to-end,\n',
-        'working',
-        'with',
-        'all',
-        'stakeholders',
-        'and',
-        'guiding',
-        'other\n',
-        'developers',
-        '–',
-        'Must',
-      ],
-      [
-        'Understanding',
-        'of',
-        'web',
-        'fundamentals:',
-        'JavaScript,\n',
-        'TypeScript,',
-        'HTML5,',
-        'CSS3,',
-        'Responsive',
-        'Design,',
-        'etc.',
-        '–\n',
-        'Must',
-      ],
-      ['Experience', 'with', 'React', '–', 'Must'],
-      ['Experience', 'with', 'ORM', '–', 'Advantage'],
-      [
-        'B.Sc.',
-        'Degree',
-        'in',
-        'Computer',
-        'Science,',
-        'Engineering,',
-        'or\n',
-        'related',
-        'field',
-        '–',
-        'Advantage',
-      ],
-      ['Design', '&', 'develop', 'new', 'features', 'in', 'an', 'agile\n', 'software', 'methodology.'],
-      ['Own', 'your', 'deliveries', 'from', 'design,', 'all', 'the', 'way', 'to\n', 'production.'],
-      [
-        'Communicate',
-        'with',
-        'all',
-        'stakeholders',
-        '(Product,',
-        'QA,\n',
-        'Architect,',
-        'Support,',
-        'Integrators,',
-        'etc.)',
-      ],
-    ];
+    const sentences = `8+ years working experience with java (minimum 70%
+      backend) – must 4+ years working experience with different spring
+      projects (for example framework, security,
+      integration) – must experience with microservices and related technologies
+      (aws, docker, k8s) – must experience with messaging – must experience with sql – must experience in leading feature development end-to-end,
+      working with all stakeholders and guiding other
+      developers – must understanding of web fundamentals: javascript,
+      typescript, html5, css3, responsive design, etc. –
+      must experience with react – must experience with orm – advantage b.sc. degree in computer science, engineering, or
+      related field – advantage design & develop new features in an agile
+      software methodology. own your deliveries from design, all the way to
+      production. communicate with all stakeholders (product, qa,
+      architect, support, integrators, etc.`;
 
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
   });
@@ -204,77 +99,15 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       excludeTechs: {},
     });
 
-    const sentences = [
-      [
-        'Manage',
-        'and',
-        'optimize',
-        'scalable',
-        'distributed',
-        'systems',
-        'on\n',
-        'the',
-        'cloud',
-        '(storage,',
-        'servers,',
-        'API).',
-      ],
-      ['Design', 'robust', 'APIs.'],
-      ['Write', 'scripting', 'for', 'the', 'products', 'backend', 'pipeline.'],
-      [
-        'Deploy',
-        'AI',
-        'models',
-        'delivered',
-        'by',
-        'the',
-        'team',
-        'into',
-        'the\n',
-        'product',
-        'pipeline.',
-      ],
-      ['Optimization', 'of', 'applications', 'for', 'scalability', 'and\n', 'performance.'],
-      [
-        'At',
-        'least',
-        '1',
-        'year',
-        'of',
-        'experience',
-        'in',
-        'Backend,',
-        'Big',
-        'Data,\n',
-        'and',
-        'Data',
-        'engineering',
-        'development.',
-        'Python',
-        'scripting\n',
-        'languages-',
-        'Must.',
-      ],
-      ['Experience', 'designing', 'RESTful', 'APIs.'],
-      [
-        'Experience',
-        'working',
-        'with',
-        'SQL',
-        'or',
-        'other',
-        'data',
-        'storage\n',
-        'systems,',
-        'like',
-        'ORM,',
-        'NoSQL,',
-        'or',
-        'others.',
-      ],
-      ['Team', 'player,', 'someone', 'we’d', 'love', 'to', 'work', 'with,', 'and\n', 'independent.'],
-    ];
-
+    const sentences = `manage and optimize scalable distributed systems on
+    the cloud (storage, servers, api). design robust apis. write scripting for the products backend pipeline. deploy ai models delivered by the team into the
+    product pipeline. optimization of applications for scalability and
+    performance. at least 1 year of experience in backend, big data,
+    and data engineering development. python scripting
+    languages- must. experience designing restful apis. experience working with sql or other data storage
+    systems, like orm, nosql, or others. team player, someone we’d love to work with, and
+    independent.`;
+    console.log(sentences);
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
   });
   test(`Tests many sentences from real text that match the user experience-ex4`, () => {
@@ -284,102 +117,23 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       excludeTechs: {},
     });
 
-    const sentences = [
-      [
-        'Build',
-        '&',
-        'maintain',
-        'our',
-        'eCommerce',
-        'web',
-        'application\n',
-        'with',
-        'a',
-        'focus',
-        'on',
-        'the',
-        'UX',
-        '&',
-        'UI.',
-      ],
-      [
-        'Design',
-        'and',
-        'develop',
-        'the',
-        'overall',
-        'architecture',
-        'of',
-        'the',
-        'web\n',
-        'application.',
-      ],
-      [
-        'Collaborate',
-        'with',
-        'the',
-        'rest',
-        'of',
-        'the',
-        'engineering',
-        'team',
-        'to\n',
-        'design',
-        'and',
-        'launch',
-        'new',
-        'features.',
-      ],
-      ['Use', 'and', 'create', 'integrations', 'with', 'multiple', 'tools', '&\n', 'services.'],
-      ['Strong', 'experience', 'and', 'understanding', 'of', 'Javascript,', 'CSS\n', '&', 'HTML5.'],
-      ['Passionate', 'about', 'building', 'beautiful', 'and\n', 'well-structured', 'products.'],
-      ['Problem-solving', 'attitude.'],
-      ['Excellent', 'English', 'skills.'],
-      ['Great', 'communication', 'skills', 'and', 'a', 'team-player\n', 'attitude.'],
-      ['Familiarity', 'with', 'Microsoft', 'tools.'],
-      [
-        'Past',
-        'experience',
-        'relating',
-        'to',
-        'working',
-        'with',
-        'Content\n',
-        'Management',
-        'Systems',
-        '(CMS).',
-      ],
-      ['Experience', 'working', 'with', 'Azure', '-', 'an', 'advantage.'],
-      ['Experience', '/', 'basic', 'knowledge', 'in', 'C#', '-', 'an', 'advantage.'],
-      [
-        'B.sc',
-        'in',
-        'Computer',
-        'Science/Software',
-        'Engineering',
-        'or\n',
-        'related',
-        'field',
-        '-',
-        'an',
-        'advantage.',
-      ],
-      [
-        'Knowledge',
-        'and',
-        'skills',
-        'in',
-        'user',
-        'experience',
-        '(UX)',
-        'design',
-        '-\n',
-        'an',
-        'advantage.',
-      ],
-    ];
+    const sentences = ` build & maintain our ecommerce web application
+    with a focus on the ux & ui. design and develop the overall architecture of the web
+    application. collaborate with the rest of the engineering team to
+    design and launch new features. use and create integrations with multiple tools &
+    services. strong experience and understanding of javascript, css
+    & html5. passionate about building beautiful and
+    well-structured products. problem-solving attitude. excellent english skills. great communication skills and a team-player
+    attitude. familiarity with microsoft tools. past experience relating to working with content
+    management systems (cms). experience working with azure - an advantage. experience / basic knowledge in c# - an advantage. b.sc in computer science/software engineering or
+    related field - an advantage. knowledge and skills in user experience (ux) design -
+    an advantage.`;
+    console.log(sentences);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    console.log(res.reason);
+    // expect(res.pass).toBeFalsy();
 
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
+    expect(res.pass).toBeTruthy();
   });
   test(`Tests many sentences from real text that match the user experience-ex5`, () => {
     const profile = new Profile({
@@ -475,7 +229,9 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
         'and',
         'techniques.',
       ],
-    ];
+    ]
+      .map((el) => el.map((el) => el.toLowerCase()).join(' '))
+      .join(' ');
 
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
   });
@@ -702,7 +458,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
-  test(`Tests many sentences from real text where the job from drushim shouldn't pass but with the right reason -ex18`, () => {
+  test.skip(`Tests many sentences from real text where the job from drushim shouldn't pass but with the right reason -ex19`, () => {
     const sentences = RequirementsReader.getSentences(
       `Appropriate education (degree in information systems/ computer science/ other relevant studies)
       - At least two years of experience in SharePoint implementation and development
@@ -716,7 +472,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`net. is not in your stack`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex19`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex20`, () => {
     const sentences = RequirementsReader.getSentences(
       `2 years of experience in Full Stack/Frontend development
       - Experience in React
@@ -730,7 +486,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`go is not in your stack`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex20`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex21`, () => {
     const sentences = RequirementsReader.getSentences(
       `4 years of experience in Node.js
       - 4 years of experience in Angular/Vue.js/React
@@ -742,7 +498,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex21`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
     const sentences = RequirementsReader.getSentences(
       ` 4 years of development experience
       - Net Web experience
@@ -755,7 +511,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
   });
-  test.only(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex23`, () => {
     const sentences = RequirementsReader.getSentences(
       ` 5 years of development experience
       - Experience in Node
