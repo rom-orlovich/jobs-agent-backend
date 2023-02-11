@@ -7,9 +7,10 @@ export class RequirementsReader {
   static WORDS_COUNT_KILL = 500;
   static getSentences = (text: string) => {
     const sentences = text
-      .split(/[.\n]+/)
+      .split(/[.\n]+[^\w]/g)
       .filter((el) => el)
-      .map((el) => el.split(' ').filter((el) => el));
+      .map((el) => el.split(' ').filter((el) => el))
+      .filter((el) => el.length);
 
     return sentences;
   };
@@ -67,12 +68,14 @@ export class RequirementsReader {
           };
         }
         const convertToNum = this.convertWordToNumber(sentence[j]);
-        const word = convertToNum ? convertToNum : sentence[j];
+        const word = convertToNum ? convertToNum : sentence[j].replace(',', '').toLowerCase();
+
         // console.log('word', word);
         // Check if the word is include in the excluded tech
 
-        if (profile.getExcludeTech(word))
-          return { pass: false, reason: `${word} is not in your stack`, count: k };
+        const excludeTech = profile.checkExcludedTechExist(word);
+
+        if (excludeTech) return { pass: false, reason: `${excludeTech} is not in your stack`, count: k };
 
         // Check a match of digit is already exist.
         if (!digitMatch) {
@@ -105,8 +108,10 @@ export class RequirementsReader {
           }
         }
 
-        const langEx = profile.getRequirement(word);
-
+        // const langEx = profile.getRequirement(word);
+        const langEx = profile.checkRequirementExist(word);
+        console.log(langEx);
+        console.log(word, excludeTech);
         if (langEx) {
           noneOfTechStackExist = true;
           languageMatch = langEx;

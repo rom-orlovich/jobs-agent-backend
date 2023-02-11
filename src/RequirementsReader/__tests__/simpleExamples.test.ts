@@ -1,5 +1,5 @@
-import { ExperienceRange } from '../../../lib/types/profile';
 import { GenericRecord } from '../../../lib/types';
+import { ExperienceRange } from '../../Profile/profile';
 import { Profile } from '../../Profile/Profile';
 import { RequirementsReader } from '../RequirementsReader';
 

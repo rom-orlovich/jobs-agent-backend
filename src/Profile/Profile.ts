@@ -1,3 +1,4 @@
+import { GenericRecord } from '../../lib/types';
 import { ExcludeTechsOptions, ExperienceRange, ProfileOptions, RequirementsOptions } from './profile';
 
 /**
@@ -21,7 +22,7 @@ export class Profile {
   }
 
   getRequirement(tech: string) {
-    return this.requirements.get(tech.replace(',', '').toLowerCase());
+    return this.requirements.get(tech);
   }
 
   addRequirement(tech: string, experience: ExperienceRange) {
@@ -39,9 +40,35 @@ export class Profile {
   }
 
   getExcludeTech(tech: string) {
-    return this.excludeTechs.get(tech.replace(',', '').toLowerCase());
+    return this.excludeTechs.get(tech);
   }
+
   removeExcludeTech(tech: string) {
     this.requirements.delete(tech);
+  }
+  static checkIfWordIsWithSlash<ValueMap>(word: string, mapCheck: Map<string, ValueMap>) {
+    const wordSplit = word.split('/');
+    if (!wordSplit.length) return;
+
+    const findTech = wordSplit.find((w) => mapCheck.get(w));
+    return findTech;
+  }
+  checkRequirementWithSlash(tech: string) {
+    return Profile.checkIfWordIsWithSlash<ExperienceRange>(tech, this.requirements);
+  }
+  checkExcludedTechWithSlash(tech: string) {
+    return Profile.checkIfWordIsWithSlash<boolean>(tech, this.excludeTechs);
+  }
+
+  checkRequirementExist(tech: string) {
+    const requirement = this.getRequirement(tech);
+    if (requirement) return requirement;
+    const findWord = this.checkRequirementWithSlash(tech);
+    if (findWord) return this.getRequirement(findWord);
+  }
+  checkExcludedTechExist(tech: string) {
+    if (this.getExcludeTech(tech)) return tech;
+    const findWord = this.checkExcludedTechWithSlash(tech);
+    if (findWord) return findWord;
   }
 }

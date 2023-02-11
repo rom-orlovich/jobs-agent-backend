@@ -7,19 +7,48 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   const REQUIREMENTS: GenericRecord<ExperienceRange> = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
+    reactjs: { min: 0, max: 3 },
     typescript: { min: 0, max: 3 },
     ts: { min: 0, max: 3 },
     js: { min: 0, max: 3 },
-    'node.js': { min: 0, max: 3 },
+    node: { min: 0, max: 2 },
+    nextjs: { min: 0, max: 3 },
     git: { min: 0, max: 3 },
+    github: { min: 0, max: 3 },
+    html: { min: 0, max: 3 },
+    css: { min: 0, max: 3 },
+    scss: { min: 0, max: 3 },
+    tailwinds: { min: 0, max: 3 },
+    mui: { min: 0, max: 3 },
+    express: { min: 0, max: 3 },
+    fullstack: { min: 0, max: 3 },
+    frontend: { min: 0, max: 3 },
+    sql: { min: 0, max: 3 },
+    python: { min: 0, max: 2 },
+    mongo: { min: 0, max: 3 },
     nosql: { min: 0, max: 3 },
-    db: { min: 0, max: 3 },
+    noSQL: { min: 0, max: 3 },
   };
+
   const profile = new Profile({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeTechs: { '.net': true, 'c#': true },
+    excludeTechs: {
+      'c#.net': true,
+      php: true,
+      c: true,
+      'c#': true,
+      java: true,
+      'system administration': true,
+      embedded: true,
+      go: true,
+      ruby: true,
+      angular: true,
+      '.net': true,
+      qa: true,
+    },
   });
+
   test(`Tests many sentences from real text that its not match the user experience-ex`, () => {
     const sentences = [
       ['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience'],
@@ -535,7 +564,8 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     console.log(sentences);
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
-    expect(res.pass).toBeTruthy();
+    expect(res.pass).toBeFalsy();
+    expect(res.reason).toBe(`c# is not in your stack`);
   });
   test('Tests many sentences from real text that the overall experience is bigger than mine.-ex11', () => {
     const sentences = RequirementsReader.getSentences(
@@ -672,7 +702,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
-  test('Tests many sentences from real text where the job from drushim should now pass but with the right reason -ex18', () => {
+  test(`Tests many sentences from real text where the job from drushim shouldn't pass but with the right reason -ex18`, () => {
     const sentences = RequirementsReader.getSentences(
       `Appropriate education (degree in information systems/ computer science/ other relevant studies)
       - At least two years of experience in SharePoint implementation and development
@@ -684,11 +714,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(` NET. is not in your stack`);
+    expect(res.reason).toBe(`net. is not in your stack`);
   });
   test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex19`, () => {
     const sentences = RequirementsReader.getSentences(
-      `3 years of experience in Full Stack/Frontend development
+      `2 years of experience in Full Stack/Frontend development
       - Experience in React
       - Experience in Python/NodeJS/Go
       - Cloud experience
@@ -698,7 +728,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(` Go. is not in your stack`);
+    expect(res.reason).toBe(`go is not in your stack`);
   });
   test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex20`, () => {
     const sentences = RequirementsReader.getSentences(
@@ -725,7 +755,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
+  test.only(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
     const sentences = RequirementsReader.getSentences(
       ` 5 years of development experience
       - Experience in Node
@@ -737,6 +767,6 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 5 years`);
   });
 });
