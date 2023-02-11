@@ -1,5 +1,5 @@
 import { GenericRecord } from '../../lib/types';
-import { benchmarkTimeMS } from '../../lib/utils';
+
 import { DataWithText } from '../JobsScanner/jobsScanner';
 import { ExperienceRange } from '../Profile/profile';
 import { Profile } from '../Profile/Profile';

@@ -76,21 +76,10 @@ export class GotFriendsScanner extends Scanner {
           const newPage = await browser.newPage();
           console.log(url);
           let data: JobPost[] = [];
-          const map: GenericRecord<any> = {};
+
           await untilSuccess(async () => {
             await newPage.goto(url);
             data = (await newPage.evaluate(this.getAllJobsPostData, this.scannerName)).filter(
-              // (jobPost) => {
-              //   if (map[jobPost.jobID]) return false;
-              //   else {
-              //     map[jobPost.jobID] = true;
-              //   }
-              //   if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-              //   if (this.gotFriendsQuery.checkWordInBlackList(jobPost.title)) return false;
-              //   if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-
-              //   return true;
-              // }
               this.filterJobsPosts(this.gotFriendsQuery, preJobs)
             );
           });

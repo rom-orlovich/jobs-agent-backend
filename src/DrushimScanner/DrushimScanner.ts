@@ -36,12 +36,6 @@ export class DrushimScanner extends Scanner {
   async getNormalizeData(page: number, preJobs: Job[]) {
     const data = await this.getAxiosData<DrushimAPI>(page);
     return this.getJobsData(data?.ResultList).filter((jobPost) =>
-      // {
-      //   if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-      //   if (this.drushimQueryOptions.checkWordInBlackList(jobPost.title)) return false;
-      //   if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-      //   return true;
-      // }
       this.filterJobsPosts(this.drushimQueryOptions, preJobs)
     );
   }

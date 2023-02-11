@@ -51,13 +51,7 @@ export class AllJobScanner extends Scanner {
   async getDataFromHTML(page: number, preJobs: Job[]) {
     const $ = await this.get$(page);
     const data = (await this.getAllJobsData($)).filter(
-      // (jobPost) => {
-      // if (!jobPost.link || !jobPost.jobID || !jobPost.title || !jobPost.text) return false;
-      // if (this.allJobsQueryOptions.checkWordInBlackList(jobPost.title)) return false;
-      // if (preJobs.find((el) => el.jobID === jobPost.jobID)) return false;
-      // return true;
       this.filterJobsPosts(this.allJobsQueryOptions, preJobs)
-      // }
     );
     return data;
   }
