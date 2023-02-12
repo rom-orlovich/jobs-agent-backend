@@ -1,4 +1,3 @@
-import { GenericRecord } from '../../lib/types';
 import { ExcludeTechsOptions, ExperienceRange, ProfileOptions, RequirementsOptions } from './profile';
 
 /**
@@ -58,17 +57,5 @@ export class Profile {
   }
   checkExcludedTechWithSlash(tech: string) {
     return Profile.checkIfWordIsWithSlash<boolean>(tech, this.excludeTechs);
-  }
-
-  checkRequirementExist(tech: string) {
-    const requirement = this.getRequirement(tech);
-    if (requirement) return requirement;
-    const findWord = this.checkRequirementWithSlash(tech);
-    if (findWord) return this.getRequirement(findWord);
-  }
-  checkExcludedTechExist(tech: string) {
-    if (this.getExcludeTech(tech)) return tech;
-    const findWord = this.checkExcludedTechWithSlash(tech);
-    if (findWord) return findWord;
   }
 }
