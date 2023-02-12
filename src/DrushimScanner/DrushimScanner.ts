@@ -1,6 +1,6 @@
 import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './DrushimQueryOptions';
-import { UserInput } from '../GeneralQuery/GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { Profile } from '../Profile/Profile';
 import { DrushimAPI, DrushimResult } from './drushimScanner';

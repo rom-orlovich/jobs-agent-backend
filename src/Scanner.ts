@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-import Cluster from 'puppeteer-cluster/dist/Cluster';
 import throat from 'throat';
 import { GeneralQuery } from './GeneralQuery/GeneralQuery';
 import { ScannerName } from './GeneralQuery/generalQuery';
@@ -11,12 +10,6 @@ import { Profile } from './Profile/Profile';
 import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { RequirementsReader } from './RequirementsReader/RequirementsReader';
 import { Job, JobPost } from './JobsScanner/jobsScanner';
-
-export interface TaskProps {
-  profile: Profile;
-  JobsDB: JobsDB;
-  cluster?: Cluster;
-}
 
 export class Scanner {
   profile: Profile;
@@ -29,7 +22,7 @@ export class Scanner {
     this.scannerName = scannerName;
   }
 
-  getURL(pageNum?: number, ...args: any[]): string {
+  getURL(...args: any[]): string {
     throw new Error('Method not implemented.');
   }
 
