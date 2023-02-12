@@ -7,12 +7,11 @@ import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { UserInput } from '../GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 import { Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
 import { Job, JobPost } from '../JobsScanner/jobsScanner';
 import { exampleQuery, profile } from '../..';
-import { GenericRecord } from '../../lib/types';
 
 export class GotFriendsScanner extends Scanner {
   JobsDB: JobsDB;

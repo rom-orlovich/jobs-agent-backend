@@ -1,7 +1,8 @@
 import { GotFriendsPositions } from '../createQueryDB/lib/createQueryDB';
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
-import { GeneralQuery, UserInput } from '../GeneralQuery';
+import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 
 export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   checkboxProfessions: string;

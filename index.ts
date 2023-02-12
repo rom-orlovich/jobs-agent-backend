@@ -9,7 +9,7 @@ import { JobsScanner } from './src/JobsScanner/JobsScanner';
 
 import { MongoDBClient } from './lib/MongoClient';
 
-import { UserInput } from './src/GeneralQuery';
+import { UserInput } from './src/GeneralQuery/GeneralQuery';
 import { ExperienceRange } from './src/Profile/profile';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
@@ -114,4 +114,4 @@ const main = async () => {
   console.timeEnd('time');
 };
 
-main();
+// main();

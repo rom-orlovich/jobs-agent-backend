@@ -11,7 +11,7 @@ import { ScanningFS } from '../../lib/ScanningFS';
 
 import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
-import { UserInput } from '../GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 import { Job } from './jobsScanner';
 
 export class JobsScanner {

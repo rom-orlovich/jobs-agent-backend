@@ -1,6 +1,7 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
+import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
 
-import { GeneralQuery, GeneralQueryJobType, GeneralQueryScope, UserInput } from '../GeneralQuery';
+import { JobType, Scope, UserInput } from '../GeneralQuery/generalQuery';
 
 export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
   constructor(userInput: UserInput) {
@@ -14,14 +15,14 @@ export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
     const userInputSplitJobType = this.userInput.jobType.split(',');
 
     const jobTypeArr = userInputSplitJobType.map((el) => {
-      const jobType = el as GeneralQueryJobType<'allJobs'>;
+      const jobType = el as JobType<'allJobs'>;
       if (jobType === '2') return this.queryOptions.jobType.allJobs['type'][2].region;
       return this.queryOptions.jobType.allJobs.type[jobType];
     });
 
     const userInputSplitScope = this.userInput.jobType.split(',');
     const jobScopeArr = userInputSplitScope.map((el) => {
-      const scope = el as GeneralQueryScope<'allJobs'>;
+      const scope = el as Scope<'allJobs'>;
       return this.queryOptions.scope.allJobs.type[scope];
     });
 

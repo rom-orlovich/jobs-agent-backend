@@ -9,7 +9,7 @@ import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { Page } from 'puppeteer';
 import throat from 'throat';
-import { UserInput } from '../GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 
 import { untilSuccess } from '../../lib/utils';
 
@@ -25,8 +25,9 @@ export class LinkedinScanner extends Scanner {
   }
 
   getURL(start: number) {
-    const { jobType, exp, location, position, distance, scope, period, sortBy } = this.linkedinQuery;
-    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${position}&location=${location}&f_TPR=${period}&distance=${distance}&f_E=${exp}&f_JT=${scope}&sortBy=${sortBy}&f_WT=${jobType}&start=${start}`;
+    const { jobType, experience, location, position, distance, scope, period, sortBy } =
+      this.linkedinQuery;
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${position}&location=${location}&f_TPR=${period}&distance=${distance}&f_E=${experience}&f_JT=${scope}&sortBy=${sortBy}&f_WT=${jobType}&start=${start}`;
     return url;
   }
 

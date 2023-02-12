@@ -1,6 +1,6 @@
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
-import { UserInput } from '../../GeneralQuery';
+import { UserInput } from '../../GeneralQuery/GeneralQuery';
 
 import { JobsDB } from '../../../lib/JobsDB';
 

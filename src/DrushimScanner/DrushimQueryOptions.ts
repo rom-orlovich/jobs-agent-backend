@@ -1,5 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
-import { GeneralQuery, GeneralQueryJobType, GeneralQueryScope, UserInput } from '../GeneralQuery';
+import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
+import { Scope, JobType, UserInput } from '../GeneralQuery/generalQuery';
 
 export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
   constructor(userInput: UserInput) {
@@ -17,11 +18,11 @@ export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
     if (userInputSplit.length === 0) return '';
 
     scopesArr = userInputSplit.map((el) => {
-      const scope = el as GeneralQueryScope<'drushim'>;
+      const scope = el as Scope<'drushim'>;
       return this.queryOptions.scope.drushim.scope[scope];
     });
 
-    const jobType = this.userInput.jobType as GeneralQueryJobType<'drushim'>;
+    const jobType = this.userInput.jobType as JobType<'drushim'>;
     const jobTypeRes = this.queryOptions.jobType.drushim.scope[jobType] || '';
 
     return `${scopesArr.join('-')}${jobTypeRes ? `-${jobTypeRes}` : ''}`;

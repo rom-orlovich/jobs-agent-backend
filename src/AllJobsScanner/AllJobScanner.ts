@@ -4,7 +4,7 @@ import { Profile } from '../Profile/Profile';
 
 import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserInput } from '../GeneralQuery';
+import { UserInput } from '../GeneralQuery/generalQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { Job, JobPost } from '../JobsScanner/jobsScanner';
 import { exampleQuery, profile } from '../..';

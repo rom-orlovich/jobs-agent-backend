@@ -1,6 +1,6 @@
 import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './DrushimQueryOptions';
-import { UserInput } from '../GeneralQuery';
+import { UserInput } from '../GeneralQuery/GeneralQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { Profile } from '../Profile/Profile';
 import { DrushimAPI, DrushimResult } from './drushimScanner';
@@ -14,9 +14,9 @@ export class DrushimScanner extends Scanner {
     this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }
   getURL(page: number): string {
-    const { exp, scope, location, distance, position } = this.drushimQueryOptions;
+    const { experience, scope, location, distance, position } = this.drushimQueryOptions;
 
-    return `https://www.drushim.co.il/api/jobs/search?experience=${exp}&scope=${scope}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
+    return `https://www.drushim.co.il/api/jobs/search?experience=${experience}&scope=${scope}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
   }
 
   getJobsData(results: DrushimResult[] | undefined): JobPost[] {

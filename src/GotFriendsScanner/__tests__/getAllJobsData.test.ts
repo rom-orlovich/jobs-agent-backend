@@ -4,7 +4,7 @@ import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
 import { ExperienceRange } from '../../../lib/types/profile';
 import { GenericRecord } from '../../../lib/types';
 import { JobPost } from '../../AllJobsScanner/AllJobScanner';
-import { UserInput } from '../../GeneralQuery';
+import { UserInput } from '../../GeneralQuery/GeneralQuery';
 import { Profile } from '../../Profile/Profile';
 import { GotFriendsScanner } from '../GotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
