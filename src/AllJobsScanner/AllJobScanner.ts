@@ -6,13 +6,13 @@ import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
 import { UserInput } from '../GeneralQuery/generalQuery';
 import { JobsDB } from '../../lib/JobsDB';
-import { Job, JobPost } from '../JobsScanner/jobsScanner';
+import { JobPost } from '../JobsScanner/jobsScanner';
 import { exampleQuery, profile } from '../..';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('allJobs', profile);
+    super('allJobs', profile, JobsDB);
     this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }
   getURL(page = 1) {
@@ -39,7 +39,16 @@ export class AllJobScanner extends Scanner {
           .join(',');
         const text = $(el).find('.PT15').text().trim();
 
-        return { jobID, title, link, company, location, text, from: this.scannerName };
+        return {
+          jobID,
+          title,
+          link,
+          company,
+          location,
+          text,
+          from: this.scannerName,
+          addedAt: new Date(),
+        };
       });
   }
 
@@ -48,13 +57,14 @@ export class AllJobScanner extends Scanner {
     const $ = load(html || '');
     return $;
   }
-  async getDataFromHTML(page: number, preJobs: Job[]) {
+  async getDataFromHTML(page: number) {
     const $ = await this.get$(page);
-    const data = (await this.getAllJobsData($)).filter(this.filterJobsPosts(preJobs));
-    return data;
+    const jobsPosts = (await this.getAllJobsData($)).filter(this.filterJobsPosts);
+    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.allJobsQueryOptions.hash);
+    return filterJobs;
   }
 
-  async scanning(preJobs: Job[]) {
+  async scanning() {
     const $ = await this.get$(0);
     const maxPages = Number($('#hdnTotalPages').val());
     const promises: Promise<JobPost[]>[] = [];
@@ -62,7 +72,7 @@ export class AllJobScanner extends Scanner {
 
     while (page < maxPages) {
       console.log(`Page number ${page}`);
-      promises.push(this.getDataFromHTML(page, preJobs));
+      promises.push(this.getDataFromHTML(page));
       page++;
     }
 

@@ -59,13 +59,12 @@ export class GoogleTranslate {
           ...rest,
           text: translateText,
         };
-        console.log(newJob);
         return newJob;
       })
     );
 
-    const response = await Promise.all(promises);
+    const results = await Promise.all(promises);
 
-    return response;
+    return results;
   }
 }

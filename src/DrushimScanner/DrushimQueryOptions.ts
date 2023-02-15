@@ -11,22 +11,33 @@ export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
     const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
     return this.queryOptions.locations[userInput].geolexid;
   }
-  protected convertScope(): string {
-    let scopesArr = [];
+
+  private getScopeStr() {
+    if (!this.userInput.scope) return '';
     const userInputSplit = this.userInput.scope.split(',');
 
-    if (userInputSplit.length === 0) return '';
-
-    scopesArr = userInputSplit.map((el) => {
+    const scopesArr = userInputSplit.map((el) => {
       const scope = el as Scope<'drushim'>;
       return this.queryOptions.scope.drushim.scope[scope];
     });
+    const scopesStr = scopesArr.join('-');
+    return scopesStr;
+  }
 
+  private getJobType() {
     const jobType = this.userInput.jobType as JobType<'drushim'>;
     const jobTypeRes = this.queryOptions.jobType.drushim.scope[jobType] || '';
-
-    return `${scopesArr.join('-')}${jobTypeRes ? `-${jobTypeRes}` : ''}`;
+    return jobTypeRes;
   }
+
+  protected convertScope(): string {
+    const userInputSplit = this.userInput.scope.split(',');
+    if (userInputSplit.length === 0) return '';
+    const scopeStr = this.getScopeStr();
+    const jobTypeRes = this.getJobType();
+    return `${scopeStr}${jobTypeRes ? `-${jobTypeRes}` : ''}`;
+  }
+
   protected convertJobType(): string {
     return '';
   }

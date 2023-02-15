@@ -2,7 +2,7 @@ import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { Experience, QueryOptionsResProps, ScannerName, UserInput } from './generalQuery';
 import { SCANNER_QUERY_OPTIONS } from './ScannerQueryOptions';
-
+import { createHash } from 'crypto';
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
   experience: string;
   scope: string;
@@ -14,6 +14,7 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
   queryOptions: typeof SCANNER_QUERY_OPTIONS;
   userInput: UserInput;
   scannerName: ScannerName;
+  hash: string;
   constructor(scannerName: T, UserInput: UserInput) {
     this.scannerName = scannerName;
     this.queryOptions = SCANNER_QUERY_OPTIONS;
@@ -24,6 +25,15 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     this.scope = this.convertScope();
     this.jobType = this.convertJobType();
     this.distance = this.convertDistance();
+    this.hash = this.hashQuery();
+  }
+  private hashQuery() {
+    const { distance, experience, jobType, location, position, scope } = this.userInput;
+    const hash = createHash('sha1')
+      .update(distance + experience + jobType + location + position + scope)
+      .digest('hex');
+
+    return hash;
   }
 
   protected convertPosition(): string {

@@ -24,6 +24,11 @@ export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
       }
     );
   }
+  protected convertLocation(): string {
+    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[userInput].checkboxRegions;
+  }
+
   protected convertPosition(): string {
     return '';
   }
@@ -32,10 +37,5 @@ export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   }
   protected convertScope(): string {
     return '';
-  }
-
-  protected convertLocation(): string {
-    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userInput].checkboxRegions;
   }
 }

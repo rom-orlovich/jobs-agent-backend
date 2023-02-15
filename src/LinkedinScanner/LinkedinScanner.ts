@@ -1,5 +1,3 @@
-import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
-
 import { Scanner } from '../Scanner';
 import { LinkedinQueryOptions } from './LinkedinQueryOptions';
 
@@ -13,18 +11,15 @@ import { UserInput } from '../GeneralQuery/generalQuery';
 
 import { throatPromises } from '../../lib/utils';
 
-import { Job, JobPost } from '../JobsScanner/jobsScanner';
-
-import { exampleQuery, profile } from '../..';
+import { JobPost } from '../JobsScanner/jobsScanner';
 
 export class LinkedinScanner extends Scanner {
-  JobsDB: JobsDB;
   linkedinQuery: LinkedinQueryOptions;
   domain: string;
   constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
-    super('linkedin', profile);
+    super('linkedin', profile, JobsDB);
     this.linkedinQuery = new LinkedinQueryOptions(userInput);
-    this.JobsDB = JobsDB;
+
     this.domain = 'https://www.linkedin.com/jobs';
   }
 
@@ -39,7 +34,7 @@ export class LinkedinScanner extends Scanner {
     return url;
   }
 
-  getAllJobsPostData(scannerName: string) {
+  getAllJobsPostData(scannerName: string, addedAt: Date) {
     const jobDIVList = Array.from(document.body.querySelectorAll<HTMLDivElement>('.job-search-card'));
     if (jobDIVList.length === 0) return [];
     return jobDIVList.map((jobDIV) => {
@@ -51,35 +46,41 @@ export class LinkedinScanner extends Scanner {
       const company = jobDIV?.querySelector('h4.base-search-card__subtitle')?.textContent?.trim() || '';
       const location = jobDIV?.querySelector('span.job-search-card__location')?.innerHTML?.trim() || '';
       const date = jobDIV?.querySelector<HTMLTimeElement>('.job-search-card__listdate')?.dateTime;
-      return { jobID, link, title, company, location, date, from: scannerName };
+      return {
+        jobID,
+        link,
+        title,
+        company,
+        location,
+        date,
+        from: scannerName,
+        addedAt: addedAt,
+        text: '',
+      };
     });
   }
 
-  async getPageData(pageNum: number, browser: Browser, preJobs: Job[]) {
+  async getPageData(pageNum: number, browser: Browser) {
     const page = await browser.newPage();
     const url = this.getURL(pageNum);
-    console.log(url);
     console.log(`page num ${pageNum}`);
-    let jobsPosts: Job[] = [];
-    // await untilSuccess(async () => {
-    //   await page.goto('https://google.com/', { waitUntil: 'load' });
-    //   await page.goto(url, { waitUntil: 'load' });
-    //   await page.waitForSelector('.base-card', { timeout: 3000 });
-    // });
     await Scanner.waitUntilScan(page, url, '.base-card');
-    jobsPosts = (await page.evaluate(this.getAllJobsPostData, this.scannerName)).filter(
-      this.filterJobsPosts(preJobs)
-    );
+
+    const jobsPosts = (
+      await page.evaluate(this.getAllJobsPostData, this.scannerName, new Date())
+    ).filter(this.filterJobsPosts);
+
+    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.linkedinQuery.hash);
     await page.close();
 
-    return jobsPosts;
+    return filterJobs;
   }
 
-  async getJobsPostPromises(numResults: number, browser: Browser, preJobs: Job[]) {
+  async getJobsPostPromises(numResults: number, browser: Browser) {
     let start = 0;
     const promises = [];
     while (start < numResults) {
-      const data = this.getPageData(start, browser, preJobs);
+      const data = this.getPageData(start, browser);
       promises.push(data);
       start += 25;
     }
@@ -89,44 +90,45 @@ export class LinkedinScanner extends Scanner {
     return jobsPosts;
   }
 
-  async getTheAPIJobsPosts(browser: Browser, preJobs: Job[]) {
+  async getTheAPIJobsPosts(browser: Browser) {
     console.log(this.getURL(0));
     const page = await browser.newPage();
     await page.goto(this.getURL(0));
     const numResults = await page.$eval('.results-context-header__job-count', (el) =>
       Number(el.textContent)
     );
-
     this.setAPIDomain();
-    const jobsPosts = await this.getJobsPostPromises(numResults, browser, preJobs);
+    const jobsPosts = await this.getJobsPostPromises(numResults, browser);
     await page.close();
     return jobsPosts;
   }
 
-  async initPuppeteer(preJobs: Job[]) {
-    const { browser, page } = await PuppeteerSetup.lunchInstance({
+  getJobPostDataOfEachPost(browser: Browser) {
+    return async (jobPost: JobPost) => {
+      const REPage = await browser.newPage();
+      await PuppeteerSetup.noImageRequest(REPage);
+      console.log(jobPost.link);
+      await Scanner.waitUntilScan(REPage, jobPost.link, '.show-more-less-html');
+      const jobPostApiHTML = await REPage.evaluate(LinkedinRequirementScanner.getJobPostData);
+      await REPage.close();
+      const newJob = { ...jobPost, text: jobPostApiHTML };
+      console.log(newJob);
+      return newJob;
+    };
+  }
+
+  async initPuppeteer() {
+    const { browser } = await PuppeteerSetup.lunchInstance({
       // headless: false,
       defaultViewport: null,
       args: ['--no-sandbox'],
       slowMo: 200,
     });
 
-    const jobsPosts = await this.getTheAPIJobsPosts(browser, preJobs);
+    const jobsPosts = await this.getTheAPIJobsPosts(browser);
 
     const promises: Promise<JobPost>[] = jobsPosts.map(
-      throat(4, async (jobPost) => {
-        console.log(jobPost.link);
-        const REPage = await browser.newPage();
-        await PuppeteerSetup.noImageRequest(REPage);
-        await Scanner.waitUntilScan(REPage, jobPost.link, '.show-more-less-html');
-        const jobPostApiHTML = await REPage.evaluate(LinkedinRequirementScanner.getJobPostData);
-
-        await REPage.close();
-        // const { reason } = RequirementsReader.checkIsRequirementsMatch(jobPostApiHTML, this.profile);
-        const newJob = { text: jobPostApiHTML, ...jobPost };
-        console.log(newJob);
-        return newJob;
-      })
+      throat(4, this.getJobPostDataOfEachPost(browser))
     );
 
     try {
@@ -141,14 +143,11 @@ export class LinkedinScanner extends Scanner {
     }
   }
 
-  async scanning(preJobs: Job[]): Promise<JobPost[]> {
-    return this.initPuppeteer(preJobs);
+  async scanning(): Promise<JobPost[]> {
+    return this.initPuppeteer();
   }
-  // async scanning(preJobs: Job[]): Promise<any> {
-  //   return this.initPuppeteer(preJobs);
-  // }
 }
 // (async () => {
 //   const lin = new LinkedinScanner(exampleQuery, profile, new JobsDB());
-//   const t = await lin.scanning([]);
+//   const t = await lin.scanning();
 // })();

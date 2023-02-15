@@ -92,7 +92,6 @@ export const exampleQuery: UserInput = {
   location: 'תל אביב',
   position: 'full stack',
   distance: '1', // 10,25,50,75,
-
   jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
   scope: '1,2', // 1 full, 2:part
   experience: '1,2', //without -1 ,between 1-2,
@@ -103,13 +102,13 @@ export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
 const main = async () => {
   console.time('time');
   try {
-    // await mongoDB.connect();
+    await mongoDB.connect();
     const jobScan = new JobsScanner(profile, exampleQuery);
 
     await jobScan.scanning();
   } catch (error) {
     console.log(error);
-    // await mongoDB.close();
+    await mongoDB.close();
   }
   console.timeEnd('time');
 };

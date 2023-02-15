@@ -33,8 +33,8 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
 
   protected convertScope() {
     let scopesArr: string[] = [];
+    if (!this.userInput.scope) return '';
     const userInputSplit = this.userInput.scope.split(',');
-    if (userInputSplit.length === 0) return '';
 
     scopesArr = userInputSplit.map((el) => {
       const scope = el as Scope<'linkedin'>;
@@ -46,9 +46,8 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
 
   protected convertJobType(): string {
     let jobTypeArr: string[] = [];
-
+    if (!this.userInput.jobType) return '';
     const userInputSplit = this.userInput.jobType.split(',');
-    if (userInputSplit.length === 0) return '';
 
     jobTypeArr = userInputSplit.map((el) => {
       const jobType = el as JobType<'linkedin'>;
