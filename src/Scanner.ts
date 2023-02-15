@@ -10,6 +10,8 @@ import { Profile } from './Profile/Profile';
 import { GoogleTranslate } from './GoogleTranslateScanner/GoogleTranslateScanner';
 import { RequirementsReader } from './RequirementsReader/RequirementsReader';
 import { Job, JobPost } from './JobsScanner/jobsScanner';
+import { throatPromises, untilSuccess } from '../lib/utils';
+import { Page } from 'puppeteer';
 
 export class Scanner {
   profile: Profile;
@@ -37,27 +39,54 @@ export class Scanner {
       return undefined;
     }
   }
-  protected filterJobsPosts<T extends ScannerName, JP extends Job>(
-    queryOptions: GeneralQuery<T>,
-    preJobs: Job[]
-  ) {
+
+  protected filterJobsPosts<JP extends Job>(preJobs: Job[]) {
     return (curJob: JP) => {
       if (this.jobMap.get(curJob.jobID)) return false;
       else {
         this.jobMap.set(curJob.jobID, true);
       }
       if (!curJob.link || !curJob.jobID || !curJob.title) return false;
-      if (queryOptions.checkWordInBlackList(curJob.title)) return false;
+
       if (preJobs.find((el) => el.jobID === curJob.jobID)) return false;
 
       return true;
     };
   }
-  protected async getResultScanning(promises: Promise<JobPost[]>[], throatNum = 10) {
-    const jobsPosts = (await Promise.all(promises.map(throat(throatNum, (el) => el)))).flat(1);
+
+  static async waitUntilScan(page: Page, url: string, selector: string) {
+    await untilSuccess(async () => {
+      await page.goto('https://google.com/', { waitUntil: 'load' });
+      await page.goto(url, { waitUntil: 'load' });
+      await page.waitForSelector(selector, { timeout: 3000 });
+    });
+  }
+
+  protected async getTranslateResultsScanning(
+    promises: Promise<JobPost[]>[],
+    throatNum = 10
+  ): Promise<JobPost[]> {
+    const jobsPosts = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
+    // const jobsPosts = (await Promise.all(promises.map(throat(throatNum, (el) => el)))).flat(1);
+
     console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    const jobsTranslate = await this.googleTranslate.translateArrayText(jobsPosts);
-    const jobs = RequirementsReader.checkRequirementMatchForArray(jobsTranslate, this.profile);
+    const jobs = await this.googleTranslate.translateArrayText(jobsPosts);
+    // const jobs = RequirementsReader.checkRequirementMatchForArray(jobsTranslate, this.profile);
     return jobs;
+  }
+
+  async scanning(preJobs: Job[]): Promise<JobPost[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  filterResults(jobsPosts: JobPost[]) {
+    const jobsPostsFilter = jobsPosts.filter((el) => !this.profile.checkWordInBlackList(el.title));
+    return RequirementsReader.checkRequirementMatchForArray(jobsPostsFilter, this.profile);
+  }
+
+  async getResults(preJobs: JobPost[]): Promise<JobPost[]> {
+    const jobsPosts = await this.scanning(preJobs);
+
+    return this.filterResults(jobsPosts);
   }
 }

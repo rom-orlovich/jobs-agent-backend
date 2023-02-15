@@ -79,7 +79,7 @@ export class GotFriendsScanner extends Scanner {
           await untilSuccess(async () => {
             await newPage.goto(url);
             data = (await newPage.evaluate(this.getAllJobsPostData, this.scannerName)).filter(
-              this.filterJobsPosts(this.gotFriendsQuery, preJobs)
+              this.filterJobsPosts(preJobs)
             );
           });
 
@@ -89,13 +89,13 @@ export class GotFriendsScanner extends Scanner {
       )
       .flat(1);
 
-    const jobs = await this.getResultScanning(promises);
+    const jobs = await this.getTranslateResultsScanning(promises);
     await browser.close();
 
     return jobs;
   }
 
-  async scanning(preJobs: Job[]): Promise<Job[]> {
+  async scanning(preJobs: Job[]): Promise<JobPost[]> {
     if (!this.gotFriendsQuery.checkboxProfessions || !this.gotFriendsQuery.radioAreas) {
       console.log('There are no jobs in GotFriends that match the query.');
       return [];

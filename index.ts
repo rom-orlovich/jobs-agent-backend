@@ -54,16 +54,6 @@ export const profile = new Profile({
     net: true,
     qa: true,
   },
-});
-
-export const exampleQuery: UserInput = {
-  location: 'תל אביב',
-  position: 'Frontend Developer',
-  distance: '1', // 10,25,50,75,
-
-  jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
-  scope: '1,2', // 1 full, 2:part
-  experience: '1,2', //without -1 ,between 1-2,
   blackList: [
     // 'senior',
     // 'lead',
@@ -96,6 +86,16 @@ export const exampleQuery: UserInput = {
     // 'Tier 2 Support Agent',
     // 'Sales Manager',
   ],
+});
+
+export const exampleQuery: UserInput = {
+  location: 'תל אביב',
+  position: 'full stack',
+  distance: '1', // 10,25,50,75,
+
+  jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
+  scope: '1,2', // 1 full, 2:part
+  experience: '1,2', //without -1 ,between 1-2,
 };
 export const mongoDB = new MongoDBClient();
 export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');

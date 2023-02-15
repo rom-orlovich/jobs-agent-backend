@@ -35,12 +35,10 @@ export class DrushimScanner extends Scanner {
 
   async getNormalizeData(page: number, preJobs: Job[]) {
     const data = await this.getAxiosData<DrushimAPI>(page);
-    return this.getJobsData(data?.ResultList).filter((jobPost) =>
-      this.filterJobsPosts(this.drushimQueryOptions, preJobs)
-    );
+    return this.getJobsData(data?.ResultList).filter((jobPost) => this.filterJobsPosts(preJobs));
   }
 
-  async scanning(preJobs: Job[]): Promise<Job[]> {
+  async scanning(preJobs: Job[]): Promise<JobPost[]> {
     const data = await this.getAxiosData<DrushimAPI>(0);
 
     if (!data) return [];
@@ -52,7 +50,8 @@ export class DrushimScanner extends Scanner {
       page++;
     }
 
-    return await this.getResultScanning(promises);
+    const jobs = await this.getTranslateResultsScanning(promises);
+    return jobs;
   }
 }
 

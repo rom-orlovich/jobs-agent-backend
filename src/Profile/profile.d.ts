@@ -10,4 +10,5 @@ interface ProfileOptions {
   overallEx?: number;
   requirementsOptions: RequirementsOptions;
   excludeTechs: ExcludeTechsOptions;
+  blackList: string[];
 }

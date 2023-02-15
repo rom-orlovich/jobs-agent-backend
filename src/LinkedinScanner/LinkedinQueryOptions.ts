@@ -1,7 +1,7 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { JobType, Scope, UserInput } from '../GeneralQuery/generalQuery';
 
 const PERIOD = {
   'past month': 'r2592000',
@@ -29,6 +29,33 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
     const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
 
     return this.queryOptions.locations[userInput].en;
+  }
+
+  protected convertScope() {
+    let scopesArr: string[] = [];
+    const userInputSplit = this.userInput.scope.split(',');
+    if (userInputSplit.length === 0) return '';
+
+    scopesArr = userInputSplit.map((el) => {
+      const scope = el as Scope<'linkedin'>;
+      return this.queryOptions.scope.linkedin.f_JT[scope];
+    });
+
+    return scopesArr.join('%2C');
+  }
+
+  protected convertJobType(): string {
+    let jobTypeArr: string[] = [];
+
+    const userInputSplit = this.userInput.jobType.split(',');
+    if (userInputSplit.length === 0) return '';
+
+    jobTypeArr = userInputSplit.map((el) => {
+      const jobType = el as JobType<'linkedin'>;
+      return this.queryOptions.jobType.linkedin.f_WT[jobType];
+    });
+
+    return jobTypeArr.join('%2C');
   }
 
   protected convertPosition(): string {

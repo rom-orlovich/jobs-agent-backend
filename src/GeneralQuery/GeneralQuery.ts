@@ -1,13 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
-import {
-  Experience,
-  JobType,
-  QueryOptionsResProps,
-  ScannerName,
-  Scope,
-  UserInput,
-} from './generalQuery';
+import { Experience, QueryOptionsResProps, ScannerName, UserInput } from './generalQuery';
 import { SCANNER_QUERY_OPTIONS } from './ScannerQueryOptions';
 
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
@@ -44,7 +37,7 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
 
   protected convertExperience() {
     let yearExperienceArr: string[] = [];
-
+    let res = '';
     const userInputSplit = this.userInput.experience.split(',');
     if (userInputSplit.length === 0) return '';
     if (this.scannerName === 'linkedin') {
@@ -52,6 +45,7 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
         const expY = el as Experience<'linkedin'>;
         return this.queryOptions.experience.linkedin.f_e[expY];
       });
+      res = yearExperienceArr.join('%2C');
     }
 
     if (this.scannerName === 'drushim') {
@@ -59,35 +53,9 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
         const expY = el as Experience<'drushim'>;
         return this.queryOptions.experience.drushim.experience[expY];
       });
+      res = yearExperienceArr.join('-');
     }
-    return this.scannerName === 'drushim' ? yearExperienceArr.join('-') : yearExperienceArr.join(',');
-  }
-
-  protected convertScope() {
-    let scopesArr: string[] = [];
-    const userInputSplit = this.userInput.scope.split(',');
-    if (userInputSplit.length === 0) return '';
-
-    scopesArr = userInputSplit.map((el) => {
-      const scope = el as Scope<'linkedin'>;
-      return this.queryOptions.scope.linkedin.f_JT[scope];
-    });
-
-    return scopesArr.join(',');
-  }
-
-  protected convertJobType(): string {
-    let jobTypeArr: string[] = [];
-
-    const userInputSplit = this.userInput.jobType.split(',');
-    if (userInputSplit.length === 0) return '';
-
-    jobTypeArr = userInputSplit.map((el) => {
-      const jobType = el as JobType<'linkedin'>;
-      return this.queryOptions.jobType.linkedin.f_WT[jobType];
-    });
-
-    return jobTypeArr.join(',');
+    return res;
   }
 
   protected convertDistance(): string {
@@ -101,12 +69,11 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     return distance;
   }
 
-  checkWordInBlackList(word: string) {
-    return (
-      this.userInput.blackList?.length &&
-      this.userInput.blackList?.some((bl) => {
-        return word.toLowerCase().includes(bl.toLowerCase());
-      })
-    );
+  protected convertScope() {
+    return '';
+  }
+
+  protected convertJobType(): string {
+    return '';
   }
 }

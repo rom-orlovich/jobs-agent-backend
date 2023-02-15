@@ -27,6 +27,12 @@ export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   protected convertPosition(): string {
     return '';
   }
+  protected convertJobType(): string {
+    return '';
+  }
+  protected convertScope(): string {
+    return '';
+  }
 
   protected convertLocation(): string {
     const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;

@@ -73,5 +73,4 @@ export interface UserInput {
   jobType: string;
   scope: string;
   experience: string;
-  blackList: string[];
 }

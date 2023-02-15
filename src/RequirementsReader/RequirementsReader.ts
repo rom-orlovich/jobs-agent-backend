@@ -209,8 +209,10 @@ export class RequirementsReader {
     return sentences;
   };
 
-  static checkIsRequirementsMatch(html: string | string[][], profile: Profile) {
-    const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
+  // static checkIsRequirementsMatch(html: string | string[][], profile: Profile)
+  static checkIsRequirementsMatch(html: string, profile: Profile) {
+    // const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
+    const sentences = RequirementsReader.getSentences(html);
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
     return isRequirementsMatch;
   }

@@ -1,3 +1,4 @@
+import throat from 'throat';
 import { AnyFun } from './types';
 
 export const benchmarkTimeMS = async (cb: AnyFun) => {
@@ -18,3 +19,6 @@ export const untilSuccess = async (cb: AnyFun) => {
     }
   }
 };
+
+export const throatPromises = <T>(throatNum: number, promises: Promise<T>[]) =>
+  promises.map(throat(throatNum, (el) => el));

@@ -13,6 +13,7 @@ import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
 import { UserInput } from '../GeneralQuery/generalQuery';
 import { Job } from './jobsScanner';
+import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
 
 export class JobsScanner {
   profile: Profile;
@@ -43,19 +44,22 @@ export class JobsScanner {
 
   async scanning() {
     console.log('start');
-    const preJobs = await ScanningFS.loadData<Job>();
+    const preJobs = [] || (await ScanningFS.loadData<Job>());
     console.log(`Found ${preJobs.length} jobs `);
 
-    const data = (
+    const jobsPosts = (
       await Promise.all([
-        this.linkedinScanner.scanning(preJobs),
-        this.GotFriendsScanner.scanning(preJobs),
-        this.allJobsScanner.scanning(preJobs),
-        this.drushimScanner.scanning(preJobs),
+        this.linkedinScanner.getResults(preJobs),
+        this.GotFriendsScanner.getResults(preJobs),
+        this.allJobsScanner.getResults(preJobs),
+        this.drushimScanner.getResults(preJobs),
       ])
     ).flat(1);
 
-    await ScanningFS.writeData([...preJobs, ...data]);
+    // const jobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.profile);
+
+    // console.log(jobs);
+    // await ScanningFS.writeData([...preJobs, ...jobs]);
     console.log('end');
   }
 }

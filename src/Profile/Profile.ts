@@ -9,11 +9,13 @@ export class Profile {
   overallEx?: number;
   requirements: Map<string, ExperienceRange>;
   excludeTechs: Map<string, boolean>;
+  blackList: string[];
 
   constructor(profileOptions: ProfileOptions) {
     this.overallEx = profileOptions.overallEx;
     this.requirements = this.setRequirements(profileOptions.requirementsOptions);
     this.excludeTechs = this.setExcludeTechs(profileOptions.excludeTechs);
+    this.blackList = profileOptions.blackList;
   }
 
   private setRequirements(requirementsOptions: RequirementsOptions) {
@@ -57,5 +59,14 @@ export class Profile {
   }
   checkExcludedTechWithSlash(tech: string) {
     return Profile.checkIfWordIsWithSlash<boolean>(tech, this.excludeTechs);
+  }
+
+  checkWordInBlackList(word: string) {
+    return (
+      this.blackList.length &&
+      this.blackList.some((bl) => {
+        return word.toLowerCase().includes(bl.toLowerCase());
+      })
+    );
   }
 }

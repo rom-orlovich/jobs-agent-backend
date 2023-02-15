@@ -1,6 +1,6 @@
 import throat from 'throat';
 
-import { untilSuccess } from '../../lib/utils';
+import { throatPromises, untilSuccess } from '../../lib/utils';
 import { GoogleTranslateAPI, GoogleTranslateQuery } from './googleTranslateScanner';
 
 import axios, { AxiosResponse } from 'axios';
@@ -51,20 +51,12 @@ export class GoogleTranslate {
     return this.transformToText(res);
   }
 
-  async translateArrayText<T extends GenericRecord<any>>(
-    data: (T & { text: string })[],
-    // profile: Profile
-    throatNum = 5
-  ) {
-    // const { browser } = await PuppeteerSetup.lunchInstance({ args: ['--no-sandbox'], headless: true });
+  async translateArrayText<T extends GenericRecord<any>>(data: T[], throatNum = 5) {
     const promises = data.map(
-      throat(throatNum, async ({ text, ...rest }) => {
-        // const newPage = await browser.newPage();
-        const translateText = await this.getTranslate(text);
-        // await newPage.close();
-        const newJob = {
+      throat(throatNum, async (rest) => {
+        const translateText = await this.getTranslate(rest.text);
+        const newJob: T = {
           ...rest,
-          // reason: RequirementsReader.checkIsRequirementsMatch(translateText, profile).reason,
           text: translateText,
         };
         console.log(newJob);

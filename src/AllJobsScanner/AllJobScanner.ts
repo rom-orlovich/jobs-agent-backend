@@ -50,16 +50,13 @@ export class AllJobScanner extends Scanner {
   }
   async getDataFromHTML(page: number, preJobs: Job[]) {
     const $ = await this.get$(page);
-    const data = (await this.getAllJobsData($)).filter(
-      this.filterJobsPosts(this.allJobsQueryOptions, preJobs)
-    );
+    const data = (await this.getAllJobsData($)).filter(this.filterJobsPosts(preJobs));
     return data;
   }
 
   async scanning(preJobs: Job[]) {
     const $ = await this.get$(0);
     const maxPages = Number($('#hdnTotalPages').val());
-
     const promises: Promise<JobPost[]>[] = [];
     let page = 0;
 
@@ -69,7 +66,7 @@ export class AllJobScanner extends Scanner {
       page++;
     }
 
-    const jobs = await this.getResultScanning(promises);
+    const jobs = await this.getTranslateResultsScanning(promises);
 
     return jobs;
   }
