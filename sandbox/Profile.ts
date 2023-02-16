@@ -1,23 +1,26 @@
-import { ExcludeTechsOptions, ExperienceRange, ProfileOptions, RequirementsOptions } from './profile';
+import { ExcludeTechsOptions, ExperienceRange, UserOptions, RequirementsOptions } from './profile';
 
+import { HashQuery } from './HashQuery';
 /**
  * @param excludeTechs An object that contains the tech stack which the user doesn't want to include the in jobs list.
  * @param requirements An object that contains the min and max years of experience per each of the user.
  * @param overallEx A number that present the overall experience of the user.
  */
-export class Profile {
+export class User {
+  userID: string;
   overallEx?: number;
   requirements: Map<string, ExperienceRange>;
   excludeTechs: Map<string, boolean>;
   blackList: string[];
-  queryHashes: string[];
+  hashQueries: InstanceType<typeof HashQuery>[];
 
-  constructor(profileOptions: ProfileOptions) {
-    this.overallEx = profileOptions.overallEx;
-    this.requirements = this.setRequirements(profileOptions.requirementsOptions);
-    this.excludeTechs = this.setExcludeTechs(profileOptions.excludeTechs);
-    this.blackList = profileOptions.blackList;
-    this.queryHashes = [];
+  constructor(userOptions: UserOptions) {
+    this.userID = userOptions._id;
+    this.overallEx = userOptions.overallEx;
+    this.requirements = this.setRequirements(userOptions.requirementsOptions);
+    this.excludeTechs = this.setExcludeTechs(userOptions.excludeTechs);
+    this.blackList = userOptions.blackList;
+    this.hashQueries = [];
   }
 
   private setRequirements(requirementsOptions: RequirementsOptions) {
@@ -57,10 +60,10 @@ export class Profile {
     return findTech;
   }
   checkRequirementWithSlash(tech: string) {
-    return Profile.checkIfWordIsWithSlash<ExperienceRange>(tech, this.requirements);
+    return User.checkIfWordIsWithSlash<ExperienceRange>(tech, this.requirements);
   }
   checkExcludedTechWithSlash(tech: string) {
-    return Profile.checkIfWordIsWithSlash<boolean>(tech, this.excludeTechs);
+    return User.checkIfWordIsWithSlash<boolean>(tech, this.excludeTechs);
   }
 
   checkWordInBlackList(word: string) {
@@ -70,5 +73,16 @@ export class Profile {
         return word.toLowerCase().includes(bl.toLowerCase());
       })
     );
+  }
+
+  addHashQuery(hash: string) {
+    this.hashQueries.push(new HashQuery(hash));
+  }
+  updateHashAddedAt(hash: string) {
+    const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
+    if (hashQuery) hashQuery.updateHashAddedAt();
+  }
+  filterExpiredHashQueries() {
+    this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
   }
 }

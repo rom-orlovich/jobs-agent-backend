@@ -12,7 +12,8 @@ interface HashQueryProps {
   expireAt: number;
 }
 
-interface ProfileOptions {
+interface UserOptions {
+  _id: string;
   overallEx?: number;
   requirementsOptions: RequirementsOptions;
   excludeTechs: ExcludeTechsOptions;

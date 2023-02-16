@@ -97,7 +97,8 @@ export const exampleQuery: UserInput = {
   experience: '1,2', //without -1 ,between 1-2,
 };
 export const mongoDB = new MongoDBClient();
-export const jobs = mongoDB.createDBcollection('jobDB', 'jobs');
+// export const jobs = mongoDB.createDBcollection('job-agent-db', 'Jobs');
+// export const users = mongoDB.createDBcollection('job-agent-db', 'Users');
 
 const main = async () => {
   console.time('time');

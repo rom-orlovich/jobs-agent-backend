@@ -25,10 +25,10 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     this.scope = this.convertScope();
     this.jobType = this.convertJobType();
     this.distance = this.convertDistance();
-    this.hash = this.hashQuery();
+    this.hash = GeneralQuery.hashQuery(this.userInput);
   }
-  private hashQuery() {
-    const { distance, experience, jobType, location, position, scope } = this.userInput;
+  static hashQuery(userInput: UserInput) {
+    const { distance, experience, jobType, location, position, scope } = userInput;
     const hash = createHash('sha1')
       .update(distance + experience + jobType + location + position + scope)
       .digest('hex');

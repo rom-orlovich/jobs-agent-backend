@@ -1,16 +1,17 @@
 import { Collection } from 'mongodb';
 import { mongoDB } from '..';
 import { Job, JobPost } from '../src/JobsScanner/jobsScanner';
+import { EXPIRE_AT_MONGO_DB } from './HashQuery';
 
 export class JobsDB {
-  jobs: Collection;
+  jobsDB: Collection;
   constructor() {
-    this.jobs = mongoDB.createDBcollection('jobDB', 'jobs');
-    this.jobs.createIndex({ addedAt: 1 }, { expireAfterSeconds: 60 * 60 });
+    this.jobsDB = mongoDB.createDBcollection('job-agent-db', 'Jobs');
+    this.jobsDB.createIndex({ addedAt: 1 }, { expireAfterSeconds: EXPIRE_AT_MONGO_DB });
   }
   async getJob(jobID: string) {
     try {
-      const job = await this.jobs?.findOne<Job>({
+      const job = await this.jobsDB?.findOne<Job>({
         jobID,
       });
 
@@ -22,8 +23,23 @@ export class JobsDB {
 
   async getJobsByHash(hash: string) {
     try {
-      const job = this.jobs?.aggregate<JobPost>([
+      const job = this.jobsDB?.aggregate<JobPost>([
         { $match: { hashes: { $elemMatch: { $eq: hash } } } },
+        {
+          $project: { hashes: 0, addedAt: 0, _id: 0 },
+        },
+      ]);
+
+      return await job.toArray();
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async getJobsByHashQueries(hashes: string[]) {
+    try {
+      const job = this.jobsDB?.aggregate<JobPost>([
+        { $match: { hashes: { $elemMatch: { $in: hashes } } } },
         {
           $project: { hashes: 0, addedAt: 0, _id: 0 },
         },
@@ -37,7 +53,7 @@ export class JobsDB {
 
   async insertOne(job: Job) {
     try {
-      const insert = await this.jobs.insertOne(job);
+      const insert = await this.jobsDB.insertOne(job);
       return insert;
     } catch (error) {
       console.log(error);
@@ -45,7 +61,7 @@ export class JobsDB {
   }
   async updateOne(jobID: string, hash: string) {
     try {
-      const update = await this.jobs.updateOne(
+      const update = await this.jobsDB.updateOne(
         { jobID },
         { $set: { addedAt: new Date() }, $addToSet: { hashes: hash } }
       );
@@ -56,7 +72,7 @@ export class JobsDB {
   }
   async insertMany(jobs: JobPost[]) {
     try {
-      const insert = await this.jobs.insertMany(jobs);
+      const insert = await this.jobsDB.insertMany(jobs);
       return insert;
     } catch (error) {
       console.log(error);
