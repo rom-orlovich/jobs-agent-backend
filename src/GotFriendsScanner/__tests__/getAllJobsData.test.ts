@@ -4,7 +4,7 @@ import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
 import { ExperienceRange } from '../../../lib/types/profile';
 import { GenericRecord } from '../../../lib/types';
 import { JobPost } from '../../AllJobsScanner/AllJobScanner';
-import { UserInput } from '../../GeneralQuery/GeneralQuery';
+import { UserQuery } from '../../GeneralQuery/GeneralQuery';
 import { Profile } from '../../Profile/Profile';
 import { GotFriendsScanner } from '../GotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
@@ -37,7 +37,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
       ruby: true,
     },
   });
-  const exampleQuery: UserInput = {
+  const exampleQuery: UserQuery = {
     location: 'תל אביב',
     position: 'Full Stack',
     distance: '1', // 10,25,50,75,

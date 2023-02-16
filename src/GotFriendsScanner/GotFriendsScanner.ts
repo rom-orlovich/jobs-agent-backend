@@ -7,7 +7,7 @@ import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 import { Browser, Page } from 'puppeteer';
 import { untilSuccess } from '../../lib/utils';
 import { JobPost } from '../JobsScanner/jobsScanner';
@@ -16,7 +16,7 @@ import { exampleQuery, profile } from '../..';
 export class GotFriendsScanner extends Scanner {
   gotFriendsQuery: GotFriendQueryOptions;
 
-  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
     super('gotFriends', profile, JobsDB);
     this.gotFriendsQuery = new GotFriendQueryOptions(userInput);
   }

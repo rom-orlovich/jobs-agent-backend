@@ -1,10 +1,10 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
 
-import { JobType, Scope, UserInput } from '../GeneralQuery/generalQuery';
+import { JobType, Scope, UserQuery } from '../GeneralQuery/generalQuery';
 
 export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
-  constructor(userInput: UserInput) {
+  constructor(userInput: UserQuery) {
     super('allJobs', userInput);
   }
   protected convertLocation(): string {

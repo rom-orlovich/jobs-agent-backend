@@ -1,6 +1,6 @@
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
-import { UserInput } from '../../GeneralQuery/GeneralQuery';
+import { UserQuery } from '../../GeneralQuery/GeneralQuery';
 
 import { JobsDB } from '../../../lib/JobsDB';
 
@@ -9,7 +9,7 @@ import { load } from 'cheerio';
 import { profile } from '../../..';
 
 describe('Tests getAllJobsData method of AllJobScanner', () => {
-  const exampleQuery: UserInput = {
+  const exampleQuery: UserQuery = {
     location: 'תל אביב',
     position: 'Full Stack',
     distance: '1', // 10,25,50,75,

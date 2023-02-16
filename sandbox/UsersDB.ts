@@ -4,7 +4,7 @@ import { HashQuery } from './HashQuery';
 import { UserOptions } from './profile';
 import { User } from './Profile';
 
-export class UserDB {
+export class UsersDB {
   users: Collection;
   constructor() {
     this.users = mongoDB.createDBcollection('job-agent-db', 'Users');

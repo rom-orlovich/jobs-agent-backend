@@ -1,3 +1,5 @@
+import { UserQuery } from '../src/GeneralQuery/generalQuery';
+
 export interface ExperienceRange {
   min: number;
   max: number;
@@ -18,4 +20,5 @@ interface UserOptions {
   requirementsOptions: RequirementsOptions;
   excludeTechs: ExcludeTechsOptions;
   blackList: string[];
+  userQuery: UserQuery;
 }

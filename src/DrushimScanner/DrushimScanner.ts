@@ -1,6 +1,6 @@
 import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './DrushimQueryOptions';
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { Profile } from '../Profile/Profile';
 import { DrushimAPI, DrushimResult } from './drushimScanner';
@@ -9,7 +9,7 @@ import { JobPost } from '../JobsScanner/jobsScanner';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
-  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
     super('drushim', profile, JobsDB);
     this.drushimQueryOptions = new DrushimQueryOptions(userInput);
   }

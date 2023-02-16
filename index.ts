@@ -9,7 +9,7 @@ import { JobsScanner } from './src/JobsScanner/JobsScanner';
 
 import { MongoDBClient } from './lib/MongoClient';
 
-import { UserInput } from './src/GeneralQuery/generalQuery';
+import { UserQuery } from './src/GeneralQuery/generalQuery';
 import { ExperienceRange } from './src/Profile/profile';
 export const REQUIREMENTS: GenericRecord<ExperienceRange> = {
   javascript: { min: 0, max: 3 },
@@ -88,7 +88,7 @@ export const profile = new Profile({
   ],
 });
 
-export const exampleQuery: UserInput = {
+export const exampleQuery: UserQuery = {
   location: 'תל אביב',
   position: 'full stack',
   distance: '1', // 10,25,50,75,

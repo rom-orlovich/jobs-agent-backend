@@ -2,12 +2,12 @@ import { GotFriendsPositions } from '../createQueryDB/lib/createQueryDB';
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 
 export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   checkboxProfessions: string;
   radioAreas: string;
-  constructor(userInput: UserInput) {
+  constructor(userInput: UserQuery) {
     super('gotFriends', userInput);
     const { checkboxProfessions, radioAreas } = this.convertPositionGotFriends();
     this.checkboxProfessions = checkboxProfessions;

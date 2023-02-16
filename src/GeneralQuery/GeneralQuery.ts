@@ -1,6 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
-import { Experience, QueryOptionsResProps, ScannerName, UserInput } from './generalQuery';
+import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './generalQuery';
 import { SCANNER_QUERY_OPTIONS } from './ScannerQueryOptions';
 import { createHash } from 'crypto';
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
@@ -12,13 +12,13 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
   location: string;
 
   queryOptions: typeof SCANNER_QUERY_OPTIONS;
-  userInput: UserInput;
+  userInput: UserQuery;
   scannerName: ScannerName;
   hash: string;
-  constructor(scannerName: T, UserInput: UserInput) {
+  constructor(scannerName: T, UserQuery: UserQuery) {
     this.scannerName = scannerName;
     this.queryOptions = SCANNER_QUERY_OPTIONS;
-    this.userInput = UserInput;
+    this.userInput = UserQuery;
     this.location = this.convertLocation().split(' ').join('%20');
     this.position = this.convertPosition().split(' ').join('%20');
     this.experience = this.convertExperience();
@@ -27,7 +27,7 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     this.distance = this.convertDistance();
     this.hash = GeneralQuery.hashQuery(this.userInput);
   }
-  static hashQuery(userInput: UserInput) {
+  static hashQuery(userInput: UserQuery) {
     const { distance, experience, jobType, location, position, scope } = userInput;
     const hash = createHash('sha1')
       .update(distance + experience + jobType + location + position + scope)

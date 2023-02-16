@@ -4,14 +4,14 @@ import { Profile } from '../Profile/Profile';
 
 import { AllJobsQueryOptions } from './AllJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 import { JobsDB } from '../../lib/JobsDB';
 import { JobPost } from '../JobsScanner/jobsScanner';
 import { exampleQuery, profile } from '../..';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
-  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
     super('allJobs', profile, JobsDB);
     this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
   }

@@ -11,24 +11,30 @@ import { ScanningFS } from '../lib/ScanningFS';
 
 import { DrushimScanner } from '../src/DrushimScanner/DrushimScanner';
 
-import { UserInput } from '../src/GeneralQuery/generalQuery';
+import { UserQuery } from '../src/GeneralQuery/generalQuery';
 
 import { RequirementsReader } from '../src/RequirementsReader/RequirementsReader';
 import { GeneralQuery } from '../src/GeneralQuery/GeneralQuery';
+import { UserDB, UsersDB } from './UsersDB';
 
 export class JobsScanner {
-  profile: Profile;
+  usersDB: UsersDB;
+  jobsDB: JobsDB;
+  // profile: Profile;
+  // jobs: JobsDB;
+  // userInput: UserQuery;
+  // hash: string;
+  constructor() {
+    // this.profile = profile;
+    this.usersDB = new UsersDB();
+    this.jobsDB = new JobsDB();
 
-  jobs: JobsDB;
+    // this.hash = GeneralQuery.hashQuery(userInput);
+  }
 
-  userInput: UserInput;
-  hash: string;
-  constructor(profile: Profile, userInput: UserInput) {
-    this.profile = profile;
-    this.jobs = new JobsDB();
-    this.userInput = userInput;
-
-    this.hash = GeneralQuery.hashQuery(userInput);
+  async loadUser(userID: string) {
+    const user = await this.usersDB.loadUser(userID);
+    return user;
   }
 
   private async getJobsByHash() {
@@ -36,7 +42,7 @@ export class JobsScanner {
     return jobs;
   }
 
-  private async getScannerResults(userInput: UserInput) {
+  private async getScannerResults() {
     const linkedinScanner = new LinkedinScanner(userInput, this.profile, this.jobs);
     const gotFriendsScanner = new GotFriendsScanner(userInput, this.profile, this.jobs);
     const allJobsScanner = new AllJobScanner(userInput, this.profile, this.jobs);
@@ -50,7 +56,7 @@ export class JobsScanner {
     return jobsPostsResults.flat(1);
   }
 
-  async getResultByUserInput(userInput: UserInput) {
+  async getResultByUserQuery(userInput: UserQuery) {
     const preJobs = await this.getJobsByHash();
     let jobsPosts;
     if (preJobs.length > 100) jobsPosts = preJobs;
@@ -60,8 +66,12 @@ export class JobsScanner {
   }
   //   async getResultByProfileQueryHashes() {}
 
-  async scanning() {
+  async scanning(userID: string) {
+    const user = await this.loadUser(userID);
+    if (!user) return { message: 'No user is found' };
+
     console.log('start');
+
     // const preJobs = await this.getJobsByHash();
     // let jobsPosts;
     // if (preJobs.length > 100) jobsPosts = preJobs;

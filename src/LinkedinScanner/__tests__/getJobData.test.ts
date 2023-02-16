@@ -3,7 +3,7 @@ import { JobsDB } from '../../../lib/JobsDB';
 import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
 
 import { GenericRecord } from '../../../lib/types';
-import { UserInput } from '../../GeneralQuery/GeneralQuery';
+import { UserQuery } from '../../GeneralQuery/GeneralQuery';
 import { ExperienceRange } from '../../Profile/profile';
 import { Profile } from '../../Profile/Profile';
 import { LinkedinScanner } from '../LinkedinScanner';
@@ -37,7 +37,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
       ruby: true,
     },
   });
-  const exampleQuery: UserInput = {
+  const exampleQuery: UserQuery = {
     location: 'תל אביב',
     position: 'Full Stack',
     distance: '1', // 10,25,50,75,

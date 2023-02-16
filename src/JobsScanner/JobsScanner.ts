@@ -11,7 +11,7 @@ import { ScanningFS } from '../../lib/ScanningFS';
 
 import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
 
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 
 import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
 
@@ -22,9 +22,9 @@ export class JobsScanner {
   allJobsScanner: AllJobScanner;
   jobs: JobsDB;
   drushimScanner: DrushimScanner;
-  userInput: UserInput;
+  userInput: UserQuery;
   hash: string;
-  constructor(profile: Profile, userInput: UserInput) {
+  constructor(profile: Profile, userInput: UserQuery) {
     this.profile = profile;
     this.jobs = new JobsDB();
     this.userInput = userInput;

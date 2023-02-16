@@ -1,7 +1,7 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
-import { JobType, Scope, UserInput } from '../GeneralQuery/generalQuery';
+import { JobType, Scope, UserQuery } from '../GeneralQuery/generalQuery';
 
 const PERIOD = {
   'past month': 'r2592000',
@@ -20,7 +20,7 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   period: string;
   sortBy: string;
 
-  constructor(userInput: UserInput) {
+  constructor(userInput: UserQuery) {
     super('linkedin', userInput);
     this.period = this.convertPeriod();
     this.sortBy = this.convertSortBy();

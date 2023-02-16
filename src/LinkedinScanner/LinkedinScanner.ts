@@ -7,7 +7,7 @@ import { JobsDB } from '../../lib/JobsDB';
 import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { Browser } from 'puppeteer';
 import throat from 'throat';
-import { UserInput } from '../GeneralQuery/generalQuery';
+import { UserQuery } from '../GeneralQuery/generalQuery';
 
 import { throatPromises } from '../../lib/utils';
 
@@ -16,7 +16,7 @@ import { JobPost } from '../JobsScanner/jobsScanner';
 export class LinkedinScanner extends Scanner {
   linkedinQuery: LinkedinQueryOptions;
   domain: string;
-  constructor(userInput: UserInput, profile: Profile, JobsDB: JobsDB) {
+  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
     super('linkedin', profile, JobsDB);
     this.linkedinQuery = new LinkedinQueryOptions(userInput);
 
