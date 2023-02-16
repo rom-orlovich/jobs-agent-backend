@@ -1,28 +1,51 @@
 import { Browser, Page } from 'puppeteer';
-import { JobsDB } from '../../../lib/JobsDB';
-import { PuppeteerSetup } from '../../../lib/PuppeteerSetup';
-import { ExperienceRange } from '../../../lib/types/profile';
-import { GenericRecord } from '../../../lib/types';
-import { JobPost } from '../../allJobsScanner/allJobScanner';
-import { UserQuery } from '../../GeneralQuery/GeneralQuery';
-import { Profile } from '../../User/User';
+import { JobsDB } from '../../../../../lib/jobsDB';
+import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
+import { UserQuery } from '../../../generalQuery/query';
+import { JobPost } from '../../../jobsScanner';
+import { User } from '../../../user/user';
+
 import { GotFriendsScanner } from '../gotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
 describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
-  const REQUIREMENTS: GenericRecord<ExperienceRange> = {
+  const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
+    reactjs: { min: 0, max: 3 },
     typescript: { min: 0, max: 3 },
     ts: { min: 0, max: 3 },
     js: { min: 0, max: 3 },
-    'node.js': { min: 0, max: 3 },
+    node: { min: 0, max: 2 },
+    nextjs: { min: 0, max: 3 },
     git: { min: 0, max: 3 },
+    github: { min: 0, max: 3 },
+    html: { min: 0, max: 3 },
+    css: { min: 0, max: 3 },
+    scss: { min: 0, max: 3 },
+    tailwinds: { min: 0, max: 3 },
+    mui: { min: 0, max: 3 },
+    express: { min: 0, max: 3 },
     fullstack: { min: 0, max: 3 },
     frontend: { min: 0, max: 3 },
+    sql: { min: 0, max: 3 },
+    python: { min: 0, max: 2 },
+    mongo: { min: 0, max: 3 },
+    nosql: { min: 0, max: 3 },
+    noSQL: { min: 0, max: 3 },
   };
 
-  const profile = new Profile({
+  const EXAMPLE_QUERY: UserQuery = {
+    location: 'תל אביב',
+    position: 'Frontend',
+    distance: '1', // 10,25,50,75,
+    jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
+    scope: '1,2', // 1 full, 2:part
+    experience: '1,2', //without -1 ,between 1-2,
+    active: true,
+  };
+
+  const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
     excludeTechs: {
@@ -35,51 +58,48 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
       embedded: true,
       go: true,
       ruby: true,
+      angular: true,
+      net: true,
+      qa: true,
     },
-  });
-  const exampleQuery: UserQuery = {
-    location: 'תל אביב',
-    position: 'Full Stack',
-    distance: '1', // 10,25,50,75,
-
-    jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
-    scope: '1,2', // 1 full, 2:part
-    experience: '1,2', //without -1 ,between 1-2,
     blackList: [
-      'senior',
-      'lead',
-      'angular',
-      'devops',
-      'cloud',
-      'wordpress',
-      'devops',
-      'data analyst',
-      'data',
-      'ux',
-      'ui',
-      'quality assurance',
-      'qa',
-      'csv',
-      'php',
-      'communications',
-      'embedded',
-      'power supply',
-      'java',
-      'ruby',
-      'go',
-      'etl',
-      'technical solution',
-      'tax',
-      'eae',
-      'associate embedded systems engineer',
-      'ese',
-      'system test',
-      'Tier 2 Support Agent',
-      'Sales Manager',
+      // 'senior',
+      // 'lead',
+      // 'angular',
+      // 'devops',
+      // 'cloud',
+      // 'wordpress',
+      // 'devops',
+      // 'data analyst',
+      // 'data',
+      // 'ux',
+      // 'ui',
+      // 'quality assurance',
+      // 'qa',
+      // 'csv',
+      // 'php',
+      // 'communications',
+      // 'embedded',
+      // 'power supply',
+      // 'java',
+      // 'ruby',
+      // 'go',
+      // 'etl',
+      // 'technical solution',
+      // 'tax',
+      // 'eae',
+      // 'associate embedded systems engineer',
+      // 'ese',
+      // 'system test',
+      // 'Tier 2 Support Agent',
+      // 'Sales Manager',
     ],
-  };
+    _id: '1',
+    hashQueries: [],
+    userQuery: EXAMPLE_QUERY,
+  });
   const { lunchInstance, evaluateContent } = PuppeteerSetup;
-  const gotFriendsScanner = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
+  const gotFriendsScanner = new GotFriendsScanner(EXAMPLE_USER, new JobsDB());
   let page: Page, browser: Browser;
   beforeAll(async () => {
     ({ browser, page } = await lunchInstance({}));
@@ -91,12 +111,12 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   });
 
   test('Test getAllJobsData of 2 jobs post -ex1', async () => {
-    // await page.goto('https://www.gotfriends.co.il/');
     const res = await evaluateContent(
       page,
       JOB_POST_EX1_HTML,
       gotFriendsScanner.getAllJobsPostData,
-      'gotFriends'
+      'gotFriends',
+      new Date()
     );
     const resNormalize = res.map((el) => ({ ...el, text: el.text.replace(/\s+/g, '') }));
 
@@ -113,6 +133,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
         -ניסיון על פלטפורמות Cloud ו- SaaS
         -ניסיון ב- Linux`.replace(/\s+/g, ''),
         link: 'https://www.gotfriends.co.il/jobslobby/software/head-of-development-team/141860/',
+        addedAt: new Date(),
       },
       {
         title: 'Software Developer (C) בחברת יוניקורן',
@@ -127,6 +148,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
         - ניסיון ב-Linux/Unix/FreeBSD
         - ניסיון עם Command Line Tools`.replace(/\s+/g, ''),
         link: 'https://www.gotfriends.co.il/jobslobby/software/cplusplus-programmer/141502/',
+        addedAt: new Date(),
       },
     ]);
   });

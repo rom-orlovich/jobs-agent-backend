@@ -8,10 +8,9 @@ import { GoogleTranslateAPI, GoogleTranslateQuery } from './google-translate';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;
-  //   profile: Profile;
+
   constructor(queryOptions: GoogleTranslateQuery) {
     this.queryOptions = queryOptions;
-    // this.profile = profile;
   }
 
   getURL(text: string) {

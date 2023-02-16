@@ -1,11 +1,13 @@
-import { GenericRecord } from '../../../lib/types';
-import { RequirementsReader } from '../../../sandbox/try2';
-import { ExperienceRange } from '../../User/user';
-import { Profile } from '../../User/User';
 // import { RequirementsReader } from '../RequirementsReader';
 
+import { UserQuery } from '../../generalQuery/query';
+import { User } from '../../user/user';
+import { RequirementsReader } from '../requirementsReader';
+
 describe.only('Testss real examples of checkIsRequirementsMatch function', () => {
-  const REQUIREMENTS: GenericRecord<ExperienceRange> = {
+  // Note: next time that I will run the tests they probably will be failed because I change the the constants.
+
+  const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
     reactjs: { min: 0, max: 3 },
@@ -31,7 +33,17 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     noSQL: { min: 0, max: 3 },
   };
 
-  const profile = new Profile({
+  const EXAMPLE_QUERY: UserQuery = {
+    location: 'תל אביב',
+    position: 'Frontend',
+    distance: '1', // 10,25,50,75,
+    jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
+    scope: '1,2', // 1 full, 2:part
+    experience: '1,2', //without -1 ,between 1-2,
+    active: true,
+  };
+
+  const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
     excludeTechs: {
@@ -45,34 +57,77 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       go: true,
       ruby: true,
       angular: true,
-      '.net': true,
+      net: true,
       qa: true,
     },
+    blackList: [
+      // 'senior',
+      // 'lead',
+      // 'angular',
+      // 'devops',
+      // 'cloud',
+      // 'wordpress',
+      // 'devops',
+      // 'data analyst',
+      // 'data',
+      // 'ux',
+      // 'ui',
+      // 'quality assurance',
+      // 'qa',
+      // 'csv',
+      // 'php',
+      // 'communications',
+      // 'embedded',
+      // 'power supply',
+      // 'java',
+      // 'ruby',
+      // 'go',
+      // 'etl',
+      // 'technical solution',
+      // 'tax',
+      // 'eae',
+      // 'associate embedded systems engineer',
+      // 'ese',
+      // 'system test',
+      // 'Tier 2 Support Agent',
+      // 'Sales Manager',
+    ],
+    _id: '1',
+    hashQueries: [],
+    userQuery: EXAMPLE_QUERY,
   });
 
   test(`Tests many sentences from real text that its not match the user experience-ex`, () => {
     const sentences = `  c#.net core – 3+ years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`c#.net is not in your stack`);
   });
   test(`Tests many sentences from real text that its match the user experience-ex1`, () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
     const sentences = `typescript core – 2 years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
 
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeTruthy();
   });
   test(`Tests many sentences from real text that not match the user experience-ex2`, () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
     const sentences = `8+ years working experience with java (minimum 70%
@@ -89,13 +144,17 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       production. communicate with all stakeholders (product, qa,
       architect, support, integrators, etc.`;
 
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeFalsy();
   });
   test(`Tests many sentences from real text that match the user experience-ex3`, () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
     const sentences = `manage and optimize scalable distributed systems on
@@ -107,13 +166,17 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     systems, like orm, nosql, or others. team player, someone we’d love to work with, and
     independent.`;
 
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeTruthy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeTruthy();
   });
   test(`Tests many sentences from real text that match the user experience-ex4`, () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
     const sentences = ` build & maintain our ecommerce web application
@@ -128,124 +191,51 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     related field - an advantage. knowledge and skills in user experience (ux) design -
     an advantage.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     // expect(res.pass).toBeFalsy();
 
     expect(res.pass).toBeTruthy();
   });
   test(`Tests many sentences from real text that match the user experience-ex5`, () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
-    const sentences = [
-      [
-        'You',
-        'will',
-        'develop,',
-        'debug,',
-        'deliver',
-        'and',
-        'maintain',
-        'a\n',
-        'highly-complex',
-        'system,',
-        'that',
-        'is',
-        'the',
-        'core',
-        'of',
-        'our\n',
-        "company's",
-        'growth.',
-      ],
-      ['You', 'will', 'work', 'in', 'an', 'agile', 'development', 'environment.'],
-      ['You', 'will', 'deliver', 'high', 'quality', 'and', 'well-structured', 'code'],
-      [
-        '4+',
-        'years',
-        'of',
-        'experience',
-        'as',
-        'a',
-        'software',
-        'developer',
-        'with\n',
-        'front-end',
-        'and',
-        'back-end',
-        'development.',
-      ],
-      ['Experience', 'with', 'Node.js.'],
-      ['Excellent', 'JavaScript', '(including', 'ES6),', 'HTML', 'and', 'CSS\n', 'skills.'],
-      [
-        'Exposure',
-        'to',
-        'front',
-        'end,',
-        'single',
-        'page',
-        'application\n',
-        'oriented',
-        'frameworks',
-        'such',
-        'as',
-        'Angular,',
-        'ReactJS,',
-        'etc.',
-      ],
-      [
-        'Working',
-        'with',
-        'web',
-        'services',
-        '(e.g.',
-        'REST',
-        'services)',
-        'and\n',
-        'good',
-        'understanding',
-        'of',
-        'network',
-        'concepts',
-        '(e.g.',
-        'HTTP\n',
-        'protocol,',
-        'sockets',
-        'etc.).',
-      ],
-      [
-        'knowledge',
-        'of',
-        'browser',
-        'troubleshooting',
-        'and',
-        'debugging\n',
-        'practices',
-        'and',
-        'techniques.',
-      ],
-    ]
-      .map((el) => el.map((el) => el.toLowerCase()).join(' '))
-      .join(' ');
+    const sentences = `you will develop, debug, deliver and maintain a
+    highly-complex system, that is the core of our
+    company's growth. you will work in an agile development environment. you will deliver high quality and well-structured code 4+ years of experience as a software developer with
+    front-end and back-end development. experience with node.js. excellent javascript (including es6), html and css
+    skills. exposure to front end, single page application
+    oriented frameworks such as angular, reactjs, etc. working with web services (e.g. rest services) and
+    good understanding of network concepts (e.g. http
+    protocol, sockets etc.). knowledge of browser troubleshooting and debugging
+    practices and techniques.`;
 
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass).toBeFalsy();
+    expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeFalsy();
   });
 
   test('Tests many sentences from real text that match the user experience-ex6', () => {
     const sentences = `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done -the right way.The acquisition by MasterCard has expanded DY’s horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the team’s contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`;
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile).pass;
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass;
 
     expect(res).toBeFalsy();
   });
   test('Tests many sentences from real text that may cause to infinite loop-ex7', () => {
-    const profile = new Profile({
+    const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
       excludeTechs: {},
+      _id: '1',
+      userQuery: EXAMPLE_QUERY,
+      hashQueries: [],
+      blackList: [],
     });
 
     const sentences = `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.
@@ -259,7 +249,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
           - Experience working with databases - SQL The position is intended for both women and men.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.count).toBeLessThan(RequirementsReader.WORDS_COUNT_KILL);
     expect(res.pass).toBeTruthy();
@@ -283,14 +273,14 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           Experience writing automated tests (advantage).
           המשרה מיועדת לנשים ולגברים כאחד.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     expect(res.count).toBeLessThan(RequirementsReader.WORDS_COUNT_KILL);
     expect(res.pass).toBeTruthy();
   });
   test('Tests many sentences from real text that may cause to infinite loop-ex9', () => {
     const sentences = `Lookout for an experienced Full Stack Developer who has a passion for design & technology, and a strong drive to get things done - the right way.The acquisition by MasterCard has expanded DYs horizons, opening up new verticals, including the financial industry.This is a huge opportunity for us and one of the company's biggest growth engines.Our goal is to bring personalization to the world of banking and finance. Your work, together with the teams contribution,will impact millions of consumers through node.js  React's sophisticated backend and fancy UI.The Task-at-Hand:Build a highly complex web application based on React & Node.js from the ground up.Ownership of technical design of new features.Lead feature development and turn beautiful mockups into rich, fully functional interfaces.Stay updated and lead technological advances related to user experience.Requirements:  Optimal Skills for Success:At least 3 years of experience with React.At least 3 years of JavaScript experience.At least 3 years of experience building backend systems with NodeJS.Object Oriented Programming.SQL/NoSQL database experience (MySQL, Redis) a plus.A degree in Computer Science or a related discipline.Excellent verbal and written communication skills in English. המשרה מיועדת לנשים ולגברים כאחד.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     expect(res.count).toBeLessThan(RequirementsReader.WORDS_COUNT_KILL);
     expect(res.pass).toBeFalsy();
   });
@@ -307,7 +297,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           * Experience in Umbraco
           * Bootstrap, JAVASCRIPT, experience in the ReactJS or Angular 2 environment. The position is intended for both women and men.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`c# is not in your stack`);
@@ -320,7 +310,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           Knowledge and experience with frameworks such as React, Vue, Angular - an advantage
           Knowledge and experience in infrastructure development.Net - Knowledge and experience in Java development - an advantage The position is intended for both women and men.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
@@ -335,14 +325,14 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           - Cloud experience
           - Experience from start-up/high-tech/SaaS companies`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
   test('Tests many sentences from real text where the job in allJobs is not fit by overall experience -ex13', () => {
     const sentences = `An exciting company in the field of gaming in Tel Aviv needs Fullstack development people to work in a young environment, with advanced technologies! Requirements: 6 years of experience in Fullstack development - mandatory experience in one of the languages - Java / Python / GO / Node.js The actual development will be done in Node .js and React The job is intended for both women and men.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
@@ -353,7 +343,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
           - Working with ETL processes
           - Experience in WebApi, Restful services The position is intended for both women and men.`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
@@ -367,7 +357,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       Expertise in functional programming
       Experience in developing SaaS products`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
   });
@@ -387,7 +377,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       Nice to have: Experience in building a VSCode Extension
       You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
@@ -415,7 +405,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       Flexible and able to adapt in a changing and growing company.
       `;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`.net is not in your stack`);
@@ -427,7 +417,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       Nice to have: Experience in building a VSCode Extension
       You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus `;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
@@ -438,7 +428,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
       - Experience working with SQL databases `;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`net. is not in your stack`);
@@ -450,7 +440,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       - Cloud experience
       - Experience from start-up/high-tech/SaaS companies`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`go is not in your stack`);
@@ -460,10 +450,10 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       - 4 years of experience in Angular/Vue.js/React
       - high level English`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+    expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
   test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
     const sentences = `4 years of development experience
@@ -471,10 +461,10 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       - Client experience
       - A technological degree or graduate of a technological unit`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 4 years`);
+    expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
   test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex23`, () => {
     const sentences = ` 5 years of development experience
@@ -483,9 +473,9 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       - Experience in AWS
       - Experience from start-up companies`;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, profile);
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
     console.log(res.reason);
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`Your ${profile.overallEx} years experience is lower than 5 years`);
+    expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 5 years`);
   });
 });

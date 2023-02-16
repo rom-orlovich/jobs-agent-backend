@@ -80,7 +80,7 @@ export class AllJobScanner extends Scanner {
 }
 
 // (async () => {
-//   const lin = new AllJobScanner(exampleQuery, profile, new JobsDB());
+//   const lin = new AllJobScanner(EXAMPLE_QUERY, profile, new JobsDB());
 //   const t = await lin.scanning([]);
 
 //   console.log(t);

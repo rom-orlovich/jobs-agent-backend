@@ -75,7 +75,7 @@ export class JobsScanner {
 
 // (async () => {
 //   await mongoDB.connect();
-//   const n = new JobsScanner(profile, exampleQuery);
+//   const n = new JobsScanner(profile, EXAMPLE_QUERY);
 //   // n.hashQuery();
 
 //   await n.scanning();

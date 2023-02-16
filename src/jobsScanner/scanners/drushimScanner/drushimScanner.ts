@@ -64,7 +64,7 @@ export class DrushimScanner extends Scanner {
 }
 
 // (async () => {
-//   const drushim = new DrushimScanner(exampleQuery, profile, new JobsDB());
+//   const drushim = new DrushimScanner(EXAMPLE_QUERY, profile, new JobsDB());
 //   const t = await drushim.scanning();
 
 //   console.log('Finish scanning drushim');

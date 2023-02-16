@@ -37,7 +37,7 @@ const REQUIREMENTS = {
   noSQL: { min: 0, max: 3 },
 };
 
-export const exampleQuery: UserQuery = {
+export const EXAMPLE_QUERY: UserQuery = {
   location: 'תל אביב',
   position: 'Frontend',
   distance: '1', // 10,25,50,75,
@@ -98,7 +98,7 @@ export const EXAMPLE_USER = new User({
   ],
   _id: '1',
   hashQueries: [],
-  userQuery: exampleQuery,
+  userQuery: EXAMPLE_QUERY,
 });
 
 export const mongoDB = new MongoDBClient();

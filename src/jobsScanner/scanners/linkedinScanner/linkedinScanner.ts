@@ -158,6 +158,6 @@ export class LinkedinScanner extends Scanner {
   }
 }
 // (async () => {
-//   const lin = new LinkedinScanner(exampleQuery, profile, new JobsDB());
+//   const lin = new LinkedinScanner(EXAMPLE_QUERY, profile, new JobsDB());
 //   const t = await lin.scanning();
 // })();

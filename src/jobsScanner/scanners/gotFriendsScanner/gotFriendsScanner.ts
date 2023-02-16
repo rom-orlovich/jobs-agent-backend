@@ -37,7 +37,7 @@ export class GotFriendsScanner extends Scanner {
     return numPagesLinks;
   }
 
-  private getAllJobsPostData(scannerName: string, addedAt: Date) {
+  getAllJobsPostData(scannerName: string, addedAt: Date) {
     const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
     return jobsPosts.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
@@ -114,7 +114,7 @@ export class GotFriendsScanner extends Scanner {
   }
 }
 // (async () => {
-//   const got = new GotFriendsScanner(exampleQuery, profile, new JobsDB());
+//   const got = new GotFriendsScanner(EXAMPLE_QUERY, profile, new JobsDB());
 //   const t = await got.scanning([]);
 //   console.log('Finish scanning');
 //   console.log(t);
