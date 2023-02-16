@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "tsnd --respawn index.ts",
+    "start": "tsnd --respawn src/server/index.ts",
     "ts": "npx ts-node src/**",
     "test": "NODE_ENV=test jest --verbose --watchAll --maxWorkers=50% "
   },

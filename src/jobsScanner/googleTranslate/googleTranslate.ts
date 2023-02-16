@@ -1,10 +1,10 @@
 import throat from 'throat';
 
-import { throatPromises, untilSuccess } from '../../../lib/utils';
-import { GoogleTranslateAPI, GoogleTranslateQuery } from './googleTranslate';
+import { untilSuccess } from '../../../lib/utils';
 
 import axios, { AxiosResponse } from 'axios';
 import { GenericRecord } from '../../../lib/types';
+import { GoogleTranslateAPI, GoogleTranslateQuery } from './google-translate';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;

@@ -1,10 +1,13 @@
 import Express from 'express';
 
-import { MongoDBClient } from '../../lib/MongoClient';
+import { MongoDBClient } from '../../lib/mongoClient';
 import { UserQuery } from '../jobsScanner/generalQuery/query';
 
 import { User } from '../jobsScanner/user/user';
-import { downloadResults, startScanner } from './controllers';
+import { downloadResults, hello, startScanner } from './controllers';
+
+import { config } from 'dotenv';
+config();
 const app = Express();
 const PORT = 5000;
 
@@ -36,7 +39,7 @@ const REQUIREMENTS = {
 
 export const exampleQuery: UserQuery = {
   location: 'תל אביב',
-  position: 'full stack',
+  position: 'Frontend',
   distance: '1', // 10,25,50,75,
   jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
   scope: '1,2', // 1 full, 2:part
@@ -102,6 +105,7 @@ export const mongoDB = new MongoDBClient();
 
 app.get('/start', startScanner);
 app.get('/download', downloadResults);
+app.get('/', hello);
 
 (async () => {
   try {

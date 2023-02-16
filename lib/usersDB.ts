@@ -1,8 +1,8 @@
-import { Collection, Document, ObjectId } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 import { mongoDB } from '../src/server';
-import { HashQuery } from '../src/jobsScanner/user/hashQuery';
-import { UserOptions } from '../src/jobsScanner/user/user';
+
 import { User } from '../src/jobsScanner/user/user';
+import { UserEntity, UserOptions } from '../src/jobsScanner/user/userEntity';
 
 export class UsersDB {
   users: Collection;
@@ -47,6 +47,22 @@ export class UsersDB {
       if (!result) return undefined;
       const user = new User(result);
       return user;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
+  async updateUser(user: UserEntity) {
+    try {
+      const result = await this.users.updateOne(
+        {
+          _id: new ObjectId(user.userID),
+        },
+        user
+      );
+      if (!result) return undefined;
+      // const user = new User(result);
+      return result.modifiedCount;
     } catch (error) {
       return undefined;
     }

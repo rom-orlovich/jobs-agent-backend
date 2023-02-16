@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { JobsDB } from '../../../lib/JobsDB';
+import { JobsDB } from '../../../lib/jobsDB';
 
 import { GoogleTranslate } from '../googleTranslate/googleTranslate';
 
@@ -84,7 +84,7 @@ export class Scanner {
   }
 
   async insertManyDB(jobsPosts: JobPost[], hash: string) {
-    await this.jobsDB.insertMany(jobsPosts.map((el) => ({ ...el, hashes: [hash] })));
+    await this.jobsDB.insertMany(jobsPosts.map((el) => ({ ...el, hashQueries: [hash] })));
   }
 
   filterResults(jobsPosts: JobPost[]) {

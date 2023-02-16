@@ -3,10 +3,10 @@ import { LinkedinQueryOptions } from './linkedinQueryOptions';
 
 import { Browser } from 'puppeteer';
 import throat from 'throat';
-import { JobsDB } from '../../../../lib/JobsDB';
+import { JobsDB } from '../../../../lib/jobsDB';
 import { UserEntity } from '../../user/userEntity';
 import { throatPromises } from '../../../../lib/utils';
-import { PuppeteerSetup } from '../../../../lib/PuppeteerSetup';
+import { PuppeteerSetup } from '../../../../lib/puppeteerSetup';
 import { JobPost } from '../../jobsScanner';
 
 export class LinkedinScanner extends Scanner {
@@ -103,11 +103,13 @@ export class LinkedinScanner extends Scanner {
     const ul = Array.from(document.body.querySelectorAll<HTMLLIElement>('.show-more-less-html ul li'));
 
     if (ul.length === 0) {
-      return document.body.querySelector<HTMLDivElement>('.show-more-less-html')?.textContent || '';
+      return (
+        document.body.querySelector<HTMLDivElement>('.show-more-less-html')?.textContent?.trim() || ''
+      );
     }
     return ul
       .filter((el) => el.textContent)
-      .map((el) => el.textContent)
+      .map((el) => el.textContent?.trim())
       .join(' ');
   }
 

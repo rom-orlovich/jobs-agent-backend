@@ -1,4 +1,4 @@
-import { JobsDB } from '../../lib/JobsDB';
+import { JobsDB } from '../../lib/jobsDB';
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 
 import { AllJobScanner } from './scanners/allJobsScanner/allJobScanner';
@@ -11,13 +11,15 @@ import { UserEntity } from './user/userEntity';
 export class JobsScanner {
   user: UserEntity;
   jobsDB: JobsDB;
+  activeQuery: boolean;
   // profile: Profile;
   // jobs: JobsDB;
   // userInput: UserQuery;
   // hash: string;
-  constructor(user: UserEntity) {
+  constructor(user: UserEntity, activeQuery: boolean) {
     // this.profile = profile;
     this.user = user;
+    this.activeQuery = activeQuery;
     this.jobsDB = new JobsDB();
   }
 
@@ -56,7 +58,7 @@ export class JobsScanner {
 
   async scanning() {
     let jobsPosts;
-    if (this.user.isUserQueryActive()) jobsPosts = await this.scanningByUserQuery();
+    if (this.activeQuery) jobsPosts = await this.scanningByUserQuery();
     else jobsPosts = await this.scanningByCurrentUserQueryHashes();
 
     return jobsPosts;

@@ -3,7 +3,7 @@ import { Scanner } from '../scanner';
 import { AllJobsQueryOptions } from './allJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
 import { UserEntity } from '../../user/userEntity';
-import { JobsDB } from '../../../../lib/JobsDB';
+import { JobsDB } from '../../../../lib/jobsDB';
 import { JobPost } from '../../jobsScanner';
 
 export class AllJobScanner extends Scanner {

@@ -3,7 +3,7 @@ import { DrushimQueryOptions } from './drushimQueryOptions';
 import { Scanner } from '../scanner';
 import { UserQuery } from '../../generalQuery/query';
 import { ProfilingLevel } from 'mongodb';
-import { JobsDB } from '../../../../lib/JobsDB';
+import { JobsDB } from '../../../../lib/jobsDB';
 import { UserEntity } from '../../user/userEntity';
 import { DrushimAPI, DrushimResult } from './drushim';
 import { JobPost } from '../../jobsScanner';

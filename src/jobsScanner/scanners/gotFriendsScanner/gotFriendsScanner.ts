@@ -7,10 +7,10 @@ import throat from 'throat';
 import { Browser, Page } from 'puppeteer';
 
 import { UserEntity } from '../../user/userEntity';
-import { JobsDB } from '../../../../lib/JobsDB';
+import { JobsDB } from '../../../../lib/jobsDB';
 import { JobPost } from '../../jobsScanner';
 import { untilSuccess } from '../../../../lib/utils';
-import { PuppeteerSetup } from '../../../../lib/PuppeteerSetup';
+import { PuppeteerSetup } from '../../../../lib/puppeteerSetup';
 
 export class GotFriendsScanner extends Scanner {
   gotFriendsQuery: GotFriendQueryOptions;
