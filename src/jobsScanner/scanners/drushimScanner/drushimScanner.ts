@@ -1,17 +1,18 @@
-import { exampleQuery, profile } from '../..';
 import { DrushimQueryOptions } from './drushimQueryOptions';
-import { UserQuery } from '../GeneralQuery/generalQuery';
-import { JobsDB } from '../../lib/JobsDB';
-import { Profile } from '../User/User';
-import { DrushimAPI, DrushimResult } from './drushimScanner';
+
 import { Scanner } from '../scanner';
-import { JobPost } from '../JobsScanner/jobsScanner';
+import { UserQuery } from '../../generalQuery/query';
+import { ProfilingLevel } from 'mongodb';
+import { JobsDB } from '../../../../lib/JobsDB';
+import { UserEntity } from '../../user/userEntity';
+import { DrushimAPI, DrushimResult } from './drushim';
+import { JobPost } from '../../jobsScanner';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
-  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
-    super('drushim', profile, JobsDB);
-    this.drushimQueryOptions = new DrushimQueryOptions(userInput);
+  constructor(user: UserEntity, JobsDB: JobsDB) {
+    super('drushim', user, JobsDB);
+    this.drushimQueryOptions = new DrushimQueryOptions(user.userQuery);
   }
   getURL(page: number): string {
     const { experience, scope, location, distance, position } = this.drushimQueryOptions;

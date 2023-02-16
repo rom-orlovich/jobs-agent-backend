@@ -1,19 +1,16 @@
 import { Scanner } from '../scanner';
 
-import { Profile } from '../User/User';
-
 import { AllJobsQueryOptions } from './allJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserQuery } from '../GeneralQuery/generalQuery';
-import { JobsDB } from '../../lib/JobsDB';
-import { JobPost } from '../JobsScanner/jobsScanner';
-import { exampleQuery, profile } from '../..';
+import { UserEntity } from '../../user/userEntity';
+import { JobsDB } from '../../../../lib/JobsDB';
+import { JobPost } from '../../jobsScanner';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
-  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
-    super('allJobs', profile, JobsDB);
-    this.allJobsQueryOptions = new AllJobsQueryOptions(userInput);
+  constructor(user: UserEntity, JobsDB: JobsDB) {
+    super('allJobs', user, JobsDB);
+    this.allJobsQueryOptions = new AllJobsQueryOptions(user.userQuery);
   }
   getURL(page = 1) {
     const { location, distance, position, jobType } = this.allJobsQueryOptions;

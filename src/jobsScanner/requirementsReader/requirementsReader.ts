@@ -1,8 +1,7 @@
-import { GenericRecord } from '../../lib/types';
+import { GenericRecord } from '../../../lib/types';
+import { DataWithText } from '../jobsScanner';
 
-import { DataWithText } from '../JobsScanner/jobsScanner';
-import { ExperienceRange } from '../User/user';
-import { Profile } from '../User/User';
+import { ExperienceRange, UserEntity } from '../user/userEntity';
 
 export class RequirementsReader {
   static WORDS_COUNT_KILL = 500;
@@ -80,7 +79,7 @@ export class RequirementsReader {
    */
   private static scanRequirements(
     sentences: string[][],
-    profile: Profile
+    user: UserEntity
   ): { pass: boolean; reason?: string; count: number } {
     let noneOfTechStackExist = false;
     let k = 0;
@@ -113,11 +112,11 @@ export class RequirementsReader {
         const word = convertToNum ? convertToNum : sentence[j];
 
         // Check if the tech is in excludedTech and return if it does.
-        const excludeTech = profile.getExcludeTech(word);
+        const excludeTech = user.getExcludeTech(word);
         if (excludeTech) return { pass: false, reason: `${word} is not in your stack`, count: k };
 
         // Check if the there are any words from profile's requirements in the text.
-        langEx = profile.getRequirement(word);
+        langEx = user.getRequirement(word);
         if (langEx) noneOfTechStackExist = true;
 
         // Set new digit patterns which represent years experience.
@@ -129,17 +128,17 @@ export class RequirementsReader {
         //Check if there is digitsPattern.
         if (digitsPattern) {
           //Check profile overallEx is in the range of the  years patterns.
-          if (this.checkOverallExInRange(digitsPattern, profile.overallEx))
+          if (this.checkOverallExInRange(digitsPattern, user.overallEx))
             return {
               pass: false,
-              reason: `Your ${profile.overallEx} years experience is not in the range ${digitsPattern[0]}-${digitsPattern[1]}`,
+              reason: `Your ${user.overallEx} years experience is not in the range ${digitsPattern[0]}-${digitsPattern[1]}`,
               count: k,
             };
           //Check profile overallEx is in bigger than  of the simple number of years.
-          if (this.checkOverallExBiggerThanDigitMatch(digitsPattern, profile.overallEx))
+          if (this.checkOverallExBiggerThanDigitMatch(digitsPattern, user.overallEx))
             return {
               pass: false,
-              reason: `Your ${profile.overallEx} years experience is lower than ${digitsPattern[0]} years`,
+              reason: `Your ${user.overallEx} years experience is lower than ${digitsPattern[0]} years`,
               count: k,
             };
 
@@ -210,18 +209,18 @@ export class RequirementsReader {
   };
 
   // static checkIsRequirementsMatch(html: string | string[][], profile: Profile)
-  static checkIsRequirementsMatch(html: string, profile: Profile) {
+  static checkIsRequirementsMatch(html: string, user: UserEntity) {
     // const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
     const sentences = RequirementsReader.getSentences(html);
-    const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, profile);
+    const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, user);
     return isRequirementsMatch;
   }
   static checkRequirementMatchForArray<T extends GenericRecord<any>>(
     data: DataWithText<T>[],
-    profile: Profile
+    user: UserEntity
   ) {
     return data.map((el) => {
-      const reason = RequirementsReader.checkIsRequirementsMatch(el.text, profile).reason;
+      const reason = RequirementsReader.checkIsRequirementsMatch(el.text, user).reason;
 
       return {
         ...el,

@@ -1,7 +1,14 @@
-import { ExcludeTechsOptions, ExperienceRange, UserOptions, RequirementsOptions } from './user';
-
 import { HashQuery } from './hashQuery';
-import { UserQuery } from '../generalQuery/generalQuery';
+import { UserQuery } from '../generalQuery/query';
+import {
+  ExcludeTechsOptions,
+  ExperienceRange,
+  HashQueryEntity,
+  RequirementsOptions,
+  UserOptions,
+} from './userEntity';
+import { GeneralQuery } from '../generalQuery/generalQuery';
+
 /**
  * @param excludeTechs An object that contains the tech stack which the user doesn't want to include the in jobs list.
  * @param requirements An object that contains the min and max years of experience per each of the user.
@@ -13,7 +20,7 @@ export class User {
   requirements: Map<string, ExperienceRange>;
   excludeTechs: Map<string, boolean>;
   blackList: string[];
-  hashQueries: InstanceType<typeof HashQuery>[];
+  hashQueries: HashQueryEntity[];
   userQuery: UserQuery;
 
   constructor(userOptions: UserOptions) {
@@ -22,8 +29,10 @@ export class User {
     this.requirements = this.setRequirements(userOptions.requirementsOptions);
     this.excludeTechs = this.setExcludeTechs(userOptions.excludeTechs);
     this.blackList = userOptions.blackList;
-    this.hashQueries = [];
     this.userQuery = userOptions.userQuery;
+    this.hashQueries = userOptions.hashQueries;
+    this.filterExpiredHashQueries();
+    this.addCurrentHashQuery();
   }
 
   private setRequirements(requirementsOptions: RequirementsOptions) {
@@ -51,6 +60,19 @@ export class User {
   }
   isUserQueryActive() {
     return this.userQuery.active;
+  }
+
+  getCurrentHashQuery() {
+    return GeneralQuery.hashQuery(this.userQuery);
+  }
+
+  addCurrentHashQuery() {
+    const hash = this.getCurrentHashQuery();
+    this.addHashQuery(hash);
+  }
+
+  getCurrentHashQueries() {
+    return this.hashQueries.map((el) => el.hash);
   }
 
   addHashQuery(hash: string) {

@@ -1,7 +1,6 @@
-import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
-import { GeneralQuery } from '../GeneralQuery/GeneralQuery';
-
-import { JobType, Scope, UserQuery } from '../GeneralQuery/generalQuery';
+import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
+import { GeneralQuery } from '../../generalQuery/generalQuery';
+import { JobType, Scope, UserQuery } from '../../generalQuery/query';
 
 export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
   constructor(userInput: UserQuery) {

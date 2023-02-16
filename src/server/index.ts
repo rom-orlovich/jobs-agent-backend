@@ -1,11 +1,10 @@
-import Express, { response } from 'express';
+import Express from 'express';
 
-import { JobsDB } from '../../lib/JobsDB';
 import { MongoDBClient } from '../../lib/MongoClient';
+import { UserQuery } from '../jobsScanner/generalQuery/query';
 
-import { JobsScanner } from '../jobsScanner/JobsScanner';
-import { UserQuery } from '../jobsScanner/generalQuery/generalQuery';
 import { User } from '../jobsScanner/user/user';
+import { downloadResults, startScanner } from './controllers';
 const app = Express();
 const PORT = 5000;
 
@@ -35,7 +34,17 @@ const REQUIREMENTS = {
   noSQL: { min: 0, max: 3 },
 };
 
-export const profile = new User({
+export const exampleQuery: UserQuery = {
+  location: 'תל אביב',
+  position: 'full stack',
+  distance: '1', // 10,25,50,75,
+  jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
+  scope: '1,2', // 1 full, 2:part
+  experience: '1,2', //without -1 ,between 1-2,
+  active: true,
+};
+
+export const EXAMPLE_USER = new User({
   overallEx: 2,
   requirementsOptions: REQUIREMENTS,
   excludeTechs: {
@@ -84,31 +93,15 @@ export const profile = new User({
     // 'Tier 2 Support Agent',
     // 'Sales Manager',
   ],
+  _id: '1',
+  hashQueries: [],
+  userQuery: exampleQuery,
 });
 
 export const mongoDB = new MongoDBClient();
 
-export const exampleQuery: UserQuery = {
-  location: 'תל אביב',
-  position: 'full stack',
-  distance: '1', // 10,25,50,75,
-  jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
-  scope: '1,2', // 1 full, 2:part
-  experience: '1,2', //without -1 ,between 1-2,
-};
-
-app.get('/start', async (req, res) => {
-  const userID = req.query.userID;
-  load;
-  console.time('time');
-  const scan = async () => {
-    const jobScanner = JobsScanner();
-  };
-  console.timeEnd('time');
-  const data = await scan();
-
-  res.send(data);
-});
+app.get('/start', startScanner);
+app.get('/download', downloadResults);
 
 (async () => {
   try {

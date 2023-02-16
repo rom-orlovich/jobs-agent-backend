@@ -24,9 +24,9 @@ export class JobsDB {
   async getJobsByHash(hash: string) {
     try {
       const job = this.jobsDB?.aggregate<JobPost>([
-        { $match: { hashes: { $elemMatch: { $eq: hash } } } },
+        { $match: { hashQueries: { $elemMatch: { $eq: hash } } } },
         {
-          $project: { hashes: 0, addedAt: 0, _id: 0 },
+          $project: { hashQueries: 0, addedAt: 0, _id: 0 },
         },
       ]);
 
@@ -36,12 +36,12 @@ export class JobsDB {
     }
   }
 
-  async getJobsByHashQueries(hashes: string[]) {
+  async getJobsByHashQueries(hashQueries: string[]) {
     try {
       const job = this.jobsDB?.aggregate<JobPost>([
-        { $match: { hashes: { $elemMatch: { $in: hashes } } } },
+        { $match: { hashQueries: { $elemMatch: { $in: hashQueries } } } },
         {
-          $project: { hashes: 0, addedAt: 0, _id: 0 },
+          $project: { hashQueries: 0, addedAt: 0, _id: 0 },
         },
       ]);
 
@@ -63,7 +63,7 @@ export class JobsDB {
     try {
       const update = await this.jobsDB.updateOne(
         { jobID },
-        { $set: { addedAt: new Date() }, $addToSet: { hashes: hash } }
+        { $set: { addedAt: new Date() }, $addToSet: { hashQueries: hash } }
       );
       return update.modifiedCount;
     } catch (error) {

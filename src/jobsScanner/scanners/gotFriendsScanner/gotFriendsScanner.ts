@@ -2,23 +2,22 @@ import { Scanner } from '../scanner';
 
 import { GotFriendQueryOptions } from './gotFriendsQuery';
 
-import { Profile } from '../User/User';
-import { JobsDB } from '../../lib/JobsDB';
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import throat from 'throat';
 
-import { UserQuery } from '../GeneralQuery/generalQuery';
 import { Browser, Page } from 'puppeteer';
-import { untilSuccess } from '../../lib/utils';
-import { JobPost } from '../JobsScanner/jobsScanner';
-import { exampleQuery, profile } from '../..';
+
+import { UserEntity } from '../../user/userEntity';
+import { JobsDB } from '../../../../lib/JobsDB';
+import { JobPost } from '../../jobsScanner';
+import { untilSuccess } from '../../../../lib/utils';
+import { PuppeteerSetup } from '../../../../lib/PuppeteerSetup';
 
 export class GotFriendsScanner extends Scanner {
   gotFriendsQuery: GotFriendQueryOptions;
 
-  constructor(userInput: UserQuery, profile: Profile, JobsDB: JobsDB) {
-    super('gotFriends', profile, JobsDB);
-    this.gotFriendsQuery = new GotFriendQueryOptions(userInput);
+  constructor(user: UserEntity, JobsDB: JobsDB) {
+    super('gotFriends', user, JobsDB);
+    this.gotFriendsQuery = new GotFriendQueryOptions(user.userQuery);
   }
 
   private async initialFilters(page: Page) {

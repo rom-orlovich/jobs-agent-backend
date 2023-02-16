@@ -8,7 +8,7 @@ export class ScanningFS {
     return path.join(__dirname, '../', 'JSON', fileName);
   }
 
-  static createPathJobsCSV(fileName = 'jobs2.csv') {
+  static createPathJobsCSV(fileName = 'jobs.csv') {
     return path.join(__dirname, '../', 'csv', fileName);
   }
 

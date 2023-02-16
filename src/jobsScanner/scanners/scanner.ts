@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-import { ScannerName } from '../generalQuery/generalQuery';
-
 import { JobsDB } from '../../../lib/JobsDB';
 
 import { GoogleTranslate } from '../googleTranslate/googleTranslate';
-import { RequirementsReader } from './RequirementsReader/RequirementsReader';
+
 import { Job, JobPost } from '../jobsScanner';
 import { throatPromises, untilSuccess } from '../../../lib/utils';
 import { Page } from 'puppeteer';
-import { UserEntity } from '../user/user';
+import { UserEntity } from '../user/userEntity';
+import { ScannerName } from '../generalQuery/query';
+import { RequirementsReader } from '../requirementsReader/requirementsReader';
 
 export class Scanner {
   user: UserEntity;
@@ -92,10 +92,10 @@ export class Scanner {
     return RequirementsReader.checkRequirementMatchForArray(jobsPostsFilter, this.user);
   }
 
-  async getResults(hash: string): Promise<JobPost[]> {
+  async getResults(): Promise<JobPost[]> {
     const jobsPosts = await this.scanning();
     console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    if (jobsPosts.length) await this.insertManyDB(jobsPosts, hash);
+    if (jobsPosts.length) await this.insertManyDB(jobsPosts, this.user.getCurrentHashQuery());
 
     return this.filterResults(jobsPosts);
   }

@@ -1,8 +1,9 @@
 import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
-import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './generalQuery';
+
 import { SCANNER_QUERY_OPTIONS } from './scannerQueryOptions';
 import { createHash } from 'crypto';
+import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './query';
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
   experience: string;
   scope: string;

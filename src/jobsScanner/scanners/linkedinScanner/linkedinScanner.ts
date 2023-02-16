@@ -1,18 +1,13 @@
 import { Scanner } from '../scanner';
 import { LinkedinQueryOptions } from './linkedinQueryOptions';
 
-import { LinkedinRequirementScanner } from './linkedinRequirementScanner';
-import { Profile, User } from '../User/User';
-import { JobsDB } from '../../lib/JobsDB';
-import { PuppeteerSetup } from '../../lib/PuppeteerSetup';
 import { Browser } from 'puppeteer';
 import throat from 'throat';
-import { UserQuery } from '../GeneralQuery/generalQuery';
-
-import { throatPromises } from '../../lib/utils';
-
-import { JobPost } from '../JobsScanner/jobsScanner';
-import { UserEntity } from '../User/user';
+import { JobsDB } from '../../../../lib/JobsDB';
+import { UserEntity } from '../../user/userEntity';
+import { throatPromises } from '../../../../lib/utils';
+import { PuppeteerSetup } from '../../../../lib/PuppeteerSetup';
+import { JobPost } from '../../jobsScanner';
 
 export class LinkedinScanner extends Scanner {
   linkedinQuery: LinkedinQueryOptions;
@@ -104,13 +99,25 @@ export class LinkedinScanner extends Scanner {
     return jobsPosts;
   }
 
+  static getJobPostRequirementData() {
+    const ul = Array.from(document.body.querySelectorAll<HTMLLIElement>('.show-more-less-html ul li'));
+
+    if (ul.length === 0) {
+      return document.body.querySelector<HTMLDivElement>('.show-more-less-html')?.textContent || '';
+    }
+    return ul
+      .filter((el) => el.textContent)
+      .map((el) => el.textContent)
+      .join(' ');
+  }
+
   getJobPostDataOfEachPost(browser: Browser) {
     return async (jobPost: JobPost) => {
       const REPage = await browser.newPage();
       await PuppeteerSetup.noImageRequest(REPage);
       console.log(jobPost.link);
       await Scanner.waitUntilScan(REPage, jobPost.link, '.show-more-less-html');
-      const jobPostApiHTML = await REPage.evaluate(LinkedinRequirementScanner.getJobPostData);
+      const jobPostApiHTML = await REPage.evaluate(LinkedinScanner.getJobPostRequirementData);
       await REPage.close();
       const newJob = { ...jobPost, text: jobPostApiHTML };
       console.log(newJob);

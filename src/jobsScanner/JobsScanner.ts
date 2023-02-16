@@ -1,86 +1,73 @@
-import { Profile } from './user/user';
-
-import { LinkedinScanner } from '../LinkedinScanner/LinkedinScanner';
-
-import { GotFriendsScanner } from '../GotFriendsScanner/GotFriendsScanner';
-
 import { JobsDB } from '../../lib/JobsDB';
+import { RequirementsReader } from './requirementsReader/requirementsReader';
 
-import { AllJobScanner } from '../AllJobsScanner/AllJobScanner';
-import { ScanningFS } from '../../lib/ScanningFS';
+import { AllJobScanner } from './scanners/allJobsScanner/allJobScanner';
+import { DrushimScanner } from './scanners/drushimScanner/drushimScanner';
+import { GotFriendsScanner } from './scanners/gotFriendsScanner/gotFriendsScanner';
+import { LinkedinScanner } from './scanners/linkedinScanner/linkedinScanner';
 
-import { DrushimScanner } from '../DrushimScanner/DrushimScanner';
-
-import { UserQuery } from './generalQuery/generalQuery';
-
-import { RequirementsReader } from '../RequirementsReader/RequirementsReader';
-import { GeneralQuery } from './generalQuery/generalQuery';
-import { UserDB, UsersDB } from '../../lib/UsersDB';
-import { UserEntity } from './user/user';
+import { UserEntity } from './user/userEntity';
 
 export class JobsScanner {
-  usersDB: UsersDB;
+  user: UserEntity;
   jobsDB: JobsDB;
   // profile: Profile;
   // jobs: JobsDB;
   // userInput: UserQuery;
   // hash: string;
-  constructor() {
+  constructor(user: UserEntity) {
     // this.profile = profile;
-    this.usersDB = new UsersDB();
+    this.user = user;
     this.jobsDB = new JobsDB();
-
-    // this.hash = GeneralQuery.hashQuery(userInput);
   }
 
-  // async loadUser(userID: string) {
-  //   const user = await this.usersDB.loadUser(userID);
-  //   return user;
-  // }
-
   private async getJobsByHash() {
-    const jobs = await this.jobsDB.getJobsByHash(this.hash);
+    const jobs = await this.jobsDB.getJobsByHash(this.user.getCurrentHashQuery());
     return jobs;
   }
 
   private async getScannerResults() {
-    const linkedinScanner = new LinkedinScanner(user, this.jobs);
-    const gotFriendsScanner = new GotFriendsScanner(user, this.jobs);
-    const allJobsScanner = new AllJobScanner(user, this.jobs);
-    const drushimScanner = new DrushimScanner(user, this.jobs);
+    const linkedinScanner = new LinkedinScanner(this.user, this.jobsDB);
+    const gotFriendsScanner = new GotFriendsScanner(this.user, this.jobsDB);
+    const allJobsScanner = new AllJobScanner(this.user, this.jobsDB);
+    const drushimScanner = new DrushimScanner(this.user, this.jobsDB);
     const jobsPostsResults = await Promise.all([
-      linkedinScanner.getResults(this.hash),
-      gotFriendsScanner.getResults(this.hash),
-      allJobsScanner.getResults(this.hash),
-      drushimScanner.getResults(this.hash),
+      linkedinScanner.getResults(),
+      gotFriendsScanner.getResults(),
+      allJobsScanner.getResults(),
+      drushimScanner.getResults(),
     ]);
     return jobsPostsResults.flat(1);
   }
 
-  async getResultByUserQuery(user:UserEntity) {
+  async scanningByUserQuery() {
     const preJobs = await this.getJobsByHash();
     let jobsPosts;
     if (preJobs.length > 100) jobsPosts = preJobs;
-    else jobsPosts = await this.getScannerResults(user);
+    else jobsPosts = await this.getScannerResults();
 
     return jobsPosts;
   }
-  //   async getResultByProfileQueryHashes() {}
+  async scanningByCurrentUserQueryHashes() {
+    const hashesQueries = this.user.getCurrentHashQueries();
+    const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
+    return jobsPosts;
+  }
 
-  async scanning(userID: string) {
-    // const user = await this.loadUser(userID);
-    // if (!user) return { message: 'No user is found' };
-    // if (user.isUserQueryActive()) this.getResultByUserQuery(user);
-    // else
+  async scanning() {
+    let jobsPosts;
+    if (this.user.isUserQueryActive()) jobsPosts = await this.scanningByUserQuery();
+    else jobsPosts = await this.scanningByCurrentUserQueryHashes();
 
-    // const preJobs = await this.getJobsByHash();
-    // let jobsPosts;
-    // if (preJobs.length > 100) jobsPosts = preJobs;
-    // else jobsPosts = await this.getScannerResults();
-    else const jobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.profile);
+    return jobsPosts;
+  }
 
-    await ScanningFS.writeData(jobs.map(({ text, ...el }) => ({ ...el })));
-    console.log('end');
+  async getResults() {
+    const jobsPosts = await this.scanning();
+    const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
+    return filterJobs;
+
+    // await ScanningFS.writeData(jobs.map(({ text, ...el }) => ({ ...el })));
   }
 }
 
