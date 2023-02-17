@@ -60,10 +60,14 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     }
 
     if (this.scannerName === 'drushim') {
-      yearExperienceArr = userInputSplit.map((el) => {
-        const expY = el as Experience<'drushim'>;
-        return this.queryOptions.experience.drushim.experience[expY];
-      });
+      yearExperienceArr = userInputSplit
+        .map((el) => {
+          if (el === '6') return '';
+          const expY = el as Experience<'drushim'>;
+
+          return this.queryOptions.experience.drushim.experience[expY];
+        })
+        .filter((el) => el);
       res = yearExperienceArr.join('-');
     }
     return res;
