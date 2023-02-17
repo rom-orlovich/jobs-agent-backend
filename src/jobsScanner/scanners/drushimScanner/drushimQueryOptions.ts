@@ -20,6 +20,7 @@ export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
       const scope = el as Scope<'drushim'>;
       return this.queryOptions.scope.drushim.scope[scope];
     });
+
     const scopesStr = scopesArr.join('-');
     return scopesStr;
   }
