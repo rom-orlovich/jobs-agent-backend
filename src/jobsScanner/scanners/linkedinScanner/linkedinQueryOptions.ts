@@ -28,7 +28,7 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   protected convertLocation(): string {
     const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
 
-    return this.queryOptions.locations[userInput].en;
+    return this.queryOptions.locations[userInput]?.en || '';
   }
 
   protected convertScope() {

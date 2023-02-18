@@ -5,11 +5,19 @@ import { UserQuery } from '../jobsScanner/generalQuery/query';
 
 import { User } from '../jobsScanner/user/user';
 import { downloadResults, hello, startScanner } from './controllers';
+import cors from 'cors';
 
 import { config } from 'dotenv';
 config();
 const app = Express();
 const PORT = 5000;
+
+const corsOptions = {
+  origin: 'http://example.com',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 const REQUIREMENTS = {
   javascript: { min: 0, max: 3 },
@@ -49,7 +57,7 @@ export const EXAMPLE_QUERY: UserQuery = {
 
 export const EXAMPLE_USER = new User({
   overallEx: 2,
-  requirementsOptions: REQUIREMENTS,
+  requirements: REQUIREMENTS,
   excludedRequirements: {
     'c#.net': true,
     php: true,
@@ -103,13 +111,14 @@ export const EXAMPLE_USER = new User({
 
 export const mongoDB = new MongoDBClient();
 
-app.get('/start', startScanner);
-app.get('/download', downloadResults);
-app.get('/', hello);
+app.get('/api/jobs-agent/start/:userID', startScanner);
+app.get('/api/jobs-agent/download/:userID', downloadResults);
+app.get('/api/hello', hello);
 
 (async () => {
   try {
     await mongoDB.connect();
+
     app.listen(5000, () => {
       console.log(`server listen on port ${PORT}`);
     });

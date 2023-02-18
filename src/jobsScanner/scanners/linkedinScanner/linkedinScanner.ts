@@ -104,7 +104,11 @@ export class LinkedinScanner extends Scanner {
 
     if (ul.length === 0) {
       return (
-        document.body.querySelector<HTMLDivElement>('.show-more-less-html')?.textContent?.trim() || ''
+        document.body
+          .querySelector<HTMLDivElement>('.show-more-less-html')
+          ?.textContent?.trim()
+          // eslint-disable-next-line no-empty-character-class
+          .replace(/[]/g, '') || ''
       );
     }
     return ul

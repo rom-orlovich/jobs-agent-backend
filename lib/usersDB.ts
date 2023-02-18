@@ -42,12 +42,14 @@ export class UsersDB {
   async loadUser(userID: string) {
     try {
       const result = await this.users.findOne<UserOptions>({
-        _id: new ObjectId(userID),
+        userID: userID,
       });
+      console.log(result);
       if (!result) return undefined;
       const user = new User(result);
       return user;
     } catch (error) {
+      console.log(error);
       return undefined;
     }
   }
@@ -56,7 +58,7 @@ export class UsersDB {
     try {
       const result = await this.users.updateOne(
         {
-          _id: new ObjectId(user.userID),
+          userID: user.userID,
         },
         user
       );

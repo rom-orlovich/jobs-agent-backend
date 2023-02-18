@@ -26,11 +26,11 @@ export class User {
   constructor(userOptions: UserOptions) {
     this.userID = userOptions._id;
     this.overallEx = userOptions.overallEx;
-    this.requirements = this.setRequirements(userOptions.requirementsOptions);
+    this.requirements = this.setRequirements(userOptions.requirements);
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
     this.blackList = userOptions.blackList;
     this.userQuery = userOptions.userQuery;
-    this.hashQueries = userOptions.hashQueries;
+    this.hashQueries = userOptions?.hashQueries || [];
     this.filterExpiredHashQueries();
     this.addCurrentHashQuery();
   }
@@ -52,8 +52,8 @@ export class User {
 
   checkWordInBlackList(word: string) {
     return (
-      this.blackList.length &&
-      this.blackList.some((bl) => {
+      this.blackList?.length &&
+      this.blackList?.some((bl) => {
         return word.toLowerCase().includes(bl.toLowerCase());
       })
     );

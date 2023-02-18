@@ -167,6 +167,13 @@ export const LOCATIONS_DICT_DB = {
     checkboxRegions: 'checkboxRegions-1',
     source: 775,
   },
+  'קריית אונו': {
+    he: 'קריית אונו',
+    geolexid: '539115',
+    en: 'Kiryat Ono',
+    checkboxRegions: 'checkboxRegions-1',
+    source: 777,
+  },
   אריאל: {
     he: 'אריאל',
     geolexid: '539094',

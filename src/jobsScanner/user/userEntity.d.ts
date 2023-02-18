@@ -21,9 +21,9 @@ export type HashQueryEntity = InstanceType<typeof HashQuery>;
 interface UserOptions {
   _id: string;
   overallEx?: number;
-  requirementsOptions: RequirementsOptions;
+  requirements: RequirementsOptions;
   excludedRequirements: ExcludeRequirementsOptions;
   blackList: string[];
   userQuery: UserQuery;
-  hashQueries: HashQueryEntity[];
+  hashQueries?: HashQueryEntity[];
 }
