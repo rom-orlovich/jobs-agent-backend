@@ -48,7 +48,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeTechs: {
+    excludeRequirements: {
       'c#.net': true,
       php: true,
       c: true,

@@ -8,7 +8,7 @@ export interface ExperienceRange {
 }
 
 export type RequirementsOptions = GenericRecord<ExperienceRange>;
-export type ExcludeTechsOptions = GenericRecord<boolean>;
+export type ExcludeRequirementsOptions = GenericRecord<boolean>;
 
 interface HashQueryProps {
   hash: string;
@@ -22,7 +22,7 @@ interface UserOptions {
   _id: string;
   overallEx?: number;
   requirementsOptions: RequirementsOptions;
-  excludeTechs: ExcludeTechsOptions;
+  excludeRequirements: ExcludeRequirementsOptions;
   blackList: string[];
   userQuery: UserQuery;
   hashQueries: HashQueryEntity[];

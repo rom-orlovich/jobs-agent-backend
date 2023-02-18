@@ -13,7 +13,7 @@ export class UsersDB {
   async addUser({
     hashQueries,
     blackList,
-    excludeTechs,
+    excludeRequirements,
     requirements,
     overallEx,
   }: InstanceType<typeof User>) {
@@ -21,7 +21,7 @@ export class UsersDB {
       const result = await this.users.insertOne({
         hashQueries,
         blackList,
-        excludeTechs,
+        excludeRequirements,
         requirements,
         overallEx,
       });
