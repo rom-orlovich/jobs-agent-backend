@@ -22,7 +22,7 @@ interface UserOptions {
   _id: string;
   overallEx?: number;
   requirementsOptions: RequirementsOptions;
-  excludeRequirements: ExcludeRequirementsOptions;
+  excludedRequirements: ExcludeRequirementsOptions;
   blackList: string[];
   userQuery: UserQuery;
   hashQueries: HashQueryEntity[];

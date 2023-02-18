@@ -50,7 +50,7 @@ export const EXAMPLE_QUERY: UserQuery = {
 export const EXAMPLE_USER = new User({
   overallEx: 2,
   requirementsOptions: REQUIREMENTS,
-  excludeRequirements: {
+  excludedRequirements: {
     'c#.net': true,
     php: true,
     c: true,

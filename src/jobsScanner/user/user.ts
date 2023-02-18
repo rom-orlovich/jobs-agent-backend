@@ -10,7 +10,7 @@ import {
 import { GeneralQuery } from '../generalQuery/generalQuery';
 
 /**
- * @param excludeRequirements An object that contains the tech stack which the user doesn't want to include the in jobs list.
+ * @param excludedRequirements An object that contains the tech stack which the user doesn't want to include the in jobs list.
  * @param requirements An object that contains the min and max years of experience per each of the user.
  * @param overallEx A number that present the overall experience of the user.
  */
@@ -18,7 +18,7 @@ export class User {
   userID: string;
   overallEx?: number;
   requirements: Map<string, ExperienceRange>;
-  excludeRequirements: Map<string, boolean>;
+  excludedRequirements: Map<string, boolean>;
   blackList: string[];
   hashQueries: HashQueryEntity[];
   userQuery: UserQuery;
@@ -27,7 +27,7 @@ export class User {
     this.userID = userOptions._id;
     this.overallEx = userOptions.overallEx;
     this.requirements = this.setRequirements(userOptions.requirementsOptions);
-    this.excludeRequirements = this.setExcludeRequirements(userOptions.excludeRequirements);
+    this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
     this.blackList = userOptions.blackList;
     this.userQuery = userOptions.userQuery;
     this.hashQueries = userOptions.hashQueries;
@@ -38,16 +38,16 @@ export class User {
   private setRequirements(requirementsOptions: RequirementsOptions) {
     return new Map(Object.entries<ExperienceRange>(requirementsOptions));
   }
-  private setExcludeRequirements(excludeRequirements: ExcludeRequirementsOptions) {
-    return new Map(Object.entries<boolean>(excludeRequirements));
+  private setExcludedRequirements(excludedRequirements: ExcludeRequirementsOptions) {
+    return new Map(Object.entries<boolean>(excludedRequirements));
   }
 
   getRequirement(tech: string) {
     return this.requirements.get(tech);
   }
 
-  getExcludeRequirement(tech: string) {
-    return this.excludeRequirements.get(tech);
+  getExcludedRequirement(tech: string) {
+    return this.excludedRequirements.get(tech);
   }
 
   checkWordInBlackList(word: string) {
@@ -94,11 +94,11 @@ export class User {
 //   this.requirements.delete(tech);
 // }
 
-// private setExcludeRequirements(excludeRequirements: ExcludeRequirementsOptions) {
-//   return new Map(Object.entries<boolean>(excludeRequirements));
+// private setExcludedRequirements(excludedRequirements: ExcludeRequirementsOptions) {
+//   return new Map(Object.entries<boolean>(excludedRequirements));
 // }
 // addExcludeRequirements(tech: string, experience: boolean) {
-//   this.excludeRequirements.set(tech, experience);
+//   this.excludedRequirements.set(tech, experience);
 // }
 
 // removeExcludeRequirement(tech: string) {
@@ -115,7 +115,7 @@ export class User {
 //   return User.checkIfWordIsWithSlash<ExperienceRange>(tech, this.requirements);
 // }
 // checkExcludedTechWithSlash(tech: string) {
-//   return User.checkIfWordIsWithSlash<boolean>(tech, this.excludeRequirements);
+//   return User.checkIfWordIsWithSlash<boolean>(tech, this.excludedRequirements);
 // }
 
  */

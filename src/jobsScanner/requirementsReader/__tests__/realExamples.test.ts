@@ -46,7 +46,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeRequirements: {
+    excludedRequirements: {
       'c#.net': true,
       php: true,
       c: true,
@@ -108,7 +108,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test(`Tests many sentences from real text that its match the user experience-ex1`, () => {
     const EXAMPLE_USER = new User({
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
@@ -123,7 +123,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
@@ -150,7 +150,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
@@ -172,7 +172,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
@@ -201,7 +201,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
@@ -231,7 +231,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: {},
+      excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],

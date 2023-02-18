@@ -5,7 +5,7 @@ import { ExperienceRange } from '../../user/userEntity';
 import { RequirementsReader } from '../requirementsReader';
 
 describe.skip('Tests simple examples of checkIsRequirementsMatch function', () => {
-  // Note: All the keys in the requirementsOptions map and excludeRequirements should be lowercase!
+  // Note: All the keys in the requirementsOptions map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
@@ -45,7 +45,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
   const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeRequirements: {
+    excludedRequirements: {
       'c#.net': true,
       php: true,
       c: true,
@@ -96,18 +96,18 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     userQuery: EXAMPLE_QUERY,
   });
 
-  test('Tests one sentence when the language is found in the excludeRequirements obj ', () => {
+  test('Tests one sentence when the language is found in the excludedRequirements obj ', () => {
     const sentences = [['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]
       .map((el) => el.join(' '))
       .join(' ');
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeFalsy();
   });
 
-  test('Tests one sentence when the language included in the excludeRequirements its ok for the position and the years  experience are ok but no other language from my tech stack', () => {
+  test('Tests one sentence when the language included in the excludedRequirements its ok for the position and the years  experience are ok but no other language from my tech stack', () => {
     const EXAMPLE_USER = new User({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -120,11 +120,11 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeFalsy();
   });
 
-  test('Tests one sentence when the language included in the excludeRequirements obj but is ok for the position but the years experience are not', () => {
+  test('Tests one sentence when the language included in the excludedRequirements obj but is ok for the position but the years experience are not', () => {
     const EXAMPLE_USER = new User({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -166,7 +166,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 5,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -206,7 +206,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 6,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -232,7 +232,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -255,7 +255,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 1,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': true, angular: true, 'c#': true, java: true, php: true },
+      excludedRequirements: { 'c#.net': true, angular: true, 'c#': true, java: true, php: true },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -282,7 +282,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 2,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': true },
+      excludedRequirements: { 'c#.net': true },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -301,7 +301,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 15,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': true },
+      excludedRequirements: { 'c#.net': true },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -320,7 +320,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 15,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],
@@ -339,7 +339,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     const EXAMPLE_USER = new User({
       overallEx: 15,
       requirementsOptions: REQUIREMENTS,
-      excludeRequirements: { 'c#.net': false },
+      excludedRequirements: { 'c#.net': false },
       _id: '1',
       blackList: [],
       hashQueries: [],

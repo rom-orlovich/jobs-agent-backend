@@ -7,7 +7,7 @@ import { AllJobScanner } from '../allJobScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
 describe('Tests getAllJobsData method of AllJobScanner', () => {
-  // Note: All the keys in the requirementsOptions map and excludeRequirements should be lowercase!
+  // Note: All the keys in the requirementsOptions map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
@@ -47,7 +47,7 @@ describe('Tests getAllJobsData method of AllJobScanner', () => {
   const EXAMPLE_USER = new User({
     overallEx: 2,
     requirementsOptions: REQUIREMENTS,
-    excludeRequirements: {
+    excludedRequirements: {
       'c#.net': true,
       php: true,
       c: true,

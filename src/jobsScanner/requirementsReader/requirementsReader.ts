@@ -112,7 +112,7 @@ export class RequirementsReader {
         const word = convertToNum ? convertToNum : sentence[j];
 
         // Check if the tech is in excludedTech and return if it does.
-        const excludeTech = user.getExcludeRequirement(word);
+        const excludeTech = user.getExcludedRequirement(word);
         if (excludeTech) return { pass: false, reason: `${word} is not in your stack`, count: k };
 
         // Check if the there are any words from profile's requirements in the text.

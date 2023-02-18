@@ -103,7 +103,7 @@
 //         const convertToNum = RequirementsReader2.convertWordToNumber(sentence[j]);
 //         const word = convertToNum ? convertToNum : sentence[j];
 
-//         const excludeTech = profile.getExcludeRequirement(word);
+//         const excludeTech = profile.getExcludedRequirement(word);
 //         // console.log(word, excludeTech);
 //         if (excludeTech) return { pass: false, reason: `${word} is not in your stack`, count: k };
 
