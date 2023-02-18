@@ -61,7 +61,7 @@ const createPositionDB = async () => {
 };
 
 const createCitiesDB = async () => {
-  const res1 = await axios<any, { data: Result }, Root>(
+  const citiesEn = await axios<any, { data: Result }, Root>(
     'https://www.drushim.co.il/offerSearchAutoSuggest/',
     {
       method: 'post',
@@ -98,7 +98,7 @@ const createCitiesDB = async () => {
       },
     }
   );
-  const res2 = await axios<any, { data: Result }, Root>(
+  const citiesHe = await axios<any, { data: Result }, Root>(
     'https://www.drushim.co.il/offerSearchAutoSuggest/',
     {
       method: 'post',
@@ -135,16 +135,20 @@ const createCitiesDB = async () => {
       },
     }
   );
+  console.log(citiesHe.data.resultList.rows);
 
   const drushimCitiesDict: GenericRecord<DrushimCitiesData> = {};
-  res2.data.resultList.rows.forEach(
+  citiesHe.data.resultList.rows.forEach(
     (el: any) => (drushimCitiesDict[el[5]] = { he: el[0], geolexid: el[5] })
   );
-  res1.data.resultList.rows.forEach(
+
+  citiesEn.data.resultList.rows.forEach(
     (el: any) => (drushimCitiesDict[el[5]] = { ...drushimCitiesDict[el[5]], en: el[0], geolexid: el[5] })
   );
   const drushimCities: GenericRecord<DrushimCitiesData> = {};
   Object.values(drushimCitiesDict).forEach((el) => (drushimCities[el.he] = el));
+
+  // console.log(drushimCities);
 
   const allJobCitiesNormalize: AllJobCityData[] = [];
   allJobCities.forEach((region) => {
@@ -168,10 +172,10 @@ const createCitiesDB = async () => {
         source: allJobCity.source,
       };
   });
-  await ScanningFS.writeJSON(allCitiesMap, path.join(__dirname, 'JSON', 'citiesDB.json'));
+  // await ScanningFS.writeJSON(allCitiesMap, path.join(__dirname, 'JSON', 'citiesDB.json'));
 };
 
 (async () => {
   // await createPosDB();
-  // await createCityDB();
+  await createCitiesDB();
 })();

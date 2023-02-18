@@ -3543,7 +3543,7 @@ export const allJobCities = [
       },
       {
         ID: 777,
-        Name: 'קרית אונו',
+        Name: 'קריית אונו',
       },
       {
         ID: 769,
