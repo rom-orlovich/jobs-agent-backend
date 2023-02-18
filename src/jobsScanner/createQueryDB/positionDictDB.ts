@@ -1,3 +1,5 @@
+import { config } from 'dotenv';
+import { MongoDBClient } from '../../../lib/mongoClient';
 import { PositionData } from './lib/createQueryDB';
 
 export const POSITIONS_DICT_DB: PositionData = {
@@ -14182,3 +14184,9 @@ export const POSITIONS_DICT_DB: PositionData = {
   'פיקוח תעופה': { he: 'פיקוח תעופה', en: '' },
   'פיקוח טיסה': { he: 'פיקוח טיסה', en: 'aviation control' },
 };
+// config();
+// const db = new MongoDBClient();
+// const locations = db.createDBcollection('jobs-agent-db', 'positions');
+// locations
+//   .insertMany(Object.keys(POSITIONS_DICT_DB).map((el, i) => ({ positionID: el + i, positionName: el })))
+//   .then((el) => db.close());

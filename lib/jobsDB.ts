@@ -6,7 +6,7 @@ import { EXPIRE_AT_MONGO_DB } from '../src/jobsScanner/user/hashQuery';
 export class JobsDB {
   jobsDB: Collection;
   constructor() {
-    this.jobsDB = mongoDB.createDBcollection('job-agent-db', 'Jobs');
+    this.jobsDB = mongoDB.createDBcollection('jobs-agent-db', 'jobs');
     this.jobsDB.createIndex({ addedAt: 1 }, { expireAfterSeconds: EXPIRE_AT_MONGO_DB });
   }
   async getJob(jobID: string) {

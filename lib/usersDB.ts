@@ -7,7 +7,7 @@ import { UserEntity, UserOptions } from '../src/jobsScanner/user/userEntity';
 export class UsersDB {
   users: Collection;
   constructor() {
-    this.users = mongoDB.createDBcollection('job-agent-db', 'Users');
+    this.users = mongoDB.createDBcollection('jobs-agent-db', 'users');
   }
 
   async addUser({
