@@ -94,7 +94,7 @@ export class LinkedinScanner extends Scanner {
       Number(el.textContent)
     );
     this.setAPIDomain();
-    const jobsPosts = await this.getJobsPostPromises(numResults, browser);
+    const jobsPosts = await this.getJobsPostPromises(numResults || 500, browser);
     await page.close();
     return jobsPosts;
   }

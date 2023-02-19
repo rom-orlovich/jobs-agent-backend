@@ -14186,7 +14186,9 @@ export const POSITIONS_DICT_DB: PositionData = {
 };
 // config();
 // const db = new MongoDBClient();
-// const locations = db.createDBcollection('jobs-agent-db', 'positions');
-// locations
+// const positions = db.createDBcollection('jobs-agent-db', 'positions');
+// positions
 //   .insertMany(Object.keys(POSITIONS_DICT_DB).map((el, i) => ({ positionID: el + i, positionName: el })))
-//   .then((el) => db.close());
+//   .then((el) => console.log(el));
+
+// db.close().then((el) => 'close');
