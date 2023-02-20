@@ -73,5 +73,5 @@ export interface UserQuery {
   jobType: string;
   scope: string;
   experience: string;
-  active: boolean = false;
+  active: boolean;
 }
