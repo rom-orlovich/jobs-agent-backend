@@ -29,6 +29,7 @@ export class JobsScanner {
   }
 
   private async getScannerResults() {
+    await this.jobsDB.createTTLindex();
     const linkedinScanner = new LinkedinScanner(this.user, this.jobsDB);
     const gotFriendsScanner = new GotFriendsScanner(this.user, this.jobsDB);
     const allJobsScanner = new AllJobScanner(this.user, this.jobsDB);

@@ -12,7 +12,7 @@ export type ExcludeRequirementsOptions = GenericRecord<boolean>;
 
 interface HashQueryProps {
   hash: string;
-  addedAt: Date;
+  createdAt: Date;
   expireAt: number;
 }
 

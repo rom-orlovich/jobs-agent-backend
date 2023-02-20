@@ -7,8 +7,25 @@ export class JobsDB {
   jobsDB: Collection;
   constructor() {
     this.jobsDB = mongoDB.createDBcollection('jobs-agent-db', 'jobs');
-    this.jobsDB.createIndex({ addedAt: 1 }, { expireAfterSeconds: EXPIRE_AT_MONGO_DB });
   }
+
+  async createTTLindex() {
+    try {
+      const indexesArr = await this.jobsDB.indexExists('jobs_ttl_index');
+      if (!indexesArr) {
+        console.log('create Index');
+        await this.jobsDB.createIndex(
+          { createdAt: 1 },
+          { expireAfterSeconds: EXPIRE_AT_MONGO_DB, name: 'jobs_ttl_index' }
+        );
+      } else {
+        console.log('Index ttl is exist');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getJob(jobID: string) {
     try {
       const job = await this.jobsDB?.findOne<Job>({
@@ -26,7 +43,7 @@ export class JobsDB {
       const job = this.jobsDB?.aggregate<JobPost>([
         { $match: { hashQueries: { $elemMatch: { $eq: hash } } } },
         {
-          $project: { hashQueries: 0, addedAt: 0, _id: 0 },
+          $project: { hashQueries: 0, createdAt: 0, _id: 0 },
         },
       ]);
 
@@ -41,7 +58,7 @@ export class JobsDB {
       const job = this.jobsDB?.aggregate<JobPost>([
         { $match: { hashQueries: { $elemMatch: { $in: hashQueries } } } },
         {
-          $project: { hashQueries: 0, addedAt: 0, _id: 0 },
+          $project: { hashQueries: 0, createdAt: 0, _id: 0 },
         },
       ]);
 
@@ -63,7 +80,7 @@ export class JobsDB {
     try {
       const update = await this.jobsDB.updateOne(
         { jobID },
-        { $set: { addedAt: new Date() }, $addToSet: { hashQueries: hash } }
+        { $set: { createdAt: new Date() }, $addToSet: { hashQueries: hash } }
       );
       return update.modifiedCount;
     } catch (error) {

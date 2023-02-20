@@ -31,7 +31,7 @@ export class DrushimScanner extends Scanner {
       date: result.JobInfo.Date,
       from: this.scannerName,
       text: result.JobContent.Requirements,
-      addedAt: new Date(),
+      createdAt: new Date(),
     }));
   }
 

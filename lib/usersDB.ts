@@ -44,7 +44,7 @@ export class UsersDB {
       const result = await this.users.findOne<UserOptions>({
         userID: userID,
       });
-      console.log(result);
+
       if (!result) return undefined;
       const user = new User(result);
       return user;

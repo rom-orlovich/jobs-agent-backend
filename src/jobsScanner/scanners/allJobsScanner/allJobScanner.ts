@@ -44,7 +44,7 @@ export class AllJobScanner extends Scanner {
           location,
           text,
           from: this.scannerName,
-          addedAt: new Date(),
+          createdAt: new Date(),
         };
       });
   }

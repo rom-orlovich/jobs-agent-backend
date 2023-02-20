@@ -14185,10 +14185,14 @@ export const POSITIONS_DICT_DB: PositionData = {
   'פיקוח טיסה': { he: 'פיקוח טיסה', en: 'aviation control' },
 };
 // config();
+
 // const db = new MongoDBClient();
 // const positions = db.createDBcollection('jobs-agent-db', 'positions');
 // positions
 //   .insertMany(Object.keys(POSITIONS_DICT_DB).map((el, i) => ({ positionID: el + i, positionName: el })))
-//   .then((el) => console.log(el));
+//   .then((el) => console.log(el))
+//   .finally(async () => {
+//     await db.close();
 
-// db.close().then((el) => 'close');
+//     console.log('close');
+//   });

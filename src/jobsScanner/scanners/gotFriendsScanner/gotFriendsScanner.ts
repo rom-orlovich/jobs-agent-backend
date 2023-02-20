@@ -37,7 +37,7 @@ export class GotFriendsScanner extends Scanner {
     return numPagesLinks;
   }
 
-  getAllJobsPostData(scannerName: string, addedAt: Date) {
+  getAllJobsPostData(scannerName: string, createdAt: Date) {
     const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
     return jobsPosts.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
@@ -55,7 +55,7 @@ export class GotFriendsScanner extends Scanner {
         company: '',
         from: scannerName,
         text,
-        addedAt: addedAt,
+        createdAt: createdAt,
       };
     });
   }

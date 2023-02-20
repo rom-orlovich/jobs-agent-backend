@@ -2268,6 +2268,12 @@ export const LOCATIONS_DICT_DB = {
 
 // const db = new MongoDBClient();
 // const locations = db.createDBcollection('jobs-agent-db', 'locations');
-// locations.insertMany(
-//   Object.keys(LOCATIONS_DICT_DB).map((el, i) => ({ locationID: el + i, locationName: el }))
-// );
+// locations
+//   .insertMany(Object.keys(LOCATIONS_DICT_DB).map((el, i) => ({ locationID: el + i, locationName: el })))
+//   .then((res) => {
+//     console.log(res);
+//   })
+// .finally(async () => {await db.close()
+
+//   console.log("close");
+//   });

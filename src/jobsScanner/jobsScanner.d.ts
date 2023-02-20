@@ -7,7 +7,7 @@ export interface Job {
   reason?: string;
   date?: string;
   from: string;
-  addedAt: Date;
+  createdAt: Date;
 }
 export type DataWithText<T> = T & { text: string };
 export type JobPost = DataWithText<Job>;
