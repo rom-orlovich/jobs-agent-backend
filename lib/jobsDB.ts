@@ -9,6 +9,11 @@ export class JobsDB {
     this.jobsDB = mongoDB.createDBcollection('jobs-agent-db', 'jobs');
   }
 
+  /**
+   * Create ttl(Time to live) index for jobs collections.
+   * Check if the ttl index is exist. If it doesn't create one.
+   * Otherwise, print appropriate message.
+   */
   async createTTLindex() {
     try {
       const indexesArr = await this.jobsDB.indexExists('jobs_ttl_index');
@@ -38,22 +43,31 @@ export class JobsDB {
     }
   }
 
-  async getJobsByHash(hash: string) {
+  /**
+   * @param {string} hashQuery that represent the user's query object.
+   * @returns {Promise<JobPost[]>} All user's jobsPosts that match the user's hashQueries.
+   */
+  async getJobsByHash(hashQuery: string): Promise<JobPost[]> {
     try {
-      const job = this.jobsDB?.aggregate<JobPost>([
-        { $match: { hashQueries: { $elemMatch: { $eq: hash } } } },
+      const jobsPosts = this.jobsDB?.aggregate<JobPost>([
+        { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } } } },
         {
           $project: { hashQueries: 0, createdAt: 0, _id: 0 },
         },
       ]);
 
-      return await job.toArray();
+      return await jobsPosts.toArray();
     } catch (error) {
       return [];
     }
   }
 
-  async getJobsByHashQueries(hashQueries: string[]) {
+  /**
+   * Gets all the jobsPosts that match the user history queries by their current hashQueries array.
+   * @param {string[]} hashQueries  User's HashQueries string array.
+   * @returns {Promise<JobPost[]>} All user's jobsPosts that match the user's hashQueries array.
+   */
+  async getJobsByHashQueries(hashQueries: string[]): Promise<JobPost[]> {
     try {
       const job = this.jobsDB?.aggregate<JobPost>([
         { $match: { hashQueries: { $elemMatch: { $in: hashQueries } } } },

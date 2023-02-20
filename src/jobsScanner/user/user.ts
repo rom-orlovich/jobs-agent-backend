@@ -62,7 +62,10 @@ export class User {
     return this.userQuery.active;
   }
 
-  getCurrentHashQuery() {
+  /**
+   * @returns The current user's hashQuery.
+   */
+  getCurrentHashQuery(): string {
     return GeneralQuery.hashQuery(this.userQuery);
   }
 
@@ -71,7 +74,10 @@ export class User {
     this.addHashQuery(hash);
   }
 
-  getCurrentHashQueries() {
+  /**
+   * @returns {string[]} The current user's hashQueries array.
+   */
+  getCurrentHashQueries(): string[] {
     return this.hashQueries.map((el) => el.hash);
   }
 

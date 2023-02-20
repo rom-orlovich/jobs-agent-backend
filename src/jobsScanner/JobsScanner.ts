@@ -1,4 +1,5 @@
 import { JobsDB } from '../../lib/jobsDB';
+import { JobPost } from './jobsScanner';
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 
 import { AllJobScanner } from './scanners/allJobsScanner/allJobScanner';
@@ -8,27 +9,26 @@ import { LinkedinScanner } from './scanners/linkedinScanner/linkedinScanner';
 
 import { UserEntity } from './user/userEntity';
 
+/**
+ * The JobsScanner is responsible to create a instance of the jobs scanner.
+ */
 export class JobsScanner {
   user: UserEntity;
   jobsDB: JobsDB;
   activeQuery: boolean;
-  // profile: Profile;
-  // jobs: JobsDB;
-  // userInput: UserQuery;
-  // hash: string;
+
   constructor(user: UserEntity, activeQuery: boolean) {
-    // this.profile = profile;
     this.user = user;
     this.activeQuery = activeQuery;
     this.jobsDB = new JobsDB();
   }
 
-  private async getJobsByHash() {
-    const jobs = await this.jobsDB.getJobsByHash(this.user.getCurrentHashQuery());
-    return jobs;
-  }
-
-  private async getScannerResults() {
+  /**
+   * Creates TTL (time to live) index, initialize the instance of the scanners and start the scanning
+   * in order to get their results.
+   * @returns {Promise<JobPost[]>} Array of the JobsPost objects.
+   */
+  private async getScannerResults(): Promise<JobPost[]> {
     await this.jobsDB.createTTLindex();
     const linkedinScanner = new LinkedinScanner(this.user, this.jobsDB);
     const gotFriendsScanner = new GotFriendsScanner(this.user, this.jobsDB);
@@ -43,7 +43,21 @@ export class JobsScanner {
     return jobsPostsResults.flat(1);
   }
 
-  async scanningByUserQuery() {
+  /**
+   * @returns {Promise<JobPost[]>} Array of the JobsPost objects that match user's hashQuery.
+   */
+  private async getJobsByHash() {
+    const jobsPosts = await this.jobsDB.getJobsByHash(this.user.getCurrentHashQuery());
+    return jobsPosts;
+  }
+
+  /**
+   * Gets the jobsPosts that have the same hash as user's hashQuery.
+   * If the amount of the jobs are lower than 100, use the hash results.
+   * Otherwise create a new jobs scanner.
+   * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
+   */
+  async scanningByUserQuery(): Promise<JobPost[]> {
     const preJobs = await this.getJobsByHash();
     let jobsPosts;
     if (preJobs.length > 100) jobsPosts = preJobs;
@@ -51,7 +65,12 @@ export class JobsScanner {
 
     return jobsPosts;
   }
-  async scanningByCurrentUserQueryHashes() {
+  /**
+   *Create user's hashQuery string array and gets all the jobsPosts that match 
+   the user's history queries by their current hashQueries array.
+   * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
+   */
+  async scanningByCurrentUserQueryHashes(): Promise<JobPost[]> {
     const hashesQueries = this.user.getCurrentHashQueries();
     const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
     return jobsPosts;
@@ -69,8 +88,6 @@ export class JobsScanner {
     const jobsPosts = await this.scanning();
     const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
     return filterJobs;
-
-    // await ScanningFS.writeData(jobs.map(({ text, ...el }) => ({ ...el })));
   }
 }
 
