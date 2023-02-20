@@ -80,12 +80,13 @@ export class JobsScanner {
     let jobsPosts;
     if (this.activeQuery) jobsPosts = await this.scanningByUserQuery();
     else jobsPosts = await this.scanningByCurrentUserQueryHashes();
+    await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
     return jobsPosts;
   }
 
   async getResults() {
     const jobsPosts = await this.scanning();
-    await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
+
     const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
     return filterJobs;
   }

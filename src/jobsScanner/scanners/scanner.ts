@@ -75,7 +75,7 @@ export class Scanner {
   ): Promise<JobPost[]> {
     const jobsPosts = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
     const jobsPostsWithTranslate = await this.googleTranslate.translateArrayText(jobsPosts);
-    console.log(jobsPostsWithTranslate);
+
     return jobsPostsWithTranslate;
   }
 
