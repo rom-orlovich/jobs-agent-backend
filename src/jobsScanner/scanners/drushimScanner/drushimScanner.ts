@@ -1,12 +1,11 @@
 import { DrushimQueryOptions } from './drushimQueryOptions';
 
 import { Scanner } from '../scanner';
-import { UserQuery } from '../../generalQuery/query';
-import { ProfilingLevel } from 'mongodb';
+
 import { JobsDB } from '../../../../lib/jobsDB';
-import { UserEntity } from '../../user/userEntity';
-import { DrushimAPI, DrushimResult } from './drushim';
-import { JobPost } from '../../jobsScanner';
+import { UserEntity } from '../../user/userEntity.types';
+import { DrushimAPI, DrushimResult } from './drushim.types';
+import { JobPost } from '../../jobsScanner.types';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;

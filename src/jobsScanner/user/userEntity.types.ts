@@ -1,4 +1,5 @@
-import { UserQuery } from '../generalQuery/query';
+import { GenericRecord } from '../../../lib/types';
+import { UserQuery } from '../generalQuery/query.types';
 import { HashQuery } from './hashQuery';
 import { User } from './user';
 
@@ -10,15 +11,9 @@ export interface ExperienceRange {
 export type RequirementsOptions = GenericRecord<ExperienceRange>;
 export type ExcludeRequirementsOptions = GenericRecord<boolean>;
 
-interface HashQueryProps {
-  hash: string;
-  createdAt: Date;
-  expireAt: number;
-}
-
 export type UserEntity = InstanceType<typeof User>;
 export type HashQueryEntity = InstanceType<typeof HashQuery>;
-interface UserOptions {
+export interface UserOptions {
   _id: string;
   overallEx?: number;
   requirements: RequirementsOptions;

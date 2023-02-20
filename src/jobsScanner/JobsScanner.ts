@@ -1,5 +1,5 @@
 import { JobsDB } from '../../lib/jobsDB';
-import { JobPost } from './jobsScanner';
+import { JobPost } from './jobsScanner.types';
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 
 import { AllJobScanner } from './scanners/allJobsScanner/allJobScanner';
@@ -7,7 +7,7 @@ import { DrushimScanner } from './scanners/drushimScanner/drushimScanner';
 import { GotFriendsScanner } from './scanners/gotFriendsScanner/gotFriendsScanner';
 import { LinkedinScanner } from './scanners/linkedinScanner/linkedinScanner';
 
-import { UserEntity } from './user/userEntity';
+import { UserEntity } from './user/userEntity.types';
 
 /**
  * The JobsScanner is responsible to create a instance of the jobs scanner.

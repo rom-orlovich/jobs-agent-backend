@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
 import { mongoDB } from '../src/server';
-import { Job, JobPost } from '../src/jobsScanner/jobsScanner';
+import { Job, JobPost } from '../src/jobsScanner/jobsScanner.types';
 import { EXPIRE_AT_MONGO_DB } from '../src/jobsScanner/user/hashQuery';
 
 export class JobsDB {

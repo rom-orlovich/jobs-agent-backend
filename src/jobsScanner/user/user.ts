@@ -1,12 +1,12 @@
 import { HashQuery } from './hashQuery';
-import { UserQuery } from '../generalQuery/query';
+import { UserQuery } from '../generalQuery/query.types';
 import {
   ExcludeRequirementsOptions,
   ExperienceRange,
   HashQueryEntity,
   RequirementsOptions,
   UserOptions,
-} from './userEntity';
+} from './userEntity.types';
 import { GeneralQuery } from '../generalQuery/generalQuery';
 
 /**

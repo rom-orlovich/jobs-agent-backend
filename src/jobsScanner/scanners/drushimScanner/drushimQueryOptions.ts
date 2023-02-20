@@ -1,6 +1,6 @@
 import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
-import { JobType, Scope, UserQuery } from '../../generalQuery/query';
+import { JobType, Scope, UserQuery } from '../../generalQuery/query.types';
 
 export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
   constructor(userInput: UserQuery) {

@@ -2,9 +2,9 @@ import { Scanner } from '../scanner';
 
 import { AllJobsQueryOptions } from './allJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
-import { UserEntity } from '../../user/userEntity';
+import { UserEntity } from '../../user/userEntity.types';
 import { JobsDB } from '../../../../lib/jobsDB';
-import { JobPost } from '../../jobsScanner';
+import { JobPost } from '../../jobsScanner.types';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;

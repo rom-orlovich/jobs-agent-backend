@@ -4,7 +4,7 @@ import { untilSuccess } from '../../../lib/utils';
 
 import axios, { AxiosResponse } from 'axios';
 import { GenericRecord } from '../../../lib/types';
-import { GoogleTranslateAPI, GoogleTranslateQuery } from './google-translate';
+import { GoogleTranslateAPI, GoogleTranslateQuery } from './google-translate.types';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;

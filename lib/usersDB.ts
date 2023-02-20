@@ -2,7 +2,7 @@ import { Collection } from 'mongodb';
 import { mongoDB } from '../src/server';
 
 import { User } from '../src/jobsScanner/user/user';
-import { UserEntity, UserOptions } from '../src/jobsScanner/user/userEntity';
+import { UserEntity, UserOptions } from '../src/jobsScanner/user/userEntity.types';
 
 export class UsersDB {
   users: Collection;

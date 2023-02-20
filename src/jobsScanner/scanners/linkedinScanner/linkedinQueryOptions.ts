@@ -1,7 +1,7 @@
 import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
-import { JobType, Scope, UserQuery } from '../../generalQuery/query';
+import { JobType, Scope, UserQuery } from '../../generalQuery/query.types';
 
 const PERIOD = {
   'past month': 'r2592000',

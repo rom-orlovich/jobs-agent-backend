@@ -4,10 +4,10 @@ import { LinkedinQueryOptions } from './linkedinQueryOptions';
 import { Browser } from 'puppeteer';
 import throat from 'throat';
 import { JobsDB } from '../../../../lib/jobsDB';
-import { UserEntity } from '../../user/userEntity';
+import { UserEntity } from '../../user/userEntity.types';
 import { throatPromises } from '../../../../lib/utils';
 import { PuppeteerSetup } from '../../../../lib/puppeteerSetup';
-import { JobPost } from '../../jobsScanner';
+import { JobPost } from '../../jobsScanner.types';
 
 export class LinkedinScanner extends Scanner {
   linkedinQuery: LinkedinQueryOptions;

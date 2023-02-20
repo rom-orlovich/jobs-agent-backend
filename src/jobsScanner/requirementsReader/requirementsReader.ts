@@ -1,7 +1,7 @@
 import { GenericRecord } from '../../../lib/types';
-import { DataWithText } from '../jobsScanner';
+import { DataWithText } from '../jobsScanner.types';
 
-import { ExperienceRange, UserEntity } from '../user/userEntity';
+import { ExperienceRange, UserEntity } from '../user/userEntity.types';
 
 export class RequirementsReader {
   static WORDS_COUNT_KILL = 500;

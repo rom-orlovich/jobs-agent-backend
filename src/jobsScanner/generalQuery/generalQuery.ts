@@ -3,7 +3,7 @@ import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 
 import { SCANNER_QUERY_OPTIONS } from './scannerQueryOptions';
 import { createHash } from 'crypto';
-import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './query';
+import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './query.types';
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
   experience: string;
   scope: string;
