@@ -31,8 +31,38 @@ export class User {
     this.blackList = userOptions.blackList;
     this.userQuery = userOptions.userQuery;
     this.hashQueries = userOptions?.hashQueries || [];
+    this.loadCurrentHashQuery();
+    this.addCurrentHashQuery();
+  }
+
+  private filterExpiredHashQueries() {
+    this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
+  }
+
+  /**
+   * Load the current user's hashQueries from the DB to hash query instance.
+   */
+  private loadCurrentHashQuery() {
+    this.hashQueries = this.hashQueries.map((el) => new HashQuery(el.hash, el.createdAt));
     this.filterExpiredHashQueries();
     this.addCurrentHashQuery();
+  }
+
+  /**
+   * @returns The current user's hashQuery.
+   */
+  getCurrentHashQuery(): string {
+    return GeneralQuery.hashQuery(this.userQuery);
+  }
+
+  addHashQuery(hash: string) {
+    this.hashQueries.push(new HashQuery(hash));
+  }
+
+  private addCurrentHashQuery() {
+    const hash = this.getCurrentHashQuery();
+    const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
+    if (!hashQuery) this.addHashQuery(hash);
   }
 
   private setRequirements(requirementsOptions: RequirementsOptions) {
@@ -58,21 +88,6 @@ export class User {
       })
     );
   }
-  isUserQueryActive() {
-    return this.userQuery.active;
-  }
-
-  /**
-   * @returns The current user's hashQuery.
-   */
-  getCurrentHashQuery(): string {
-    return GeneralQuery.hashQuery(this.userQuery);
-  }
-
-  addCurrentHashQuery() {
-    const hash = this.getCurrentHashQuery();
-    this.addHashQuery(hash);
-  }
 
   /**
    * @returns {string[]} The current user's hashQueries array.
@@ -81,14 +96,12 @@ export class User {
     return this.hashQueries.map((el) => el.hash);
   }
 
-  addHashQuery(hash: string) {
-    this.hashQueries.push(new HashQuery(hash));
-  }
-  updateHashAddedAt(hash: string) {
+  updateHashCreatedAt(hash: string) {
     const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
-    if (hashQuery) hashQuery.updateHashAddedAt();
+    if (hashQuery) hashQuery.updateHashCreatedAt();
   }
-  filterExpiredHashQueries() {
-    this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
+
+  isUserQueryActive() {
+    return this.userQuery.active;
   }
 }
