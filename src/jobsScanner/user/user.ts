@@ -92,36 +92,3 @@ export class User {
     this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
   }
 }
-/**
- * // addRequirement(tech: string, experience: ExperienceRange) {
-//   this.requirements.set(tech, experience);
-// }
-// removeRequirement(tech: string) {
-//   this.requirements.delete(tech);
-// }
-
-// private setExcludedRequirements(excludedRequirements: ExcludeRequirementsOptions) {
-//   return new Map(Object.entries<boolean>(excludedRequirements));
-// }
-// addExcludeRequirements(tech: string, experience: boolean) {
-//   this.excludedRequirements.set(tech, experience);
-// }
-
-// removeExcludeRequirement(tech: string) {
-//   this.requirements.delete(tech);
-// }
-// static checkIfWordIsWithSlash<ValueMap>(word: string, mapCheck: Map<string, ValueMap>) {
-//   const wordSplit = word.split('/');
-//   if (!wordSplit.length) return;
-
-//   const findTech = wordSplit.find((w) => mapCheck.get(w));
-//   return findTech;
-// }
-// checkRequirementWithSlash(tech: string) {
-//   return User.checkIfWordIsWithSlash<ExperienceRange>(tech, this.requirements);
-// }
-// checkExcludedTechWithSlash(tech: string) {
-//   return User.checkIfWordIsWithSlash<boolean>(tech, this.excludedRequirements);
-// }
-
- */
