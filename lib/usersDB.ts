@@ -1,4 +1,4 @@
-import { Collection, ObjectId } from 'mongodb';
+import { Collection } from 'mongodb';
 import { mongoDB } from '../src/server';
 
 import { User } from '../src/jobsScanner/user/user';
@@ -52,7 +52,7 @@ export class UsersDB {
         {
           userID: user.userID,
         },
-        user
+        { $set: { ...user } }
       );
       if (!result) return undefined;
 

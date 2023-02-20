@@ -9,6 +9,7 @@ import { User } from '../jobsScanner/user/user';
 const activeScanner = async (user: User, userDB: UsersDB, activeQuery: boolean) => {
   try {
     const jobsScanner = new JobsScanner(user, activeQuery);
+    console.log(user);
     await userDB.updateUser(user);
     console.time('time');
     const results = await jobsScanner.scanning();
@@ -33,6 +34,7 @@ const writeResultsScanner = async (user: User, activeQuery: boolean) => {
 
 export const startScanner: RequestHandler = async (req, res) => {
   const { user, activeQuery, usersDB } = req.validateBeforeScanner;
+
   //Active the scanner.
   const results = await activeScanner(user, usersDB, activeQuery);
   if (results) return res.status(200).send(results);
@@ -41,6 +43,7 @@ export const startScanner: RequestHandler = async (req, res) => {
 
 export const downloadResults: RequestHandler = async (req, res) => {
   const { activeQuery, user } = req.validateBeforeScanner;
+
   //Writes the results into csv file.
   const result = await writeResultsScanner(user, activeQuery);
   if (result) return res.download(ScanningFS.createPathJobsCSV());
