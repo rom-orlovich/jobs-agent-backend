@@ -29,7 +29,6 @@ const expressServer = () => {
 
 const startClusters = async () => {
   if (cluster.isPrimary) {
-    console.log(cluster);
     console.log(`Number of CPUs is ${totalCPUs}`);
     console.log(`Master ${process.pid} is running`);
     try {

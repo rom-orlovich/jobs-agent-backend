@@ -4,11 +4,11 @@ import { JobsDB } from '../../../lib/jobsDB';
 
 import { GoogleTranslate } from '../googleTranslate/googleTranslate';
 
-import { Job, JobPost } from '../jobsScanner';
+import { Job, JobPost } from '../jobsScanner.types';
 import { throatPromises, untilSuccess } from '../../../lib/utils';
 import { Page } from 'puppeteer';
-import { UserEntity } from '../user/userEntity';
-import { ScannerName } from '../generalQuery/query';
+import { UserEntity } from '../user/userEntity.types';
+import { ScannerName } from '../generalQuery/query.types';
 import { RequirementsReader } from '../requirementsReader/requirementsReader';
 
 export class Scanner {

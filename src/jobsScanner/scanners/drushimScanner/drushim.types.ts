@@ -133,8 +133,8 @@ export interface Japuproperties {
   ShowJAPU: boolean;
   JAPUHeader: string;
   SubHeader: string;
-  Categories: Categories;
-  Locations: Locations;
+  Categories: any;
+  Locations: any;
   Keywords: any[];
 }
 
@@ -365,8 +365,8 @@ export interface DrushimAPI {
   RedirectTo: string;
   IsError: boolean;
   Data: any;
-  Errors: Errors;
-  ErrorsMessages: ErrorsMessages;
+  Errors: any;
+  ErrorsMessages: any;
   SSAEvents: any[];
   SEO: Seo;
 }
