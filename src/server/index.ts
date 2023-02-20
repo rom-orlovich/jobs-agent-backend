@@ -17,9 +17,6 @@ const PORT = 5000;
 export const mongoDB = new MongoDBClient();
 
 const expressServer = () => {
-  // try {
-  //   await mongoDB.connect();
-
   app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadResults);
@@ -28,10 +25,6 @@ const expressServer = () => {
   app.listen(5000, () => {
     console.log(`server listen on port ${PORT}`);
   });
-
-  // } catch (error) {
-  //   await mongoDB.close();
-  // }
 };
 
 const startClusters = async () => {
@@ -46,7 +39,7 @@ const startClusters = async () => {
         cluster.fork();
       }
 
-      cluster.on('exit', (worker, code, signal) => {
+      cluster.on('exit', (worker) => {
         console.log(`worker ${worker.process.pid} died`);
         console.log("Let's fork another worker!");
         cluster.fork();
