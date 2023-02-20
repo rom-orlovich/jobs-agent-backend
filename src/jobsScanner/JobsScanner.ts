@@ -24,12 +24,11 @@ export class JobsScanner {
   }
 
   /**
-   * Creates TTL (time to live) index, initialize the instance of the scanners and start the scanning
+   * Initialize the instance of the scanners and start the scanning
    * in order to get their results.
    * @returns {Promise<JobPost[]>} Array of the JobsPost objects.
    */
   private async getScannerResults(): Promise<JobPost[]> {
-    await this.jobsDB.createTTLindex();
     const linkedinScanner = new LinkedinScanner(this.user, this.jobsDB);
     const gotFriendsScanner = new GotFriendsScanner(this.user, this.jobsDB);
     const allJobsScanner = new AllJobScanner(this.user, this.jobsDB);
@@ -40,13 +39,14 @@ export class JobsScanner {
       allJobsScanner.getResults(),
       drushimScanner.getResults(),
     ]);
+
     return jobsPostsResults.flat(1);
   }
 
   /**
    * @returns {Promise<JobPost[]>} Array of the JobsPost objects that match user's hashQuery.
    */
-  private async getJobsByHash() {
+  private async getJobsByHash(): Promise<JobPost[]> {
     const jobsPosts = await this.jobsDB.getJobsByHash(this.user.getCurrentHashQuery());
     return jobsPosts;
   }
@@ -80,12 +80,12 @@ export class JobsScanner {
     let jobsPosts;
     if (this.activeQuery) jobsPosts = await this.scanningByUserQuery();
     else jobsPosts = await this.scanningByCurrentUserQueryHashes();
-
     return jobsPosts;
   }
 
   async getResults() {
     const jobsPosts = await this.scanning();
+    await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
     const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
     return filterJobs;
   }
