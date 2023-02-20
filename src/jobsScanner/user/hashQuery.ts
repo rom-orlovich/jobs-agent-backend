@@ -5,16 +5,16 @@ export class HashQuery {
   hash: string;
   createdAt: Date;
   expireAt: number;
-  constructor(hash: string, expireAt = EXPIRE_AT) {
+  constructor(hash: string, createdAt = new Date(), expireAt = EXPIRE_AT) {
     this.hash = hash;
-    this.createdAt = new Date();
+    this.createdAt = createdAt;
     this.expireAt = expireAt;
   }
   isHashExpire() {
     if (this.createdAt.getMilliseconds() + this.expireAt === new Date().getMilliseconds()) return true;
     return false;
   }
-  updateHashAddedAt() {
+  updateHashCreatedAt() {
     this.createdAt = new Date();
   }
 }
