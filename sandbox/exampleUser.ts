@@ -1,4 +1,4 @@
-import { UserQuery } from '../src/jobsScanner/generalQuery/query';
+import { UserQuery } from '../src/jobsScanner/generalQuery/query.types';
 import { User } from '../src/jobsScanner/user/user';
 
 const REQUIREMENTS = {
