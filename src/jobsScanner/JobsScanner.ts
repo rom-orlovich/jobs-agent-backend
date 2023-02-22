@@ -86,7 +86,6 @@ export class JobsScanner {
 
   async getResults() {
     const jobsPosts = await this.scanning();
-
     const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
     return filterJobs;
   }
