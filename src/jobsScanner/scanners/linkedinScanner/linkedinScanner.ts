@@ -30,7 +30,7 @@ export class LinkedinScanner extends Scanner {
     return url;
   }
 
-  getAllJobsPostData(scannerName: string, createdAt: Date) {
+  getAllJobsPostData(scannerName: string) {
     const jobDIVList = Array.from(document.body.querySelectorAll<HTMLDivElement>('.job-search-card'));
     if (jobDIVList.length === 0) return [];
     return jobDIVList.map((jobDIV) => {
@@ -50,7 +50,6 @@ export class LinkedinScanner extends Scanner {
         location,
         date,
         from: scannerName,
-        createdAt: createdAt,
         text: '',
       };
     });

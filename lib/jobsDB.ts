@@ -16,13 +16,10 @@ export class JobsDB {
    */
   async createTTLindex() {
     try {
-      const indexesArr = await this.jobsDB.indexExists('jobs_ttl_index');
+      const indexesArr = await this.jobsDB.indexExists('createdAt_1');
       if (!indexesArr) {
         console.log('create Index');
-        await this.jobsDB.createIndex(
-          { createdAt: 1 },
-          { expireAfterSeconds: EXPIRE_AT_MONGO_DB, name: 'jobs_ttl_index' }
-        );
+        await this.jobsDB.createIndex({ createdAt: 1 }, { expireAfterSeconds: EXPIRE_AT_MONGO_DB });
       } else {
         console.log('Index ttl is exist');
       }

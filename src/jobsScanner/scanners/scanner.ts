@@ -84,7 +84,9 @@ export class Scanner {
   }
 
   async insertManyDB(jobsPosts: JobPost[], hash: string) {
-    await this.jobsDB.insertMany(jobsPosts.map((el) => ({ ...el, hashQueries: [hash] })));
+    await this.jobsDB.insertMany(
+      jobsPosts.map((el) => ({ ...el, hashQueries: [hash], createdAt: new Date() }))
+    );
   }
 
   filterResults(jobsPosts: JobPost[]) {
