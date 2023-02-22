@@ -190,7 +190,8 @@ export class RequirementsReader {
   }
 
   /**
-   * @param text - string
+   * @param {string} text - The text.
+   * @returns {string[][]} The array of sentences that contains array of words.
    * @description  splits it into sentences, then splits each sentence into words and filters out any empty strings. Finally, it returns an array of sentences, each containing an array of words.
    *  */
   static getSentences = (text: string) => {
@@ -208,9 +209,27 @@ export class RequirementsReader {
     return sentences;
   };
 
-  // static checkIsRequirementsMatch(html: string | string[][], profile: Profile)
+  /**
+   * @param {string}title The title of job/
+   * @return {string } If the title contains words in excludedRequirement.
+   */
+  static checkJobTitleIsValid(title: string, user: UserEntity): string {
+    if (!title) return `The title is empty`;
+    const words = title.toLowerCase().split(/,| /g);
+    // const titleIsMatch = !words.some((word) => this.user.getExcludedRequirement(word));
+    let i = 0;
+    let j = words.length - 1;
+    const createMessage = (word: string) => `The title contains the word '${word}'`;
+    while (i < j) {
+      if (user.getExcludedRequirement(words[i])) return createMessage(words[i]);
+      if (user.getExcludedRequirement(words[j])) return createMessage(words[j]);
+      i++;
+      j--;
+    }
+    return '';
+  }
+
   static checkIsRequirementsMatch(html: string, user: UserEntity) {
-    // const sentences = typeof html === 'string' ? RequirementsReader.getSentences(html) : html;
     const sentences = RequirementsReader.getSentences(html);
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, user);
     return isRequirementsMatch;
@@ -220,8 +239,13 @@ export class RequirementsReader {
     user: UserEntity
   ) {
     return data.map((el) => {
-      const reason = RequirementsReader.checkIsRequirementsMatch(el.text, user).reason;
+      let reason;
+      // Read the title. If the title is valid and there the reason is empty so continue to the requirements.
+      reason = RequirementsReader.checkJobTitleIsValid(el.title, user);
+      if (reason) return { ...el, reason };
 
+      // Read the requirements.
+      reason = RequirementsReader.checkIsRequirementsMatch(el.text, user).reason;
       return {
         ...el,
         reason,

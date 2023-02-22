@@ -9,5 +9,5 @@ export interface Job {
   from: string;
   createdAt?: Date;
 }
-export type DataWithText<T> = T & { text: string };
+export type DataWithText<T> = T & { text: string; title: string };
 export type JobPost = DataWithText<Job>;

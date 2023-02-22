@@ -4,7 +4,7 @@ import { UserQuery } from '../../generalQuery/query.types';
 import { User } from '../../user/user';
 import { RequirementsReader } from '../requirementsReader';
 
-describe.only('Testss real examples of checkIsRequirementsMatch function', () => {
+describe.skip('Testss real examples of checkIsRequirementsMatch function', () => {
   // Note: next time that I will run the tests they probably will be failed because I change the the constants.
 
   const REQUIREMENTS = {

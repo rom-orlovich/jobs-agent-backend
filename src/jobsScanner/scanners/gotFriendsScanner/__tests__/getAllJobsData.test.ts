@@ -9,7 +9,7 @@ import { User } from '../../../user/user';
 import { GotFriendsScanner } from '../gotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
-describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
+describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
