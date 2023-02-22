@@ -32,7 +32,6 @@ export class User {
     this.userQuery = userOptions.userQuery;
     this.hashQueries = userOptions?.hashQueries || [];
     this.loadCurrentHashQuery();
-    this.addCurrentHashQuery();
   }
 
   private filterExpiredHashQueries() {
@@ -62,6 +61,7 @@ export class User {
   private addCurrentHashQuery() {
     const hash = this.getCurrentHashQuery();
     const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
+    console.log(hashQuery);
     if (!hashQuery) this.addHashQuery(hash);
   }
 

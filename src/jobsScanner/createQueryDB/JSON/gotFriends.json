@@ -13,11 +13,11 @@
   {
     "מפתח NET.": "1847",
     "C++ Developer": "1862",
-    "JAVA Developer": "1865",
+    "JAVA Developer": "1865", //{ checkboxProfessions: 'checkboxProfessions-1865', radioAreas: 'radioAreas-1108' }
     "מפתח Kotlin": "15045",
-    "Frontend Developer": "1970",
+    "Frontend Developer": "1970", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' }
     "Python Developer": "1979",
-    "Fullstack Developer": "1947",
+    "Fullstack Developer": "1947", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1947', radioAreas: 'radioAreas-1108' }
     "NodeJS Developer": "1965",
     "מתכנת PHP": "1890",
     "מתכנת Mobile": "1886",
@@ -62,9 +62,9 @@
     "Signal Processing": "4506"
   },
   {
-    "מפתח אוטומציה": "1882",
-    "ראש צוות QA": "1920",
-    "משרות QA": "2312",
+    "מפתח אוטומציה": "1882", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1882', radioAreas: 'radioAreas-1099' }
+    "ראש צוות QA": "1920", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1920', radioAreas: 'radioAreas-1099' }
+    "משרות QA": "2312", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2312', radioAreas: 'radioAreas-1099'}
     "JAVA אוטומציה": "2359",
     "ראש צוות אוטומציה": "8015",
     "QA ידני": "8016"
@@ -100,9 +100,9 @@
   },
   {
     "מפתח BI": "2368",
-    "דאטה אנליסט": "2330",
-    "DBA Big Data": "2318",
-    "Product Analyst": "4458"
+    "דאטה אנליסט": "2330", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2330', radioAreas: 'radioAreas-1105' }
+    "DBA Big Data": "2318", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2318', radioAreas: 'radioAreas-1105' }
+    "Product Analyst": "4458" //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2368', radioAreas: 'radioAreas-1105' }
   },
   {
     "ת\"א והמרכז": "1",
