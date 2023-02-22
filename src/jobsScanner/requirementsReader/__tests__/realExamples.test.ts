@@ -1,6 +1,6 @@
 // import { RequirementsReader } from '../RequirementsReader';
 
-import { UserQuery } from '../../generalQuery/query';
+import { UserQuery } from '../../generalQuery/query.types';
 import { User } from '../../user/user';
 import { RequirementsReader } from '../requirementsReader';
 
@@ -45,7 +45,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
 
   const EXAMPLE_USER = new User({
     overallEx: 2,
-    requirementsOptions: REQUIREMENTS,
+    requirements: REQUIREMENTS,
     excludedRequirements: {
       'c#.net': true,
       php: true,
@@ -60,38 +60,7 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
       net: true,
       qa: true,
     },
-    blackList: [
-      // 'senior',
-      // 'lead',
-      // 'angular',
-      // 'devops',
-      // 'cloud',
-      // 'wordpress',
-      // 'devops',
-      // 'data analyst',
-      // 'data',
-      // 'ux',
-      // 'ui',
-      // 'quality assurance',
-      // 'qa',
-      // 'csv',
-      // 'php',
-      // 'communications',
-      // 'embedded',
-      // 'power supply',
-      // 'java',
-      // 'ruby',
-      // 'go',
-      // 'etl',
-      // 'technical solution',
-      // 'tax',
-      // 'eae',
-      // 'associate embedded systems engineer',
-      // 'ese',
-      // 'system test',
-      // 'Tier 2 Support Agent',
-      // 'Sales Manager',
-    ],
+
     _id: '1',
     hashQueries: [],
     userQuery: EXAMPLE_QUERY,
@@ -107,12 +76,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   });
   test(`Tests many sentences from real text that its match the user experience-ex1`, () => {
     const EXAMPLE_USER = new User({
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = `typescript core – 2 years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
@@ -122,12 +90,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test(`Tests many sentences from real text that not match the user experience-ex2`, () => {
     const EXAMPLE_USER = new User({
       overallEx: 1,
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = `8+ years working experience with java (minimum 70%
@@ -149,12 +116,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test(`Tests many sentences from real text that match the user experience-ex3`, () => {
     const EXAMPLE_USER = new User({
       overallEx: 2,
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = `manage and optimize scalable distributed systems on
@@ -171,12 +137,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test(`Tests many sentences from real text that match the user experience-ex4`, () => {
     const EXAMPLE_USER = new User({
       overallEx: 2,
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = ` build & maintain our ecommerce web application
@@ -200,12 +165,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test(`Tests many sentences from real text that match the user experience-ex5`, () => {
     const EXAMPLE_USER = new User({
       overallEx: 2,
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = `you will develop, debug, deliver and maintain a
@@ -230,12 +194,11 @@ describe.only('Testss real examples of checkIsRequirementsMatch function', () =>
   test('Tests many sentences from real text that may cause to infinite loop-ex7', () => {
     const EXAMPLE_USER = new User({
       overallEx: 2,
-      requirementsOptions: REQUIREMENTS,
+      requirements: REQUIREMENTS,
       excludedRequirements: {},
       _id: '1',
       userQuery: EXAMPLE_QUERY,
       hashQueries: [],
-      blackList: [],
     });
 
     const sentences = `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.

@@ -19,7 +19,7 @@ export class User {
   overallEx?: number;
   requirements: Map<string, ExperienceRange>;
   excludedRequirements: Map<string, boolean>;
-  blackList: string[];
+
   hashQueries: HashQueryEntity[];
   userQuery: UserQuery;
 
@@ -28,7 +28,7 @@ export class User {
     this.overallEx = userOptions.overallEx;
     this.requirements = this.setRequirements(userOptions.requirements);
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
-    this.blackList = userOptions.blackList;
+
     this.userQuery = userOptions.userQuery;
     this.hashQueries = userOptions?.hashQueries || [];
     this.loadCurrentHashQuery();
@@ -65,28 +65,19 @@ export class User {
     if (!hashQuery) this.addHashQuery(hash);
   }
 
-  private setRequirements(requirementsOptions: RequirementsOptions) {
-    return new Map(Object.entries<ExperienceRange>(requirementsOptions));
+  private setRequirements(requirements: RequirementsOptions) {
+    return new Map(Object.entries<ExperienceRange>(requirements));
   }
   private setExcludedRequirements(excludedRequirements: ExcludeRequirementsOptions) {
     return new Map(Object.entries<boolean>(excludedRequirements));
   }
 
-  getRequirement(tech: string) {
-    return this.requirements.get(tech);
+  getRequirement(word: string) {
+    return this.requirements.get(word);
   }
 
-  getExcludedRequirement(tech: string) {
-    return this.excludedRequirements.get(tech);
-  }
-
-  checkWordInBlackList(word: string) {
-    return (
-      this.blackList?.length &&
-      this.blackList?.some((bl) => {
-        return word.toLowerCase().includes(bl.toLowerCase());
-      })
-    );
+  getExcludedRequirement(word: string) {
+    return this.excludedRequirements.get(word);
   }
 
   /**

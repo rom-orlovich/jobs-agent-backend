@@ -18,7 +18,7 @@ export interface UserOptions {
   overallEx?: number;
   requirements: RequirementsOptions;
   excludedRequirements: ExcludeRequirementsOptions;
-  blackList: string[];
+
   userQuery: UserQuery;
   hashQueries?: HashQueryEntity[];
 }

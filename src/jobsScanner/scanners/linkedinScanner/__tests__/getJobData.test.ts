@@ -2,9 +2,10 @@ import { Browser, Page } from 'puppeteer';
 import { JobsDB } from '../../../../../lib/jobsDB';
 import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
 import { GenericRecord } from '../../../../../lib/types';
-import { UserQuery } from '../../../generalQuery/query';
+import { UserQuery } from '../../../generalQuery/query.types';
+
 import { User } from '../../../user/user';
-import { ExperienceRange } from '../../../user/userEntity';
+
 import { LinkedinScanner } from '../linkedinScanner';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
 
@@ -47,7 +48,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
 
   const EXAMPLE_USER = new User({
     overallEx: 2,
-    requirementsOptions: REQUIREMENTS,
+    requirements: REQUIREMENTS,
     excludedRequirements: {
       'c#.net': true,
       php: true,
@@ -62,38 +63,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
       net: true,
       qa: true,
     },
-    blackList: [
-      // 'senior',
-      // 'lead',
-      // 'angular',
-      // 'devops',
-      // 'cloud',
-      // 'wordpress',
-      // 'devops',
-      // 'data analyst',
-      // 'data',
-      // 'ux',
-      // 'ui',
-      // 'quality assurance',
-      // 'qa',
-      // 'csv',
-      // 'php',
-      // 'communications',
-      // 'embedded',
-      // 'power supply',
-      // 'java',
-      // 'ruby',
-      // 'go',
-      // 'etl',
-      // 'technical solution',
-      // 'tax',
-      // 'eae',
-      // 'associate embedded systems engineer',
-      // 'ese',
-      // 'system test',
-      // 'Tier 2 Support Agent',
-      // 'Sales Manager',
-    ],
+
     _id: '1',
     hashQueries: [],
     userQuery: EXAMPLE_QUERY,
@@ -115,8 +85,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
       page,
       JOB_POST_EX1_HTML,
       linkedinScanner.getAllJobsPostData,
-      'linkedin',
-      new Date()
+      'linkedin'
     );
 
     expect(res).toEqual([
@@ -136,8 +105,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
       page,
       JOB_POST_EX2_HTML,
       linkedinScanner.getAllJobsPostData,
-      'linkedin',
-      new Date()
+      'linkedin'
     );
 
     expect(res).toEqual([
@@ -157,8 +125,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
       page,
       JOB_POST_EX3_HTML,
       linkedinScanner.getAllJobsPostData,
-      'linkedin',
-      new Date()
+      'linkedin'
     );
 
     expect(res).toEqual([

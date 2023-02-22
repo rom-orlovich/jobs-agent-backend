@@ -89,6 +89,25 @@ export class Scanner {
     );
   }
 
+  /**
+   *
+   * @param title The title of job/
+   * @return If the title contain words in excludedRequirement
+   */
+  checkJobTitleIsValid(title: string) {
+    const words = title.split(/,| /g);
+    // const titleIsMatch = !words.some((word) => this.user.getExcludedRequirement(word));
+    let i = 0;
+    let j = words.length - 1;
+    while (i < j) {
+      if (this.user.getExcludedRequirement(words[i])) return false;
+      if (this.user.getExcludedRequirement(words[j])) return false;
+      i++;
+      j--;
+    }
+    return true;
+  }
+
   filterResults(jobsPosts: JobPost[]) {
     const jobsPostsFilter = jobsPosts.filter((el) => !this.user.checkWordInBlackList(el.title));
     return RequirementsReader.checkRequirementMatchForArray(jobsPostsFilter, this.user);

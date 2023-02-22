@@ -1,13 +1,14 @@
 import { load } from 'cheerio';
 import { JobsDB } from '../../../../../lib/jobsDB';
-import { UserQuery } from '../../../generalQuery/query';
-import { JobPost } from '../../../jobsScanner';
+import { UserQuery } from '../../../generalQuery/query.types';
+import { JobPost } from '../../../jobsScanner.types';
+
 import { User } from '../../../user/user';
 import { AllJobScanner } from '../allJobScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
 describe('Tests getAllJobsData method of AllJobScanner', () => {
-  // Note: All the keys in the requirementsOptions map and excludedRequirements should be lowercase!
+  // Note: All the keys in the requirements map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
@@ -46,7 +47,7 @@ describe('Tests getAllJobsData method of AllJobScanner', () => {
 
   const EXAMPLE_USER = new User({
     overallEx: 2,
-    requirementsOptions: REQUIREMENTS,
+    requirements: REQUIREMENTS,
     excludedRequirements: {
       'c#.net': true,
       php: true,
@@ -61,38 +62,7 @@ describe('Tests getAllJobsData method of AllJobScanner', () => {
       net: true,
       qa: true,
     },
-    blackList: [
-      // 'senior',
-      // 'lead',
-      // 'angular',
-      // 'devops',
-      // 'cloud',
-      // 'wordpress',
-      // 'devops',
-      // 'data analyst',
-      // 'data',
-      // 'ux',
-      // 'ui',
-      // 'quality assurance',
-      // 'qa',
-      // 'csv',
-      // 'php',
-      // 'communications',
-      // 'embedded',
-      // 'power supply',
-      // 'java',
-      // 'ruby',
-      // 'go',
-      // 'etl',
-      // 'technical solution',
-      // 'tax',
-      // 'eae',
-      // 'associate embedded systems engineer',
-      // 'ese',
-      // 'system test',
-      // 'Tier 2 Support Agent',
-      // 'Sales Manager',
-    ],
+
     _id: '1',
     hashQueries: [],
     userQuery: EXAMPLE_QUERY,

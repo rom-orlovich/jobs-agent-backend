@@ -1,8 +1,9 @@
 import { Browser, Page } from 'puppeteer';
 import { JobsDB } from '../../../../../lib/jobsDB';
 import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
-import { UserQuery } from '../../../generalQuery/query';
-import { JobPost } from '../../../jobsScanner';
+import { UserQuery } from '../../../generalQuery/query.types';
+import { JobPost } from '../../../jobsScanner.types';
+
 import { User } from '../../../user/user';
 
 import { GotFriendsScanner } from '../gotFriendsScanner';
@@ -47,7 +48,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
 
   const EXAMPLE_USER = new User({
     overallEx: 2,
-    requirementsOptions: REQUIREMENTS,
+    requirements: REQUIREMENTS,
     excludedRequirements: {
       'c#.net': true,
       php: true,
@@ -62,38 +63,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
       net: true,
       qa: true,
     },
-    blackList: [
-      // 'senior',
-      // 'lead',
-      // 'angular',
-      // 'devops',
-      // 'cloud',
-      // 'wordpress',
-      // 'devops',
-      // 'data analyst',
-      // 'data',
-      // 'ux',
-      // 'ui',
-      // 'quality assurance',
-      // 'qa',
-      // 'csv',
-      // 'php',
-      // 'communications',
-      // 'embedded',
-      // 'power supply',
-      // 'java',
-      // 'ruby',
-      // 'go',
-      // 'etl',
-      // 'technical solution',
-      // 'tax',
-      // 'eae',
-      // 'associate embedded systems engineer',
-      // 'ese',
-      // 'system test',
-      // 'Tier 2 Support Agent',
-      // 'Sales Manager',
-    ],
+
     _id: '1',
     hashQueries: [],
     userQuery: EXAMPLE_QUERY,
@@ -115,8 +85,7 @@ describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
       page,
       JOB_POST_EX1_HTML,
       gotFriendsScanner.getAllJobsPostData,
-      'gotFriends',
-      new Date()
+      'gotFriends'
     );
     const resNormalize = res.map((el) => ({ ...el, text: el.text.replace(/\s+/g, '') }));
 
