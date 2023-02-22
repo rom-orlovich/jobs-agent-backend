@@ -4,4 +4,4 @@ logs/
 coverage/
 .env
 /dist
-csv
+csv/jobs.csv
