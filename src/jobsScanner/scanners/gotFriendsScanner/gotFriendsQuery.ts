@@ -2,31 +2,31 @@ import { GotFriendsPositions } from '../../createQueryDB/lib/createQueryDB';
 import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
-import { UserQuery } from '../../generalQuery/query.types';
+import { UserQueryProps } from '../../generalQuery/query.types';
 
 export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   checkboxProfessions: string;
   radioAreas: string;
-  constructor(userInput: UserQuery) {
-    super('gotFriends', userInput);
+  constructor(userQuery: UserQueryProps) {
+    super('gotFriends', userQuery);
     const { checkboxProfessions, radioAreas } = this.convertPositionGotFriends();
     this.checkboxProfessions = checkboxProfessions;
     this.radioAreas = radioAreas;
   }
 
   protected convertPositionGotFriends(): GotFriendsPositions {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
+    const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
 
     return (
-      this.queryOptions.positions[userInput]?.gotFriends || {
+      this.queryOptions.positions[userQuery]?.gotFriends || {
         checkboxProfessions: '',
         radioAreas: '',
       }
     );
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userInput]?.checkboxRegions || '';
+    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[userQuery]?.checkboxRegions || '';
   }
 
   protected convertPosition(): string {

@@ -1,7 +1,7 @@
 import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../../createQueryDB/positionDictDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
-import { JobType, Scope, UserQuery } from '../../generalQuery/query.types';
+import { JobType, Scope, UserQueryProps } from '../../generalQuery/query.types';
 
 const PERIOD = {
   'past month': 'r2592000',
@@ -20,23 +20,23 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   period: string;
   sortBy: string;
 
-  constructor(userInput: UserQuery) {
-    super('linkedin', userInput);
+  constructor(userQuery: UserQueryProps) {
+    super('linkedin', userQuery);
     this.period = this.convertPeriod();
     this.sortBy = this.convertSortBy();
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
+    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
 
-    return this.queryOptions.locations[userInput]?.en || '';
+    return this.queryOptions.locations[userQuery]?.en || '';
   }
 
   protected convertScope() {
     let scopesArr: string[] = [];
-    if (!this.userInput.scope) return '';
-    const userInputSplit = this.userInput.scope.split(',');
+    if (!this.userQuery.scope) return '';
+    const userQuerySplit = this.userQuery.scope.split(',');
 
-    scopesArr = userInputSplit.map((el) => {
+    scopesArr = userQuerySplit.map((el) => {
       const scope = el as Scope<'linkedin'>;
       return this.queryOptions.scope.linkedin.f_JT[scope];
     });
@@ -46,10 +46,10 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
 
   protected convertJobType(): string {
     let jobTypeArr: string[] = [];
-    if (!this.userInput.jobType) return '';
-    const userInputSplit = this.userInput.jobType.split(',');
+    if (!this.userQuery.jobType) return '';
+    const userQuerySplit = this.userQuery.jobType.split(',');
 
-    jobTypeArr = userInputSplit.map((el) => {
+    jobTypeArr = userQuerySplit.map((el) => {
       const jobType = el as JobType<'linkedin'>;
       return this.queryOptions.jobType.linkedin.f_WT[jobType];
     });
@@ -58,8 +58,8 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
   }
 
   protected convertPosition(): string {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
-    return this.queryOptions.positions[userInput].en;
+    const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
+    return this.queryOptions.positions[userQuery].en;
   }
   protected convertPeriod(period: keyof typeof PERIOD = 'past month') {
     return PERIOD[period];

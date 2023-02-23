@@ -96,7 +96,7 @@ export class Scanner {
   async getResults(): Promise<JobPost[]> {
     const jobsPosts = await this.scanning();
     console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    if (jobsPosts.length) await this.insertManyDB(jobsPosts, this.user.getCurrentHashQuery());
+    if (jobsPosts.length) await this.insertManyDB(jobsPosts, this.user.getLastHashQuery());
 
     return this.filterResults(jobsPosts);
   }

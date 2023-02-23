@@ -14,7 +14,7 @@ export class LinkedinScanner extends Scanner {
   domain: string;
   constructor(user: UserEntity, jobsDB: JobsDB) {
     super('linkedin', user, jobsDB);
-    this.linkedinQuery = new LinkedinQueryOptions(user.userQuery);
+    this.linkedinQuery = new LinkedinQueryOptions(user.getLastQuery());
 
     this.domain = 'https://www.linkedin.com/jobs';
   }
@@ -65,7 +65,7 @@ export class LinkedinScanner extends Scanner {
       await page.evaluate(this.getAllJobsPostData, this.scannerName, new Date())
     ).filter(this.filterJobsPosts);
 
-    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.linkedinQuery.hash);
+    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.linkedinQuery.userQuery.hash);
     await page.close();
 
     return filterJobs;

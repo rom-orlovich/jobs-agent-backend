@@ -11,7 +11,7 @@ export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
   constructor(user: UserEntity, JobsDB: JobsDB) {
     super('drushim', user, JobsDB);
-    this.drushimQueryOptions = new DrushimQueryOptions(user.userQuery);
+    this.drushimQueryOptions = new DrushimQueryOptions(user.getLastQuery());
   }
   getURL(page: number): string {
     const { experience, scope, location, distance, position } = this.drushimQueryOptions;
@@ -36,7 +36,10 @@ export class DrushimScanner extends Scanner {
 
   async getFilterData(data: DrushimAPI | undefined) {
     const jobsPosts = this.getJobsData(data?.ResultList).filter(this.filterJobsPosts);
-    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.drushimQueryOptions.hash);
+    const filterJobs = await this.filterJobsExistInDB(
+      jobsPosts,
+      this.drushimQueryOptions.userQuery.hash
+    );
     return filterJobs;
   }
 

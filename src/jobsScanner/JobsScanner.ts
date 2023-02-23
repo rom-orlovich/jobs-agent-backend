@@ -15,11 +15,11 @@ import { UserEntity } from './user/userEntity.types';
 export class JobsScanner {
   user: UserEntity;
   jobsDB: JobsDB;
-  activeQuery: boolean;
+  searchAll: boolean;
 
-  constructor(user: UserEntity, activeQuery: boolean) {
+  constructor(user: UserEntity, searchAll = false) {
     this.user = user;
-    this.activeQuery = activeQuery;
+    this.searchAll = searchAll;
     this.jobsDB = new JobsDB();
   }
 
@@ -46,8 +46,8 @@ export class JobsScanner {
   /**
    * @returns {Promise<JobPost[]>} Array of the JobsPost objects that match user's hashQuery.
    */
-  private async getJobsByHash(): Promise<JobPost[]> {
-    const jobsPosts = await this.jobsDB.getJobsByHash(this.user.getCurrentHashQuery());
+  private async getJobsByHash(hash: string): Promise<JobPost[]> {
+    const jobsPosts = await this.jobsDB.getJobsByHash(hash);
     return jobsPosts;
   }
 
@@ -58,28 +58,25 @@ export class JobsScanner {
    * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
    */
   async scanningByUserQuery(): Promise<JobPost[]> {
-    const preJobs = await this.getJobsByHash();
+    const preJobs = await this.getJobsByHash(this.user.getLastHashQuery());
     let jobsPosts;
     if (preJobs.length > 100) jobsPosts = preJobs;
     else jobsPosts = await this.getScannerResults();
-
     return jobsPosts;
   }
   /**
-   *Create user's hashQuery string array and gets all the jobsPosts that match 
+   *Create user's hashQuery string array and gets all the jobsPosts that match
    the user's history queries by their current hashQueries array.
    * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
    */
-  async scanningByCurrentUserQueryHashes(): Promise<JobPost[]> {
-    const hashesQueries = this.user.getCurrentHashQueries();
+  async scanningByAllUserQueries(): Promise<JobPost[]> {
+    const hashesQueries = this.user.getAllHashes();
     const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
     return jobsPosts;
   }
 
   async scanning() {
-    let jobsPosts;
-    if (this.activeQuery) jobsPosts = await this.scanningByUserQuery();
-    else jobsPosts = await this.scanningByCurrentUserQueryHashes();
+    const jobsPosts = await this.scanningByUserQuery();
     await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
     return jobsPosts;
   }

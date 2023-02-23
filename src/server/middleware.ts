@@ -9,14 +9,14 @@ const checkUserIDisNumber = (userID: unknown) => {
   if (userIDisNumber) return userID;
 };
 
-//Check the activeQuery is valid boolean.
-const checkActiveQueryIsBoolean = (activeQuery: unknown) => {
-  if (typeof activeQuery !== 'string') return undefined;
-  const activeQueryObj: GenericRecord<boolean> = {
+//Check the SearchAll is valid boolean.
+const checkSearchAllIsBoolean = (searchAll: unknown) => {
+  if (typeof searchAll !== 'string') return undefined;
+  const searchAllObj: GenericRecord<boolean> = {
     true: true,
     false: false,
   };
-  return activeQueryObj[activeQuery];
+  return searchAllObj[searchAll];
 };
 
 //initial the usersDB and load the requested user from the DB.
@@ -31,10 +31,10 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   const userID = checkUserIDisNumber(req.params.userID);
   if (!userID) return res.status(400).send({ message: 'Please enter a valid userID' });
 
-  //Check the activeQuery is valid.
-  const activeQuery = checkActiveQueryIsBoolean(req.query.activeQuery);
-  if (activeQuery === undefined)
-    return res.status(400).send({ message: 'Please enter a valid active query' });
+  // //Check the SearchAll is valid.
+  // const searchAll = checkSearchAllIsBoolean(req.query.SearchAll);
+  // if (searchAll === undefined)
+  //   return res.status(400).send({ message: 'Please enter a valid active query' });
 
   //initial the usersDB and load the requested user from the DB.
   const { user, usersDB } = await initialUsersAndLoadUserFromDB(userID);
@@ -42,7 +42,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   req.validateBeforeScanner = {
     user,
     usersDB,
-    activeQuery: activeQuery,
+    // searchAll: searchAll,
   };
 
   next();

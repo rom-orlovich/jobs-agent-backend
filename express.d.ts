@@ -8,7 +8,7 @@ declare global {
       validateBeforeScanner: {
         user: User;
         usersDB: UsersDB;
-        activeQuery;
+        // searchAll: boolean;
       };
     }
   }

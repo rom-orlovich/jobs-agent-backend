@@ -17,7 +17,7 @@ export class GotFriendsScanner extends Scanner {
 
   constructor(user: UserEntity, JobsDB: JobsDB) {
     super('gotFriends', user, JobsDB);
-    this.gotFriendsQuery = new GotFriendQueryOptions(user.userQuery);
+    this.gotFriendsQuery = new GotFriendQueryOptions(user.getLastQuery());
   }
 
   private async initialFilters(page: Page) {
@@ -61,7 +61,10 @@ export class GotFriendsScanner extends Scanner {
 
   private async getFilterResults(jobsPosts: JobPost[]) {
     const filterJobs = jobsPosts.filter(this.filterJobsPosts);
-    const filterJobsFromDB = await this.filterJobsExistInDB(filterJobs, this.gotFriendsQuery.hash);
+    const filterJobsFromDB = await this.filterJobsExistInDB(
+      filterJobs,
+      this.gotFriendsQuery.userQuery.hash
+    );
     return filterJobsFromDB;
   }
 

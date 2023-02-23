@@ -2,8 +2,8 @@ import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 
 import { SCANNER_QUERY_OPTIONS } from './scannerQueryOptions';
-import { createHash } from 'crypto';
-import { Experience, QueryOptionsResProps, ScannerName, UserQuery } from './query.types';
+
+import { Experience, QueryOptionsResProps, ScannerName, UserQueryProps } from './query.types';
 export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps {
   experience: string;
   scope: string;
@@ -11,48 +11,38 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
   distance: string;
   position: string;
   location: string;
-
   queryOptions: typeof SCANNER_QUERY_OPTIONS;
-  userInput: UserQuery;
+  userQuery: UserQueryProps;
   scannerName: ScannerName;
-  hash: string;
-  constructor(scannerName: T, UserQuery: UserQuery) {
+
+  constructor(scannerName: T, userQuery: UserQueryProps) {
     this.scannerName = scannerName;
     this.queryOptions = SCANNER_QUERY_OPTIONS;
-    this.userInput = UserQuery;
+    this.userQuery = userQuery;
     this.location = this.convertLocation().split(' ').join('%20');
     this.position = this.convertPosition().split(' ').join('%20');
     this.experience = this.convertExperience();
     this.scope = this.convertScope();
     this.jobType = this.convertJobType();
     this.distance = this.convertDistance();
-    this.hash = GeneralQuery.hashQuery(this.userInput);
-  }
-  static hashQuery(userInput: UserQuery) {
-    const { distance, experience, jobType, location, position, scope } = userInput;
-    const hash = createHash('sha1')
-      .update(distance + experience + jobType + location + position + scope)
-      .digest('hex');
-
-    return hash;
   }
 
   protected convertPosition(): string {
-    const userInput = this.userInput.position as keyof typeof POSITIONS_DICT_DB;
-    return this.queryOptions.positions[userInput].he;
+    const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
+    return this.queryOptions.positions[userQuery].he;
   }
   protected convertLocation(): string {
-    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userInput].he;
+    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[userQuery].he;
   }
 
   protected convertExperience() {
     let yearExperienceArr: string[] = [];
     let res = '';
-    const userInputSplit = this.userInput.experience.split(',');
-    if (userInputSplit.length === 0) return '';
+    const userQuerySplit = this.userQuery.experience.split(',');
+    if (userQuerySplit.length === 0) return '';
     if (this.scannerName === 'linkedin') {
-      yearExperienceArr = userInputSplit.map((el) => {
+      yearExperienceArr = userQuerySplit.map((el) => {
         const expY = el as Experience<'linkedin'>;
         return this.queryOptions.experience.linkedin.f_e[expY];
       });
@@ -60,7 +50,7 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     }
 
     if (this.scannerName === 'drushim') {
-      yearExperienceArr = userInputSplit
+      yearExperienceArr = userQuerySplit
         .map((el) => {
           if (el === '6') return '';
           const expY = el as Experience<'drushim'>;
@@ -75,12 +65,12 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
 
   protected convertDistance(): string {
     let distance = '';
-    const userInput = this.userInput.distance;
+    const userQuery = this.userQuery.distance;
     if (this.scannerName === 'linkedin')
-      distance = this.queryOptions.distance.linkedin.distance[userInput];
+      distance = this.queryOptions.distance.linkedin.distance[userQuery];
     if (this.scannerName === 'allJobs')
-      distance = this.queryOptions.distance.allJobs.durations[userInput];
-    if (this.scannerName === 'drushim') distance = this.queryOptions.distance.drushim.range[userInput];
+      distance = this.queryOptions.distance.allJobs.durations[userQuery];
+    if (this.scannerName === 'drushim') distance = this.queryOptions.distance.drushim.range[userQuery];
     return distance;
   }
 

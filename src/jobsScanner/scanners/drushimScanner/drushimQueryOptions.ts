@@ -1,22 +1,22 @@
 import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
-import { JobType, Scope, UserQuery } from '../../generalQuery/query.types';
+import { JobType, Scope, UserQueryProps } from '../../generalQuery/query.types';
 
 export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
-  constructor(userInput: UserQuery) {
-    super('drushim', userInput);
+  constructor(userQuery: UserQueryProps) {
+    super('drushim', userQuery);
   }
 
   protected convertLocation(): string {
-    const userInput = this.userInput.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userInput].geolexid;
+    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[userQuery].geolexid;
   }
 
   private getScopeStr() {
-    if (!this.userInput.scope) return '';
-    const userInputSplit = this.userInput.scope.split(',');
+    if (!this.userQuery.scope) return '';
+    const userQuerySplit = this.userQuery.scope.split(',');
 
-    const scopesArr = userInputSplit.map((el) => {
+    const scopesArr = userQuerySplit.map((el: string) => {
       const scope = el as Scope<'drushim'>;
       return this.queryOptions.scope.drushim.scope[scope];
     });
@@ -26,14 +26,14 @@ export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
   }
 
   private getJobType() {
-    const jobType = this.userInput.jobType as JobType<'drushim'>;
+    const jobType = this.userQuery.jobType as JobType<'drushim'>;
     const jobTypeRes = this.queryOptions.jobType.drushim.scope[jobType] || '';
     return jobTypeRes;
   }
 
   protected convertScope(): string {
-    const userInputSplit = this.userInput.scope.split(',');
-    if (userInputSplit.length === 0) return '';
+    const userQuerySplit = this.userQuery.scope.split(',');
+    if (userQuerySplit.length === 0) return '';
     const scopeStr = this.getScopeStr();
     const jobTypeRes = this.getJobType();
     return `${scopeStr}${jobTypeRes ? `-${jobTypeRes}` : ''}`;

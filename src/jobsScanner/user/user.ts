@@ -1,13 +1,13 @@
-import { HashQuery } from './hashQuery';
-import { UserQuery } from '../generalQuery/query.types';
+// import { HashQuery } from './hashQuery';
+import { UserQueryProps } from '../generalQuery/query.types';
 import {
   ExcludeRequirementsOptions,
   ExperienceRange,
-  HashQueryEntity,
   RequirementsOptions,
-  UserOptions,
+  UserProfile,
 } from './userEntity.types';
-import { GeneralQuery } from '../generalQuery/generalQuery';
+
+import { UserQuery } from './UserQuery';
 
 /**
  * @param excludedRequirements An object that contains the tech stack which the user doesn't want to include the in jobs list.
@@ -20,50 +20,94 @@ export class User {
   requirements: Map<string, ExperienceRange>;
   excludedRequirements: Map<string, boolean>;
 
-  hashQueries: HashQueryEntity[];
-  userQuery: UserQuery;
+  userQueries: UserQueryProps[];
 
-  constructor(userOptions: UserOptions) {
-    this.userID = userOptions._id;
+  constructor(userOptions: UserProfile) {
+    this.userID = userOptions.userID;
     this.overallEx = userOptions.overallEx;
     this.requirements = this.setRequirements(userOptions.requirements);
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
-
-    this.userQuery = userOptions.userQuery;
-    this.hashQueries = userOptions?.hashQueries || [];
-    this.loadCurrentHashQuery();
-  }
-
-  private filterExpiredHashQueries() {
-    this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
+    this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries);
   }
 
   /**
-   * Load the current user's hashQueries from the DB to hash query instance.
+   * @param {UserQueryProps[]} userQueriesProps from the DB.
+   * @returns an array of no expired userQueries.
    */
-  private loadCurrentHashQuery() {
-    this.hashQueries = this.hashQueries.map((el) => new HashQuery(el.hash, el.createdAt));
-    this.filterExpiredHashQueries();
-    this.addCurrentHashQuery();
+  loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]) {
+    const curUserQueries = userQueriesProps.map((query) => new UserQuery(query));
+    //Filter the old userQueries.
+    const curFilterUserQueries = curUserQueries.filter((query) => !query.isUserQueryExpire());
+    const curUserQueriesProps = curFilterUserQueries.map((query) => query.getUserQueryProps());
+    return curUserQueriesProps;
   }
 
+  getLastQuery() {
+    const length = this.userQueries.length;
+    return this.userQueries[length - 1];
+  }
+
+  getLastHashQuery() {
+    return this.getLastQuery().hash;
+  }
   /**
-   * @returns The current user's hashQuery.
+   *
+   * @param {string} hash hash to search.
+   * @returns {UserQueryProps | undefined} the userQuery
    */
-  getCurrentHashQuery(): string {
-    return GeneralQuery.hashQuery(this.userQuery);
+  getQueryByHash(hash: string): UserQueryProps | undefined {
+    return this.userQueries.find((query) => query.hash === hash);
   }
 
-  addHashQuery(hash: string) {
-    this.hashQueries.push(new HashQuery(hash));
+  getAllHashes() {
+    return this.userQueries.map((query) => query.hash);
   }
 
-  private addCurrentHashQuery() {
-    const hash = this.getCurrentHashQuery();
-    const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
-    console.log(hashQuery);
-    if (!hashQuery) this.addHashQuery(hash);
-  }
+  // /**
+  //  * Load the current user's hashQueries from the DB to hash query instance.
+  //  */
+  // private loadCurrentHashQuery() {
+  //   this.hashQueries = this.hashQueries.map((el) => new HashQuery(el.hash, el.createdAt));
+  //   this.filterExpiredHashQueries();
+  //   this.addCurrentHashQuery();
+  // }
+
+  // private filterExpiredHashQueries() {
+  //   this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
+  // }
+  // /**
+  //  * @returns The current user's hashQuery.
+  //  */
+  // getCurrentHashQuery(): string {
+  //   return GeneralQuery.hashQuery(this.userQuery);
+  // }
+
+  // addHashQuery(hash: string) {
+  //   this.hashQueries.push(new HashQuery(hash));
+  // }
+
+  // private addCurrentHashQuery() {
+  //   const hash = this.getCurrentHashQuery();
+  //   const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
+  //   console.log(hashQuery);
+  //   if (!hashQuery) this.addHashQuery(hash);
+  // }
+
+  // /**
+  //  * @returns {string[]} The current user's hashQueries array.
+  //  */
+  // getCurrentHashQueries(): string[] {
+  //   return this.hashQueries.map((el) => el.hash);
+  // }
+
+  // updateHashCreatedAt(hash: string) {
+  //   const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
+  //   if (hashQuery) hashQuery.updateHashCreatedAt();
+  // }
+
+  // isUserQueryActive() {
+  //   return this.userQuery.active;
+  // }
 
   private setRequirements(requirements: RequirementsOptions) {
     return new Map(Object.entries<ExperienceRange>(requirements));
@@ -78,21 +122,5 @@ export class User {
 
   getExcludedRequirement(word: string) {
     return this.excludedRequirements.get(word);
-  }
-
-  /**
-   * @returns {string[]} The current user's hashQueries array.
-   */
-  getCurrentHashQueries(): string[] {
-    return this.hashQueries.map((el) => el.hash);
-  }
-
-  updateHashCreatedAt(hash: string) {
-    const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
-    if (hashQuery) hashQuery.updateHashCreatedAt();
-  }
-
-  isUserQueryActive() {
-    return this.userQuery.active;
   }
 }

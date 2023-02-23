@@ -66,7 +66,7 @@ export interface QueryOptionsResProps {
   location: string;
 }
 
-export interface UserQuery {
+export interface UserQueryProps {
   location: keyof typeof LOCATIONS_DICT_DB;
   position: keyof typeof POSITIONS_DICT_DB;
   distance: '1' | '2' | '3';
@@ -74,4 +74,6 @@ export interface UserQuery {
   scope: string;
   experience: string;
   active: boolean;
+  hash: string;
+  createAt?: Date;
 }

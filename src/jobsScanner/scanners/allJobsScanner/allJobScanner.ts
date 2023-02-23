@@ -10,7 +10,7 @@ export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
   constructor(user: UserEntity, JobsDB: JobsDB) {
     super('allJobs', user, JobsDB);
-    this.allJobsQueryOptions = new AllJobsQueryOptions(user.userQuery);
+    this.allJobsQueryOptions = new AllJobsQueryOptions(user.getLastQuery());
   }
   getURL(page = 1) {
     const { location, distance, position, jobType } = this.allJobsQueryOptions;
@@ -57,7 +57,10 @@ export class AllJobScanner extends Scanner {
   async getDataFromHTML(page: number) {
     const $ = await this.get$(page);
     const jobsPosts = (await this.getAllJobsData($)).filter(this.filterJobsPosts);
-    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.allJobsQueryOptions.hash);
+    const filterJobs = await this.filterJobsExistInDB(
+      jobsPosts,
+      this.allJobsQueryOptions.userQuery.hash
+    );
     return filterJobs;
   }
 

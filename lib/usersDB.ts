@@ -2,7 +2,7 @@ import { Collection } from 'mongodb';
 import { mongoDB } from '../src/server';
 
 import { User } from '../src/jobsScanner/user/user';
-import { UserEntity, UserOptions } from '../src/jobsScanner/user/userEntity.types';
+import { UserEntity, UserProfile } from '../src/jobsScanner/user/userEntity.types';
 
 export class UsersDB {
   users: Collection;
@@ -10,30 +10,9 @@ export class UsersDB {
     this.users = mongoDB.createDBcollection('jobs-agent-db', 'users');
   }
 
-  async addUser({
-    hashQueries,
-
-    excludedRequirements,
-    requirements,
-    overallEx,
-  }: InstanceType<typeof User>) {
-    try {
-      const result = await this.users.insertOne({
-        hashQueries,
-
-        excludedRequirements,
-        requirements,
-        overallEx,
-      });
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async loadUser(userID: string) {
     try {
-      const result = await this.users.findOne<UserOptions>({
+      const result = await this.users.findOne<UserProfile>({
         userID: userID,
       });
 
@@ -52,7 +31,7 @@ export class UsersDB {
         {
           userID: user.userID,
         },
-        { $set: { ...user } }
+        { $set: user }
       );
       if (!result) return undefined;
 
