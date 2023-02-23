@@ -56,6 +56,7 @@ export const getJobsByQueries: RequestHandler = async (req, res) => {
   const hash = req.query.hash as string;
   const jobsScanner = new JobsScanner(user);
   let jobsPosts;
+
   //If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.
   if (hash) jobsPosts = await jobsScanner.getJobsByHash(hash);
   jobsPosts = await jobsScanner.getAllJobByUserQueries();

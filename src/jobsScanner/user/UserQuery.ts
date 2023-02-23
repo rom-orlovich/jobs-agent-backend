@@ -14,10 +14,6 @@ export class UserQuery {
     this.hash = this.getQueryHash();
   }
 
-  // updateUserQueryCreatedAt() {
-  //   this.createdAt = new Date();
-  // }
-
   isUserQueryExpire() {
     if (this.createdAt.getMilliseconds() + this.expireAt === new Date().getMilliseconds()) return true;
     return false;

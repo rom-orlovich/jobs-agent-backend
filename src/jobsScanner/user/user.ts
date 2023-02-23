@@ -63,52 +63,6 @@ export class User {
     return this.userQueries.map((query) => query.hash);
   }
 
-  // /**
-  //  * Load the current user's hashQueries from the DB to hash query instance.
-  //  */
-  // private loadCurrentHashQuery() {
-  //   this.hashQueries = this.hashQueries.map((el) => new HashQuery(el.hash, el.createdAt));
-  //   this.filterExpiredHashQueries();
-  //   this.addCurrentHashQuery();
-  // }
-
-  // private filterExpiredHashQueries() {
-  //   this.hashQueries = this.hashQueries.filter((hashQuery) => !hashQuery.isHashExpire());
-  // }
-  // /**
-  //  * @returns The current user's hashQuery.
-  //  */
-  // getCurrentHashQuery(): string {
-  //   return GeneralQuery.hashQuery(this.userQuery);
-  // }
-
-  // addHashQuery(hash: string) {
-  //   this.hashQueries.push(new HashQuery(hash));
-  // }
-
-  // private addCurrentHashQuery() {
-  //   const hash = this.getCurrentHashQuery();
-  //   const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
-  //   console.log(hashQuery);
-  //   if (!hashQuery) this.addHashQuery(hash);
-  // }
-
-  // /**
-  //  * @returns {string[]} The current user's hashQueries array.
-  //  */
-  // getCurrentHashQueries(): string[] {
-  //   return this.hashQueries.map((el) => el.hash);
-  // }
-
-  // updateHashCreatedAt(hash: string) {
-  //   const hashQuery = this.hashQueries.find((hashQuery) => hashQuery.hash === hash);
-  //   if (hashQuery) hashQuery.updateHashCreatedAt();
-  // }
-
-  // isUserQueryActive() {
-  //   return this.userQuery.active;
-  // }
-
   private setRequirements(requirements: RequirementsOptions) {
     return new Map(Object.entries<ExperienceRange>(requirements));
   }
