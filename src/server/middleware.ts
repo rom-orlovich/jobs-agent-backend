@@ -42,7 +42,6 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   req.validateBeforeScanner = {
     user,
     usersDB,
-    // searchAll: searchAll,
   };
 
   next();

@@ -41,6 +41,6 @@ export class UserQuery {
    * @returns {UserQueryProps} convert back to userQueryProps with curHash.
    */
   getUserQueryProps(): UserQueryProps {
-    return { ...this.userQuery, createAt: this.createdAt, hash: this.hash };
+    return { ...this.userQuery, createdAt: this.createdAt, hash: this.hash };
   }
 }

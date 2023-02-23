@@ -73,7 +73,7 @@ export interface UserQueryProps {
   jobType: string;
   scope: string;
   experience: string;
-  active: boolean;
+
   hash: string;
-  createAt?: Date;
+  createdAt?: Date;
 }
