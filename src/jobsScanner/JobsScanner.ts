@@ -87,9 +87,9 @@ export class JobsScanner {
   }
 
   async getResults() {
-    const jobsPosts = await this.scanning();
-    const filterJobs = this.getFilterResults(jobsPosts);
-    return filterJobs;
+    const results = await this.scanning();
+    return results;
+    // const filterJobs = this.getFilterResults(jobsPosts);
   }
 }
 

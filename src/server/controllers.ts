@@ -25,7 +25,8 @@ const writeResultsScanner = async (user: User) => {
 
   try {
     const results = await jobsScanner.getResults();
-    await ScanningFS.writeData(results);
+    const filterResults = jobsScanner.getFilterResults(results);
+    await ScanningFS.writeData(filterResults);
     return true;
   } catch (error) {
     return false;
@@ -37,7 +38,7 @@ export const startScanner: RequestHandler = async (req, res) => {
 
   //Active the scanner.
   const results = await activeScanner(user, usersDB);
-  if (results) return res.status(200).send(results);
+  if (results) return res.status(200).send({ message: 'Finish!' });
   else return res.status(500).send({ message: 'Something went wrong' });
 };
 
