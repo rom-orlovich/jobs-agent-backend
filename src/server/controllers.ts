@@ -50,4 +50,14 @@ export const downloadResults: RequestHandler = async (req, res) => {
   return res.status(500).send({ message: 'Something went wrong' });
 };
 
-export const getJobsByHashQuery: RequestHandler = (req, res) => {};
+export const getJobsByQueries: RequestHandler = async (req, res) => {
+  const { user } = req.validateBeforeScanner;
+  const hash = req.query.hash as string;
+  const jobsScanner = new JobsScanner(user);
+  let jobsPosts;
+  //If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.
+  if (hash) jobsPosts = await jobsScanner.getJobsByHash(hash);
+  jobsPosts = await jobsScanner.getAllJobByUserQueries();
+  const filterResults = jobsScanner.getFilterResults(jobsPosts);
+  return res.status(200).send(filterResults);
+};

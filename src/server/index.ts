@@ -3,7 +3,7 @@ config();
 import Express from 'express';
 import { MongoDBClient } from '../../lib/mongoClient';
 
-import { downloadResults, startScanner } from './controllers';
+import { downloadResults, getJobsByQueries, startScanner } from './controllers';
 import cors from 'cors';
 import { validateBeforeScanner } from './middleware';
 import cluster from 'node:cluster';
@@ -20,6 +20,7 @@ const expressServer = () => {
   app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadResults);
+  app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobsByQueries);
 
   console.log('start');
   app.listen(5000, () => {

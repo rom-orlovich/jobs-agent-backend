@@ -46,8 +46,19 @@ export class JobsScanner {
   /**
    * @returns {Promise<JobPost[]>} Array of the JobsPost objects that match user's hashQuery.
    */
-  private async getJobsByHash(hash: string): Promise<JobPost[]> {
+  async getJobsByHash(hash: string): Promise<JobPost[]> {
     const jobsPosts = await this.jobsDB.getJobsByHash(hash);
+    return jobsPosts;
+  }
+
+  /**
+   *Create user's hashQuery string array and gets all the jobsPosts that match
+   the user's history queries by their current hashQueries array.
+   * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
+   */
+  async getAllJobByUserQueries(): Promise<JobPost[]> {
+    const hashesQueries = this.user.getAllHashes();
+    const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
     return jobsPosts;
   }
 
@@ -64,16 +75,6 @@ export class JobsScanner {
     else jobsPosts = await this.getScannerResults();
     return jobsPosts;
   }
-  /**
-   *Create user's hashQuery string array and gets all the jobsPosts that match
-   the user's history queries by their current hashQueries array.
-   * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
-   */
-  async scanningByAllUserQueries(): Promise<JobPost[]> {
-    const hashesQueries = this.user.getAllHashes();
-    const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
-    return jobsPosts;
-  }
 
   async scanning() {
     const jobsPosts = await this.scanningByUserQuery();
@@ -81,9 +82,13 @@ export class JobsScanner {
     return jobsPosts;
   }
 
+  getFilterResults(jobsPosts: JobPost[]) {
+    return RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
+  }
+
   async getResults() {
     const jobsPosts = await this.scanning();
-    const filterJobs = RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
+    const filterJobs = this.getFilterResults(jobsPosts);
     return filterJobs;
   }
 }
