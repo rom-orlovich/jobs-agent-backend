@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { MongoDBClient } from '../../../lib/mongoClient';
+import { MongoDBClient } from '../../../mongoDB/mongoClient';
 
 export const LOCATIONS_DICT_DB = {
   ירושלים: {

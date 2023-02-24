@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { MongoDBClient } from '../../../lib/mongoClient';
+import { MongoDBClient } from '../../../mongoDB/mongoClient';
 import { PositionData } from './lib/createQueryDB';
 
 export const POSITIONS_DICT_DB: PositionData = {
