@@ -11,7 +11,6 @@ export class UsersDB {
   }
 
   async loadUser(userID: string) {
-    console.log(userID);
     try {
       const result = await this.users.findOne<UserProfile>({
         userID: userID,

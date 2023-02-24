@@ -45,8 +45,8 @@ export class QueryValidation {
     //Helpers functions that check if query keyValue is valid input.
     //Key is valid if it exist in possibleKeys object and if it valid string or valid number.
     const checkValidKeyValue = (key: string) =>
-      (this.possiblesKeys[key] && QueryValidation.checkString(query)) ||
-      QueryValidation.checkValidNumber(query);
+      this.possiblesKeys[key] &&
+      (QueryValidation.checkString(key) || QueryValidation.checkValidNumber(key));
 
     const queryKeysArr = Object.keys(query);
     //Check forEach query keys if it valid key.

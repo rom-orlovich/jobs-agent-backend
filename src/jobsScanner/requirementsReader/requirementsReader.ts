@@ -184,7 +184,7 @@ export class RequirementsReader {
     //If there is not match of langEx from profile requirements in the text, the function will return: 'This job is not contain any word from you tech stack'
     if (!noneOfTechStackExist)
       return { pass: false, reason: 'This job is not contain any word from you tech stack', count: k };
-    console.log('finish scanRequirements');
+
     return { pass: true, count: k };
   }
 

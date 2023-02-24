@@ -23,7 +23,7 @@ const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOpt
 export const startScanner: RequestHandler = async (req, res) => {
   const { user, usersDB, queryOptions } = req.validateBeforeScanner;
   //Active the scanner.
-  console.log(queryOptions);
+
   const result = await activeScanner(user, usersDB, queryOptions);
   if (result)
     return res.status(200).send({
