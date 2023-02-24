@@ -129,6 +129,7 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const $facetData = limit && page ? { jobs: [{ $skip: page }, { $limit: limit }] } : { jobs: [] };
+    // console.log($facetData, { $match: { hashQueries: { $elemMatch: { $in: hashQueries } }, ...match } });
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([

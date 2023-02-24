@@ -102,10 +102,10 @@ export class QueryValidation {
     // Check if the query is valid.
     if (!this.checkValidQuery(this.preQueryOptions)) return undefined;
 
-    if (!this.preQueryOptions.hash) return { match: {}, limit: undefined, page: undefined };
-
     // Return match object pipeline.
     const match = this.createMatchOptions(this.preQueryOptions);
+
+    if (!this.preQueryOptions.hash) return { match: match, limit: undefined, page: undefined };
 
     // Return facet object pipeline.
     const { limit, page } = this.createFacetOptions(this.preQueryOptions);
