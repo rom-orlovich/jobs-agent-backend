@@ -1,68 +1,75 @@
 import { RequestHandler } from 'express';
-import { QueryOptions } from '../../lib/jobsDB';
-
 import { ScanningFS } from '../../lib/scanningFS';
-import { GenericRecord } from '../../lib/types';
-
-import { UsersDB } from '../../lib/usersDB';
-import { JobsScanner } from '../jobsScanner/JobsScanner';
+import { UsersDB } from '../../mongoDB/usersDB';
+import { JobsScanner } from '../jobsScanner/jobsScanner';
 import { User } from '../jobsScanner/user/user';
+import { QueryOptionsRes } from './queryValidation';
+import { ERROR_CODES } from './errorCodes';
 
-const activeScanner = async (user: User, userDB: UsersDB) => {
+const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOptionsRes) => {
   try {
-    const jobsScanner = new JobsScanner(user);
-
+    const jobsScanner = new JobsScanner(user, queryOptions);
     await userDB.updateUser(user);
     console.time('time');
-    const results = await jobsScanner.getResults();
+    await jobsScanner.scanning();
     console.timeEnd('time');
-    return results;
+    return true;
   } catch (error) {
     console.log(error);
     return undefined;
   }
 };
-const writeResultsScanner = async (user: User) => {
-  const jobsScanner = new JobsScanner(user);
 
+export const startScanner: RequestHandler = async (req, res) => {
+  const { user, usersDB, queryOptions } = req.validateBeforeScanner;
+  //Active the scanner.
+  console.log(queryOptions);
+  const result = await activeScanner(user, usersDB, queryOptions);
+  if (result)
+    return res.status(200).send({
+      success: true,
+      message: 'The jobs scanner was finished successfully',
+      code: ERROR_CODES.SCANNER_SUCCESS,
+    });
+  else
+    return res
+      .status(500)
+      .send({ message: 'Something went wrong', success: false, code: ERROR_CODES.SOMETHING_WRONG });
+};
+
+//If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.
+const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {
+  const jobsScanner = new JobsScanner(user, queryOptions);
+  let jobs;
+  if (hash) jobs = await jobsScanner.getJobsByHash(String(hash));
+  jobs = await jobsScanner.getAllJobByUserQueries();
+
+  return jobsScanner.getResults(jobs);
+};
+
+export const getJobsByQueries: RequestHandler = async (req, res) => {
+  const { user, queryOptions, hash } = req.validateBeforeScanner;
+  const result = await getJobsByHashExist(user, queryOptions, hash);
+  return res.status(200).send(result);
+};
+
+const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {
   try {
-    const results = await jobsScanner.getResults();
-    const filterResults = jobsScanner.getFilterResults(results);
-    await ScanningFS.writeData(filterResults);
+    const result = await getJobsByHashExist(user, queryOptions, hash);
+    await ScanningFS.writeData(result.jobs);
     return true;
   } catch (error) {
     return false;
   }
 };
 
-export const startScanner: RequestHandler = async (req, res) => {
-  const { user, usersDB } = req.validateBeforeScanner;
-
-  //Active the scanner.
-  const results = await activeScanner(user, usersDB);
-  if (results) return res.status(200).send({ message: 'Finish!' });
-  else return res.status(500).send({ message: 'Something went wrong' });
-};
-
 export const downloadResults: RequestHandler = async (req, res) => {
-  const { user } = req.validateBeforeScanner;
+  const { user, queryOptions, hash } = req.validateBeforeScanner;
 
   //Writes the results into csv file.
-  const result = await writeResultsScanner(user);
+  const result = await writeResultsScanner(user, queryOptions, hash);
   if (result) return res.download(ScanningFS.createPathJobsCSV());
-  return res.status(500).send({ message: 'Something went wrong' });
-};
-
-export const getJobsByQueries: RequestHandler = async (req, res) => {
-  const { user } = req.validateBeforeScanner;
-  const { hash, ...query } = req.query;
-  const matchOptions = query as QueryOptions;
-  const jobsScanner = new JobsScanner(user);
-  let jobsPosts;
-
-  //If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.
-  if (hash) jobsPosts = await jobsScanner.getJobsByHash(String(hash), matchOptions);
-  jobsPosts = await jobsScanner.getAllJobByUserQueries(matchOptions);
-  const filterResults = jobsScanner.getFilterResults(jobsPosts);
-  return res.status(200).send(filterResults);
+  return res
+    .status(500)
+    .send({ message: 'Something went wrong', success: false, code: ERROR_CODES.SOMETHING_WRONG });
 };
