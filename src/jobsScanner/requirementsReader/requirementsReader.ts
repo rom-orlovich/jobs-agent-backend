@@ -1,5 +1,4 @@
-import { GenericRecord } from '../../../lib/types';
-import { DataWithText } from '../jobsScanner.types';
+import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
 
 import { ExperienceRange, UserEntity } from '../user/userEntity.types';
 
@@ -234,10 +233,7 @@ export class RequirementsReader {
     const isRequirementsMatch = RequirementsReader.scanRequirements(sentences, user);
     return isRequirementsMatch;
   }
-  static checkRequirementMatchForArray<T extends GenericRecord<any>>(
-    data: DataWithText<T>[],
-    user: UserEntity
-  ) {
+  static checkRequirementMatchForArray(data: Job[], user: UserEntity) {
     return data.map((el) => {
       let reason;
       // Read the title. If the title is valid and there the reason is empty so continue to the requirements.
