@@ -11,11 +11,12 @@ export class UsersDB {
   }
 
   async loadUser(userID: string) {
+    console.log(userID);
     try {
       const result = await this.users.findOne<UserProfile>({
         userID: userID,
       });
-
+      console.log(result);
       if (!result) return undefined;
       const user = new User(result);
       return user;

@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 config();
 import Express from 'express';
-import { MongoDBClient } from '../../lib/mongoClient';
+import { MongoDBClient } from '../../mongoDB/mongoClient';
 
 import { downloadResults, getJobsByQueries, startScanner } from './controllers';
 import cors from 'cors';
