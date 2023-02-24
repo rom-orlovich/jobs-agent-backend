@@ -82,20 +82,21 @@ export class QueryValidation {
    */
   private createFacetOptions(options?: QueryOptions): OmitKey<QueryOptionsRes, 'match'> {
     if (!options) return { page: 1, limit: 20 };
+
     const { page, limit } = options;
     const pageInt = parseInt(page || '1');
     const limitRes = parseInt(limit || '20');
     const pageRes = (pageInt - 1) * limitRes;
     return { page: pageRes, limit: limitRes > 50 ? 50 : limitRes };
   }
+
   /**
    * @param options Represent the url's query object.
    * @returns {QueryOptionsRes} The results of normalize queryOptions.
    */
 
   private getQueryOptions(): QueryOptionsRes | undefined {
-    //Return queryOptions without limit and page and match.
-
+    console.log(this.preQueryOptions);
     //Return queryOptions default values.
     if (!this.preQueryOptions) return { match: {}, limit: 20, page: 1 };
 
@@ -105,6 +106,7 @@ export class QueryValidation {
     // Return match object pipeline.
     const match = this.createMatchOptions(this.preQueryOptions);
 
+    //Return queryOptions without limit and page and match.
     if (!this.preQueryOptions.hash) return { match: match, limit: undefined, page: undefined };
 
     // Return facet object pipeline.

@@ -30,49 +30,11 @@ export class JobsDB {
     }
   }
 
-  // private regexStartWith(str: string) {
-  //   return new RegExp(`^${str}`);
-  // }
-
-  // /**
-  //  * @param {JobsQueryOptions} options How the user wants to filter the data.
-  //  * @returns {GenericRecord<RegExp>} The match object. The keys are the fields the user wants to filter
-  //  * by them and the values are regex.
-  //  */
-  // private createMatchOptions(options?: QueryOptions): GenericRecord<RegExp> {
-  //   if (!options) return {};
-  //   const match: GenericRecord<RegExp> = {};
-  //   const { from, reason, title } = options;
-  //   if (from) match['from'] = this.regexStartWith(from);
-  //   if (reason) match['reason'] = this.regexStartWith(reason);
-  //   if (title) match['title'] = this.regexStartWith(title);
-  //   return match;
-  // }
-
-  // /**
-  //  *
-  //  * @param options Represent the url's query object.
-  //  * @returns {OmitKey<QueryOptionsRes,"match">}  Represent options of find query.
-  //  */
-  // private createFacetOptions(options?: QueryOptions): OmitKey<QueryOptionsRes, 'match'> {
-  //   if (!options) return { page: 1, limit: 20 };
-  //   const { page, limit } = options;
-  //   const pageInt = parseInt(page || '1');
-  //   const limitRes = parseInt(limit || '20');
-  //   const pageRes = (pageInt - 1) * limitRes;
-  //   return { page: pageRes, limit: limitRes > 50 ? 50 : limitRes };
-  // }
-  // /**
-  //  * @param options Represent the url's query object.
-  //  * @returns {QueryOptionsRes} The results of normalize queryOptions.
-  //  */
-
-  // private getQueryOptions(options?: QueryOptions, activeOptions = true): QueryOptionsRes {
-  //   if (activeOptions) return { match: {}, limit: undefined, page: undefined };
-  //   const match = this.createMatchOptions(options);
-  //   const { limit, page } = this.createFacetOptions(options);
-  //   return { match, limit, page };
-  // }
+  private convertFacetToPipeline(limit?: number, page?: number) {
+    return limit && page !== undefined && page >= 0
+      ? { jobs: [{ $skip: page }, { $limit: limit }] }
+      : { jobs: [] };
+  }
 
   /**
    *
@@ -94,7 +56,8 @@ export class JobsDB {
    */
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
-    const $facetData = limit && page ? { data: [{ $skip: page }, { $limit: limit }] } : { data: [] };
+
+    const $facetData = this.convertFacetToPipeline(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
@@ -130,7 +93,7 @@ export class JobsDB {
     queryOptions: QueryOptionsRes
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
-    const $facetData = limit && page ? { jobs: [{ $skip: page }, { $limit: limit }] } : { jobs: [] };
+    const $facetData = this.convertFacetToPipeline(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB

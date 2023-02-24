@@ -83,8 +83,9 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
       success: false,
       code: ERROR_CODES.ENTER_VALID_QUERY,
     });
+
   const isHashString = QueryValidation.checkString(req.query.hash);
-  console.log('hash', isHashString);
+
   const hash = isHashString ? isHashString : undefined;
 
   //initial the usersDB and load the requested user from the DB.

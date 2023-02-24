@@ -41,11 +41,10 @@ export const startScanner: RequestHandler = async (req, res) => {
 const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {
   const jobsScanner = new JobsScanner(user, queryOptions);
   let jobs;
+
   if (hash) jobs = await jobsScanner.getJobsByHash(String(hash));
-  {
-    jobs = await jobsScanner.getAllJobByUserQueries();
-    // jobs = await jobsScanner.startScanningByMinResults(jobs);
-  }
+
+  jobs = await jobsScanner.getAllJobByUserQueries();
 
   return jobsScanner.getResults(jobs);
 };
