@@ -1,5 +1,5 @@
 import { GenericRecord } from '../../../../lib/types';
-import { UserQuery } from '../../generalQuery/query.types';
+import { UserQueryProps } from '../../generalQuery/query.types';
 
 import { User } from '../../user/user';
 import { ExperienceRange } from '../../user/userEntity.types';
@@ -34,14 +34,14 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     noSQL: { min: 0, max: 3 },
   };
 
-  const EXAMPLE_QUERY: UserQuery = {
+  const EXAMPLE_QUERY: UserQueryProps = {
     location: 'תל אביב',
     position: 'Frontend',
     distance: '1', // 10,25,50,75,
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    active: true,
+    hash: '',
   };
 
   const EXAMPLE_USER = new User({
@@ -60,11 +60,12 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       angular: true,
       net: true,
       qa: true,
+      lead: true,
     },
 
-    _id: '1',
-    hashQueries: [],
-    userQuery: EXAMPLE_QUERY,
+    userID: '',
+
+    userQueries: [EXAMPLE_QUERY],
   });
 
   test('Tests one sentence when the language is found in the excludedRequirements obj ', () => {
@@ -79,10 +80,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 1,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [['C#.NET', 'Core', '–', '1+', 'years', 'of', 'experience']]
@@ -96,10 +96,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 1,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [['C#.NET', 'Core', '–', '3+', 'years', 'of', 'experience']]
@@ -138,10 +137,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 5,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [['javascript', '4-5', 'years', 'of', 'experience']]
@@ -178,10 +176,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 6,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [['5+', 'years', 'of', 'experience', 'in', 'javascript']]
@@ -204,10 +201,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [['3-5', 'years', 'of', 'experience', 'in', 'javascript']]
@@ -227,10 +223,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 1,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': true, angular: true, 'c#': true, java: true, php: true },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
     const sentences = [
       ['0-2', 'years', 'of', 'experience', 'javascript', 'and', '2', 'years', 'of', 'node.js'],
@@ -254,10 +249,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': true },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [
@@ -273,10 +267,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 15,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': true },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [
@@ -292,10 +285,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 15,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = [
@@ -311,10 +303,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
       overallEx: 15,
       requirements: REQUIREMENTS,
       excludedRequirements: { 'c#.net': false },
-      _id: '1',
+      userID: '',
 
-      hashQueries: [],
-      userQuery: EXAMPLE_QUERY,
+      userQueries: [EXAMPLE_QUERY],
     });
     const sentences = [
       [

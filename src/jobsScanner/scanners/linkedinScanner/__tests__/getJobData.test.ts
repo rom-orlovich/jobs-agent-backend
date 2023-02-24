@@ -1,14 +1,14 @@
 import { Browser, Page } from 'puppeteer';
-import { JobsDB } from '../../../../../lib/jobsDB';
-import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
 
-import { UserQuery } from '../../../generalQuery/query.types';
+import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
+import { JobsDB } from '../../../../../mongoDB/jobsDB/jobsDB';
+import { UserQueryProps } from '../../../generalQuery/query.types';
 
 import { User } from '../../../user/user';
 
 import { LinkedinScanner } from '../linkedinScanner';
 import { JOB_POST_EX1_HTML, JOB_POST_EX2_HTML, JOB_POST_EX3_HTML } from './mocks/htmlContext';
-
+// Todo: these tests may not pass. I have to check them again.
 describe.skip('Tests getAllJobsData method of LinkedinScanner', () => {
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
@@ -36,14 +36,14 @@ describe.skip('Tests getAllJobsData method of LinkedinScanner', () => {
     noSQL: { min: 0, max: 3 },
   };
 
-  const EXAMPLE_QUERY: UserQuery = {
+  const EXAMPLE_QUERY: UserQueryProps = {
     location: 'תל אביב',
     position: 'Frontend',
     distance: '1', // 10,25,50,75,
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    active: true,
+    hash: '',
   };
 
   const EXAMPLE_USER = new User({
@@ -63,10 +63,8 @@ describe.skip('Tests getAllJobsData method of LinkedinScanner', () => {
       net: true,
       qa: true,
     },
-
-    _id: '1',
-    hashQueries: [],
-    userQuery: EXAMPLE_QUERY,
+    userID: '',
+    userQueries: [EXAMPLE_QUERY],
   });
   const { lunchInstance, evaluateContent } = PuppeteerSetup;
   const linkedinScanner = new LinkedinScanner(EXAMPLE_USER, new JobsDB());

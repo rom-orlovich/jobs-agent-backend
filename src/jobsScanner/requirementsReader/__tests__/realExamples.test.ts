@@ -1,6 +1,6 @@
 // import { RequirementsReader } from '../RequirementsReader';
 
-import { UserQuery } from '../../generalQuery/query.types';
+import { UserQueryProps } from '../../generalQuery/query.types';
 import { User } from '../../user/user';
 import { RequirementsReader } from '../requirementsReader';
 
@@ -33,14 +33,14 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     noSQL: { min: 0, max: 3 },
   };
 
-  const EXAMPLE_QUERY: UserQuery = {
+  const EXAMPLE_QUERY: UserQueryProps = {
     location: 'תל אביב',
     position: 'Frontend',
     distance: '1', // 10,25,50,75,
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    active: true,
+    hash: '',
   };
 
   const EXAMPLE_USER = new User({
@@ -59,11 +59,12 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       angular: true,
       net: true,
       qa: true,
+      lead: true,
     },
 
-    _id: '1',
-    hashQueries: [],
-    userQuery: EXAMPLE_QUERY,
+    userID: '',
+
+    userQueries: [EXAMPLE_QUERY],
   });
 
   test(`Tests many sentences from real text that its not match the user experience-ex`, () => {
@@ -78,9 +79,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     const EXAMPLE_USER = new User({
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = `typescript core – 2 years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
@@ -92,9 +92,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       overallEx: 1,
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = `8+ years working experience with java (minimum 70%
@@ -118,9 +117,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = `manage and optimize scalable distributed systems on
@@ -139,9 +137,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = ` build & maintain our ecommerce web application
@@ -167,9 +164,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = `you will develop, debug, deliver and maintain a
@@ -196,9 +192,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
       overallEx: 2,
       requirements: REQUIREMENTS,
       excludedRequirements: {},
-      _id: '1',
-      userQuery: EXAMPLE_QUERY,
-      hashQueries: [],
+      userID: '',
+      userQueries: [EXAMPLE_QUERY],
     });
 
     const sentences = `A large medical organization in Jerusalem, Netanya and the tender is looking for a Share Point developer.

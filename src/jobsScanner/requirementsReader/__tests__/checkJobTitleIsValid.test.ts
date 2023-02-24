@@ -1,5 +1,6 @@
-import { UserQuery } from '../../generalQuery/query.types';
+import { UserQueryProps } from '../../generalQuery/query.types';
 import { User } from '../../user/user';
+
 import { RequirementsReader } from '../requirementsReader';
 
 describe.only('Tests checkJobTitleIsValid', () => {
@@ -29,14 +30,14 @@ describe.only('Tests checkJobTitleIsValid', () => {
     noSQL: { min: 0, max: 3 },
   };
 
-  const EXAMPLE_QUERY: UserQuery = {
+  const EXAMPLE_QUERY: UserQueryProps = {
     location: 'תל אביב',
     position: 'Frontend',
     distance: '1', // 10,25,50,75,
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    active: true,
+    hash: '',
   };
 
   const EXAMPLE_USER = new User({
@@ -58,9 +59,9 @@ describe.only('Tests checkJobTitleIsValid', () => {
       lead: true,
     },
 
-    _id: '1',
-    hashQueries: [],
-    userQuery: EXAMPLE_QUERY,
+    userID: '',
+
+    userQueries: [EXAMPLE_QUERY],
   });
   test('Test valid title-ex1', () => {
     const title = 'Full stack developer';

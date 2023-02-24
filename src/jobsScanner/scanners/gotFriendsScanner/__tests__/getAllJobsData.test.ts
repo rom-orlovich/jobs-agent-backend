@@ -1,14 +1,16 @@
 import { Browser, Page } from 'puppeteer';
-import { JobsDB } from '../../../../../lib/jobsDB';
+
 import { PuppeteerSetup } from '../../../../../lib/puppeteerSetup';
-import { UserQuery } from '../../../generalQuery/query.types';
-import { JobPost } from '../../../jobsScanner.types';
+import { JobsDB } from '../../../../../mongoDB/jobsDB/jobsDB';
+import { Job } from '../../../../../mongoDB/jobsDB/jobsDB.types';
+import { UserQueryProps } from '../../../generalQuery/query.types';
 
 import { User } from '../../../user/user';
 
 import { GotFriendsScanner } from '../gotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
+// Todo: these tests may not pass. I have to check them again.
 describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
@@ -36,14 +38,14 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
     noSQL: { min: 0, max: 3 },
   };
 
-  const EXAMPLE_QUERY: UserQuery = {
+  const EXAMPLE_QUERY: UserQueryProps = {
     location: 'תל אביב',
     position: 'Frontend',
     distance: '1', // 10,25,50,75,
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    active: true,
+    hash: '',
   };
 
   const EXAMPLE_USER = new User({
@@ -64,9 +66,9 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
       qa: true,
     },
 
-    _id: '1',
-    hashQueries: [],
-    userQuery: EXAMPLE_QUERY,
+    userID: '',
+
+    userQueries: [EXAMPLE_QUERY],
   });
   const { lunchInstance, evaluateContent } = PuppeteerSetup;
   const gotFriendsScanner = new GotFriendsScanner(EXAMPLE_USER, new JobsDB());
@@ -89,7 +91,7 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
     );
     const resNormalize = res.map((el) => ({ ...el, text: el.text.replace(/\s+/g, '') }));
 
-    expect(resNormalize).toEqual<JobPost[]>([
+    expect(resNormalize).toEqual<Job[]>([
       {
         title: 'Principal Engineer בחברה מצליחה ומרשימה!',
         company: '',
