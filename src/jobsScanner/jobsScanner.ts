@@ -59,7 +59,14 @@ export class JobsScanner {
   async getAllJobByUserQueries(): Promise<JobsResults> {
     const hashesQueries = this.user.getAllHashes();
     const jobs = this.jobsDB.getJobsByHashQueries(hashesQueries, this.queryOptions);
+
     return jobs;
+  }
+
+  async startScanningByMinResults(JobsByHashResult: JobsResults) {
+    if (JobsByHashResult?.pagination?.total > 100) return JobsByHashResult;
+
+    await this.getScannerResults();
   }
 
   /**
@@ -69,11 +76,10 @@ export class JobsScanner {
    */
   async scanningByUserQuery() {
     const JobsByHashResult = await this.getJobsByHash(this.user.getLastHashQuery());
-    if (JobsByHashResult.pagination.total < 100) await this.getScannerResults();
+    await this.startScanningByMinResults(JobsByHashResult);
   }
 
   async scanning() {
-    console.log('here');
     await this.scanningByUserQuery();
     await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
   }

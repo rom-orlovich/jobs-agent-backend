@@ -42,13 +42,17 @@ const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, has
   const jobsScanner = new JobsScanner(user, queryOptions);
   let jobs;
   if (hash) jobs = await jobsScanner.getJobsByHash(String(hash));
-  jobs = await jobsScanner.getAllJobByUserQueries();
+  {
+    jobs = await jobsScanner.getAllJobByUserQueries();
+    // jobs = await jobsScanner.startScanningByMinResults(jobs);
+  }
 
   return jobsScanner.getResults(jobs);
 };
 
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
+
   const result = await getJobsByHashExist(user, queryOptions, hash);
   return res.status(200).send(result);
 };

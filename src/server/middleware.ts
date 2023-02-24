@@ -61,8 +61,8 @@ export const checkValidNumber = (num: unknown) => Number.isFinite(num);
 //initial the usersDB and load the requested user from the DB.
 const initialUsersAndLoadUserFromDB = async (userID: string) => {
   const usersDB = new UsersDB();
-
   const user = await usersDB.loadUser(userID);
+
   return { usersDB, user };
 };
 
@@ -84,6 +84,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
       code: ERROR_CODES.ENTER_VALID_QUERY,
     });
   const isHashString = QueryValidation.checkString(req.query.hash);
+  console.log('hash', isHashString);
   const hash = isHashString ? isHashString : undefined;
 
   //initial the usersDB and load the requested user from the DB.
