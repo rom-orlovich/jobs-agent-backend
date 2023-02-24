@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-import { JobsDB } from '../../../lib/jobsDB';
+import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
 
 import { GoogleTranslate } from '../googleTranslate/googleTranslate';
 
-import { Job, JobPost } from '../jobsScanner.types';
 import { throatPromises, untilSuccess } from '../../../lib/utils';
 import { Page } from 'puppeteer';
 import { UserEntity } from '../user/userEntity.types';
 import { ScannerName } from '../generalQuery/query.types';
 import { RequirementsReader } from '../requirementsReader/requirementsReader';
+import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
 
 export class Scanner {
   user: UserEntity;
@@ -41,7 +41,7 @@ export class Scanner {
     }
   }
 
-  protected filterJobsPosts<JP extends Job>() {
+  protected filterJobs<JP extends Job>() {
     return (curJob: JP) => {
       if (this.jobMap.get(curJob.jobID)) return false;
       else this.jobMap.set(curJob.jobID, true);
@@ -50,9 +50,9 @@ export class Scanner {
     };
   }
 
-  protected async filterJobsExistInDB<JP extends Job>(jobsPosts: JP[], hash: string) {
+  protected async filterJobsExistInDB<JP extends Job>(jobs: JP[], hash: string) {
     const filterResults = [];
-    for (const jobPost of jobsPosts) {
+    for (const jobPost of jobs) {
       const isExist = await this.jobsDB.updateOne(jobPost.jobID, hash);
       if (!isExist) filterResults.push(jobPost);
     }
@@ -70,34 +70,34 @@ export class Scanner {
   }
 
   protected async getTranslateResultsScanning(
-    promises: Promise<JobPost[]>[],
+    promises: Promise<Job[]>[],
     throatNum = 10
-  ): Promise<JobPost[]> {
-    const jobsPosts = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
-    const jobsPostsWithTranslate = await this.googleTranslate.translateArrayText(jobsPosts);
+  ): Promise<Job[]> {
+    const jobs = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
+    const jobsPostsWithTranslate = await this.googleTranslate.translateArrayText(jobs);
 
     return jobsPostsWithTranslate;
   }
 
-  async scanning(): Promise<JobPost[]> {
+  async scanning(): Promise<Job[]> {
     throw new Error('Method not implemented.');
   }
 
-  async insertManyDB(jobsPosts: JobPost[], hash: string) {
+  async insertManyDB(jobs: Job[], hash: string) {
     await this.jobsDB.insertMany(
-      jobsPosts.map((el) => ({ ...el, hashQueries: [hash], createdAt: new Date() }))
+      jobs.map((el) => ({ ...el, hashQueries: [hash], createdAt: new Date() }))
     );
   }
 
-  filterResults(jobsPosts: JobPost[]) {
-    return RequirementsReader.checkRequirementMatchForArray(jobsPosts, this.user);
+  filterResults(jobs: Job[]) {
+    return RequirementsReader.checkRequirementMatchForArray(jobs, this.user);
   }
 
-  async getResults(): Promise<JobPost[]> {
-    const jobsPosts = await this.scanning();
-    console.log(`finish found ${jobsPosts.length} jobs in ${this.scannerName}`);
-    if (jobsPosts.length) await this.insertManyDB(jobsPosts, this.user.getLastHashQuery());
+  async getResults(): Promise<Job[]> {
+    const jobs = await this.scanning();
+    console.log(`finish found ${jobs.length} jobs in ${this.scannerName}`);
+    if (jobs.length) await this.insertManyDB(jobs, this.user.getLastHashQuery());
 
-    return this.filterResults(jobsPosts);
+    return this.filterResults(jobs);
   }
 }
