@@ -3,8 +3,8 @@ import { Scanner } from '../scanner';
 import { AllJobsQueryOptions } from './allJobQueryOptions';
 import { CheerioAPI, load } from 'cheerio';
 import { UserEntity } from '../../user/userEntity.types';
-import { JobsDB } from '../../../../lib/jobsDB';
-import { JobPost } from '../../jobsScanner.types';
+import { JobsDB } from '../../../../mongoDB/jobsDB/jobsDB';
+import { Job } from '../../../../mongoDB/jobsDB/jobsDB.types';
 
 export class AllJobScanner extends Scanner {
   allJobsQueryOptions: AllJobsQueryOptions;
@@ -56,18 +56,15 @@ export class AllJobScanner extends Scanner {
   }
   async getDataFromHTML(page: number) {
     const $ = await this.get$(page);
-    const jobsPosts = (await this.getAllJobsData($)).filter(this.filterJobsPosts);
-    const filterJobs = await this.filterJobsExistInDB(
-      jobsPosts,
-      this.allJobsQueryOptions.userQuery.hash
-    );
+    const jobs = (await this.getAllJobsData($)).filter(this.filterJobs);
+    const filterJobs = await this.filterJobsExistInDB(jobs, this.allJobsQueryOptions.userQuery.hash);
     return filterJobs;
   }
 
   async scanning() {
     const $ = await this.get$(0);
     const maxPages = Number($('#hdnTotalPages').val());
-    const promises: Promise<JobPost[]>[] = [];
+    const promises: Promise<Job[]>[] = [];
     let page = 0;
 
     while (page < maxPages) {

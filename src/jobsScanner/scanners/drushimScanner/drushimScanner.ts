@@ -2,10 +2,10 @@ import { DrushimQueryOptions } from './drushimQueryOptions';
 
 import { Scanner } from '../scanner';
 
-import { JobsDB } from '../../../../lib/jobsDB';
+import { JobsDB } from '../../../../mongoDB/jobsDB/jobsDB';
 import { UserEntity } from '../../user/userEntity.types';
 import { DrushimAPI, DrushimResult } from './drushim.types';
-import { JobPost } from '../../jobsScanner.types';
+import { Job } from '../../../../mongoDB/jobsDB/jobsDB.types';
 
 export class DrushimScanner extends Scanner {
   drushimQueryOptions: DrushimQueryOptions;
@@ -19,7 +19,7 @@ export class DrushimScanner extends Scanner {
     return `https://www.drushim.co.il/api/jobs/search?experience=${experience}&scope=${scope}&area=1&searchterm=${position}&geolexid=${location}&range=${distance}&ssaen=1&page=${page}&isAA=true`;
   }
 
-  getJobsData(results: DrushimResult[] | undefined): JobPost[] {
+  getJobsData(results: DrushimResult[] | undefined): Job[] {
     if (!results) return [];
     return results.map((result) => ({
       jobID: String(result.Code),
@@ -35,11 +35,8 @@ export class DrushimScanner extends Scanner {
   }
 
   async getFilterData(data: DrushimAPI | undefined) {
-    const jobsPosts = this.getJobsData(data?.ResultList).filter(this.filterJobsPosts);
-    const filterJobs = await this.filterJobsExistInDB(
-      jobsPosts,
-      this.drushimQueryOptions.userQuery.hash
-    );
+    const jobs = this.getJobsData(data?.ResultList).filter(this.filterJobs);
+    const filterJobs = await this.filterJobsExistInDB(jobs, this.drushimQueryOptions.userQuery.hash);
     return filterJobs;
   }
 
@@ -48,20 +45,20 @@ export class DrushimScanner extends Scanner {
     return this.getFilterData(data);
   }
 
-  async scanning(): Promise<JobPost[]> {
+  async scanning(): Promise<Job[]> {
     const data = await this.getAxiosData<DrushimAPI>(0);
 
     if (!data) return [];
     let page = 1;
-    const promises: Promise<JobPost[]>[] = [this.getFilterData(data)];
+    const promises: Promise<Job[]>[] = [this.getFilterData(data)];
     while (page < (data?.TotalPagesNumber || 0)) {
       console.log(`Page number ${page}`);
       promises.push(this.getNormalizeData(page));
       page++;
     }
 
-    const jobsPosts = await this.getTranslateResultsScanning(promises);
-    return jobsPosts;
+    const jobs = await this.getTranslateResultsScanning(promises);
+    return jobs;
   }
 }
 

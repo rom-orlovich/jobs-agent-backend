@@ -3,11 +3,11 @@ import { LinkedinQueryOptions } from './linkedinQueryOptions';
 
 import { Browser } from 'puppeteer';
 import throat from 'throat';
-import { JobsDB } from '../../../../lib/jobsDB';
+import { JobsDB } from '../../../../mongoDB/jobsDB/jobsDB';
 import { UserEntity } from '../../user/userEntity.types';
 import { throatPromises } from '../../../../lib/utils';
 import { PuppeteerSetup } from '../../../../lib/puppeteerSetup';
-import { JobPost } from '../../jobsScanner.types';
+import { Job } from '../../../../mongoDB/jobsDB/jobsDB.types';
 
 export class LinkedinScanner extends Scanner {
   linkedinQuery: LinkedinQueryOptions;
@@ -61,11 +61,11 @@ export class LinkedinScanner extends Scanner {
     console.log(`page num ${pageNum}`);
     await Scanner.waitUntilScan(page, url, '.base-card');
 
-    const jobsPosts = (
-      await page.evaluate(this.getAllJobsPostData, this.scannerName, new Date())
-    ).filter(this.filterJobsPosts);
+    const jobs = (await page.evaluate(this.getAllJobsPostData, this.scannerName, new Date())).filter(
+      this.filterJobs
+    );
 
-    const filterJobs = await this.filterJobsExistInDB(jobsPosts, this.linkedinQuery.userQuery.hash);
+    const filterJobs = await this.filterJobsExistInDB(jobs, this.linkedinQuery.userQuery.hash);
     await page.close();
 
     return filterJobs;
@@ -80,12 +80,12 @@ export class LinkedinScanner extends Scanner {
       start += 25;
     }
 
-    const jobsPosts = (await Promise.all(throatPromises(4, promises))).flat(1);
-    console.log('number', jobsPosts.length);
-    return jobsPosts;
+    const jobs = (await Promise.all(throatPromises(4, promises))).flat(1);
+    console.log('number', jobs.length);
+    return jobs;
   }
 
-  async getTheAPIJobsPosts(browser: Browser) {
+  async getTheAPIJobs(browser: Browser) {
     console.log(this.getURL(0));
     const page = await browser.newPage();
     await page.goto(this.getURL(0));
@@ -93,9 +93,9 @@ export class LinkedinScanner extends Scanner {
       Number(el.textContent)
     );
     this.setAPIDomain();
-    const jobsPosts = await this.getJobsPostPromises(numResults || 500, browser);
+    const jobs = await this.getJobsPostPromises(numResults || 500, browser);
     await page.close();
-    return jobsPosts;
+    return jobs;
   }
 
   static getJobPostRequirementData() {
@@ -117,7 +117,7 @@ export class LinkedinScanner extends Scanner {
   }
 
   getJobPostDataOfEachPost(browser: Browser) {
-    return async (jobPost: JobPost) => {
+    return async (jobPost: Job) => {
       const REPage = await browser.newPage();
       await PuppeteerSetup.noImageRequest(REPage);
       console.log(jobPost.link);
@@ -138,11 +138,9 @@ export class LinkedinScanner extends Scanner {
       slowMo: 200,
     });
 
-    const jobsPosts = await this.getTheAPIJobsPosts(browser);
+    const jobs = await this.getTheAPIJobs(browser);
 
-    const promises: Promise<JobPost>[] = jobsPosts.map(
-      throat(4, this.getJobPostDataOfEachPost(browser))
-    );
+    const promises: Promise<Job>[] = jobs.map(throat(4, this.getJobPostDataOfEachPost(browser)));
 
     try {
       const jobs = await Promise.all(promises);
@@ -156,7 +154,7 @@ export class LinkedinScanner extends Scanner {
     }
   }
 
-  async scanning(): Promise<JobPost[]> {
+  async scanning(): Promise<Job[]> {
     return this.initPuppeteer();
   }
 }

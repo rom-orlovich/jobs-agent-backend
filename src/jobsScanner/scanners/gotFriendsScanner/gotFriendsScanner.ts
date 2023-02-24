@@ -7,10 +7,11 @@ import throat from 'throat';
 import { Browser, Page } from 'puppeteer';
 
 import { UserEntity } from '../../user/userEntity.types';
-import { JobsDB } from '../../../../lib/jobsDB';
-import { JobPost } from '../../jobsScanner.types';
+import { JobsDB } from '../../../../mongoDB/jobsDB/jobsDB';
+
 import { untilSuccess } from '../../../../lib/utils';
 import { PuppeteerSetup } from '../../../../lib/puppeteerSetup';
+import { Job } from '../../../../mongoDB/jobsDB/jobsDB.types';
 
 export class GotFriendsScanner extends Scanner {
   gotFriendsQuery: GotFriendQueryOptions;
@@ -38,8 +39,8 @@ export class GotFriendsScanner extends Scanner {
   }
 
   getAllJobsPostData(scannerName: string) {
-    const jobsPosts = Array.from(document.querySelectorAll('.panel .item'));
-    return jobsPosts.map((job) => {
+    const jobs = Array.from(document.querySelectorAll('.panel .item'));
+    return jobs.map((job) => {
       const jobLink = job.querySelector<HTMLAnchorElement>('a.position');
       const link = jobLink?.href || '';
       const text = job.querySelector('.desc:nth-of-type(2)')?.textContent || '';
@@ -59,8 +60,8 @@ export class GotFriendsScanner extends Scanner {
     });
   }
 
-  private async getFilterResults(jobsPosts: JobPost[]) {
-    const filterJobs = jobsPosts.filter(this.filterJobsPosts);
+  private async getFilterResults(jobs: Job[]) {
+    const filterJobs = jobs.filter(this.filterJobs);
     const filterJobsFromDB = await this.filterJobsExistInDB(
       filterJobs,
       this.gotFriendsQuery.userQuery.hash
@@ -72,12 +73,12 @@ export class GotFriendsScanner extends Scanner {
     return async (url: string) => {
       const newPage = await browser.newPage();
       console.log(url);
-      let jobsPosts: JobPost[] = [];
+      let jobs: Job[] = [];
       await untilSuccess(async () => {
         await newPage.goto(url);
-        jobsPosts = await newPage.evaluate(this.getAllJobsPostData, this.scannerName);
+        jobs = await newPage.evaluate(this.getAllJobsPostData, this.scannerName);
       });
-      const filterJobs = this.getFilterResults(jobsPosts);
+      const filterJobs = this.getFilterResults(jobs);
       await newPage.close();
       return filterJobs;
     };
@@ -100,13 +101,13 @@ export class GotFriendsScanner extends Scanner {
       .map(throat(10, this.getJobsFromEachPage(browser)))
       .flat(1);
 
-    const jobsPosts = await this.getTranslateResultsScanning(promises);
+    const jobs = await this.getTranslateResultsScanning(promises);
     await browser.close();
 
-    return jobsPosts;
+    return jobs;
   }
 
-  async scanning(): Promise<JobPost[]> {
+  async scanning(): Promise<Job[]> {
     if (!this.gotFriendsQuery.checkboxProfessions || !this.gotFriendsQuery.radioAreas) {
       console.log('There are no jobs in GotFriends that match the query.');
       return [];
