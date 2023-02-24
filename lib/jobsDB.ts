@@ -1,10 +1,10 @@
-import { Collection } from 'mongodb';
+import { AggregationCursor, Collection } from 'mongodb';
 import { mongoDB } from '../src/server';
 import { Job, JobPost } from '../src/jobsScanner/jobsScanner.types';
 import { EXPIRE_AT_MONGO_DB } from '../src/jobsScanner/user/UserQuery';
-import { GenericRecord, OmitKey } from './types';
+import { GenericRecord, OmitKey, PickKey } from './types';
 
-export interface FilterOptions {
+export interface QueryOptions {
   title?: string;
   reason?: string;
   from?: string;
@@ -12,11 +12,15 @@ export interface FilterOptions {
   limit?: string;
 }
 
-export interface FilterOptionsRes {
+export interface QueryOptionsRes {
   match: GenericRecord<RegExp>;
   page: number;
   limit: number;
 }
+
+export type JobsPostsResultAgg = { data: JobPost[]; pagination: { total: number }[] };
+export type JobPostResultAggTransform = PickKey<JobsPostsResultAgg, 'data'> &
+  PickKey<JobsPostsResultAgg, 'pagination'>['pagination'];
 
 export class JobsDB {
   jobsDB: Collection;
@@ -52,7 +56,7 @@ export class JobsDB {
    * @returns {GenericRecord<RegExp>} The match object. The keys are the fields the user wants to filter
    * by them and the values are regex.
    */
-  private createMatchOptions(options?: FilterOptions): GenericRecord<RegExp> {
+  private createMatchOptions(options?: QueryOptions): GenericRecord<RegExp> {
     if (!options) return {};
     const match: GenericRecord<RegExp> = {};
     const { from, reason, title } = options;
@@ -65,71 +69,102 @@ export class JobsDB {
   /**
    *
    * @param options Represent the url's query object.
-   * @returns {OmitKey<FilterOptionsRes,"match">}  Represent options of find query.
+   * @returns {OmitKey<QueryOptionsRes,"match">}  Represent options of find query.
    */
-  private createFindOptions(options?: FilterOptions): OmitKey<FilterOptionsRes, 'match'> {
+  private createFindOptions(options?: QueryOptions): OmitKey<QueryOptionsRes, 'match'> {
     if (!options) return { page: 1, limit: 20 };
 
     const { page, limit } = options;
-    return { page: parseInt(page || '1'), limit: parseInt(limit || '20') };
+    const pageRes = parseInt(page || '1');
+    const limitRes = parseInt(limit || '20');
+    return { page: pageRes, limit: limitRes > 50 ? 50 : limitRes };
   }
   /**
    *
    * @param options Represent the url's query object.
-   * @returns {FilterOptionsRes} The results of normalize queryOptions.
+   * @returns {QueryOptionsRes} The results of normalize queryOptions.
    */
 
-  private getQueryOptions(options?: FilterOptions): FilterOptionsRes {
+  private getQueryOptions(options?: QueryOptions): QueryOptionsRes {
     const match = this.createMatchOptions(options);
     const { limit, page } = this.createFindOptions(options);
     return { match, limit, page };
   }
 
+  // private async reduceJobsPostResult(
+  //   jobsPostsAgg: AggregationCursor<JobPost>,
+  //   filterOptions: QueryOptionsRes
+  // ) {
+  //   const { limit, page } = filterOptions;
+  //   const filterJobsPost = jobsPostsAgg.limit(limit || 20).skip((page - 1) * limit);
+  //   return await filterJobsPost.toArray();
+  // }
+
+  private transformAggRes(aggRes: JobsPostsResultAgg[]) {
+    const res = aggRes[0];
+    const pagination = res.pagination[0];
+    return { ...res, pagination: pagination };
+  }
+
   /**
    * @param {string} hashQuery that represent the user's query object.
-   * @param {FilterOptions} options that represent the url's query object.
+   * @param {QueryOptions} options that represent the url's query object.
    * @returns {Promise<JobPost[]>} All user's jobsPosts that match the user's hashQueries.
    */
-  async getJobsByHash(hashQuery: string, options?: FilterOptions): Promise<JobPost[]> {
-    const { match, limit, page } = this.getQueryOptions(options);
+  async getJobsByHash(hashQuery: string, options?: QueryOptions): Promise<JobsPostsResultAgg> {
+    const { limit, match, page } = this.getQueryOptions(options);
 
     try {
-      const jobsPosts = this.jobsDB
-        ?.aggregate<JobPost>([
-          { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...match } },
-          {
-            $project: { hashQueries: 0, createdAt: 0, _id: 0 },
+      const jobsPosts = this.jobsDB?.aggregate<JobsPostsResultAgg>([
+        { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...match } },
+        {
+          $project: { hashQueries: 0, createdAt: 0, _id: 0 },
+        },
+        {
+          $facet: {
+            data: [{ $skip: page }, { $limit: limit }],
+            pagination: [{ $count: 'total' }],
           },
-        ])
-        .limit(limit || 20)
-        .skip((page - 1) * limit);
+        },
+      ]);
 
-      return await jobsPosts.toArray();
+      // const filterJobsPost = jobsPosts.limit(limit || 20).skip((page - 1) * limit);
+
+      // return await filterJobsPost.toArray();
+      const filterJobsPost = await jobsPosts.toArray();
+      return filterJobsPost[0];
     } catch (error) {
-      return [];
+      return { data: [], pagination: [] };
     }
   }
 
   /**
    * Gets all the jobsPosts that match the user history queries by their current hashQueries array.
    * @param {string[]} hashQueries  User's HashQueries string array.
-   * @param {FilterOptions} options that represent the url's query object.
+   * @param {QueryOptions} options that represent the url's query object.
    * @returns {Promise<JobPost[]>} All user's jobsPosts that match the user's hashQueries array.
    */
-  async getJobsByHashQueries(hashQueries: string[], options?: FilterOptions): Promise<JobPost[]> {
-    const { match, limit, page } = this.getQueryOptions(options);
+  async getJobsByHashQueries(
+    hashQueries: string[],
+    options?: QueryOptions
+  ): Promise<JobsPostsResultAgg> {
+    const queryOptions = this.getQueryOptions(options);
     try {
-      const job = this.jobsDB
-        ?.aggregate<JobPost>([
-          { $match: { hashQueries: { $elemMatch: { $in: hashQueries } }, ...match } },
-          {
-            $project: { hashQueries: 0, createdAt: 0, _id: 0 },
+      const jobsPosts = this.jobsDB?.aggregate<JobPost>([
+        { $match: { hashQueries: { $elemMatch: { $in: hashQueries } }, ...queryOptions.match } },
+        {
+          $project: { hashQueries: 0, createdAt: 0, _id: 0 },
+        },
+        {
+          $facet: {
+            data: [{ $skip: 10 }, { $limit: 10 }],
+            pagination: [{ $count: 'total' }],
           },
-        ])
-        .limit(limit || 20)
-        .skip((page - 1) * limit);
+        },
+      ]);
 
-      return await job.toArray();
+      const filterJobsPost = await this.reduceJobsPostResult(jobsPosts, queryOptions);
+      return filterJobsPost;
     } catch (error) {
       return [];
     }

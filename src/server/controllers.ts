@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { FilterOptions } from '../../lib/jobsDB';
+import { QueryOptions } from '../../lib/jobsDB';
 
 import { ScanningFS } from '../../lib/scanningFS';
 import { GenericRecord } from '../../lib/types';
@@ -56,7 +56,7 @@ export const downloadResults: RequestHandler = async (req, res) => {
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user } = req.validateBeforeScanner;
   const { hash, ...query } = req.query;
-  const matchOptions = query as FilterOptions;
+  const matchOptions = query as QueryOptions;
   const jobsScanner = new JobsScanner(user);
   let jobsPosts;
 
