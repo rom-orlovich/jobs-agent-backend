@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
+import { FilterOptions } from '../../lib/jobsDB';
 
 import { ScanningFS } from '../../lib/scanningFS';
+import { GenericRecord } from '../../lib/types';
 
 import { UsersDB } from '../../lib/usersDB';
 import { JobsScanner } from '../jobsScanner/JobsScanner';
@@ -53,13 +55,14 @@ export const downloadResults: RequestHandler = async (req, res) => {
 
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user } = req.validateBeforeScanner;
-  const hash = req.query.hash as string;
+  const { hash, ...query } = req.query;
+  const matchOptions = query as FilterOptions;
   const jobsScanner = new JobsScanner(user);
   let jobsPosts;
 
   //If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.
-  if (hash) jobsPosts = await jobsScanner.getJobsByHash(hash);
-  jobsPosts = await jobsScanner.getAllJobByUserQueries();
+  if (hash) jobsPosts = await jobsScanner.getJobsByHash(String(hash), matchOptions);
+  jobsPosts = await jobsScanner.getAllJobByUserQueries(matchOptions);
   const filterResults = jobsScanner.getFilterResults(jobsPosts);
   return res.status(200).send(filterResults);
 };

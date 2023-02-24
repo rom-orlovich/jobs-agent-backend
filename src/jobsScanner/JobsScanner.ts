@@ -1,4 +1,5 @@
-import { JobsDB } from '../../lib/jobsDB';
+import { JobsDB, FilterOptions } from '../../lib/jobsDB';
+
 import { JobPost } from './jobsScanner.types';
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 
@@ -46,8 +47,8 @@ export class JobsScanner {
   /**
    * @returns {Promise<JobPost[]>} Array of the JobsPost objects that match user's hashQuery.
    */
-  async getJobsByHash(hash: string): Promise<JobPost[]> {
-    const jobsPosts = await this.jobsDB.getJobsByHash(hash);
+  async getJobsByHash(hash: string, queryOptions?: FilterOptions): Promise<JobPost[]> {
+    const jobsPosts = await this.jobsDB.getJobsByHash(hash, queryOptions);
     return jobsPosts;
   }
 
@@ -56,9 +57,9 @@ export class JobsScanner {
    the user's history queries by their current hashQueries array.
    * @returns {Promise<JobPost[]>} - Array of the JobsPost objects.
    */
-  async getAllJobByUserQueries(): Promise<JobPost[]> {
+  async getAllJobByUserQueries(queryOptions?: FilterOptions): Promise<JobPost[]> {
     const hashesQueries = this.user.getAllHashes();
-    const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries);
+    const jobsPosts = this.jobsDB.getJobsByHashQueries(hashesQueries, queryOptions);
     return jobsPosts;
   }
 
