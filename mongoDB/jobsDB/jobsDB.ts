@@ -48,6 +48,7 @@ export class JobsDB {
     const totalPages = Math.ceil(pagination.totalDocs / limit);
     console.log(page, totalPages);
     const hasMore = page / limit <= totalPages;
+    console.log(hasMore);
 
     return { ...res, pagination: { totalPages: totalPages, totalDocs: pagination.totalDocs, hasMore } };
   }
@@ -62,7 +63,6 @@ export class JobsDB {
 
     const $facetData = this.convertFacetToPipeline(limit, page);
 
-    console.log($facetData);
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([

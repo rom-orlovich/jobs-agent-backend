@@ -76,6 +76,15 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
       code: ERROR_CODES.USER_ID_NOT_VALID,
     });
   const queryValidation = new QueryValidation(req.query);
+  console.log(
+    '🚀 ~ file: middleware.ts:79 ~ constvalidateBeforeScanner:RequestHandler= ~ req.query:',
+    req.query
+  );
+  console.log(
+    '🚀 ~ file: middleware.ts:79 ~ constvalidateBeforeScanner:RequestHandler= ~ queryValidation:',
+    queryValidation
+  );
+
   // Check the url queries are valid.
   if (!queryValidation.resultQueryOptions)
     return res.status(400).send({
