@@ -185,7 +185,7 @@ export class RequirementsReader {
     if (!noneOfTechStackExist)
       return { pass: false, reason: 'This job is not contain any word from you tech stack', count: k };
 
-    return { pass: true, count: k };
+    return { pass: true, count: k, reason: 'match' };
   }
 
   /**

@@ -25,7 +25,9 @@ export class DrushimScanner extends Scanner {
       jobID: String(result.Code),
       company: result.Company.CompanyDisplayName,
       link: 'https://www.drushim.co.il' + result.JobInfo.Link,
-      location: result.JobContent.Addresses.map((el) => el.CityEnglish).join(','),
+      location: result.JobContent.Addresses.map((el) => el.CityEnglish.trim())
+        .join(',')
+        .trim(),
       title: result.JobContent.FullName,
       date: result.JobInfo.Date,
       from: this.scannerName,

@@ -5,6 +5,7 @@ import { JobsScanner } from '../jobsScanner/jobsScanner';
 import { User } from '../jobsScanner/user/user';
 import { QueryOptionsRes } from './queryValidation';
 import { ERROR_CODES } from './errorCodes';
+import { JobsResults } from '../../mongoDB/jobsDB/jobsDB.types';
 
 const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOptionsRes) => {
   try {
@@ -49,11 +50,23 @@ const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, has
   return jobsScanner.getResults(jobs);
 };
 
+const filterByMatch = (result: JobsResults, queryOptions: QueryOptionsRes) => {
+  const filterByMatch: JobsResults = {
+    jobs: queryOptions.match.reason
+      ? result.jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
+      : result.jobs,
+    pagination: result.pagination,
+  };
+  return filterByMatch;
+};
+
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
 
   const result = await getJobsByHashExist(user, queryOptions, hash);
-  return res.status(200).send(result);
+  const filterResultByMatch = filterByMatch(result, queryOptions);
+
+  return res.status(200).send(filterResultByMatch);
 };
 
 const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {

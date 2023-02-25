@@ -60,13 +60,13 @@ export class JobsDB {
    */
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
-
+    const { reason, ...restMatch } = match;
     const $facetData = this.convertFacetToPipeline(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([
-          { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...match } },
+          { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...restMatch } },
           {
             $project: { hashQueries: 0, createdAt: 0, _id: 0 },
           },
@@ -98,12 +98,13 @@ export class JobsDB {
     queryOptions: QueryOptionsRes
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
+    const { reason, ...restMatch } = match;
     const $facetData = this.convertFacetToPipeline(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([
-          { $match: { hashQueries: { $elemMatch: { $in: hashQueries } }, ...match } },
+          { $match: { hashQueries: { $elemMatch: { $in: hashQueries } }, ...restMatch } },
           {
             $project: { hashQueries: 0, createdAt: 0, _id: 0 },
           },
