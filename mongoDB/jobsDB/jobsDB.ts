@@ -39,14 +39,17 @@ export class JobsDB {
   /**
    *
    * @param {JobsResultAgg[]} aggRes The return array of jobs's aggregation.
-   * @returns {JobsResults} The data of the jobs and the total number of documents.
+   * @returns {JobsResults} The data of the jobs and the totalPages number of documents.
    */
-  private convertJobsAggRes(aggRes: JobsResultAgg[]): JobsResults {
+  private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number, page: number): JobsResults {
     const res = aggRes[0];
 
     const pagination = res.pagination[0];
+    const totalPages = Math.ceil(pagination.totalDocs / limit);
+    console.log(page, totalPages);
+    const hasMore = page / limit <= totalPages;
 
-    return { ...res, pagination: pagination };
+    return { ...res, pagination: { totalPages: totalPages, totalDocs: pagination.totalDocs, hasMore } };
   }
 
   /**
@@ -59,6 +62,7 @@ export class JobsDB {
 
     const $facetData = this.convertFacetToPipeline(limit, page);
 
+    console.log($facetData);
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([
@@ -69,16 +73,17 @@ export class JobsDB {
           {
             $facet: {
               ...$facetData,
-              pagination: [{ $count: 'total' }],
+              pagination: [{ $count: 'totalDocs' }],
             },
           },
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(jobsAgg);
+      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
+
       return jobsRes;
     } catch (error) {
-      return { jobs: [], pagination: { total: 0 } };
+      return { jobs: [], pagination: { totalPages: 1, totalDocs: 0, hasMore: false } };
     }
   }
 
@@ -105,16 +110,16 @@ export class JobsDB {
           {
             $facet: {
               ...$facetData,
-              pagination: [{ $count: 'total' }],
+              pagination: [{ $count: 'totalDocs' }],
             },
           },
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(jobsAgg);
+      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
       return jobsRes;
     } catch (error) {
-      return { jobs: [], pagination: { total: 0 } };
+      return { jobs: [], pagination: { totalPages: 1, totalDocs: 0, hasMore: false } };
     }
   }
 

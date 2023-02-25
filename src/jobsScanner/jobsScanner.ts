@@ -65,7 +65,7 @@ export class JobsScanner {
   }
 
   async startScanningByMinResults(JobsByHashResult: JobsResults) {
-    if (JobsByHashResult?.pagination?.total > 100) return JobsByHashResult;
+    if (JobsByHashResult?.pagination?.totalDocs > 100) return JobsByHashResult;
 
     await this.getScannerResults();
   }

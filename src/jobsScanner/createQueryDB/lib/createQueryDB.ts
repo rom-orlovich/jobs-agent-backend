@@ -72,7 +72,7 @@ export interface Root {
 }
 
 export interface ResultList {
-  total: number;
+  totalPages: number;
   columnNames: string[];
   columnPosition: ColumnPosition;
   rows: (string | undefined)[][];

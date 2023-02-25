@@ -16,18 +16,18 @@ https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=
 
 https://www.gotfriends.co.il/jobslobby/software/frontend-developer/
 
-https://www.gotfriends.co.il/jobslobby/software/frontend-developer/?page=14&total=64
+https://www.gotfriends.co.il/jobslobby/software/frontend-developer/?page=14&totalPages=64
 
 
-https://www.gotfriends.co.il/jobslobby/software/frontend-developer/?page=2&total=69
+https://www.gotfriends.co.il/jobslobby/software/frontend-developer/?page=2&totalPages=69
 
-https://www.gotfriends.co.il/jobslobby/software/full-stack-developer/?page=2&total=112
+https://www.gotfriends.co.il/jobslobby/software/full-stack-developer/?page=2&totalPages=112
 
 
 https://www.gotfriends.co.il/jobslobby/software/nodejs-developer/
 
 
-https://www.gotfriends.co.il/jobs/?page=2&total=53
+https://www.gotfriends.co.il/jobs/?page=2&totalPages=53
 
 
 
