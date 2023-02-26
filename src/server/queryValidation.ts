@@ -1,4 +1,5 @@
 import { GenericRecord, OmitKey } from '../../lib/types';
+import { JobsDB } from '../../mongoDB/jobsDB/jobsDB';
 export interface QueryOptions {
   title?: string;
   reason?: string;
@@ -28,8 +29,12 @@ export class QueryValidation {
     this.resultQueryOptions = this.getQueryOptions();
   }
 
+  static QueryEmpty<T extends GenericRecord<any>>(obj: T) {
+    return !Object.keys(obj).length;
+  }
+
   static checkString(str: unknown) {
-    if (typeof str === 'string') return str;
+    if (typeof str === 'string') return str.replace(/!@#$%^&*()_+\\-=\[\]{};':"\\|,<>\/?~/g, '');
   }
   static checkValidNumber(num: unknown) {
     const isValidStr = QueryValidation.checkString(num);
@@ -81,13 +86,13 @@ export class QueryValidation {
    * @returns {OmitKey<QueryOptionsRes,"match">}  Represent options of find query.
    */
   private createFacetOptions(options?: QueryOptions): OmitKey<QueryOptionsRes, 'match'> {
-    if (!options) return { page: 1, limit: 20 };
+    if (!options) return { limit: JobsDB.DEFAULT_LIMIT, page: JobsDB.DEFAULT_PAGE };
 
     const { page, limit } = options;
-    const pageInt = parseInt(page || '1');
-    const limitRes = parseInt(limit || '20');
+    const pageInt = parseInt(page || `${JobsDB.DEFAULT_PAGE}`);
+    const limitRes = parseInt(limit || `${JobsDB.DEFAULT_LIMIT}`);
     const pageRes = (pageInt - 1) * limitRes;
-    return { page: pageRes, limit: limitRes > 50 ? 50 : limitRes };
+    return { page: pageRes, limit: limitRes > JobsDB.MAX_LIMIT ? JobsDB.MAX_LIMIT : limitRes };
   }
 
   /**
@@ -96,9 +101,9 @@ export class QueryValidation {
    */
 
   private getQueryOptions(): QueryOptionsRes | undefined {
-    console.log(this.preQueryOptions);
     //Return queryOptions default values.
-    if (!this.preQueryOptions) return { match: {}, limit: 20, page: 1 };
+    if (!this.preQueryOptions)
+      return { match: {}, limit: JobsDB.DEFAULT_LIMIT, page: JobsDB.DEFAULT_PAGE };
 
     // Check if the query is valid.
     if (!this.checkValidQuery(this.preQueryOptions)) return undefined;

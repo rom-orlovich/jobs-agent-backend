@@ -38,8 +38,8 @@ export interface FacetFilterResults {
 
 export type JobsResultAgg = {
   jobs: Job[];
-  pagination: { totalDocs: number }[];
-  numResultsFound: { numResultsFound: number }[];
+  pagination: { totalDocs?: number }[];
+  numResultsFound: { numResultsFound?: number }[];
   filters: FacetFilterResults[];
 };
 

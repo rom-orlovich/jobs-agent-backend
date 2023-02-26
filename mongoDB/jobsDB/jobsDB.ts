@@ -4,10 +4,13 @@ import { mongoDB } from '../../src/server';
 import { EXPIRE_AT_MONGO_DB } from '../../src/jobsScanner/user/UserQuery';
 import { GenericRecord, OmitKey } from '../../lib/types';
 import { Job, JobsResultAgg, JobsResults, QueryOptions, QueryOptionsRes } from './jobsDB.types';
+import { QueryValidation } from '../../src/server/queryValidation';
 
 export class JobsDB {
   jobsDB: Collection;
-
+  static DEFAULT_LIMIT = 20;
+  static MAX_LIMIT = 50;
+  static DEFAULT_PAGE = 1;
   defaultJobAggReturn: JobsResults = {
     jobs: [],
     pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
@@ -22,6 +25,13 @@ export class JobsDB {
 
   constructor() {
     this.jobsDB = mongoDB.createDBcollection('jobs-agent-db', 'jobs');
+  }
+
+  static getLimit(limit?: number) {
+    return limit || JobsDB.DEFAULT_LIMIT;
+  }
+  static getPage(page?: number) {
+    return page || JobsDB.DEFAULT_PAGE;
   }
 
   /**
@@ -71,10 +81,17 @@ export class JobsDB {
    * @param {number} page A number of the page to display.
    * @returns The facet stage that generate the data.
    */
-  private checkFacetPagination(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
-    return limit && page !== undefined && page >= 0
-      ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
-      : { jobs: [{ $match: match }] };
+  private checkFacetPagination(match: GenericRecord<RegExp>, limit?: number, page?: number) {
+    const isTherePaginationOpt = limit && page !== undefined;
+
+    //Check if there pagination options like limit and page
+    const isSearchByPaginationOpt = isTherePaginationOpt && page >= 0;
+
+    if (match?.reason) return { jobs: [] };
+    else
+      return isSearchByPaginationOpt
+        ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
+        : { jobs: [{ $match: match }] };
   }
   /**
    * @returns The filters pipeline of the current jobs data.
@@ -101,14 +118,19 @@ export class JobsDB {
    * @param {number} page A number of the page to display.
    * @returns An object that represent the facet stage pipelines.
    */
-  private getFacetPipelines(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
+  private getFacetPipelines(match: GenericRecord<RegExp>, limit?: number, page?: number) {
+    const { reason, ...resetMatch } = match;
     const facetPaginationData = this.checkFacetPagination(match, limit, page);
+    console.log(
+      '🚀 ~ file: jobsDB.ts:124 ~ JobsDB ~ getFacetPipelines ~ facetPaginationData:',
+      facetPaginationData
+    );
     const facetFiltersPipeline = this.getFacetFiltersPipeline();
     return {
       ...facetPaginationData,
       ...facetFiltersPipeline,
       pagination: [{ $count: 'totalDocs' }],
-      numResultsFound: [{ $match: match }, { $count: 'numResultsFound' }],
+      numResultsFound: [{ $match: resetMatch }, { $count: 'numResultsFound' }],
     };
   }
   /**
@@ -118,20 +140,25 @@ export class JobsDB {
    */
   private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number, page: number): JobsResults {
     const res = aggRes[0];
-    const numResultsFound = res.numResultsFound[0];
+    const numResultsFoundObj = res.numResultsFound[0];
 
-    const pagination = res.pagination[0];
-    const totalPages = Math.ceil(pagination.totalDocs / limit);
+    const pagination = res?.pagination[0];
+    const totalDocs = pagination?.totalDocs || 0;
 
-    const hasMore = numResultsFound.numResultsFound >= limit;
-    const { _id, ...restFilter } = res.filters[0];
+    const totalPages = Math.ceil(totalDocs / limit); // Round up to get the current num page.
+
+    const numResultsFound = numResultsFoundObj?.numResultsFound || 0;
+    const hasMore = numResultsFound >= limit;
+
+    const { ...restFilter } = res.filters[0];
+
     return {
       jobs: res.jobs,
       pagination: {
         totalPages: totalPages,
-        totalDocs: pagination.totalDocs,
+        totalDocs: pagination?.totalDocs || 0,
         hasMore,
-        numResultsFound: numResultsFound.numResultsFound,
+        numResultsFound: numResultsFound,
       },
       filters: restFilter,
     };
@@ -144,7 +171,7 @@ export class JobsDB {
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetPipelines = this.getFacetPipelines(restMatch, limit, page);
+    const facetPipelines = this.getFacetPipelines(match, limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
@@ -159,7 +186,13 @@ export class JobsDB {
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
+      const jobsRes = this.convertJobsAggRes(
+        jobsAgg,
+        limit || JobsDB.DEFAULT_LIMIT,
+        page || JobsDB.DEFAULT_PAGE
+      );
+
+      console.log(jobsRes.jobs.length);
 
       return jobsRes;
     } catch (error) {
@@ -195,7 +228,11 @@ export class JobsDB {
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
+      const jobsRes = this.convertJobsAggRes(
+        jobsAgg,
+        limit || JobsDB.DEFAULT_LIMIT,
+        page || JobsDB.DEFAULT_PAGE
+      );
 
       return jobsRes;
     } catch (error) {
