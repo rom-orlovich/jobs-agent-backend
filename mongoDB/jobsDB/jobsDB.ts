@@ -47,7 +47,7 @@ export class JobsDB {
     const pagination = res.pagination[0];
     const totalPages = Math.ceil(pagination.totalDocs / limit);
     console.log(page, totalPages);
-    const hasMore = page / limit <= totalPages;
+    const hasMore = page / limit <= totalPages || !!res.jobs.length;
     console.log(hasMore);
 
     return { ...res, pagination: { totalPages: totalPages, totalDocs: pagination.totalDocs, hasMore } };

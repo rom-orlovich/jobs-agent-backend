@@ -24,7 +24,7 @@ export class UserQuery {
    * @returns {string} The current hash query.
    */
   getQueryHash(): string {
-    if (this.userQuery?.hash) return this.userQuery.hash;
+    // if (this.userQuery?.hash) return this.userQuery.hash;
     const { distance, experience, jobType, location, position, scope } = this.userQuery;
     const hash = createHash('sha1')
       .update(distance + experience + jobType + location + position + scope)
