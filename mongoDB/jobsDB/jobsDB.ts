@@ -123,7 +123,7 @@ export class JobsDB {
     const pagination = res.pagination[0];
     const totalPages = Math.ceil(pagination.totalDocs / limit);
 
-    const hasMore = numResultsFound.numResultsFound <= limit;
+    const hasMore = numResultsFound.numResultsFound >= limit;
     const { _id, ...restFilter } = res.filters[0];
     return {
       jobs: res.jobs,

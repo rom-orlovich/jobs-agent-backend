@@ -62,16 +62,6 @@ const filterByMatch = (jobs: Job[], queryOptions: QueryOptionsRes) => {
 
   return filterByMatchResults;
 };
-// const filterByMatch = (jobs: Job, queryOptions: QueryOptionsRes) => {
-//   const filterByMatch: JobsResults = {
-//     ...result,
-//     jobs: queryOptions.match.reason
-//       ? result.jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
-//       : result.jobs,
-//     pagination: result.pagination,
-//   };
-//   return filterByMatch;
-// };
 
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
