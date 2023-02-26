@@ -30,10 +30,14 @@ export class JobsDB {
     }
   }
 
-  private convertFacetToPipeline(limit?: number, page?: number) {
+  private checkFacetPagination(limit?: number, page?: number) {
     return limit && page !== undefined && page >= 0
       ? { jobs: [{ $skip: page }, { $limit: limit }] }
       : { jobs: [] };
+  }
+
+  private createFacetPaginationRes(match: GenericRecord<RegExp>) {
+    return {};
   }
 
   /**
@@ -61,7 +65,7 @@ export class JobsDB {
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const $facetData = this.convertFacetToPipeline(limit, page);
+    const $facetData = this.checkFacetPagination(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
@@ -99,7 +103,7 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const $facetData = this.convertFacetToPipeline(limit, page);
+    const $facetData = this.checkFacetPagination(limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
