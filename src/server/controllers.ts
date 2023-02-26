@@ -51,6 +51,7 @@ const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, has
 
 const filterByMatch = (result: JobsResults, queryOptions: QueryOptionsRes) => {
   const filterByMatch: JobsResults = {
+    ...result,
     jobs: queryOptions.match.reason
       ? result.jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
       : result.jobs,

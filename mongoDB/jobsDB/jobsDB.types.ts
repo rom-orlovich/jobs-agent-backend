@@ -1,4 +1,4 @@
-import { GenericRecord, PickKey } from '../../lib/types';
+import { GenericRecord, OmitKey, PickKey } from '../../lib/types';
 
 export interface Job {
   jobID: string;
@@ -27,10 +27,19 @@ export interface QueryOptionsRes {
   limit?: number;
 }
 
+export interface FacetFilterResults {
+  _id: string;
+  titles: string[];
+  from: string[];
+  companies: string[];
+  locations: string[];
+}
+
 export type JobsResultAgg = {
   jobs: Job[];
   pagination: { totalDocs: number }[];
   numResultsFound: { numResultsFound: number }[];
+  filters: FacetFilterResults[];
 };
 
 export type JobsResults = PickKey<JobsResultAgg, 'jobs'> & {
@@ -39,4 +48,4 @@ export type JobsResults = PickKey<JobsResultAgg, 'jobs'> & {
     hasMore: boolean;
     numResultsFound: number;
   };
-};
+} & { filters: OmitKey<FacetFilterResults, '_id'> };

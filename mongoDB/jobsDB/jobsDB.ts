@@ -7,6 +7,18 @@ import { Job, JobsResultAgg, JobsResults, QueryOptions, QueryOptionsRes } from '
 
 export class JobsDB {
   jobsDB: Collection;
+
+  defaultJobAggReturn = {
+    jobs: [],
+    pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
+    filters: {
+      companies: [],
+      from: [],
+      locations: [],
+      titles: [],
+    },
+  };
+
   constructor() {
     this.jobsDB = mongoDB.createDBcollection('jobs-agent-db', 'jobs');
   }
@@ -72,10 +84,10 @@ export class JobsDB {
         {
           $group: {
             _id: '_id',
-            titles: { $addToSet: { title: '$title', value: '$title' } },
-            from: { $addToSet: { title: '$from', value: '$from' } },
-            companies: { $addToSet: { title: '$company', value: '$company' } },
-            locations: { $addToSet: { title: '$location', value: '$location' } },
+            titles: { $addToSet: '$title' },
+            from: { $addToSet: '$from' },
+            companies: { $addToSet: '$company' },
+            locations: { $addToSet: '$location' },
           },
         },
       ],
@@ -111,15 +123,16 @@ export class JobsDB {
     const totalPages = Math.ceil(pagination.totalDocs / limit);
 
     const hasMore = numResultsFound.numResultsFound <= limit;
-
+    const { _id, ...restFilter } = res.filters[0];
     return {
-      ...res,
+      jobs: res.jobs,
       pagination: {
         totalPages: totalPages,
         totalDocs: pagination.totalDocs,
         hasMore,
         numResultsFound: numResultsFound.numResultsFound,
       },
+      filters: restFilter,
     };
   }
   /**
@@ -150,10 +163,7 @@ export class JobsDB {
       return jobsRes;
     } catch (error) {
       console.log(error);
-      return {
-        jobs: [],
-        pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
-      };
+      return this.defaultJobAggReturn;
     }
   }
 
@@ -189,10 +199,7 @@ export class JobsDB {
       return jobsRes;
     } catch (error) {
       console.log(error);
-      return {
-        jobs: [],
-        pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
-      };
+      return this.defaultJobAggReturn;
     }
   }
 }
