@@ -44,8 +44,7 @@ const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, has
   let jobs;
 
   if (hash) jobs = await jobsScanner.getJobsByHash(String(hash));
-
-  jobs = await jobsScanner.getAllJobByUserQueries();
+  else jobs = await jobsScanner.getAllJobByUserQueries();
 
   return jobsScanner.getResults(jobs);
 };

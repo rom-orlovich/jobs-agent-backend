@@ -30,14 +30,10 @@ export class JobsDB {
     }
   }
 
-  private checkFacetPagination(limit?: number, page?: number) {
+  private checkFacetPagination(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
     return limit && page !== undefined && page >= 0
-      ? { jobs: [{ $skip: page }, { $limit: limit }] }
-      : { jobs: [] };
-  }
-
-  private createFacetPaginationRes(match: GenericRecord<RegExp>) {
-    return {};
+      ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
+      : { jobs: [{ $match: match }] };
   }
 
   /**
@@ -50,9 +46,8 @@ export class JobsDB {
 
     const pagination = res.pagination[0];
     const totalPages = Math.ceil(pagination.totalDocs / limit);
-    console.log(page, totalPages);
+
     const hasMore = page / limit <= totalPages || !!res.jobs.length;
-    console.log(hasMore);
 
     return { ...res, pagination: { totalPages: totalPages, totalDocs: pagination.totalDocs, hasMore } };
   }
@@ -65,7 +60,7 @@ export class JobsDB {
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const $facetData = this.checkFacetPagination(limit, page);
+    const facetData = this.checkFacetPagination(restMatch, limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
@@ -76,13 +71,18 @@ export class JobsDB {
           },
           {
             $facet: {
-              ...$facetData,
+              ...facetData,
               pagination: [{ $count: 'totalDocs' }],
             },
           },
         ])
         .toArray();
 
+      console.log('restMatch', restMatch);
+      console.log('🚀 ~ file: jobsDB.ts:64 ~ JobsDB ~ getJobsByHash ~facetData:', facetData);
+      console.log('hashQueries', { hashQueries: { $elemMatch: { $eq: hashQuery } } });
+
+      console.log(jobsAgg[0].jobs.length, jobsAgg[0].pagination);
       const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
 
       return jobsRes;
@@ -103,8 +103,8 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const $facetData = this.checkFacetPagination(limit, page);
-
+    const facetData = this.checkFacetPagination(restMatch, limit, page);
+    console.log('im here');
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([
@@ -114,7 +114,7 @@ export class JobsDB {
           },
           {
             $facet: {
-              ...$facetData,
+              ...facetData,
               pagination: [{ $count: 'totalDocs' }],
             },
           },
