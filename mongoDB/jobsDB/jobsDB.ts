@@ -30,6 +30,26 @@ export class JobsDB {
     }
   }
 
+  async updateOne(jobID: string, hash: string) {
+    try {
+      const update = await this.jobsDB.updateOne(
+        { jobID },
+        { $set: { createdAt: new Date() }, $addToSet: { hashQueries: hash } }
+      );
+      return update.modifiedCount;
+    } catch (error) {
+      return;
+    }
+  }
+  async insertMany(jobs: Job[]) {
+    try {
+      const insert = await this.jobsDB.insertMany(jobs);
+      return insert;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   /**
    * Check whatever there is a num results limit or page number exist, and if it does so
    * limit the number of results from the DB.
@@ -43,6 +63,24 @@ export class JobsDB {
       ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
       : { jobs: [{ $match: match }] };
   }
+  /**
+   * @returns The filters pipeline of the current jobs data.
+   */
+  private getFacetFiltersPipeline() {
+    return {
+      filters: [
+        {
+          $group: {
+            _id: '_id',
+            titles: { $addToSet: { title: '$title', value: '$title' } },
+            from: { $addToSet: { title: '$from', value: '$from' } },
+            companies: { $addToSet: { title: '$company', value: '$company' } },
+            locations: { $addToSet: { title: '$location', value: '$location' } },
+          },
+        },
+      ],
+    };
+  }
 
   /**
    * @param {GenericRecord<RegExp>} match An object of the field to filter and their regex.
@@ -52,14 +90,14 @@ export class JobsDB {
    */
   private getFacetPipelines(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
     const facetPaginationData = this.checkFacetPagination(match, limit, page);
-
+    const facetFiltersPipeline = this.getFacetFiltersPipeline();
     return {
       ...facetPaginationData,
+      ...facetFiltersPipeline,
       pagination: [{ $count: 'totalDocs' }],
       numResultsFound: [{ $match: match }, { $count: 'numResultsFound' }],
     };
   }
-
   /**
    *
    * @param {JobsResultAgg[]} aggRes The return array of jobs's aggregation.
@@ -67,7 +105,6 @@ export class JobsDB {
    */
   private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number, page: number): JobsResults {
     const res = aggRes[0];
-
     const numResultsFound = res.numResultsFound[0];
 
     const pagination = res.pagination[0];
@@ -85,7 +122,6 @@ export class JobsDB {
       },
     };
   }
-
   /**
    * @param {string} hashQuery that represent the user's query object.
    * @param {QueryOptions} options that represent the url's query object.
@@ -104,11 +140,7 @@ export class JobsDB {
             $project: { hashQueries: 0, createdAt: 0, _id: 0 },
           },
           {
-            $facet: {
-              ...facetPipelines,
-              pagination: [{ $count: 'totalDocs' }],
-              numMatchResult: [{ $match: restMatch }, { $count: 'numMatchResult' }],
-            },
+            $facet: facetPipelines,
           },
         ])
         .toArray();
@@ -147,10 +179,7 @@ export class JobsDB {
             $project: { hashQueries: 0, createdAt: 0, _id: 0 },
           },
           {
-            $facet: {
-              ...facetPipelines,
-              pagination: [{ $count: 'totalDocs' }],
-            },
+            $facet: facetPipelines,
           },
         ])
         .toArray();
@@ -164,26 +193,6 @@ export class JobsDB {
         jobs: [],
         pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
       };
-    }
-  }
-
-  async updateOne(jobID: string, hash: string) {
-    try {
-      const update = await this.jobsDB.updateOne(
-        { jobID },
-        { $set: { createdAt: new Date() }, $addToSet: { hashQueries: hash } }
-      );
-      return update.modifiedCount;
-    } catch (error) {
-      return;
-    }
-  }
-  async insertMany(jobs: Job[]) {
-    try {
-      const insert = await this.jobsDB.insertMany(jobs);
-      return insert;
-    } catch (error) {
-      console.log(error);
     }
   }
 }
