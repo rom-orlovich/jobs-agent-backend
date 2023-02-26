@@ -89,6 +89,7 @@ export class JobsScanner {
     return {
       jobs: RequirementsReader.checkRequirementMatchForArray(result.jobs, this.user),
       pagination: result.pagination,
+      filters: result.filters,
     };
   }
 

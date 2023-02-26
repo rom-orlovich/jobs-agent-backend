@@ -79,7 +79,7 @@ export class RequirementsReader {
   private static scanRequirements(
     sentences: string[][],
     user: UserEntity
-  ): { pass: boolean; reason?: string; count: number } {
+  ): { pass: boolean; reason: string; count: number } {
     let noneOfTechStackExist = false;
     let k = 0;
     if (sentences.length === 0) return { pass: false, reason: `No elements was found`, count: k };

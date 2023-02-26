@@ -8,7 +8,7 @@ import { Job, JobsResultAgg, JobsResults, QueryOptions, QueryOptionsRes } from '
 export class JobsDB {
   jobsDB: Collection;
 
-  defaultJobAggReturn = {
+  defaultJobAggReturn: JobsResults = {
     jobs: [],
     pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
     filters: {
@@ -16,6 +16,7 @@ export class JobsDB {
       from: [],
       locations: [],
       titles: [],
+      reasons: [],
     },
   };
 

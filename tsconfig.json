@@ -15,5 +15,5 @@
 
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "files": ["./express.d.ts", "./environment.d.ts"]
+  "files": ["express.d.ts", "environment.d.ts"]
 }

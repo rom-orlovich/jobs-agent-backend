@@ -5,7 +5,7 @@ import { JobsScanner } from '../jobsScanner/jobsScanner';
 import { User } from '../jobsScanner/user/user';
 import { QueryOptionsRes } from './queryValidation';
 import { ERROR_CODES } from './errorCodes';
-import { JobsResults } from '../../mongoDB/jobsDB/jobsDB.types';
+import { Job, JobsResults } from '../../mongoDB/jobsDB/jobsDB.types';
 
 const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOptionsRes) => {
   try {
@@ -49,24 +49,44 @@ const getJobsByHashExist = async (user: User, queryOptions: QueryOptionsRes, has
   return jobsScanner.getResults(jobs);
 };
 
-const filterByMatch = (result: JobsResults, queryOptions: QueryOptionsRes) => {
-  const filterByMatch: JobsResults = {
-    ...result,
-    jobs: queryOptions.match.reason
-      ? result.jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
-      : result.jobs,
-    pagination: result.pagination,
-  };
-  return filterByMatch;
+const extractFilterReasonFilters = (jobs: Job[]) => {
+  const jobsReasons = jobs.map((jobs) => jobs.reason);
+  const set = new Set(jobsReasons);
+  return [...set];
 };
+
+const filterByMatch = (jobs: Job[], queryOptions: QueryOptionsRes) => {
+  const filterByMatchResults: Job[] = queryOptions.match.reason
+    ? jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
+    : jobs;
+
+  return filterByMatchResults;
+};
+// const filterByMatch = (jobs: Job, queryOptions: QueryOptionsRes) => {
+//   const filterByMatch: JobsResults = {
+//     ...result,
+//     jobs: queryOptions.match.reason
+//       ? result.jobs.filter((job) => job.reason?.match(queryOptions.match.reason))
+//       : result.jobs,
+//     pagination: result.pagination,
+//   };
+//   return filterByMatch;
+// };
 
 export const getJobsByQueries: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
-
   const result = await getJobsByHashExist(user, queryOptions, hash);
-  const filterResultByMatch = filterByMatch(result, queryOptions);
-
-  return res.status(200).send(filterResultByMatch);
+  const reasonsMap = extractFilterReasonFilters(result.jobs);
+  const filterResultByMatch = filterByMatch(result.jobs, queryOptions);
+  const finalResults: JobsResults = {
+    pagination: result.pagination,
+    jobs: filterResultByMatch,
+    filters: {
+      ...result.filters,
+      reasons: reasonsMap as string[],
+    },
+  };
+  return res.status(200).send(finalResults);
 };
 
 const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {

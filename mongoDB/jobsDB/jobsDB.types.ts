@@ -33,6 +33,7 @@ export interface FacetFilterResults {
   from: string[];
   companies: string[];
   locations: string[];
+  reasons: string[];
 }
 
 export type JobsResultAgg = {

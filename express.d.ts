@@ -10,7 +10,7 @@ declare global {
         user: User;
         usersDB: UsersDB;
         queryOptions: QueryOptionsRes;
-        // activeQuery: boolean;
+
         hash?: string;
       };
     }
