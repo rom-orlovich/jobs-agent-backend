@@ -30,10 +30,34 @@ export class JobsDB {
     }
   }
 
+  /**
+   * Check whatever there is a num results limit or page number exist, and if it does so
+   * limit the number of results from the DB.
+   * @param {GenericRecord<RegExp>} match An object of the field to filter and their regex.
+   * @param {number} limit A limit the number of the result to get from the DB.
+   * @param {number} page A number of the page to display.
+   * @returns The facet stage that generate the data.
+   */
   private checkFacetPagination(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
     return limit && page !== undefined && page >= 0
       ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
       : { jobs: [{ $match: match }] };
+  }
+
+  /**
+   * @param {GenericRecord<RegExp>} match An object of the field to filter and their regex.
+   * @param {number} limit A limit the number of the result to get from the DB.
+   * @param {number} page A number of the page to display.
+   * @returns An object that represent the facet stage pipelines.
+   */
+  private getFacetPipelines(match?: GenericRecord<RegExp>, limit?: number, page?: number) {
+    const facetPaginationData = this.checkFacetPagination(match, limit, page);
+
+    return {
+      ...facetPaginationData,
+      pagination: [{ $count: 'totalDocs' }],
+      numResultsFound: [{ $match: match }, { $count: 'numResultsFound' }],
+    };
   }
 
   /**
@@ -44,12 +68,22 @@ export class JobsDB {
   private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number, page: number): JobsResults {
     const res = aggRes[0];
 
+    const numResultsFound = res.numResultsFound[0];
+
     const pagination = res.pagination[0];
     const totalPages = Math.ceil(pagination.totalDocs / limit);
 
-    const hasMore = page / limit <= totalPages || !!res.jobs.length;
+    const hasMore = numResultsFound.numResultsFound <= limit;
 
-    return { ...res, pagination: { totalPages: totalPages, totalDocs: pagination.totalDocs, hasMore } };
+    return {
+      ...res,
+      pagination: {
+        totalPages: totalPages,
+        totalDocs: pagination.totalDocs,
+        hasMore,
+        numResultsFound: numResultsFound.numResultsFound,
+      },
+    };
   }
 
   /**
@@ -60,7 +94,7 @@ export class JobsDB {
   async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetData = this.checkFacetPagination(restMatch, limit, page);
+    const facetPipelines = this.getFacetPipelines(restMatch, limit, page);
 
     try {
       const jobsAgg = await this.jobsDB
@@ -71,23 +105,23 @@ export class JobsDB {
           },
           {
             $facet: {
-              ...facetData,
+              ...facetPipelines,
               pagination: [{ $count: 'totalDocs' }],
+              numMatchResult: [{ $match: restMatch }, { $count: 'numMatchResult' }],
             },
           },
         ])
         .toArray();
 
-      console.log('restMatch', restMatch);
-      console.log('🚀 ~ file: jobsDB.ts:64 ~ JobsDB ~ getJobsByHash ~facetData:', facetData);
-      console.log('hashQueries', { hashQueries: { $elemMatch: { $eq: hashQuery } } });
-
-      console.log(jobsAgg[0].jobs.length, jobsAgg[0].pagination);
       const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
 
       return jobsRes;
     } catch (error) {
-      return { jobs: [], pagination: { totalPages: 1, totalDocs: 0, hasMore: false } };
+      console.log(error);
+      return {
+        jobs: [],
+        pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
+      };
     }
   }
 
@@ -103,8 +137,8 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetData = this.checkFacetPagination(restMatch, limit, page);
-    console.log('im here');
+    const facetPipelines = this.getFacetPipelines(restMatch, limit, page);
+
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([
@@ -114,7 +148,7 @@ export class JobsDB {
           },
           {
             $facet: {
-              ...facetData,
+              ...facetPipelines,
               pagination: [{ $count: 'totalDocs' }],
             },
           },
@@ -122,9 +156,14 @@ export class JobsDB {
         .toArray();
 
       const jobsRes = this.convertJobsAggRes(jobsAgg, limit || 20, page || 1);
+
       return jobsRes;
     } catch (error) {
-      return { jobs: [], pagination: { totalPages: 1, totalDocs: 0, hasMore: false } };
+      console.log(error);
+      return {
+        jobs: [],
+        pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
+      };
     }
   }
 

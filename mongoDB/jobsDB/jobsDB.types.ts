@@ -27,11 +27,16 @@ export interface QueryOptionsRes {
   limit?: number;
 }
 
-export type JobsResultAgg = { jobs: Job[]; pagination: { totalDocs: number }[] };
+export type JobsResultAgg = {
+  jobs: Job[];
+  pagination: { totalDocs: number }[];
+  numResultsFound: { numResultsFound: number }[];
+};
 
 export type JobsResults = PickKey<JobsResultAgg, 'jobs'> & {
   pagination: PickKey<JobsResultAgg, 'pagination'>['pagination'][0] & {
     totalPages: number;
     hasMore: boolean;
+    numResultsFound: number;
   };
 };
