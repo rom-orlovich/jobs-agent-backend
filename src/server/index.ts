@@ -3,11 +3,13 @@ config();
 import Express from 'express';
 import { MongoDBClient } from '../../mongoDB/mongoClient';
 
-import { downloadResults, getJobsByQueries, startScanner } from './controllers';
 import cors from 'cors';
-import { validateBeforeScanner } from './middleware';
+import { validateBeforeScanner } from './controllers/middleware';
 import cluster from 'node:cluster';
 import os from 'node:os';
+import { startScanner } from './controllers/startScanner';
+import { getJobs } from './controllers/getJobs';
+import { downloadJobs } from './controllers/downloadJobs';
 
 const totalCPUs = os.cpus().length;
 
@@ -19,8 +21,8 @@ export const mongoDB = new MongoDBClient();
 const expressServer = () => {
   app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
-  app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadResults);
-  app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobsByQueries);
+  app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadJobs);
+  app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobs);
 
   console.log('start');
   app.listen(5000, () => {
@@ -52,4 +54,4 @@ const startClusters = async () => {
   }
 };
 
-// startClusters();
+startClusters();

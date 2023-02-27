@@ -1,17 +1,8 @@
 import { RequestHandler } from 'express';
-import { GenericRecord } from '../../lib/types';
-import { UsersDB } from '../../mongoDB/usersDB';
-import { ERROR_CODES } from './errorCodes';
-import { QueryValidation } from './queryValidation';
 
-const possiblesKeys: GenericRecord<boolean> = {
-  hash: true,
-  title: true,
-  from: true,
-  reason: true,
-  limit: true,
-  page: true,
-};
+import { UsersDB } from '../../../mongoDB/usersDB';
+import { ERROR_CODES } from '../lib/errorCodes';
+import { QueryValidation } from '../lib/queryValidation';
 
 export const checkString = (str: unknown) => typeof str === 'string';
 export const checkValidNumber = (num: unknown) => Number.isFinite(num);

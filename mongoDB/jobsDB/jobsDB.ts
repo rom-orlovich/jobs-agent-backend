@@ -4,7 +4,7 @@ import { mongoDB } from '../../src/server';
 import { EXPIRE_AT_MONGO_DB } from '../../src/jobsScanner/user/UserQuery';
 import { GenericRecord, OmitKey } from '../../lib/types';
 import { Job, JobsResultAgg, JobsResults, QueryOptions, QueryOptionsRes } from './jobsDB.types';
-import { QueryValidation } from '../../src/server/queryValidation';
+import { QueryValidation } from '../../src/server/lib/queryValidation';
 
 export class JobsDB {
   jobsDB: Collection;

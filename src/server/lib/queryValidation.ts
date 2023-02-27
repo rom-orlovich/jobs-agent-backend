@@ -1,5 +1,5 @@
-import { GenericRecord, OmitKey } from '../../lib/types';
-import { JobsDB } from '../../mongoDB/jobsDB/jobsDB';
+import { GenericRecord, OmitKey } from '../../../lib/types';
+import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
 export interface QueryOptions {
   title?: string;
   reason?: string;
