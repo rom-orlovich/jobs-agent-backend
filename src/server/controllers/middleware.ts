@@ -8,9 +8,9 @@ export const checkString = (str: unknown) => typeof str === 'string';
 export const checkValidNumber = (num: unknown) => Number.isFinite(num);
 
 //initial the usersDB and load the requested user from the DB.
-const initialUsersAndLoadUserFromDB = async (userID: string) => {
+const initialUsersAndLoadUserFromDB = async (userID: string, activeHash?: string) => {
   const usersDB = new UsersDB();
-  const user = await usersDB.loadUser(userID);
+  const user = await usersDB.loadUser(userID, activeHash);
 
   return { usersDB, user };
 };
@@ -43,7 +43,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   const hash = isHashString ? isHashString : undefined;
 
   //initial the usersDB and load the requested user from the DB.
-  const { user, usersDB } = await initialUsersAndLoadUserFromDB(String(userID));
+  const { user, usersDB } = await initialUsersAndLoadUserFromDB(String(userID), hash);
 
   if (!user)
     return res

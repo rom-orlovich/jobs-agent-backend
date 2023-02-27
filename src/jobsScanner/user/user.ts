@@ -21,11 +21,13 @@ export class User {
   excludedRequirements: Map<string, boolean>;
 
   userQueries: UserQueryProps[];
+  activeHash?: string;
 
-  constructor(userOptions: UserProfile) {
+  constructor(userOptions: UserProfile, activeHash?: string) {
     this.userID = userOptions.userID;
     this.overallEx = userOptions.overallEx;
     this.requirements = this.setRequirements(userOptions.requirements);
+    this.activeHash = activeHash;
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
     this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries);
   }
@@ -44,31 +46,34 @@ export class User {
    * @returns {UserQuery[]} an unique array of userQueries as UserQuery[].
    */
 
-  static _makeAnUniqueQueries(userQueries: UserQuery[]): UserQuery[] {
+  makeAnUniqueQueries(userQueries: UserQuery[]): UserQuery[] {
     return [
       ...new Map(
         userQueries
-          .sort((a, b) => a.getCurQueryTime() - b.getCurQueryTime())
+          .sort((a, b) => {
+            //Move the query with active hash to the end of the userQueries arr.
+            if (a.hash === this.activeHash) return 1;
+            if (b.hash === this.activeHash) return -1;
+            return a.getCurQueryTime() - b.getCurQueryTime();
+          })
           .map((query) => [query['hash'], query])
       ).values(),
     ];
   }
 
-  static _getCurUserUniqueQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
+  _getCurUserUniqueQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
     //Convert the user queries from the DB to userQuery array.
     const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
 
     //Get unique user queries.
-    const curUniqueUserQueries = User._makeAnUniqueQueries(curUserQueries);
+    const curUniqueUserQueries = this.makeAnUniqueQueries(curUserQueries);
 
     return curUniqueUserQueries;
   }
 
   /**
-   * @param {UserQuery[]} userQueriesProps  array of UserQuery entities.
    * @returns {UserQueryProps[]} an array of no expired userQueries as UserQueryProps[] .
    */
-
   static _loadQueriesAsUserQueryProps(userQueries: UserQuery[]): UserQueryProps[] {
     return userQueries.map((query) => query.getUserQueryProps());
   }
@@ -81,7 +86,7 @@ export class User {
 
   loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]): UserQueryProps[] {
     //Invalidate the old user queries.
-    const curUserQueriesEntity = User._getCurUserUniqueQueries(userQueriesProps);
+    const curUserQueriesEntity = this._getCurUserUniqueQueries(userQueriesProps);
     //Convert back userQuery array from entity to user queries array as same format as the format from the DB.
     const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curUserQueriesEntity);
     return curUserQueriesProps;

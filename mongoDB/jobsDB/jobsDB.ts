@@ -170,7 +170,17 @@ export class JobsDB {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
     const facetPipelines = this.getFacetPipelines(match, limit, page);
-
+    console.log(
+      JSON.stringify([
+        { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...restMatch } },
+        {
+          $project: { hashQueries: 0, createdAt: 0, _id: 0 },
+        },
+        {
+          $facet: facetPipelines,
+        },
+      ])
+    );
     try {
       const jobsAgg = await this.jobsDB
         ?.aggregate<JobsResultAgg>([

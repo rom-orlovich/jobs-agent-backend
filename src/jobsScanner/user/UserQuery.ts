@@ -16,7 +16,6 @@ export class UserQuery {
   }
 
   getCurQueryTime() {
-    console.log(this.hash, this.userQuery.createdAt.getTime());
     return this.userQuery.createdAt.getTime();
   }
 

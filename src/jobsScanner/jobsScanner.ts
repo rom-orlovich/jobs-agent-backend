@@ -64,9 +64,10 @@ export class JobsScanner {
     return jobs;
   }
 
-  async startScanningByMinResults(JobsByHashResult: JobsResults) {
-    const jobsByHashCurTotalResult = JobsByHashResult?.pagination?.totalDocs || 0;
-    if (jobsByHashCurTotalResult > 100) return JobsByHashResult;
+  async startScanningByMinResults(JobsByHashResults: JobsResults) {
+    const jobsByHashCurTotalResult = JobsByHashResults?.pagination?.totalDocs || 0;
+
+    if (jobsByHashCurTotalResult > 100) return JobsByHashResults;
 
     await this.getScannerResults();
   }

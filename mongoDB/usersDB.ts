@@ -10,14 +10,14 @@ export class UsersDB {
     this.users = mongoDB.createDBcollection('jobs-agent-db', 'users');
   }
 
-  async loadUser(userID: string) {
+  async loadUser(userID: string, activeHash?: string) {
     try {
       const result = await this.users.findOne<UserProfile>({
         userID: userID,
       });
 
       if (!result) return undefined;
-      const user = new User(result);
+      const user = new User(result, activeHash);
       return user;
     } catch (error) {
       console.log(error);

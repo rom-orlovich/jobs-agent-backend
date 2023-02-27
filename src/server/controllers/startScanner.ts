@@ -1,12 +1,12 @@
 import { RequestHandler } from 'express';
-import { UsersDB } from '../../../mongoDB/usersDB';
+
 import { JobsScanner } from '../../jobsScanner/jobsScanner';
 
 import { User } from '../../jobsScanner/user/user';
 import { ERROR_CODES } from '../lib/errorCodes';
 import { QueryOptionsRes } from '../lib/queryValidation';
 
-const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOptionsRes) => {
+const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
   try {
     const jobsScanner = new JobsScanner(user, queryOptions);
 
@@ -21,10 +21,14 @@ const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOpt
 };
 
 export const startScanner: RequestHandler = async (req, res) => {
-  const { user, usersDB, queryOptions } = req.validateBeforeScanner;
-  //Active the scanner.
+  const { user, queryOptions, usersDB } = req.validateBeforeScanner;
 
-  const result = await activeScanner(user, usersDB, queryOptions);
+  //Active the scanner.
+  const result = await activeScanner(user, queryOptions);
+
+  // Update the user.
+  await usersDB.updateUser(user);
+
   if (result)
     return res.status(200).send({
       success: true,
