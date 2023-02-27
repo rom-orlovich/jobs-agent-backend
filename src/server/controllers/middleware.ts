@@ -27,7 +27,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   const queryValidation = new QueryValidation(req.query);
   console.log(
     '🚀 ~ file: middleware.ts:79 ~ constvalidateBeforeScanner:RequestHandler= ~ req.query:',
-    req.query
+    queryValidation
   );
 
   // Check the url queries are valid.

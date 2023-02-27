@@ -98,11 +98,6 @@ export class JobsScanner {
       numMatches: jobsRequirementsReaderResults.numMatches,
     };
   }
-
-  // async getResults() {
-  //   await this.scanning();
-  //   // const filterJobs = this.getFilterResults(jobs);
-  // }
 }
 
 // (async () => {
