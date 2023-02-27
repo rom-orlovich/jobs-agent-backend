@@ -236,7 +236,6 @@ export class RequirementsReader {
   static checkRequirementMatchForArray(data: Job[], user: UserEntity) {
     let numMatches = 0;
     return {
-      numMatches,
       jobs: data.map((el) => {
         let reason;
         // Read the title. If the title is valid and there the reason is empty so continue to the requirements.
@@ -245,14 +244,14 @@ export class RequirementsReader {
 
         // Read the requirements.
         reason = RequirementsReader.checkIsRequirementsMatch(el.text, user);
-        if (reason.pass) {
-          numMatches++;
-        }
+        if (reason.pass) numMatches++;
+
         return {
           ...el,
           reason: reason.reason,
         };
       }),
+      numMatches,
     };
   }
 }

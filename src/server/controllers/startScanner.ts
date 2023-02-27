@@ -9,7 +9,7 @@ import { QueryOptionsRes } from '../lib/queryValidation';
 const activeScanner = async (user: User, userDB: UsersDB, queryOptions: QueryOptionsRes) => {
   try {
     const jobsScanner = new JobsScanner(user, queryOptions);
-    await userDB.updateUser(user);
+    // await userDB.updateUser(user);
     console.time('time');
     await jobsScanner.scanning();
     console.timeEnd('time');
