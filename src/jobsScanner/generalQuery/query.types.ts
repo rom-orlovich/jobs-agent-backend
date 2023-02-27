@@ -74,5 +74,5 @@ export interface UserQueryProps {
   scope: string;
   experience: string;
   hash: string;
-  createdAt?: Date;
+  createdAt: Date;
 }

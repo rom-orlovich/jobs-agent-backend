@@ -41,6 +41,7 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
     hash: '',
+    createdAt: new Date(),
   };
 
   const EXAMPLE_USER = new User({

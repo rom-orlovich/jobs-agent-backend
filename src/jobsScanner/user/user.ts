@@ -32,13 +32,57 @@ export class User {
 
   /**
    * @param {UserQueryProps[]} userQueriesProps from the DB.
-   * @returns an array of no expired userQueries.
+   * @returns {UserQuery[]} an array of userQueries as UserQuery entities.
    */
-  loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]) {
-    const curUserQueries = userQueriesProps.map((query) => new UserQuery(query));
+
+  static _loadQueriesAsUserQueryEntity(userQueriesProps: UserQueryProps[]): UserQuery[] {
+    return userQueriesProps.map((query) => new UserQuery(query));
+  }
+
+  /**
+   * @param {UserQuery[]} userQueries array of UserQuery entities.
+   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
+   */
+
+  static _filterQueriesAsUserQueryEntity(userQueries: UserQuery[]): UserQuery[] {
+    return userQueries.filter((query) => !query.isUserQueryExpire());
+  }
+
+  /**
+   * @param {UserQueryProps[]} userQueriesProps from the DB.
+   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
+   */
+
+  static _invalidateCurUserQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
+    //Convert the user queries from the DB to userQuery array.
+    const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
+
     //Filter the old userQueries.
-    const curFilterUserQueries = curUserQueries.filter((query) => !query.isUserQueryExpire());
-    const curUserQueriesProps = curFilterUserQueries.map((query) => query.getUserQueryProps());
+    const curFilterUserQueries = User._filterQueriesAsUserQueryEntity(curUserQueries);
+
+    return curFilterUserQueries;
+  }
+
+  /**
+   * @param {UserQuery[]} userQueriesProps  array of UserQuery entities.
+   * @returns {UserQueryProps[]} an array of no expired userQueries as UserQueryProps[] .
+   */
+
+  static _loadQueriesAsUserQueryProps(userQueries: UserQuery[]): UserQueryProps[] {
+    return userQueries.map((query) => query.getUserQueryProps());
+  }
+
+  /**
+   * This function is for limit the user's amounts of queries in the DB.
+   * @param {UserQueryProps[]} userQueriesProps from the DB.
+   * @returns {UserQueryProps[]} Convert back userQuery array from entity to user queries array as same format as the format from the DB.
+   */
+
+  loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]): UserQueryProps[] {
+    //Invalidate the old user queries.
+    const curFilterUserQueries = User._invalidateCurUserQueries(userQueriesProps);
+    //Convert back userQuery array from entity to user queries array as same format as the format from the DB.
+    const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curFilterUserQueries);
     return curUserQueriesProps;
   }
 

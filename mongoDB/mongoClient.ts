@@ -1,5 +1,5 @@
 import { Collection, Db, MongoClient } from 'mongodb';
-import { GenericRecord } from '../lib/types';
+import { AnyFun, GenericRecord } from '../lib/types';
 
 export class MongoDBClient {
   client: MongoClient;
@@ -35,5 +35,14 @@ export class MongoDBClient {
 
   getCollection(collectionName: keyof typeof this.collectionsMap) {
     return this.collectionsMap[collectionName];
+  }
+
+  async mongoDBSetup(CB: AnyFun) {
+    try {
+      await this.connect();
+      await CB();
+    } catch (error) {
+      await this.close();
+    }
   }
 }

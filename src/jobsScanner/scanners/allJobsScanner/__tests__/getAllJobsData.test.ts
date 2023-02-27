@@ -44,6 +44,7 @@ describe.skip('Tests getAllJobsData method of AllJobScanner', () => {
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
     hash: '',
+    createdAt: new Date(),
   };
 
   const EXAMPLE_USER = new User({
