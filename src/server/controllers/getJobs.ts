@@ -68,7 +68,7 @@ const getFinalResult = (
   jobsAfterFilter: FilterByMatchReturn,
   queryOptions: QueryOptionsRes
 ) => {
-  const { filters, pagination } = curResult;
+  const { filters, pagination, numMatches } = curResult;
   //Get the array of reasons.
   const reasonsMap = extractFilterReasonFilters(curResult.jobs);
 
@@ -90,6 +90,7 @@ const getFinalResult = (
 
   // Normalize the current finalResult.
   const finalResults: JobsResults = {
+    numMatches,
     jobs: jobsAfterFilter.curResults,
     pagination: {
       ...pagination,
@@ -107,8 +108,8 @@ const getFinalResult = (
 export const getJobs: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash, usersDB } = req.validateBeforeScanner;
   const result = await getJobsByHashExist(user, queryOptions, hash);
-  user.setNumResultsFoundInLastQuery(result.jobs.length);
-  const userRes = await usersDB.updateUser(user);
+  user.setScannerResultsFoundInLastQuery(result.jobs.length, result.numMatches);
+  await usersDB.updateUser(user);
 
   const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);

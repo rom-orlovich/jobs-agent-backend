@@ -96,8 +96,9 @@ export class User {
     return this.getLastQuery().hash;
   }
 
-  setNumResultsFoundInLastQuery(numResults: number) {
+  setScannerResultsFoundInLastQuery(numResults: number, numMatches: number) {
     this.getLastQuery().numResultFound = numResults;
+    this.getLastQuery().numMatches = numMatches;
   }
   /**
    *

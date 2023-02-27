@@ -87,10 +87,15 @@ export class JobsScanner {
   }
 
   getResults(result: JobsResults): JobsResults {
+    const jobsRequirementsReaderResults = RequirementsReader.checkRequirementMatchForArray(
+      result.jobs,
+      this.user
+    );
     return {
-      jobs: RequirementsReader.checkRequirementMatchForArray(result.jobs, this.user),
+      jobs: jobsRequirementsReaderResults.jobs,
       pagination: result.pagination,
       filters: result.filters,
+      numMatches: jobsRequirementsReaderResults.numMatches,
     };
   }
 

@@ -76,4 +76,5 @@ export interface UserQueryProps {
   hash: string;
   createdAt: Date;
   numResultFound?: number;
+  numMatches?: number;
 }

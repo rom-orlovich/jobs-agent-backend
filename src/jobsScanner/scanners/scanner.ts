@@ -98,6 +98,6 @@ export class Scanner {
     console.log(`finish found ${jobs.length} jobs in ${this.scannerName}`);
     if (jobs.length) await this.insertManyDB(jobs, this.user.getLastHashQuery());
 
-    return this.filterResults(jobs);
+    return jobs;
   }
 }

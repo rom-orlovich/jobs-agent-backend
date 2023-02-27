@@ -2,9 +2,8 @@ import { Collection } from 'mongodb';
 import { mongoDB } from '../../src/server';
 
 import { EXPIRE_AT_MONGO_DB } from '../../src/jobsScanner/user/UserQuery';
-import { GenericRecord, OmitKey } from '../../lib/types';
-import { Job, JobsResultAgg, JobsResults, QueryOptions, QueryOptionsRes } from './jobsDB.types';
-import { QueryValidation } from '../../src/server/lib/queryValidation';
+import { GenericRecord } from '../../lib/types';
+import { Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
 
 export class JobsDB {
   jobsDB: Collection;
@@ -21,6 +20,7 @@ export class JobsDB {
       titles: [],
       reasons: [],
     },
+    numMatches: 0,
   };
 
   constructor() {
@@ -158,6 +158,7 @@ export class JobsDB {
         numResultsFound: numResultsFound,
       },
       filters: restFilter,
+      numMatches: 0,
     };
   }
   /**
