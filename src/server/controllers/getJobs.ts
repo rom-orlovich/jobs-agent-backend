@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
-import { JobsDB } from 'mongoDB/jobsDB/jobsDB';
-import { Job, JobsResults } from 'mongoDB/jobsDB/jobsDB.types';
+import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
+import { Job, JobsResults } from '../../../mongoDB/jobsDB/jobsDB.types';
 import { getJobsByHashExist } from '../lib/utils';
 
 import { QueryOptionsRes } from '../lib/queryValidation';
@@ -105,8 +105,10 @@ const getFinalResult = (
 };
 
 export const getJobs: RequestHandler = async (req, res) => {
-  const { user, queryOptions, hash } = req.validateBeforeScanner;
+  const { user, queryOptions, hash, usersDB } = req.validateBeforeScanner;
   const result = await getJobsByHashExist(user, queryOptions, hash);
+  user.setNumResultsFoundInLastQuery(result.jobs.length);
+  const userRes = await usersDB.updateUser(user);
 
   const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);

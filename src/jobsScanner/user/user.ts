@@ -41,26 +41,27 @@ export class User {
 
   /**
    * @param {UserQuery[]} userQueries array of UserQuery entities.
-   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
+   * @returns {UserQuery[]} an unique array of userQueries as UserQuery[].
    */
 
-  static _filterQueriesAsUserQueryEntity(userQueries: UserQuery[]): UserQuery[] {
-    return userQueries.filter((query) => !query.isUserQueryExpire());
+  static _makeAnUniqueQueries(userQueries: UserQuery[]): UserQuery[] {
+    return [
+      ...new Map(
+        userQueries
+          .sort((a, b) => a.getCurQueryTime() - b.getCurQueryTime())
+          .map((query) => [query['hash'], query])
+      ).values(),
+    ];
   }
 
-  /**
-   * @param {UserQueryProps[]} userQueriesProps from the DB.
-   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
-   */
-
-  static _invalidateCurUserQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
+  static _getCurUserUniqueQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
     //Convert the user queries from the DB to userQuery array.
     const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
 
-    //Filter the old userQueries.
-    const curFilterUserQueries = User._filterQueriesAsUserQueryEntity(curUserQueries);
+    //Get unique user queries.
+    const curUniqueUserQueries = User._makeAnUniqueQueries(curUserQueries);
 
-    return curFilterUserQueries;
+    return curUniqueUserQueries;
   }
 
   /**
@@ -80,19 +81,23 @@ export class User {
 
   loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]): UserQueryProps[] {
     //Invalidate the old user queries.
-    const curFilterUserQueries = User._invalidateCurUserQueries(userQueriesProps);
+    const curUserQueriesEntity = User._getCurUserUniqueQueries(userQueriesProps);
     //Convert back userQuery array from entity to user queries array as same format as the format from the DB.
-    const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curFilterUserQueries);
+    const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curUserQueriesEntity);
     return curUserQueriesProps;
   }
 
-  getLastQuery() {
+  getLastQuery(): UserQueryProps {
     const length = this.userQueries.length;
     return this.userQueries[length - 1];
   }
 
   getLastHashQuery() {
     return this.getLastQuery().hash;
+  }
+
+  setNumResultsFoundInLastQuery(numResults: number) {
+    this.getLastQuery().numResultFound = numResults;
   }
   /**
    *
@@ -120,5 +125,28 @@ export class User {
 
   getExcludedRequirement(word: string) {
     return this.excludedRequirements.get(word);
+  }
+  /**
+   * @param {UserQuery[]} userQueries array of UserQuery entities.
+   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
+   */
+
+  static _filterQueriesAsUserQueryEntity(userQueries: UserQuery[]): UserQuery[] {
+    return userQueries.filter((query) => !query.isUserQueryExpire());
+  }
+
+  /**
+   * @param {UserQueryProps[]} userQueriesProps from the DB.
+   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
+   */
+
+  static _invalidateCurUserQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
+    //Convert the user queries from the DB to userQuery array.
+    const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
+
+    //Filter the old userQueries.
+    // const curFilterUserQueries = User._filterQueriesAsUserQueryEntity(curUserQueries);
+
+    return curUserQueries;
   }
 }

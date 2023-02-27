@@ -8,17 +8,23 @@ export class UserQuery {
   expireAt: number;
   userQuery: UserQueryProps;
   hash: string;
+
   constructor(userQuery: UserQueryProps, expireAt = EXPIRE_AT) {
     this.userQuery = userQuery;
     this.expireAt = expireAt;
     this.hash = this.getQueryHash();
   }
 
+  getCurQueryTime() {
+    console.log(this.hash, this.userQuery.createdAt.getTime());
+    return this.userQuery.createdAt.getTime();
+  }
+
   /**
    * @returns {boolean} True, if the the diff between the current date and the createdAt is bigger than the expireAt threshold. Otherwise return false.
    */
   isUserQueryExpire(): boolean {
-    if (this.expireAt <= new Date().getTime() - this.userQuery.createdAt.getTime()) return true;
+    if (this.expireAt <= new Date().getTime() - this.getCurQueryTime()) return true;
 
     return false;
   }
@@ -40,6 +46,9 @@ export class UserQuery {
    * @returns {UserQueryProps} convert back to userQueryProps with curHash.
    */
   getUserQueryProps(): UserQueryProps {
-    return { ...this.userQuery, hash: this.hash };
+    return {
+      ...this.userQuery,
+      hash: this.hash,
+    };
   }
 }

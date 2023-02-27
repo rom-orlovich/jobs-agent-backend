@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
-import { UsersDB } from 'mongoDB/usersDB';
-import { JobsScanner } from 'src/jobsScanner/jobsScanner';
-import { User } from 'src/jobsScanner/user/user';
+import { UsersDB } from '../../../mongoDB/usersDB';
+import { JobsScanner } from '../../jobsScanner/jobsScanner';
+
+import { User } from '../../jobsScanner/user/user';
 import { ERROR_CODES } from '../lib/errorCodes';
 import { QueryOptionsRes } from '../lib/queryValidation';
 

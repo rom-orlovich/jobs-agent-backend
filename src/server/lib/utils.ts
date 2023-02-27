@@ -1,5 +1,5 @@
-import { JobsScanner } from 'src/jobsScanner/jobsScanner';
-import { User } from 'src/jobsScanner/user/user';
+import { JobsScanner } from '../../jobsScanner/jobsScanner';
+import { User } from '../../jobsScanner/user/user';
 import { QueryOptionsRes } from './queryValidation';
 
 //If there is hash so get the jobs by hash. Otherwise get the all jobs by user's history queries.

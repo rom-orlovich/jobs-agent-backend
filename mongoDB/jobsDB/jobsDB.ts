@@ -121,10 +121,7 @@ export class JobsDB {
   private getFacetPipelines(match: GenericRecord<RegExp>, limit?: number, page?: number) {
     const { reason, ...resetMatch } = match;
     const facetPaginationData = this.checkFacetPagination(match, limit, page);
-    console.log(
-      '🚀 ~ file: jobsDB.ts:124 ~ JobsDB ~ getFacetPipelines ~ facetPaginationData:',
-      facetPaginationData
-    );
+
     const facetFiltersPipeline = this.getFacetFiltersPipeline();
     return {
       ...facetPaginationData,
@@ -191,8 +188,6 @@ export class JobsDB {
         limit || JobsDB.DEFAULT_LIMIT,
         page || JobsDB.DEFAULT_PAGE
       );
-
-      console.log(jobsRes.jobs.length);
 
       return jobsRes;
     } catch (error) {

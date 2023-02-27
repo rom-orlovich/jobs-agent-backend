@@ -3,7 +3,7 @@ import { User } from '../user';
 describe.only('Tests invalidateCurUserQueries', () => {
   // const user = new User(EXAMPLE_USER_FROM_DB);
   test('Tests invalidate old user queries', () => {
-    const result = User._invalidateCurUserQueries([
+    const resultQueries = User._loadQueriesAsUserQueryEntity([
       {
         distance: '2',
         experience: '1,2',
@@ -25,10 +25,11 @@ describe.only('Tests invalidateCurUserQueries', () => {
         hash: '4e27b44817ea8c06b8580e38f389bb8c1a988673',
       },
     ]);
-    expect(result).toEqual([]);
+    const resultFilter = User._filterQueriesAsUserQueryEntity(resultQueries);
+    expect(resultFilter).toEqual([]);
   });
   test('Tests invalidate new user queries', () => {
-    const result = User._invalidateCurUserQueries([
+    const resultQueries = User._loadQueriesAsUserQueryEntity([
       {
         distance: '2',
         experience: '1,2',
@@ -50,10 +51,12 @@ describe.only('Tests invalidateCurUserQueries', () => {
         hash: '4e27b44817ea8c06b8580e38f389bb8c1a988673',
       },
     ]);
-    expect(result).toEqual(result);
+    const resultFilter = User._filterQueriesAsUserQueryEntity(resultQueries);
+
+    expect(resultFilter).toEqual(resultQueries);
   });
   test('Tests invalidate user queries from DB', () => {
-    const result = User._invalidateCurUserQueries([
+    const resultQueries = User._loadQueriesAsUserQueryEntity([
       {
         distance: '2',
         experience: '1,2',
@@ -285,6 +288,8 @@ describe.only('Tests invalidateCurUserQueries', () => {
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
     ]);
+
+    const result = User._filterQueriesAsUserQueryEntity(resultQueries);
     expect(result).toEqual([]);
   });
 });

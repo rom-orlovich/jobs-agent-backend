@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express';
-import { ScanningFS } from 'lib/scanningFS';
-import { User } from 'src/jobsScanner/user/user';
+
 import { ERROR_CODES } from '../lib/errorCodes';
 import { getJobsByHashExist } from '../lib/utils';
 import { QueryOptionsRes } from '../lib/queryValidation';
+import { User } from '../../jobsScanner/user/user';
+import { ScanningFS } from '../../../lib/scanningFS';
 
 const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {
   try {

@@ -8,8 +8,8 @@ import { validateBeforeScanner } from './controllers/middleware';
 import cluster from 'node:cluster';
 import os from 'node:os';
 import { startScanner } from './controllers/startScanner';
-import { getJobs } from './controllers/getJobs';
 import { downloadJobs } from './controllers/downloadJobs';
+import { getJobs } from './controllers/getJobs';
 
 const totalCPUs = os.cpus().length;
 

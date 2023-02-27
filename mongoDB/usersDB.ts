@@ -33,7 +33,7 @@ export class UsersDB {
         },
         { $set: user }
       );
-      console.log(result);
+
       if (!result) return undefined;
 
       return result.modifiedCount;

@@ -12,14 +12,8 @@
   
     /* Type Checking */,
     "strict": true /* Enable all strict type-checking options. */,
-    "baseUrl": ".",
+
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["**/*.ts", "types/*.d.ts"],
-  "exclude": ["node_modules"],
-  "files": ["types/environment.d.ts", "types/environment.d.ts"]
+  "files": ["types/express.d.ts", "types/environment.d.ts"]
 }
-
-// "files": ["types/next-auth.d.ts", "types/next-env.d.ts", "types/environment.d.ts"],
-// "include": ["types/next-env.d.ts", "**/*.ts", "**/*.tsx"],
-// "exclude": ["node_modules"]
