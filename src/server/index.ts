@@ -47,6 +47,7 @@ const startClusters = async () => {
         cluster.fork();
       });
     } catch (error) {
+      console.log(error);
       await mongoDB.close();
     }
   } else {

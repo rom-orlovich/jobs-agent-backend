@@ -81,13 +81,18 @@ export class JobsDB {
    * @param {number} page A number of the page to display.
    * @returns The facet stage that generate the data.
    */
-  private checkFacetPagination(match: GenericRecord<RegExp>, limit?: number, page?: number) {
+  private checkFacetPagination(
+    match: GenericRecord<RegExp>,
+    limit?: number,
+    page?: number,
+    useQueryOptions = true
+  ) {
     const isTherePaginationOpt = limit && page !== undefined;
 
     //Check if there pagination options like limit and page
     const isSearchByPaginationOpt = isTherePaginationOpt && page >= 0;
 
-    if (match?.reason) return { jobs: [] };
+    if (match?.reason || !useQueryOptions) return { jobs: [] };
     else
       return isSearchByPaginationOpt
         ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
@@ -118,9 +123,14 @@ export class JobsDB {
    * @param {number} page A number of the page to display.
    * @returns An object that represent the facet stage pipelines.
    */
-  private getFacetPipelines(match: GenericRecord<RegExp>, limit?: number, page?: number) {
+  private getFacetPipelines(
+    match: GenericRecord<RegExp>,
+    limit?: number,
+    page?: number,
+    useQueryOptions = true
+  ) {
     const { reason, ...resetMatch } = match;
-    const facetPaginationData = this.checkFacetPagination(match, limit, page);
+    const facetPaginationData = this.checkFacetPagination(match, limit, page, useQueryOptions);
 
     const facetFiltersPipeline = this.getFacetFiltersPipeline();
     return {
@@ -166,10 +176,14 @@ export class JobsDB {
    * @param {QueryOptions} options that represent the url's query object.
    * @returns {Promise<JobsResults>} All user's jobs that match the user's hashQueries.
    */
-  async getJobsByHash(hashQuery: string, queryOptions: QueryOptionsRes): Promise<JobsResults> {
+  async getJobsByHash(
+    hashQuery: string,
+    queryOptions: QueryOptionsRes,
+    useQueryOptions = true
+  ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetPipelines = this.getFacetPipelines(match, limit, page);
+    const facetPipelines = this.getFacetPipelines(match, limit, page, useQueryOptions);
     console.log(
       JSON.stringify([
         { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...restMatch } },

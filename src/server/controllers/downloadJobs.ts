@@ -8,7 +8,8 @@ import { ScanningFS } from '../../../lib/scanningFS';
 
 const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, hash?: string) => {
   try {
-    const result = await getJobsByHashExist(user, queryOptions, hash);
+    const result = await getJobsByHashExist(user, queryOptions, hash, false);
+
     await ScanningFS.writeData(result.jobs);
     return true;
   } catch (error) {
@@ -18,9 +19,10 @@ const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, ha
 
 export const downloadJobs: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
-
+  console.log(hash);
   //Writes the results into csv file.
   const result = await writeResultsScanner(user, queryOptions, hash);
+
   if (result) return res.download(ScanningFS.createPathJobsCSV());
   return res
     .status(500)

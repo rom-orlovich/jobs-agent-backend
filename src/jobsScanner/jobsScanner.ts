@@ -46,8 +46,8 @@ export class JobsScanner {
   /**
    * @returns {Promise<JobsResults>} The result of the find jobs query.
    */
-  async getJobsByHash(hash: string): Promise<JobsResults> {
-    const jobs = await this.jobsDB.getJobsByHash(hash, this.queryOptions);
+  async getJobsByHash(hash: string, useQueryOptions = true): Promise<JobsResults> {
+    const jobs = await this.jobsDB.getJobsByHash(hash, this.queryOptions, useQueryOptions);
 
     return jobs;
   }
