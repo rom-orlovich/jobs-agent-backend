@@ -19,4 +19,5 @@ export interface UserProfile {
   requirements: RequirementsOptions;
   excludedRequirements: ExcludeRequirementsOptions;
   userQueries: UserQueryProps[];
+  activeHash?: string;
 }

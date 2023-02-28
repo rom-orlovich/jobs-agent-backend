@@ -17,14 +17,12 @@ export class Scanner {
   scannerName: ScannerName;
   jobMap = new Map();
   jobsDB: JobsDB;
-  activeHash?: string;
 
-  constructor(scannerName: ScannerName, user: UserEntity, jobsDB: JobsDB, activeHash?: string) {
+  constructor(scannerName: ScannerName, user: UserEntity, jobsDB: JobsDB) {
     this.user = user;
     this.googleTranslate = new GoogleTranslate({ op: 'translate', from: 'he', to: 'en' });
     this.scannerName = scannerName;
     this.jobsDB = jobsDB;
-    this.activeHash = activeHash;
   }
 
   getURL(...args: any[]): string {
@@ -95,10 +93,10 @@ export class Scanner {
     return RequirementsReader.checkRequirementMatchForArray(jobs, this.user);
   }
 
-  async getResults(activeHash?: string): Promise<Job[]> {
+  async getResults(): Promise<Job[]> {
     const jobs = await this.scanning();
     console.log(`finish found ${jobs.length} jobs in ${this.scannerName}`);
-    if (jobs.length) await this.insertManyDB(jobs, activeHash || this.user.getLastHashQuery());
+    if (jobs.length) await this.insertManyDB(jobs, this.user.getLastHashQuery());
 
     return jobs;
   }

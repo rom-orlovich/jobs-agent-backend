@@ -3,7 +3,8 @@ import { RequestHandler } from 'express';
 import { JobsScanner } from '../../jobsScanner/jobsScanner';
 
 import { User } from '../../jobsScanner/user/user';
-import { ERROR_CODES } from '../lib/errorCodes';
+import { MESSAGE_CODES } from '../lib/messageCodes';
+
 import { QueryOptionsRes } from '../lib/queryValidation';
 
 const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
@@ -33,10 +34,10 @@ export const startScanner: RequestHandler = async (req, res) => {
     return res.status(200).send({
       success: true,
       message: 'The jobs scanner was finished successfully',
-      code: ERROR_CODES.SCANNER_SUCCESS,
+      code: MESSAGE_CODES.SCANNER_SUCCESS,
     });
   else
     return res
       .status(500)
-      .send({ message: 'Something went wrong', success: false, code: ERROR_CODES.SOMETHING_WRONG });
+      .send({ message: 'Something went wrong', success: false, code: MESSAGE_CODES.SOMETHING_WRONG });
 };

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 
 import { UsersDB } from '../../../mongoDB/usersDB';
-import { ERROR_CODES } from '../lib/errorCodes';
+import { MESSAGE_CODES } from '../lib/messageCodes';
 import { QueryValidation } from '../lib/queryValidation';
 
 export const checkString = (str: unknown) => typeof str === 'string';
@@ -22,7 +22,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
     return res.status(400).send({
       message: 'Please enter a valid userID.',
       success: false,
-      code: ERROR_CODES.USER_ID_NOT_VALID,
+      code: MESSAGE_CODES.USER_ID_NOT_VALID,
     });
   const queryValidation = new QueryValidation(req.query);
   console.log(
@@ -35,7 +35,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
     return res.status(400).send({
       message: 'Please enter valid url queries.',
       success: false,
-      code: ERROR_CODES.ENTER_VALID_QUERY,
+      code: MESSAGE_CODES.ENTER_VALID_QUERY,
     });
 
   const isHashString = QueryValidation.checkString(req.query.hash);
@@ -48,7 +48,7 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   if (!user)
     return res
       .status(400)
-      .send({ message: 'User is not found.', success: false, code: ERROR_CODES.USER_NOT_FOUND });
+      .send({ message: 'User is not found.', success: false, code: MESSAGE_CODES.USER_NOT_FOUND });
 
   req.validateBeforeScanner = {
     user,

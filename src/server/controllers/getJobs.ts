@@ -113,7 +113,6 @@ export const getJobs: RequestHandler = async (req, res) => {
   user.setScannerResultsFoundInLastQuery(result.pagination.numResultsFound, result.numMatches);
 
   await usersDB.updateUser(user);
-  await usersDB.updateUser(user);
 
   const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);

@@ -21,15 +21,17 @@ export class User {
   excludedRequirements: Map<string, boolean>;
 
   userQueries: UserQueryProps[];
-  activeHash?: string;
+  activeHash: string;
 
   constructor(userOptions: UserProfile, activeHash?: string) {
     this.userID = userOptions.userID;
     this.overallEx = userOptions.overallEx;
     this.requirements = this.setRequirements(userOptions.requirements);
-    this.activeHash = activeHash;
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
-    this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries);
+    this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries, activeHash);
+
+    this.activeHash = activeHash || this.getLastHashQuery();
+    console.log(' this.activeHash', activeHash, this.getLastHashQuery());
   }
 
   /**
@@ -46,14 +48,14 @@ export class User {
    * @returns {UserQuery[]} an unique array of userQueries as UserQuery[].
    */
 
-  makeAnUniqueQueries(userQueries: UserQuery[]): UserQuery[] {
+  makeAnUniqueQueries(userQueries: UserQuery[], activeHash?: string): UserQuery[] {
     return [
       ...new Map(
         userQueries
           .sort((a, b) => {
             //Move the query with active hash to the end of the userQueries arr.
-            if (a.hash === this.activeHash) return 1;
-            if (b.hash === this.activeHash) return -1;
+            if (a.hash === activeHash) return 1;
+            if (b.hash === activeHash) return -1;
             return a.getCurQueryTime() - b.getCurQueryTime();
           })
           .map((query) => [query['hash'], query])
@@ -61,12 +63,12 @@ export class User {
     ];
   }
 
-  _getCurUserUniqueQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
+  _getCurUserUniqueQueries(userQueriesProps: UserQueryProps[], activeHash?: string): UserQuery[] {
     //Convert the user queries from the DB to userQuery array.
     const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
 
     //Get unique user queries.
-    const curUniqueUserQueries = this.makeAnUniqueQueries(curUserQueries);
+    const curUniqueUserQueries = this.makeAnUniqueQueries(curUserQueries, activeHash);
 
     return curUniqueUserQueries;
   }
@@ -84,11 +86,12 @@ export class User {
    * @returns {UserQueryProps[]} Convert back userQuery array from entity to user queries array as same format as the format from the DB.
    */
 
-  loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[]): UserQueryProps[] {
+  loadQueryCurSearchQuery(userQueriesProps: UserQueryProps[], activeHash?: string): UserQueryProps[] {
     //Invalidate the old user queries.
-    const curUserQueriesEntity = this._getCurUserUniqueQueries(userQueriesProps);
+    const curUserQueriesEntity = this._getCurUserUniqueQueries(userQueriesProps, activeHash);
     //Convert back userQuery array from entity to user queries array as same format as the format from the DB.
     const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curUserQueriesEntity);
+    console.log(curUserQueriesProps);
     return curUserQueriesProps;
   }
 
@@ -98,7 +101,7 @@ export class User {
   }
 
   getLastHashQuery() {
-    return this.getLastQuery().hash;
+    return this.activeHash;
   }
 
   setScannerResultsFoundInLastQuery(numResults: number, numMatches: number) {

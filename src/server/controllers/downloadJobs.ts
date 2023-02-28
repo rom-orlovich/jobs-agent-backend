@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 
-import { ERROR_CODES } from '../lib/errorCodes';
+import { MESSAGE_CODES } from '../lib/messageCodes';
 import { getJobsByHashExist } from '../lib/utils';
 import { QueryOptionsRes } from '../lib/queryValidation';
 import { User } from '../../jobsScanner/user/user';
@@ -24,5 +24,5 @@ export const downloadJobs: RequestHandler = async (req, res) => {
   if (result) return res.download(ScanningFS.createPathJobsCSV());
   return res
     .status(500)
-    .send({ message: 'Something went wrong', success: false, code: ERROR_CODES.SOMETHING_WRONG });
+    .send({ message: 'Something went wrong', success: false, code: MESSAGE_CODES.SOMETHING_WRONG });
 };
