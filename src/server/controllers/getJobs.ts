@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
-import { Job, JobsResults } from '../../../mongoDB/jobsDB/jobsDB.types';
+import { FacetFilterResults, Job, JobsResults } from '../../../mongoDB/jobsDB/jobsDB.types';
 import { getJobsByHashExist } from '../lib/utils';
 
 import { QueryOptionsRes } from '../lib/queryValidation';
@@ -23,6 +23,45 @@ interface FilterByMatchReturn {
 }
 
 /**
+ *The 'reason' property of the job entity is not saved in the DB and therefore it is not available
+ while mongoDB aggregation function is execute and create the filters array.
+ The reason property only available after the RequirementReader algo is execute.
+ So the filters are created 'manually'.
+ * @param {Job[]} jobs Array of the current jobs
+ * @param {RegExp} reason  The regex of the current filter reason
+ * @returns {FacetFilterResults} A new FacetFilterResults according to the result of the match filter by reason.
+ */
+
+const createFiltersByMatchFilter = (jobs: Job[], reason: RegExp): FacetFilterResults => {
+  const filters = {
+    _id: '',
+    companies: new Set<string>(),
+    from: new Set<string>(),
+    locations: new Set<string>(),
+    reasons: new Set<string>(),
+    titles: new Set<string>(),
+  };
+
+  jobs.forEach((job) => {
+    if (!job.reason?.match(reason)) return;
+    job?.company && filters.companies.add(job.company);
+    job.from && filters.from.add(job.from);
+    job.location && filters.locations.add(job.location);
+    job.reason && filters.reasons.add(job.reason);
+    job.title && filters.titles.add(job.title);
+  });
+
+  return {
+    _id: '',
+    companies: [...filters.companies],
+    from: [...filters.from],
+    locations: [...filters.locations],
+    reasons: [...filters.reasons],
+    titles: [...filters.titles],
+  };
+};
+
+/**
  * The jobs from form DB have not reason field, So its impossible to filter by the reason in the DB
  * and implement pagination for them.
  * @param {Jobs[] } jobs
@@ -41,11 +80,11 @@ const filterByMatch = (jobs: Job[], queryOptions: QueryOptionsRes): FilterByMatc
 
   //Check if there is a reason,
   //If it does apply the filter by reason save the length of the current filter
-  // and apply the and 'manual' pagination.
+  // and apply the 'manual' pagination.
   if (queryOptions.match.reason) {
-    curResults = jobs.filter((job) => job.reason?.match(queryOptions.match.reason));
+    curResults = jobs.filter((job) => job.reason?.match(queryOptions?.match?.reason));
 
-    numResults = curResults.length;
+    numResults = curResults.length; //Num results before slice the decrease the number of the results.
 
     curResults = curResults.slice(page - 1, page + limit);
   } else {
@@ -69,18 +108,23 @@ const getFinalResult = (
   queryOptions: QueryOptionsRes
 ) => {
   const { filters, pagination, numMatches } = curResult;
-  //Get the array of reasons.
-  const reasonsMap = extractFilterReasonFilters(curResult.jobs);
+
+  //Get the arrays of the current filters.
+  const curFilters = queryOptions.match.reason
+    ? createFiltersByMatchFilter(jobsAfterFilter.curResults, queryOptions.match.reason)
+    : filters;
 
   // The current limit.
   const limit = queryOptions?.limit || JobsDB.DEFAULT_LIMIT;
 
   // Check if there is a queryOptions of match reason. If it does use the length of jobsAfterFilter numResultsSlice.
-  const curNumResultsByMatchReasonCompare = queryOptions.match.reason
+  //This variable is for checking if there is more 'pages' to fetch after this page.
+  const curNumResultsByMatchReasonCompare = queryOptions?.match?.reason
     ? jobsAfterFilter.numResultsSlice
     : pagination.numResultsFound;
 
-  const curNumResultFound = queryOptions.match.reason
+  //Check the current total results.
+  const curNumResultFound = queryOptions?.match?.reason
     ? jobsAfterFilter.total
     : pagination.numResultsFound;
 
@@ -97,10 +141,7 @@ const getFinalResult = (
       hasMore: hasMore,
       numResultsFound: curNumResultFound,
     },
-    filters: {
-      ...filters,
-      reasons: reasonsMap as string[],
-    },
+    filters: curFilters,
   };
   return finalResults;
 };
@@ -110,12 +151,16 @@ export const getJobs: RequestHandler = async (req, res) => {
 
   const result = await getJobsByHashExist(user, queryOptions, hash);
 
-  user.setScannerResultsFoundInLastQuery(result.pagination.numResultsFound, result.numMatches);
+  //Filter results by the match reason if it is exist. Else return the results from the DB as is.
+  const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
 
+  //Calculate the final get jobs result.
+  const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
+
+  //Update the user profile with the new date about the results that were found.
+  user.setScannerResultsFoundInLastQuery(finalResult.pagination.numResultsFound, finalResult.numMatches);
   await usersDB.updateUser(user);
 
-  const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
-  const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
   console.log(
     finalResult.pagination,
     'finalResult.jobs.length',
