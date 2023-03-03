@@ -8,11 +8,11 @@ import { QueryOptionsRes } from '../lib/queryValidation';
 /**
  * For client filter.
  * @param {Jobs[] } jobs The array of jobs.
- * @returns {(string|undefined)[]} of the reason from all the jobs.
+ * @returns {string[]} of the reason from all the jobs.
  */
-const extractFilterReasonFilters = (jobs: Job[]): (string | undefined)[] => {
-  const jobsReasons = jobs.map((jobs) => jobs.reason);
-  const set = new Set(jobsReasons);
+const extractFilterReasonFilters = (jobs: Job[]): string[] => {
+  const jobsReasons = jobs.map((jobs) => jobs.reason) as string[];
+  const set = new Set<string>(jobsReasons);
   return [...set];
 };
 
@@ -112,7 +112,7 @@ const getFinalResult = (
   //Get the arrays of the current filters.
   const curFilters = queryOptions.match.reason
     ? createFiltersByMatchFilter(jobsAfterFilter.curResults, queryOptions.match.reason)
-    : filters;
+    : { ...filters, reasons: extractFilterReasonFilters(jobsAfterFilter.curResults) };
 
   // The current limit.
   const limit = queryOptions?.limit || JobsDB.DEFAULT_LIMIT;
