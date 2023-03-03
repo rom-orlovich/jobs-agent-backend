@@ -4,6 +4,8 @@ export interface QueryOptions {
   title?: string;
   reason?: string;
   from?: string;
+  company?: string;
+  location?: string;
   page?: string;
   limit?: string;
 }
@@ -17,8 +19,10 @@ export class QueryValidation {
   possiblesKeys: GenericRecord<boolean> = {
     hash: true,
     title: true,
-    from: true,
     reason: true,
+    from: true,
+    company: true,
+    location: true,
     limit: true,
     page: true,
   };
@@ -47,6 +51,7 @@ export class QueryValidation {
 
   //Check query has valid query key value
   private checkValidQuery(query: GenericRecord<any>) {
+    console.log(query);
     //Helpers functions that check if query keyValue is valid input.
     //Key is valid if it exist in possibleKeys object and if it valid string or valid number.
     const checkValidKeyValue = (key: string) =>
@@ -73,10 +78,12 @@ export class QueryValidation {
   private createMatchOptions(options?: QueryOptions): GenericRecord<RegExp> {
     if (!options) return {};
     const match: GenericRecord<RegExp> = {};
-    const { from, reason, title } = options;
-    if (from) match['from'] = this.regexStartWith(from);
-    if (reason) match['reason'] = this.regexStartWith(reason);
+    const { from, reason, title, company, location } = options;
     if (title) match['title'] = this.regexStartWith(title);
+    if (reason) match['reason'] = this.regexStartWith(reason);
+    if (from) match['from'] = this.regexStartWith(from);
+    if (company) match['company'] = this.regexStartWith(company);
+    if (location) match['location'] = this.regexStartWith(location);
     return match;
   }
 
