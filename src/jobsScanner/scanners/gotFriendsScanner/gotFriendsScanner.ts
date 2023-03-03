@@ -88,7 +88,8 @@ export class GotFriendsScanner extends Scanner {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
       // headless: false,
       defaultViewport: null,
-      args: ['--no-sandbox'],
+      executablePath: '/usr/bin/google-chrome-stable',
+      args: ['--no-sandbox', '--disable-gpu'],
       slowMo: 100,
     });
 
