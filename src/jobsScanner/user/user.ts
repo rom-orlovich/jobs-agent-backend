@@ -21,7 +21,7 @@ export class User {
   excludedRequirements: Map<string, boolean>;
 
   userQueries: UserQueryProps[];
-  activeHash: string;
+  activeHash?: string;
 
   constructor(userOptions: UserProfile, activeHash?: string) {
     this.userID = userOptions.userID;
@@ -101,7 +101,7 @@ export class User {
   }
 
   getLastHashQuery() {
-    return this.activeHash;
+    return this.getLastQuery().hash;
   }
 
   setScannerResultsFoundInLastQuery(numResults: number, numMatches: number) {

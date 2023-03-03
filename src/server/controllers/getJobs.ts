@@ -116,6 +116,12 @@ export const getJobs: RequestHandler = async (req, res) => {
 
   const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
-
+  console.log(
+    finalResult.pagination,
+    'finalResult.jobs.length',
+    finalResult.jobs.length,
+    'finalResult.numMatches',
+    finalResult.numMatches
+  );
   return res.status(200).send(finalResult);
 };

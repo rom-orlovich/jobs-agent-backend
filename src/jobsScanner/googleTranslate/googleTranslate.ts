@@ -51,7 +51,7 @@ export class GoogleTranslate {
   }
 
   async translateArrayText<T extends GenericRecord<any>>(data: T[], throatNum = 5) {
-    const promises = data.map(
+    const promises = data?.map(
       throat(throatNum, async (rest) => {
         const translateText = await this.getTranslate(rest.text);
         const newJob: T = {

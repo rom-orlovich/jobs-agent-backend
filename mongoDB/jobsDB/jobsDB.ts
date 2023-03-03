@@ -101,7 +101,8 @@ export class JobsDB {
   /**
    * @returns The filters pipeline of the current jobs data.
    */
-  private getFacetFiltersPipeline() {
+  private getFacetFiltersPipeline(match?: GenericRecord<RegExp>) {
+    if (match?.reason) return {};
     return {
       filters: [
         {
@@ -145,7 +146,7 @@ export class JobsDB {
    * @param {JobsResultAgg[]} aggRes The return array of jobs's aggregation.
    * @returns {JobsResults} The data of the jobs and the totalPages number of documents.
    */
-  private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number, page: number): JobsResults {
+  private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number): JobsResults {
     const res = aggRes[0];
     const numResultsFoundObj = res.numResultsFound[0];
 
@@ -208,11 +209,7 @@ export class JobsDB {
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(
-        jobsAgg,
-        limit || JobsDB.DEFAULT_LIMIT,
-        page || JobsDB.DEFAULT_PAGE
-      );
+      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || JobsDB.DEFAULT_LIMIT);
 
       return jobsRes;
     } catch (error) {
@@ -248,11 +245,7 @@ export class JobsDB {
         ])
         .toArray();
 
-      const jobsRes = this.convertJobsAggRes(
-        jobsAgg,
-        limit || JobsDB.DEFAULT_LIMIT,
-        page || JobsDB.DEFAULT_PAGE
-      );
+      const jobsRes = this.convertJobsAggRes(jobsAgg, limit || JobsDB.DEFAULT_LIMIT);
 
       return jobsRes;
     } catch (error) {
