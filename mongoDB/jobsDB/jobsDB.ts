@@ -3,7 +3,7 @@ import { mongoDB } from '../../src/server';
 
 import { EXPIRE_AT_MONGO_DB } from '../../src/jobsScanner/user/UserQuery';
 import { GenericRecord } from '../../lib/types';
-import { Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
+import { FacetFilterResults, Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
 
 export class JobsDB {
   jobsDB: Collection;
@@ -158,7 +158,7 @@ export class JobsDB {
     const numResultsFound = numResultsFoundObj?.numResultsFound || 0;
     const hasMore = numResultsFound >= limit;
 
-    const { ...restFilter } = res.filters[0];
+    const filters = res?.filters.length === 0 ? this.defaultJobAggReturn.filters : res?.filters[0];
 
     return {
       jobs: res.jobs,
@@ -168,7 +168,7 @@ export class JobsDB {
         hasMore,
         numResultsFound: numResultsFound,
       },
-      filters: restFilter,
+      filters,
       numMatches: 0,
     };
   }

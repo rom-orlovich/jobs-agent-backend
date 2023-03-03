@@ -49,4 +49,4 @@ export type JobsResults = PickKey<JobsResultAgg, 'jobs'> & {
     hasMore: boolean;
     numResultsFound: number;
   };
-} & { filters?: OmitKey<FacetFilterResults, '_id'>; numMatches: number };
+} & { filters: OmitKey<FacetFilterResults, '_id'>; numMatches: number };
