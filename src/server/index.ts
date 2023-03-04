@@ -5,8 +5,8 @@ import { MongoDBClient } from '../../mongoDB/mongoClient';
 
 import cors from 'cors';
 import { validateBeforeScanner } from './controllers/middleware';
-import cluster from 'node:cluster';
-import os from 'node:os';
+import cluster from 'cluster';
+import os from 'os';
 import { startScanner } from './controllers/startScanner';
 import { downloadJobs } from './controllers/downloadJobs';
 import { getJobs } from './controllers/getJobs';
