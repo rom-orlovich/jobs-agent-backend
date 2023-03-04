@@ -26,7 +26,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /app
 COPY package*.json ./
-RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat .env
+# RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat .env
 RUN npm install --production
 COPY --from=bulider /app/dist dist
 

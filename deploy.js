@@ -14,6 +14,7 @@ const packageJson = {
   description: '',
   dependencies: {
     axios: '^1.2.5',
+    'fs-extra': '^11.1.0',
     cheerio: '^1.0.0-rc.12',
     cors: '^2.8.5',
     dotenv: '^16.0.3',

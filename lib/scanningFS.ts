@@ -1,5 +1,6 @@
 import path from 'path';
-import { readFile, writeFile } from 'fs/promises';
+
+import { outputFile, readFile } from 'fs-extra';
 
 import { json2csvAsync, csv2jsonAsync } from 'json-2-csv';
 import { GenericRecord } from './types';
@@ -24,7 +25,7 @@ export class ScanningFS {
 
   static async writeJSON<T>(data: T, path: string) {
     try {
-      await writeFile(path, JSON.stringify(data), 'utf-8');
+      await outputFile(path, JSON.stringify(data), 'utf-8');
       console.log(`finish create json file in ${path}`);
     } catch (error) {
       console.log(error);
@@ -51,7 +52,7 @@ export class ScanningFS {
       const csv = await json2csvAsync(data, {
         keys: ScanningFS.orderKey(data),
       });
-      await writeFile(path, csv || '', 'utf-8');
+      await outputFile(path, csv || '', 'utf-8');
       console.log(`finish create json file in ${path}`);
     } catch (error) {
       console.log(error);
