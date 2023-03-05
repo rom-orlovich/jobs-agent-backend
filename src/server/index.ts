@@ -23,6 +23,9 @@ const expressServer = () => {
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadJobs);
   app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobs);
+  app.get('/api/test', (req, res) => {
+    res.send('test');
+  });
 
   console.log('start');
   app.listen(5000, () => {

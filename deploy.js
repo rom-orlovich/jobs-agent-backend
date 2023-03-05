@@ -3,7 +3,7 @@
 const { config } = require('dotenv');
 config();
 const { exec } = require('child_process');
-const { mkdir, access, constants, writeFile } = require('fs/promises');
+const { mkdir, access, constants, writeFile, cp } = require('fs/promises');
 
 const path = require('path');
 
@@ -23,12 +23,11 @@ const packageJson = {
     'linkedin-jobs-api': '^1.0.0',
     mongodb: '5.0',
     puppeteer: '^19.6.1',
-    'puppeteer-cluster': '^0.23.0',
     throat: '^6.0.2',
   },
   scripts: {
     start: 'node ./src/server/index.js',
-    build: '',
+    build: 'npm install && bash render-build.sh',
     keywords: [],
     author: '',
     license: 'ISC',
@@ -46,10 +45,9 @@ const createDeployFolder = async () => {
       }
 
       await writeFile('./deploy/dist/package.json', JSON.stringify(packageJson));
-
-      exec('cd ./deploy/dist && npm install --production', () => {
-        res();
-      });
+      await cp('./render-build.sh', './deploy/dist/render-build.sh');
+      await cp('./puppeteerrc.cjs', './deploy/dist/puppeteerrc.cjs');
+      res();
     });
   });
 };

@@ -15,7 +15,7 @@
 
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
 
-    "outDir": "deploy/dist"
+    "outDir": "./dist"
   },
   "files": ["types/express.d.ts", "types/environment.d.ts"]
 }

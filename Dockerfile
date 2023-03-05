@@ -1,15 +1,15 @@
 
 FROM node:14-slim as bulider
 WORKDIR /app
-
-
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build 
 
-FROM node:14-slim 
 
+
+
+FROM node:14-slim 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
 RUN apt-get update \
@@ -24,10 +24,10 @@ RUN apt-get update \
 # We don't need the standalone Chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-WORKDIR /app
+
 COPY package*.json ./
-# RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat .env
 RUN npm install --production
+
 COPY --from=bulider /app/dist dist
 
 EXPOSE 5000
