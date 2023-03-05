@@ -4,9 +4,8 @@ const { config } = require('dotenv');
 config();
 const { exec } = require('child_process');
 const { mkdir, access, constants, writeFile } = require('fs/promises');
-const { copy } = require('fs-extra');
+
 const path = require('path');
-const { rmSync } = require('fs');
 
 const packageJson = {
   name: 'jobs-agent-backend-prod',
@@ -14,10 +13,10 @@ const packageJson = {
   description: '',
   dependencies: {
     axios: '^1.2.5',
-    'fs-extra': '^11.1.0',
     cheerio: '^1.0.0-rc.12',
     cors: '^2.8.5',
     dotenv: '^16.0.3',
+    'fs-extra': '^11.1.0',
     express: '^4.18.2',
     'google-translate-free': '^2.4.5',
     'json-2-csv': '^3.18.0',
@@ -44,11 +43,10 @@ const createDeployFolder = async () => {
         await mkdir('deploy', { cwd: root });
       } catch (error) {
         console.log(error);
-        rmSync('./deploy/dist', { recursive: true });
       }
-      await copy('./dist', './deploy/dist');
+
       await writeFile('./deploy/dist/package.json', JSON.stringify(packageJson));
-      rmSync('./dist', { recursive: true });
+
       exec('cd ./deploy/dist && npm install --production', () => {
         res();
       });
