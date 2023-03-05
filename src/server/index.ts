@@ -14,7 +14,7 @@ import { getJobs } from './controllers/getJobs';
 const totalCPUs = os.cpus().length;
 
 const app = Express();
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 export const mongoDB = new MongoDBClient();
 
@@ -28,7 +28,7 @@ const expressServer = () => {
   });
 
   console.log('start');
-  app.listen(5000, () => {
+  app.listen(PORT, () => {
     console.log(`server listen on port ${PORT}`);
   });
 };
