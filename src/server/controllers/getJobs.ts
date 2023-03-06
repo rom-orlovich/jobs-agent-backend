@@ -3,7 +3,7 @@ import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
 import { FacetFilterResults, Job, JobsResults } from '../../../mongoDB/jobsDB/jobsDB.types';
 import { getJobsByHashExist } from '../lib/utils';
 
-import { QueryOptionsRes } from '../lib/queryValidation';
+import { QueryOptionsRes, QueryValidation } from '../lib/queryValidation';
 
 /**
  * For client filter.
@@ -157,8 +157,12 @@ export const getJobs: RequestHandler = async (req, res) => {
   //Calculate the final get jobs result.
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
 
-  //Update the user profile with the new date about the results that were found.
-  user.setScannerResultsFoundInLastQuery(finalResult.pagination.numResultsFound, finalResult.numMatches);
+  //Update the user profile with the new date about the results that were found if there is not filters.
+  if (QueryValidation.QueryEmpty(queryOptions?.match))
+    user.setScannerResultsFoundInLastQuery(
+      finalResult.pagination.numResultsFound,
+      finalResult.numMatches
+    );
   await usersDB.updateUser(user);
 
   console.log(

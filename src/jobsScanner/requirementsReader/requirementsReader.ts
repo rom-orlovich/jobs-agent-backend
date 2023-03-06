@@ -220,12 +220,13 @@ export class RequirementsReader {
     let i = 0;
     let j = words.length - 1;
     const createMessage = (word: string) => `The title contains the word '${word}'`;
-    while (i < j) {
+    while (i <= j) {
       if (user.getExcludedRequirement(words[i])) return createMessage(words[i]);
       if (user.getExcludedRequirement(words[j])) return createMessage(words[j]);
       i++;
       j--;
     }
+
     return '';
   }
 
