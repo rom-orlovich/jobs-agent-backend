@@ -96,7 +96,6 @@ describe('Tests getAllJobsData method of AllJobScanner', () => {
         
         המשרה מיועדת לאנשים /נשים עם מוגבלויות. המשרה מיועדת לנשים ולגברים כאחד.`.replace(/\s+/g, ''),
         link: 'https://www.alljobs.co.il/Search/UploadSingle.aspx?JobID=6503092',
-        createdAt: new Date(),
       },
       {
         title: 'מפתח /ת Full Stack',
@@ -110,7 +109,6 @@ describe('Tests getAllJobsData method of AllJobScanner', () => {
         - עבודה מול תהליכי ETL
         - ניסיון ב- WebApi, Restful services המשרה מיועדת לנשים ולגברים כאחד.`.replace(/\s+/g, ''),
         link: 'https://www.alljobs.co.il/Search/UploadSingle.aspx?JobID=6908630',
-        createdAt: new Date(),
       },
     ]);
   });
