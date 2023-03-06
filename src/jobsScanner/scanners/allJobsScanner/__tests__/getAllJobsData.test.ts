@@ -8,7 +8,7 @@ import { User } from '../../../user/user';
 import { AllJobScanner } from '../allJobScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 // Todo: these tests may not pass. I have to check them again.
-describe('Tests getAllJobsData method of AllJobScanner', () => {
+describe.only('Tests getAllJobsData method of AllJobScanner', () => {
   // Note: All the keys in the requirements map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },

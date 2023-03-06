@@ -6,7 +6,7 @@ import { ExperienceRange } from '../../user/userEntity.types';
 
 import { RequirementsReader } from '../requirementsReader';
 
-describe.skip('Tests simple examples of checkIsRequirementsMatch function', () => {
+describe('Tests simple examples of checkIsRequirementsMatch function', () => {
   // Note: All the keys in the requirements map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
@@ -32,6 +32,7 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     mongo: { min: 0, max: 3 },
     nosql: { min: 0, max: 3 },
     noSQL: { min: 0, max: 3 },
+    'node.js': { min: 0, max: 3 },
   };
 
   const EXAMPLE_QUERY: UserQueryProps = {
@@ -296,8 +297,9 @@ describe.skip('Tests simple examples of checkIsRequirementsMatch function', () =
     ]
       .map((el) => el.join(' '))
       .join(' ');
-
-    expect(RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER).pass).toBeTruthy();
+    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
+    console.log(res.reason);
+    expect(res.pass).toBeTruthy();
   });
   test('Tests one sentence when there are many language program', () => {
     const EXAMPLE_USER = new User({
