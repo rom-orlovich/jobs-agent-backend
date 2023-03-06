@@ -59,7 +59,7 @@ export class LinkedinQueryOptions extends GeneralQuery<'linkedin'> {
 
   protected convertPosition(): string {
     const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
-    return this.queryOptions.positions[userQuery].en;
+    return this.queryOptions.positions[userQuery]?.en || '';
   }
   protected convertPeriod(period: keyof typeof PERIOD = 'past week') {
     return PERIOD[period];

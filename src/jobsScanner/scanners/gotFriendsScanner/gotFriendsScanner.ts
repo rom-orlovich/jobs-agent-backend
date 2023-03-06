@@ -90,7 +90,7 @@ export class GotFriendsScanner extends Scanner {
       defaultViewport: null,
       executablePath: '/usr/bin/google-chrome-stable',
       args: ['--no-sandbox', '--disable-gpu'],
-      slowMo: 100,
+      slowMo: Scanner.SLOW_MOV,
     });
 
     await page.goto('https://www.gotfriends.co.il/jobs/');
@@ -99,7 +99,7 @@ export class GotFriendsScanner extends Scanner {
 
     const promises = numPagesLinks
       .slice(0, 50)
-      .map(throat(10, this.getJobsFromEachPage(browser)))
+      .map(throat(Scanner.THROAT_LIMIT, this.getJobsFromEachPage(browser)))
       .flat(1);
 
     const jobs = await this.getTranslateResultsScanning(promises);

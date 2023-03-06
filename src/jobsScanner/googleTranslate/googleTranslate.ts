@@ -5,6 +5,7 @@ import { untilSuccess } from '../../../lib/utils';
 import axios, { AxiosResponse } from 'axios';
 import { GenericRecord } from '../../../lib/types';
 import { GoogleTranslateAPI, GoogleTranslateQuery } from './google-translate.types';
+import { Scanner } from '../scanners/scanner';
 
 export class GoogleTranslate {
   queryOptions: GoogleTranslateQuery;
@@ -50,7 +51,7 @@ export class GoogleTranslate {
     return this.transformToText(res);
   }
 
-  async translateArrayText<T extends GenericRecord<any>>(data: T[], throatNum = 5) {
+  async translateArrayText<T extends GenericRecord<any>>(data: T[], throatNum = Scanner.THROAT_LIMIT) {
     const promises = data?.map(
       throat(throatNum, async (rest) => {
         const translateText = await this.getTranslate(rest.text);

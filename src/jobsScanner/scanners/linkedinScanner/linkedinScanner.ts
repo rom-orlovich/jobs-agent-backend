@@ -80,7 +80,7 @@ export class LinkedinScanner extends Scanner {
       start += 25;
     }
 
-    const jobs = (await Promise.all(throatPromises(4, promises))).flat(1);
+    const jobs = (await Promise.all(throatPromises(Scanner.THROAT_LIMIT, promises))).flat(1);
     console.log('number', jobs.length);
     return jobs;
   }
@@ -137,12 +137,14 @@ export class LinkedinScanner extends Scanner {
       executablePath: '/usr/bin/google-chrome-stable',
       args: ['--no-sandbox', '--disable-gpu'],
       // userDataDir: '/.cache',
-      slowMo: 200,
+      slowMo: Scanner.SLOW_MOV,
     });
 
     const jobs = await this.getTheAPIJobs(browser);
 
-    const promises: Promise<Job>[] = jobs.map(throat(4, this.getJobPostDataOfEachPost(browser)));
+    const promises: Promise<Job>[] = jobs.map(
+      throat(Scanner.THROAT_LIMIT, this.getJobPostDataOfEachPost(browser))
+    );
 
     try {
       const jobs = await Promise.all(promises);

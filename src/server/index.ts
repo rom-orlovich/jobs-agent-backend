@@ -11,7 +11,7 @@ import { startScanner } from './controllers/startScanner';
 import { downloadJobs } from './controllers/downloadJobs';
 import { getJobs } from './controllers/getJobs';
 
-const totalCPUs = os.cpus().length;
+const totalCPUs = process.env.TOTAL_CPU || os.cpus().length;
 
 const app = Express();
 const PORT = process.env.PORT;

@@ -17,6 +17,9 @@ export class Scanner {
   scannerName: ScannerName;
   jobMap = new Map();
   jobsDB: JobsDB;
+  static THROAT_LIMIT = process.env.THROAT_LIMIT || 3;
+  static SLOW_MOV = process.env.SLOW_MOV || 250;
+  static TIMEOUT_TRY = process.env.TIMEOUT_TRY || 3000;
 
   constructor(scannerName: ScannerName, user: UserEntity, jobsDB: JobsDB) {
     this.user = user;
@@ -65,13 +68,13 @@ export class Scanner {
     await untilSuccess(async () => {
       await page.goto('https://google.com/', { waitUntil: 'load' });
       await page.goto(url, { waitUntil: 'load' });
-      await page.waitForSelector(selector, { timeout: 3000 });
+      await page.waitForSelector(selector, { timeout: Scanner.TIMEOUT_TRY });
     });
   }
 
   protected async getTranslateResultsScanning(
     promises: Promise<Job[]>[],
-    throatNum = 10
+    throatNum = Scanner.THROAT_LIMIT
   ): Promise<Job[]> {
     const jobs = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
     const jobsPostsWithTranslate = await this.googleTranslate.translateArrayText(jobs);
