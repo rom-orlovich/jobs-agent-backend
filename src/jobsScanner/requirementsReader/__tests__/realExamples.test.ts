@@ -72,7 +72,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
     const sentences = `  c#.net core – 3+ years of experience javascript 14+ - 2+ years of experience any nosql db – 3+ years of experience experience with rest api development performance and security-first thinking team player`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`c#.net is not in your stack`);
   });
@@ -155,7 +155,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
     an advantage.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     // expect(res.pass).toBeFalsy();
 
     expect(res.pass).toBeTruthy();
@@ -209,7 +209,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
           - Experience working with databases - SQL The position is intended for both women and men.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.count).toBeLessThan(RequirementsReader.WORDS_COUNT_KILL);
     expect(res.pass).toBeTruthy();
   });
@@ -257,7 +257,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
           * Bootstrap, JAVASCRIPT, experience in the ReactJS or Angular 2 environment. The position is intended for both women and men.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`c# is not in your stack`);
   });
@@ -270,7 +270,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
           Knowledge and experience in infrastructure development.Net - Knowledge and experience in Java development - an advantage The position is intended for both women and men.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
   });
 
@@ -285,14 +285,14 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
           - Experience from start-up/high-tech/SaaS companies`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
   });
   test('Tests many sentences from real text where the job in allJobs is not fit by overall experience -ex13', () => {
     const sentences = `An exciting company in the field of gaming in Tel Aviv needs Fullstack development people to work in a young environment, with advanced technologies! Requirements: 6 years of experience in Fullstack development - mandatory experience in one of the languages - Java / Python / GO / Node.js The actual development will be done in Node .js and React The job is intended for both women and men.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
   });
   test('Tests many sentences from real text where the jobs in allJobs is not fit by stack -ex14', () => {
@@ -303,7 +303,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
           - Experience in WebApi, Restful services The position is intended for both women and men.`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
   });
   test('Tests many sentences from real text where the jobs in drushim is not fit by overall experience and still pass -ex15', () => {
@@ -317,7 +317,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       Experience in developing SaaS products`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
   });
   test('Tests many sentences from real text where the job from linkedin should pass -ex16', () => {
@@ -337,7 +337,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeTruthy();
   });
 
@@ -349,7 +349,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       You bring an independent and entrepreneurial attitude and are excited about working in a fast-paced, uncertain, and big-vision environment. Evidence of previous projects with extensions is a major plus `;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeTruthy();
   });
 
@@ -361,7 +361,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       - Experience from start-up/high-tech/SaaS companies`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`go is not in your stack`);
   });
@@ -371,7 +371,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       - high level English`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
@@ -382,7 +382,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       - A technological degree or graduate of a technological unit`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
@@ -394,7 +394,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
       - Experience from start-up companies`;
 
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
+
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 5 years`);
   });

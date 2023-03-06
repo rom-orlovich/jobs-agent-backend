@@ -1,6 +1,6 @@
 import { User } from '../user';
 
-describe.skip('Tests invalidateCurUserQueries', () => {
+describe('Tests invalidateCurUserQueries', () => {
   // const user = new User(EXAMPLE_USER_FROM_DB);
   test('Tests invalidate old user queries', () => {
     const resultQueries = User._loadQueriesAsUserQueryEntity([

@@ -11,7 +11,7 @@ import { GotFriendsScanner } from '../gotFriendsScanner';
 import { JOB_POST_EX1_HTML } from './mocks/htmlContext';
 
 // Todo: these tests may not pass. I have to check them again.
-describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
+describe('Tests getAllJobsData methods of GotFriendsScanner ', () => {
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },
