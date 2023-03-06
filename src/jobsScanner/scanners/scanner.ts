@@ -76,7 +76,7 @@ export class Scanner {
     promises: Promise<Job[]>[],
     throatNum = Scanner.THROAT_LIMIT
   ): Promise<Job[]> {
-    const jobs = (await Promise.all(throatPromises(throatNum, promises))).flat(1);
+    const jobs = (await Promise.all(throatPromises(throatNum, promises))).flat(1) || [];
     const jobsPostsWithTranslate = await this.googleTranslate.translateArrayText(jobs);
 
     return jobsPostsWithTranslate;
