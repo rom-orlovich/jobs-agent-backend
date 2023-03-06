@@ -1,5 +1,6 @@
 import puppeteer, { Page, PuppeteerLaunchOptions } from 'puppeteer';
 import { AnyFun } from './types';
+import { isEnvMode } from './utils';
 
 export class PuppeteerSetup {
   static async noImageRequest(page: Page) {
@@ -15,8 +16,9 @@ export class PuppeteerSetup {
 
   static async lunchInstance(options: PuppeteerLaunchOptions) {
     const browser = await puppeteer.launch({
-      headless: true,
-      // args: ['--no-snadbox']
+      defaultViewport: null,
+      executablePath: isEnvMode('production') ? '/usr/bin/google-chrome-stable' : undefined,
+      args: ['--no-sandbox', '--disable-gpu'],
       ...options,
     });
 

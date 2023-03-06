@@ -139,11 +139,6 @@ export class LinkedinScanner extends Scanner {
 
   async initPuppeteer() {
     const { browser } = await PuppeteerSetup.lunchInstance({
-      // headless: false,
-      defaultViewport: null,
-      executablePath: '/usr/bin/google-chrome-stable',
-      args: ['--no-sandbox', '--disable-gpu'],
-      // userDataDir: '/.cache',
       slowMo: Scanner.SLOW_MOV,
     });
 

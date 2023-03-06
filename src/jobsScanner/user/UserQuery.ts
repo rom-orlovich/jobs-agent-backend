@@ -1,9 +1,6 @@
-export const EXPIRE_AT =
-  process.env.NODE_ENV === 'test' ? 1000 * 60 : Number(process.env.EXPIRE_AT) * 1000 * 60 * 60;
-
-export const EXPIRE_AT_MONGO_DB = EXPIRE_AT / 1000;
 import { createHash } from 'crypto';
 import { UserQueryProps } from '../generalQuery/query.types';
+import { EXPIRE_AT } from '../../../lib/contestants';
 export class UserQuery {
   expireAt: number;
   userQuery: UserQueryProps;

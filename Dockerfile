@@ -23,7 +23,7 @@ RUN apt-get update \
 
 # We don't need the standalone Chromium
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-
+ENV NODE_ENV="production"
 
 COPY package*.json ./
 RUN npm install --production

@@ -1,9 +1,9 @@
 import { Collection } from 'mongodb';
 import { mongoDB } from '../../src/server';
 
-import { EXPIRE_AT_MONGO_DB } from '../../src/jobsScanner/user/UserQuery';
 import { GenericRecord } from '../../lib/types';
-import { FacetFilterResults, Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
+import { Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
+import { EXPIRE_AT_MONGO_DB } from '../../lib/contestants';
 
 export class JobsDB {
   jobsDB: Collection;

@@ -30,3 +30,6 @@ export const delayFun = (cb: AnyFun, delay: number) =>
 
 export const throatPromises = <T>(throatNum: number, promises: Promise<T>[]) =>
   promises.map(throat(throatNum, (el) => el));
+
+export const isEnvMode = (...envs: (typeof process.env.NODE_ENV)[]) =>
+  envs.includes(process.env.NODE_ENV);
