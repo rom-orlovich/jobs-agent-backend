@@ -32,6 +32,14 @@ export class GotFriendsScanner extends Scanner {
     await page.click('#searchButton');
   }
 
+  private async clickOnFilters(page: Page) {
+    let maxTry = 1;
+    untilSuccess(async () => {
+      await this.initialFilters(page);
+      maxTry++;
+    }, maxTry <= 3);
+  }
+
   private async getNumPagesLinks(page: Page) {
     await page.waitForSelector('.pagination li a');
     const numPagesLinks = await page.$$eval('.pagination li a', (el) => el.map((el) => el.href));
@@ -94,7 +102,9 @@ export class GotFriendsScanner extends Scanner {
     });
 
     await page.goto('https://www.gotfriends.co.il/jobs/');
-    await this.initialFilters(page);
+
+    // await this.initialFilters(page);
+    await this.clickOnFilters(page);
     const numPagesLinks = await this.getNumPagesLinks(page);
 
     const promises = numPagesLinks

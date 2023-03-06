@@ -8,10 +8,11 @@ export const benchmarkTimeMS = async (cb: AnyFun) => {
   console.timeEnd('Time:');
 };
 
-export const untilSuccess = async (cb: AnyFun) => {
+export const untilSuccess = async (cb: AnyFun, conditionStop = false) => {
   const isSuccess = true;
   while (isSuccess) {
     try {
+      if (conditionStop) return;
       await cb();
       return true;
     } catch (error) {
@@ -19,6 +20,13 @@ export const untilSuccess = async (cb: AnyFun) => {
     }
   }
 };
+
+export const delayFun = (cb: AnyFun, delay: number) =>
+  new Promise((res) =>
+    setTimeout(async () => {
+      res(await cb());
+    }, delay)
+  );
 
 export const throatPromises = <T>(throatNum: number, promises: Promise<T>[]) =>
   promises.map(throat(throatNum, (el) => el));
