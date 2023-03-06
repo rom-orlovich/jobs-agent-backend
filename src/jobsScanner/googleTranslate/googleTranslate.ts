@@ -32,8 +32,9 @@ export class GoogleTranslate {
   }
 
   private transformToText(res: AxiosResponse<GoogleTranslateAPI>) {
-    const data = res.data;
-    const translateText = data.sentences.map((el) => el.trans).join('');
+    const data = res?.data;
+
+    const translateText = data?.sentences?.map((el) => el.trans).join('');
     return translateText;
   }
 
@@ -46,7 +47,7 @@ export class GoogleTranslate {
         headers: { authority: 'translate.googleapis.com' },
       });
     });
-    if (!res) return '';
+    if (!res?.data) return '';
 
     return this.transformToText(res);
   }

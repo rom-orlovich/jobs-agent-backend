@@ -70,19 +70,20 @@ export class RequirementsReader {
 
   /**
    *
-   * @param {string[][]} sentences - Array of strings (sentences) of text.
+   * @param {string[][]  | undefined} sentences - Array of strings (sentences) of text.
    * @param {Profile} profile - Profile of the user.
    * @returns {{pass:boolean, reason:string|undefined,count:number}} Object If the text matches to the provided profile.
    * @description This code is scanning through a 2D array of strings (sentences) and a profile object.
    * It checks if the text matches to the provided profile.
    */
   private static scanRequirements(
-    sentences: string[][],
+    sentences: string[][] | undefined,
     user: UserEntity
   ): { pass: boolean; reason: string; count: number } {
+    if (!sentences || sentences.length === 0)
+      return { pass: false, reason: `No elements was found`, count: 0 };
     let noneOfTechStackExist = false;
     let k = 0;
-    if (sentences.length === 0) return { pass: false, reason: `No elements was found`, count: k };
     // Loop over sentences
     for (let i = 0; i < sentences.length; i++) {
       const sentence = sentences[i];
@@ -193,13 +194,13 @@ export class RequirementsReader {
    * @returns {string[][]} The array of sentences that contains array of words.
    * @description  splits it into sentences, then splits each sentence into words and filters out any empty strings. Finally, it returns an array of sentences, each containing an array of words.
    *  */
-  static getSentences = (text: string) => {
+  static getSentences = (text?: string) => {
     const sentences = text
-      .split(/[.\n]+[^\w]/g) //split sentences.
+      ?.split(/[.\n]+[^\w]/g) //split sentences.
       .filter((el) => el) //filter empty string.
       .map(
         (el) =>
-          el
+          (el || '')
             .toLowerCase()
             .split(/,|\/| /g) // split ','| '/' and spaces between words.
             .filter((el) => el) // filter empty words.
@@ -243,7 +244,7 @@ export class RequirementsReader {
         if (reason) return { ...el, reason };
 
         // Read the requirements.
-        reason = RequirementsReader.checkIsRequirementsMatch(el.text, user);
+        reason = RequirementsReader.checkIsRequirementsMatch(el?.text || '', user);
         if (reason.pass) numMatches++;
 
         return {

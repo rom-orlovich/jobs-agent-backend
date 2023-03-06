@@ -19,7 +19,7 @@ const writeResultsScanner = async (user: User, queryOptions: QueryOptionsRes, ha
 
 export const downloadJobs: RequestHandler = async (req, res) => {
   const { user, queryOptions, hash } = req.validateBeforeScanner;
-  console.log(hash);
+
   //Writes the results into csv file.
   const result = await writeResultsScanner(user, queryOptions, hash);
 

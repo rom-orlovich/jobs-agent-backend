@@ -31,7 +31,7 @@ export class User {
     this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries, activeHash);
 
     this.activeHash = activeHash || this.getLastHashQuery();
-    console.log(' this.activeHash', activeHash, this.getLastHashQuery());
+    console.log(' this.activeHash', activeHash, this.getLastQuery());
   }
 
   /**
@@ -91,7 +91,7 @@ export class User {
     const curUserQueriesEntity = this._getCurUserUniqueQueries(userQueriesProps, activeHash);
     //Convert back userQuery array from entity to user queries array as same format as the format from the DB.
     const curUserQueriesProps = User._loadQueriesAsUserQueryProps(curUserQueriesEntity);
-    console.log(curUserQueriesProps);
+
     return curUserQueriesProps;
   }
 
