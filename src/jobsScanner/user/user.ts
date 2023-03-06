@@ -31,7 +31,7 @@ export class User {
     this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries, activeHash);
 
     this.activeHash = activeHash || this.getLastHashQuery();
-    console.log(' this.activeHash', activeHash, this.getLastQuery());
+    // console.log(' this.activeHash', activeHash, this.getLastQuery());
   }
 
   /**

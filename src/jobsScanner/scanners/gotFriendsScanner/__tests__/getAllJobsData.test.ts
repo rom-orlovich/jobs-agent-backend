@@ -95,6 +95,7 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
     expect(resNormalize).toEqual<Job[]>([
       {
         title: 'Principal Engineer בחברה מצליחה ומרשימה!',
+
         company: '',
         from: 'gotFriends',
         jobID: '141860',
@@ -105,7 +106,6 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
         -ניסיון על פלטפורמות Cloud ו- SaaS
         -ניסיון ב- Linux`.replace(/\s+/g, ''),
         link: 'https://www.gotfriends.co.il/jobslobby/software/head-of-development-team/141860/',
-        createdAt: new Date(),
       },
       {
         title: 'Software Developer (C) בחברת יוניקורן',
@@ -120,7 +120,6 @@ describe.skip('Tests getAllJobsData methods of GotFriendsScanner ', () => {
         - ניסיון ב-Linux/Unix/FreeBSD
         - ניסיון עם Command Line Tools`.replace(/\s+/g, ''),
         link: 'https://www.gotfriends.co.il/jobslobby/software/cplusplus-programmer/141502/',
-        createdAt: new Date(),
       },
     ]);
   });
