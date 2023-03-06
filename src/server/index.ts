@@ -14,7 +14,8 @@ import { getJobs } from './controllers/getJobs';
 const totalCPUs = process.env.TOTAL_CPU || os.cpus().length;
 
 const app = Express();
-const PORT = process.env.PORT;
+
+const PORT = process.env.PORT || 5000;
 
 export const mongoDB = new MongoDBClient();
 
@@ -58,4 +59,4 @@ const startClusters = async () => {
   }
 };
 
-// startClusters();
+startClusters();
