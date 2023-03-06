@@ -89,12 +89,18 @@ export class LinkedinScanner extends Scanner {
     console.log(this.getURL(0));
     const page = await browser.newPage();
     await page.goto(this.getURL(0));
-    const numResults = await page.$eval('.results-context-header__job-count', (el) =>
-      Number(el.textContent)
-    );
+    let numResults;
+    try {
+      numResults = await page.$eval('.results-context-header__job-count', (el) =>
+        Number(el.textContent)
+      );
+    } catch (error) {
+      numResults = 0;
+    }
+
     console.log('num results are found in linkedin in search', numResults);
     this.setAPIDomain();
-    const jobs = await this.getJobsPostPromises(numResults || 500, browser);
+    const jobs = await this.getJobsPostPromises(numResults ?? 500, browser);
     await page.close();
     return jobs;
   }

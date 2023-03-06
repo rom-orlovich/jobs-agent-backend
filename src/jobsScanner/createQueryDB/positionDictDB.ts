@@ -1,5 +1,3 @@
-import { config } from 'dotenv';
-import { MongoDBClient } from '../../../mongoDB/mongoClient';
 import { PositionData } from './lib/createQueryDB';
 
 export const POSITIONS_DICT_DB: PositionData = {
@@ -59,7 +57,7 @@ export const POSITIONS_DICT_DB: PositionData = {
   'לוחמי אש': { he: 'לוחמי אש', en: 'firefighters' },
   'לוחמות אש': { he: 'לוחמות אש', en: 'firefighters' },
   'מאבטח אישי': { he: 'מאבטח אישי', en: 'personal security guard' },
-  'מאבטחת אישית': { he: 'מאבטחת אישית', en: 'personal security guard' },
+  מאבטח: { he: 'מאבטח', en: 'security guard' },
   שומר: { he: 'שומר', en: 'guard' },
   שומרת: { he: 'שומרת', en: 'keeper' },
   סייר: { he: 'סייר', en: 'explorer' },
