@@ -161,6 +161,7 @@ export class LinkedinScanner extends Scanner {
   }
 
   async scanning(): Promise<Job[]> {
+    if (!this.linkedinQuery.isQueryValid()) return [];
     return this.initPuppeteer();
   }
 }

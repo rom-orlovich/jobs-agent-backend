@@ -48,6 +48,7 @@ export class DrushimScanner extends Scanner {
   }
 
   async scanning(): Promise<Job[]> {
+    if (!this.drushimQueryOptions.isQueryValid()) return [];
     const data = await this.getAxiosData<DrushimAPI>(0);
 
     if (!data) return [];

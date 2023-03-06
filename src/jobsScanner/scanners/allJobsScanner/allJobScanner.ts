@@ -62,6 +62,7 @@ export class AllJobScanner extends Scanner {
   }
 
   async scanning() {
+    if (!this.allJobsQueryOptions.isQueryValid()) return [];
     const $ = await this.get$(0);
     const maxPages = Number($('#hdnTotalPages').val());
     const promises: Promise<Job[]>[] = [];

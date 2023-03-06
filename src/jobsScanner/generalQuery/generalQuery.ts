@@ -27,13 +27,17 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     this.distance = this.convertDistance();
   }
 
+  isQueryValid() {
+    return this.location && this.position;
+  }
+
   protected convertPosition(): string {
     const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
-    return this.queryOptions.positions[userQuery].he;
+    return this.queryOptions.positions[userQuery]?.he || '';
   }
   protected convertLocation(): string {
     const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userQuery].he;
+    return this.queryOptions.locations[userQuery]?.he || '';
   }
 
   protected convertExperience() {

@@ -8,7 +8,8 @@ export class AllJobsQueryOptions extends GeneralQuery<'allJobs'> {
   }
   protected convertLocation(): string {
     const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
-    return String(this.queryOptions.locations[userQuery].source);
+    const location = this.queryOptions.locations[userQuery];
+    return location?.source ? String(location?.source) : '';
   }
   protected convertJobType(): string {
     const userQuerySplitJobType = this.userQuery.jobType.split(',');

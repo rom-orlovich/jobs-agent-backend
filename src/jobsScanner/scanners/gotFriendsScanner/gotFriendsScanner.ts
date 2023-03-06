@@ -103,7 +103,6 @@ export class GotFriendsScanner extends Scanner {
 
     await page.goto('https://www.gotfriends.co.il/jobs/');
 
-    // await this.initialFilters(page);
     await this.clickOnFiltersUntilSuccess(page);
     const numPagesLinks = await this.getNumPagesLinks(page);
 
