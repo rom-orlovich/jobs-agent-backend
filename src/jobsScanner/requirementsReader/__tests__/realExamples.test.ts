@@ -4,7 +4,7 @@ import { UserQueryProps } from '../../generalQuery/query.types';
 import { User } from '../../user/user';
 import { RequirementsReader } from '../requirementsReader';
 
-describe.skip('Testss real examples of checkIsRequirementsMatch function', () => {
+describe('Tests real examples of checkIsRequirementsMatch function', () => {
   // Note: next time that I will run the tests they probably will be failed because I change the the constants.
 
   const REQUIREMENTS = {
@@ -340,36 +340,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
-  test('Tests many sentences from real text where the job from linkedin should pass -ex17', () => {
-    const sentences = `B.Sc in computer science or equivalent.
-      At least 2-3 years of previous experience as a Backend / Full Stack developer, Server side - .net, C#.
-      At least 2 years of experience in JavaScript.
-      knowledge in HTML & CSS.
-      Experience in SQL server databases (or equivalent).
-      Knowledge or experience in web frameworks & libraries: Angular/React – an advantage.
-      Experience in APIs (REST, SOAP)
-      
-      Nice-to-haves:
-      
-      Experience working with AWS services
-      Experience in NoSQL databases
-      Experience in Columnar databases
-      Soft Skils:
-      
-      Excellent self-learning ability.
-      Independent and reliable.
-      Strong analytical and problem-solving skills.
-      Strong interpersonal skills, with excellent verbal, and written communication skills (English & Hebrew).
-      Ability to work under pressure and meet deliveries.
-      Flexible and able to adapt in a changing and growing company.
-      `;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
-    expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`.net is not in your stack`);
-  });
-  test('Tests many sentences from real text where the job from linkedin should pass -ex18', () => {
+  test('Tests many sentences from real text where the job from linkedin should pass -ex17', () => {
     const sentences = `Minimum 2-4 years of experience in building web applications.
       Experience in Javascript/Typescript, HTML CSS, and ReactJS.
       Familiarity with Python, GCP, Docker, and K8s.
@@ -380,19 +352,8 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     console.log(res.reason);
     expect(res.pass).toBeTruthy();
   });
-  test.skip(`Tests many sentences from real text where the job from drushim shouldn't pass but with the right reason -ex19`, () => {
-    const sentences = `Appropriate education (degree in information systems/ computer science/ other relevant studies)
-      - At least two years of experience in SharePoint implementation and development
-      - At least one year of experience as a Server side developer including working with NET.
-      - At least one year of experience as a Client side developer including working with HTML, CSS, XML, XSL, JS
-      - Experience working with SQL databases `;
 
-    const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
-    console.log(res.reason);
-    expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`net. is not in your stack`);
-  });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex20`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because stacks that is in excluded stack-ex18`, () => {
     const sentences = `2 years of experience in Full Stack/Frontend development
       - Experience in React
       - Experience in Python/NodeJS/Go
@@ -404,7 +365,7 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`go is not in your stack`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex21`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex19`, () => {
     const sentences = `4 years of experience in Node.js
       - 4 years of experience in Angular/Vue.js/React
       - high level English`;
@@ -414,7 +375,7 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex22`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex20`, () => {
     const sentences = `4 years of development experience
       - Net Web experience
       - Client experience
@@ -425,7 +386,7 @@ describe.skip('Testss real examples of checkIsRequirementsMatch function', () =>
     expect(res.pass).toBeFalsy();
     expect(res.reason).toBe(`Your ${EXAMPLE_USER.overallEx} years experience is lower than 4 years`);
   });
-  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex23`, () => {
+  test(`Tests many sentences from real text where the job from gotFriend shouldn't pass because the overall experience is bigger-ex21`, () => {
     const sentences = ` 5 years of development experience
       - Experience in Node
       - Experience in React

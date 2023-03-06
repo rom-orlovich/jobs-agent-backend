@@ -3,7 +3,7 @@ import { User } from '../../user/user';
 
 import { RequirementsReader } from '../requirementsReader';
 
-describe.skip('Tests checkJobTitleIsValid', () => {
+describe('Tests checkJobTitleIsValid', () => {
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
     react: { min: 0, max: 3 },

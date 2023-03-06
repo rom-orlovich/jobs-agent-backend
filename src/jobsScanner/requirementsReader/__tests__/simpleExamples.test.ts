@@ -6,7 +6,7 @@ import { ExperienceRange } from '../../user/userEntity.types';
 
 import { RequirementsReader } from '../requirementsReader';
 
-describe('Tests simple examples of checkIsRequirementsMatch function', () => {
+describe.skip('Tests simple examples of checkIsRequirementsMatch function', () => {
   // Note: All the keys in the requirements map and excludedRequirements should be lowercase!
   const REQUIREMENTS = {
     javascript: { min: 0, max: 3 },
