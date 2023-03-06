@@ -32,7 +32,7 @@ export class GotFriendsScanner extends Scanner {
     await page.click('#searchButton');
   }
 
-  private async clickOnFilters(page: Page) {
+  private async clickOnFiltersUntilSuccess(page: Page) {
     let maxTry = 1;
     untilSuccess(async () => {
       await this.initialFilters(page);
@@ -104,7 +104,7 @@ export class GotFriendsScanner extends Scanner {
     await page.goto('https://www.gotfriends.co.il/jobs/');
 
     // await this.initialFilters(page);
-    await this.clickOnFilters(page);
+    await this.clickOnFiltersUntilSuccess(page);
     const numPagesLinks = await this.getNumPagesLinks(page);
 
     const promises = numPagesLinks

@@ -92,6 +92,7 @@ export class LinkedinScanner extends Scanner {
     const numResults = await page.$eval('.results-context-header__job-count', (el) =>
       Number(el.textContent)
     );
+    console.log('num results are found in linkedin in search', numResults);
     this.setAPIDomain();
     const jobs = await this.getJobsPostPromises(numResults || 500, browser);
     await page.close();
