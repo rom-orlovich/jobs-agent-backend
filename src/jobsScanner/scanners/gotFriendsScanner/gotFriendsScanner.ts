@@ -23,6 +23,7 @@ export class GotFriendsScanner extends Scanner {
 
   private async initialFilters(page: Page) {
     const { radioAreas, checkboxProfessions, location } = this.gotFriendsQuery;
+
     await page.click('#professionAreaTitle');
     await page.click(`label[for='${radioAreas}']`);
     await page.click('#professionTitle');
@@ -32,12 +33,13 @@ export class GotFriendsScanner extends Scanner {
     await page.click('#searchButton');
   }
 
+  //Sometimes the clicks on the filters inputs is failed.
   private async clickOnFiltersUntilSuccess(page: Page) {
     let maxTry = 1;
-    untilSuccess(async () => {
+    await untilSuccess(async () => {
       await this.initialFilters(page);
       maxTry++;
-    }, maxTry <= 3);
+    }, maxTry >= 3);
   }
 
   private async getNumPagesLinks(page: Page) {

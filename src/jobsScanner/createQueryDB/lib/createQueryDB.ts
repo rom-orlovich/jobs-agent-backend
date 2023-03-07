@@ -31,12 +31,12 @@ export type PositionData = Record<
   }
 >;
 
-interface DrushimCitiesData {
+export interface DrushimCitiesData {
   he: string;
   geolexid: string;
   en?: string;
 }
-interface AllJobCityData {
+export interface AllJobCityData {
   source: number;
   allJobCityName: string;
   checkboxRegions: string;

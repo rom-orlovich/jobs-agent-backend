@@ -8886,7 +8886,11 @@ export const POSITIONS_DICT_DB: PositionData = {
     he: 'Embedded Software Development Team Leader',
     en: 'frontend team leader',
   },
-  'Frontend Team Leader': { he: 'Frontend Team Leader', en: 'fullstack team leader' },
+  'Frontend Team Leader': {
+    he: 'Frontend Team Leader',
+    en: 'fullstack team leader',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
+  },
   'Fullstack Team Leader': { he: 'Fullstack Team Leader', en: 'ios team leader' },
   'iOS Team Leader': { he: 'iOS Team Leader', en: 'java team leader' },
   'Java Team Leader': {
@@ -8926,7 +8930,7 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Senior Front End Developer': {
     he: 'Senior Front End Developer',
     en: 'senior full stack developer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-1947', radioAreas: 'radioAreas-1108' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
   },
   'Senior Full Stack Developer': {
     he: 'Senior Full Stack Developer',
@@ -13069,8 +13073,16 @@ export const POSITIONS_DICT_DB: PositionData = {
     en: 'frontend engineer frontend programmer',
     gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
   },
-  Frontend: { he: 'Frontend', en: 'frontend' },
-  'Front-End': { he: 'Front-End', en: 'front-end' },
+  Frontend: {
+    he: 'Frontend',
+    en: 'frontend',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
+  },
+  'Front-End': {
+    he: 'Front-End',
+    en: 'front-end',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
+  },
   'Frontend Developer': {
     he: 'Frontend Developer',
     gotFriends: { checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' },
