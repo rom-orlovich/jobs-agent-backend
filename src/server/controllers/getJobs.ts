@@ -157,15 +157,6 @@ export const getJobs: RequestHandler = async (req, res) => {
   //Calculate the final get jobs result.
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
 
-  //Update the user profile with the new date about the results that were found if there is not filters.
-  // if (QueryValidation.QueryEmpty(queryOptions?.match)) {
-  //   console.log('QueryEmpty', QueryValidation.QueryEmpty(queryOptions?.match));
-  //   console.log(finalResult.numMatches);
-  //   user.setScannerResultsFoundInLastQuery(
-  //     finalResult.pagination.numResultsAfterFilter,
-  //     finalResult.numMatches
-  //   );
-  // }
   await usersDB.updateUser(user);
 
   console.log(

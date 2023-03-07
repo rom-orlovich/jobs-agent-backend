@@ -113,7 +113,7 @@ export class User {
 
   checkNumResultsIsSame(jobs: Job[]) {
     const lastNumResults = this.getLastQuery().numResultsFound;
-    console.log('lastNumResults', lastNumResults, jobs.length);
+
     if (lastNumResults === jobs.length) return true;
   }
 
