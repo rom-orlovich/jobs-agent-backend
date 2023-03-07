@@ -126,7 +126,7 @@ const getFinalResult = (
   //Check the current total results.
   const curNumResultFound = queryOptions?.match?.reason
     ? jobsAfterFilter.total
-    : pagination.numResultsFound;
+    : pagination.numResultsAfterFilter;
 
   // Check if the num jobs results that found as a result of the aggregation from the DB or manual pagination,
   // is bigger than the current limit. If it does there is no more data to fetch.
@@ -139,7 +139,7 @@ const getFinalResult = (
     pagination: {
       ...pagination,
       hasMore: hasMore,
-      numResultsFound: curNumResultFound,
+      numResultsAfterFilter: curNumResultFound,
     },
     filters: curFilters,
   };
@@ -158,11 +158,14 @@ export const getJobs: RequestHandler = async (req, res) => {
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);
 
   //Update the user profile with the new date about the results that were found if there is not filters.
-  if (QueryValidation.QueryEmpty(queryOptions?.match))
-    user.setScannerResultsFoundInLastQuery(
-      finalResult.pagination.numResultsFound,
-      finalResult.numMatches
-    );
+  // if (QueryValidation.QueryEmpty(queryOptions?.match)) {
+  //   console.log('QueryEmpty', QueryValidation.QueryEmpty(queryOptions?.match));
+  //   console.log(finalResult.numMatches);
+  //   user.setScannerResultsFoundInLastQuery(
+  //     finalResult.pagination.numResultsAfterFilter,
+  //     finalResult.numMatches
+  //   );
+  // }
   await usersDB.updateUser(user);
 
   console.log(

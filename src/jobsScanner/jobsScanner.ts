@@ -1,5 +1,6 @@
 import { JobsDB } from '../../mongoDB/jobsDB/jobsDB';
 import { Job, JobsResults, QueryOptionsRes } from '../../mongoDB/jobsDB/jobsDB.types';
+import { UsersDB } from '../../mongoDB/usersDB';
 
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 
@@ -67,9 +68,9 @@ export class JobsScanner {
   async startScanningByMinResults(JobsByHashResults: JobsResults) {
     const jobsByHashCurTotalResult = JobsByHashResults?.pagination?.totalDocs || 0;
 
-    if (jobsByHashCurTotalResult > 100) return JobsByHashResults;
-
-    await this.getScannerResults();
+    //Return empty array, because there is no need to check the stats of the results that were searched before.
+    if (jobsByHashCurTotalResult > 100) return JobsByHashResults.jobs;
+    return await this.getScannerResults();
   }
 
   /**
@@ -78,13 +79,15 @@ export class JobsScanner {
    * Otherwise create a new jobs scanner.
    */
   async scanningByUserQuery() {
-    const JobsByHashResult = await this.getJobsByHash(this.user.getLastHashQuery());
-    await this.startScanningByMinResults(JobsByHashResult);
+    const JobsByHashResult = await this.getJobsByHash(this.user.getLastHashQuery(), false);
+    return await this.startScanningByMinResults(JobsByHashResult);
   }
 
   async scanning() {
-    await this.scanningByUserQuery();
+    const jobs = await this.scanningByUserQuery();
+
     await this.jobsDB.createTTLindex(); //Create TTL (time to live) index if is not exist.
+    return jobs;
   }
 
   getResults(result: JobsResults): JobsResults {

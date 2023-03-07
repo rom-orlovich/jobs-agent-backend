@@ -1,4 +1,5 @@
 // import { HashQuery } from './hashQuery';
+import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
 import { UserQueryProps } from '../generalQuery/query.types';
 import {
   ExcludeRequirementsOptions,
@@ -100,14 +101,28 @@ export class User {
     return this.userQueries[length - 1];
   }
 
+  getLastQueryNumResults() {
+    const lastNumResults = this.getLastQuery().numResultsFound;
+    const lastNumMatches = this.getLastQuery().numMatches;
+    return { lastNumResults, lastNumMatches };
+  }
+
   getLastHashQuery() {
     return this.getLastQuery().hash;
   }
 
-  setScannerResultsFoundInLastQuery(numResults: number, numMatches: number) {
-    this.getLastQuery().numResultFound = numResults;
-    this.getLastQuery().numMatches = numMatches;
+  checkNumResultsIsSame(jobs: Job[]) {
+    const lastNumResults = this.getLastQuery().numResultsFound;
+    console.log('lastNumResults', lastNumResults, jobs.length);
+    if (lastNumResults === jobs.length) return true;
   }
+
+  setScannerResultsFoundInLastQuery(numResultsFound: number, numMatches: number) {
+    const { lastNumMatches, lastNumResults } = this.getLastQueryNumResults();
+    if (lastNumResults !== numResultsFound) this.getLastQuery().numResultsFound = numResultsFound;
+    if (lastNumMatches !== numMatches) this.getLastQuery().numMatches = numMatches;
+  }
+
   /**
    *
    * @param {string} hash hash to search.

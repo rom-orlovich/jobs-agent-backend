@@ -39,7 +39,7 @@ export interface FacetFilterResults {
 export type JobsResultAgg = {
   jobs: Job[];
   pagination: { totalDocs?: number }[];
-  numResultsFound: { numResultsFound?: number }[];
+  numResultsAfterFilter: { numResultsAfterFilter?: number }[];
   filters: FacetFilterResults[];
 };
 
@@ -47,6 +47,6 @@ export type JobsResults = PickKey<JobsResultAgg, 'jobs'> & {
   pagination: PickKey<JobsResultAgg, 'pagination'>['pagination'][0] & {
     totalPages: number;
     hasMore: boolean;
-    numResultsFound: number;
+    numResultsAfterFilter: number;
   };
 } & { filters: OmitKey<FacetFilterResults, '_id'>; numMatches: number };

@@ -12,7 +12,7 @@ export class JobsDB {
   static DEFAULT_PAGE = 1;
   defaultJobAggReturn: JobsResults = {
     jobs: [],
-    pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsFound: 0 },
+    pagination: { totalPages: 1, totalDocs: 0, hasMore: false, numResultsAfterFilter: 0 },
     filters: {
       companies: [],
       from: [],
@@ -139,7 +139,7 @@ export class JobsDB {
       ...facetPaginationData,
       ...facetFiltersPipeline,
       pagination: [{ $count: 'totalDocs' }],
-      numResultsFound: [{ $match: resetMatch }, { $count: 'numResultsFound' }],
+      numResultsAfterFilter: [{ $match: resetMatch }, { $count: 'numResultsAfterFilter' }],
     };
   }
   /**
@@ -150,14 +150,14 @@ export class JobsDB {
   private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number): JobsResults {
     const res = aggRes[0];
 
-    const numResultsFoundObj = res.numResultsFound[0];
+    const numResultsAfterFilterObj = res.numResultsAfterFilter[0];
 
     const pagination = res?.pagination[0];
     const totalDocs = pagination?.totalDocs || 0;
 
     const totalPages = Math.ceil(totalDocs / limit); // Round up to get the current num page.
 
-    const numResultsFound = numResultsFoundObj?.numResultsFound || 0;
+    const numResultsAfterFilter = numResultsAfterFilterObj?.numResultsAfterFilter || 0;
 
     //Check if current num results that were filtered has more or equal the limit.
     const curNumResults = aggRes[0].jobs.length;
@@ -171,7 +171,7 @@ export class JobsDB {
         totalPages: totalPages,
         totalDocs: pagination?.totalDocs || 0,
         hasMore,
-        numResultsFound: numResultsFound,
+        numResultsAfterFilter: numResultsAfterFilter,
       },
       filters,
       numMatches: 0,
