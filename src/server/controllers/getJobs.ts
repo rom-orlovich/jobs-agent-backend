@@ -107,7 +107,7 @@ const getFinalResult = (
   jobsAfterFilter: FilterByMatchReturn,
   queryOptions: QueryOptionsRes
 ) => {
-  const { filters, pagination, numMatches } = curResult;
+  const { filters, pagination, numMatches, jobs } = curResult;
 
   //Get the arrays of the current filters.
   const curFilters = queryOptions.match.reason
@@ -121,7 +121,7 @@ const getFinalResult = (
   //This variable is for checking if there is more 'pages' to fetch after this page.
   const curNumResultsByMatchReasonCompare = queryOptions?.match?.reason
     ? jobsAfterFilter.numResultsSlice
-    : pagination.numResultsFound;
+    : jobs.length;
 
   //Check the current total results.
   const curNumResultFound = queryOptions?.match?.reason

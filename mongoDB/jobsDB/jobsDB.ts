@@ -134,6 +134,7 @@ export class JobsDB {
     const facetPaginationData = this.checkFacetPagination(match, limit, page, useQueryOptions);
 
     const facetFiltersPipeline = this.getFacetFiltersPipeline();
+
     return {
       ...facetPaginationData,
       ...facetFiltersPipeline,
@@ -148,6 +149,7 @@ export class JobsDB {
    */
   private convertJobsAggRes(aggRes: JobsResultAgg[], limit: number): JobsResults {
     const res = aggRes[0];
+
     const numResultsFoundObj = res.numResultsFound[0];
 
     const pagination = res?.pagination[0];
@@ -156,7 +158,10 @@ export class JobsDB {
     const totalPages = Math.ceil(totalDocs / limit); // Round up to get the current num page.
 
     const numResultsFound = numResultsFoundObj?.numResultsFound || 0;
-    const hasMore = numResultsFound >= limit;
+
+    //Check if current num results that were filtered has more or equal the limit.
+    const curNumResults = aggRes[0].jobs.length;
+    const hasMore = curNumResults >= limit;
 
     const filters = res?.filters.length === 0 ? this.defaultJobAggReturn.filters : res?.filters[0];
 
