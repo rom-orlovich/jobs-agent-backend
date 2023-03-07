@@ -35,11 +35,13 @@ export class GotFriendsScanner extends Scanner {
 
   //Sometimes the clicks on the filters inputs is failed.
   private async clickOnFiltersUntilSuccess(page: Page) {
-    let maxTry = 1;
+    let numTry = 1;
     await untilSuccess(async () => {
+      numTry++;
       await this.initialFilters(page);
-      maxTry++;
-    }, maxTry >= 3);
+    }, numTry >= 3);
+
+    return numTry >= 3;
   }
 
   private async getNumPagesLinks(page: Page) {
@@ -105,7 +107,10 @@ export class GotFriendsScanner extends Scanner {
 
     await page.goto('https://www.gotfriends.co.il/jobs/');
 
-    await this.clickOnFiltersUntilSuccess(page);
+    const failed = await this.clickOnFiltersUntilSuccess(page);
+
+    //If the click on gotFriends filters is failed.
+    if (failed) return [];
     const numPagesLinks = await this.getNumPagesLinks(page);
 
     const promises = numPagesLinks

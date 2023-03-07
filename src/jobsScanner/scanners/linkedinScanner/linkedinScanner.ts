@@ -132,7 +132,7 @@ export class LinkedinScanner extends Scanner {
       const jobPostApiHTML = await REPage.evaluate(LinkedinScanner.getJobPostRequirementData);
       await REPage.close();
       const newJob = { ...jobPost, text: jobPostApiHTML };
-      console.log(newJob);
+
       return newJob;
     };
   }
