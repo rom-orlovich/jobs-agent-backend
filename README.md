@@ -145,9 +145,9 @@ This process helps the user on the client identify which job is fit for him.
    npm run ci
    ```
    
-3. **Create .env and your mongoDB URI into it**
+3. **Create .env.local with the following variables**:
    ```
-   MONGO_DB_URI= <Your URI>
+   MONGO_DB_URI= <Your MONGO_DB_URI>
    ```
    
 4. **Run Server**
