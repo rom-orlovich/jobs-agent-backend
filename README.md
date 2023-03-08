@@ -13,6 +13,28 @@ The system enables users to filter job listings that match their requirements, m
 This repository contains the backend part of the project, which is responsible for the logic behind job scanning and matching.
 
 
+# Table of contents
+
+  - [**Main Features**](#main-features)
+  - [**Technologies**](#technologies)
+  - [**Packages**](#packages)
+  - [**Main Components**](#main-components)
+    - [User](#user)
+    - [Scanner](#scanner)
+    - [Translator](#translator)
+    - [Requirements Reader](#requirements-reader)
+    - [Server](#server)
+    - [Universal Database With Hash System](#universal-database-with-hash-system)
+  - [**How it works**](#how-it-works)
+    - [Scanning](#scanning)
+    - [Job Matching](#job-matching)
+  - [**Installation**](#installation)
+  - [**Running Docker**](#running-docker)
+  - [**What's Next?**](#whats-next)
+  - [**Images**](#images)
+
+
+
 
 ## Main Features:
 - **Job Listings From Multiple Sites** - The Jobs Agent app scans many job listing sites for new job postings, including Linkedin, GotFriends, Drushim, and AllJobs.
