@@ -1,8 +1,8 @@
 # Jobs Agent Backend:
 
-[Jobs Agent Frontend](https://github.com/rom-orlovich/jobs-agent-frontend):point_left:
+[Jobs Agent Frontend](https://github.com/rom-orlovich/jobs-agent-frontend) :point_left:
 
-## About my project:
+## About My Project:
 The Jobs Agent is a web application designed to help job seekers efficiently search for their next job across multiple online sources that provide job listings. 
 Traditional job searches can be time-consuming and involve sifting through hundreds of irrelevant job listings. 
 
@@ -15,13 +15,13 @@ This repository contains the backend part of the project, which is responsible f
 
 
 ## Main Features:
-- **Job Listings from Multiple Sites** - The Jobs Agent app scans many job listing sites for new job postings, including Linkedin, GotFriends, Drushim, and AllJobs.
+- **Job Listings From Multiple Sites** - The Jobs Agent app scans many job listing sites for new job postings, including Linkedin, GotFriends, Drushim, and AllJobs.
 - **Smart Job Filtering** - The app includes a requirements reader algorithm that scans job titles and text to filter out jobs that don't match the user's search criteria and to provide a reason for each job that doesn't fit the user's profile.
 - **Universal Database** - All jobs are saved in a MongoDB database shared among all app users so that users can search for existing jobs with the same query hash and receive results more quickly.
 - **CSV Export** -  Users can export all jobs related to a specific query hash to a CSV file for easy analysis and sharing.
 
 
-## Main components:
+## Main Components:
 
 ### User:
 An instance of the user managing the following data:
@@ -32,7 +32,7 @@ For the first time the user uses the app, he creates his unique profile that inc
 - His job requirements - which domains he wants to include in each job post.
 - His excluded requirement -  A list of domains the user doesn't want to include in the job post.
 
-#### User query:
+#### User Query:
 The user fills in a search query, and its parameters can be shared by other users' queries.
 These search parameters are hashed uniquely together to locate similar previous queries of other users that relate to specific jobs.
  
@@ -58,7 +58,7 @@ Otherwise, it is considered a potential match for the user's job search requirem
 ### Server:
 The server helps to respond to the user's request and activate the scanner. The jobs filter and download the jobs CSV file.  
 
-### Universal Database with hash system:
+### Universal Database With Hash System:
 To address issues with redundant job documents, scanning efficiency, and data quality,
 I implemented a universal database shared by all users while maintaining the ability for users to find their matching jobs.
 
@@ -156,7 +156,7 @@ This process helps the user on the client identify which job is fit for him.
    docker run --env-file .env -p 5000:5000 -d jobs-agent-backend
    ```
 
-## What's next?:
+## What's Next?:
 1. Improving the app's scalability to ensure it can handle a high volume of user traffic and implementing a caching mechanism to speed up data retrieval and reduce the load on the database.
 2. Implementing a caching mechanism for user requests to speed up data retrieval and reduce the load on the database.
 3. Improving the jobs requirement reader algorithm to provide statistics about the jobs that match user preferences and identifying the words that disqualify job listings.
@@ -164,7 +164,7 @@ This process helps the user on the client identify which job is fit for him.
 
 ## Images:
 
-### Tests Requirements Reader algorithm
+### Tests Requirements Reader Algorithm
 <img alt="Real Examples" src="./readme-images/requirements-algo-real-ex.png" width="700" hight="700">
 <img alt="Simple Examples" src="./readme-images/requirements-simple-ex.png" width="700" hight="700">
 
