@@ -21,6 +21,27 @@ This repository contains the backend part of the project, which is responsible f
 - **CSV Export** -  Users can export all jobs related to a specific query hash to a CSV file for easy analysis and sharing.
 
 
+## Technologies:
+
+- [Node](https://nodejs.org/api/url.html) - For efficient and scalable development of the application's backend logic.
+- [TypeScript](https://www.typescriptlang.org/) - For type checking and improved developer productivity.
+- [Docker](https://www.docker.com/) - Containerize the app and deploy into Digtal Ocean cloud. 
+- [MongoDB](https://www.mongodb.com/) - A NoSQL database that is used to store job listings and user data.
+
+
+
+## Packages:
+
+- [Express](https://www.npmjs.com/package/express) -A web framework for Node.js used to create the backend API.
+- [Puppeteer](https://pptr.dev/) -  For scraping various jobs posts listings sites.
+- [Cheerio](https://cheerio.js.org/) - For parsing the HTML due to HTTP requests and extracting job listing data.
+- [Axios](https://axios-http.com/docs/intro) - A promise-based HTTP client for the browser and Node.js, used to make HTTP requests to various job listing sites.
+- [json-2-csv](https://www.npmjs.com/package/json-2-csv) - A Node.js package for converting JSON data to CSV format to generate the CSV export file.
+- [throat](https://www.npmjs.com/package/throat) - A concurrency limiter for Node.js that controls the number of concurrent requests made to job listing sites.
+- [Jest](https://jestjs.io/) - A JavaScript testing framework used to write unit and integration tests for the app.
+
+
+
 ## Main Components:
 
 ### User:
@@ -90,26 +111,6 @@ which scans the job titles and descriptions and inserts a reason field into each
 If a job does match their requirements, the reason field is set to "match."
 This process helps the user on the client identify which job is fit for him.
 
-
-## Technologies:
-
-- [Node](https://nodejs.org/api/url.html) - For efficient and scalable development of the application's backend logic.
-- [TypeScript](https://www.typescriptlang.org/) - For type checking and improved developer productivity.
-- [Docker](https://www.docker.com/) - Containerize the app and deploy into Digtal Ocean cloud. 
-- [MongoDB](https://www.mongodb.com/) - A NoSQL database that is used to store job listings and user data.
-
-
-
-## Packages:
-
-- [Express](https://www.npmjs.com/package/express) -A web framework for Node.js used to create the backend API.
-- [Puppeteer](https://pptr.dev/) -  For scraping various jobs posts listings sites.
-- [Cheerio](https://cheerio.js.org/) - For parsing the HTML due to HTTP requests and extracting job listing data.
-- [Axios](https://axios-http.com/docs/intro) - A promise-based HTTP client for the browser and Node.js, used to make HTTP requests to various job listing sites.
-- [json-2-csv](https://www.npmjs.com/package/json-2-csv) - A Node.js package for converting JSON data to CSV format to generate the CSV export file.
-- [throat](https://www.npmjs.com/package/throat) - A concurrency limiter for Node.js that controls the number of concurrent requests made to job listing sites.
-- [Jest](https://jestjs.io/) - A JavaScript testing framework used to write unit and integration tests for the app.
-  
   
 ## Installation
 
