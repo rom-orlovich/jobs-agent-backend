@@ -25,7 +25,7 @@ This repository contains the backend part of the project, which is responsible f
     - [Requirements Reader](#requirements-reader)
     - [Server](#server)
     - [Universal Database With Hash System](#universal-database-with-hash-system)
-  - [**How it works**](#how-it-works)
+  - [**How It Works?**](#how-it-works)
     - [Scanning](#scanning)
     - [Job Matching](#job-matching)
   - [**Installation**](#installation)
@@ -117,7 +117,7 @@ This ensures that the data is kept fresh and up to date.
 
 
 
-## How it works:
+## How It Works?:
 
 ### **Scanning:** 
 When a user makes a new query for a job search, the scanner checks the number of current jobs with the same hash.
