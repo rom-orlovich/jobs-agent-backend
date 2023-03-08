@@ -11,31 +11,31 @@
     "דרושים BI/Big Data": "1105"
   },
   {
-    "מפתח NET.": "1847",
-    "C++ Developer": "1862",
+    "מפתח NET.": "1847", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1847', radioAreas: 'radioAreas-1108' }
+    "C++ Developer": "1862", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1862', radioAreas: 'radioAreas-1108' }
     "JAVA Developer": "1865", //{ checkboxProfessions: 'checkboxProfessions-1865', radioAreas: 'radioAreas-1108' }
     "מפתח Kotlin": "15045",
     "Frontend Developer": "1970", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' }
     "Python Developer": "1979",
     "Fullstack Developer": "1947", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1947', radioAreas: 'radioAreas-1108' }
     "NodeJS Developer": "1965",
-    "מתכנת PHP": "1890",
-    "מתכנת Mobile": "1886",
-    "Big Data Developer": "2328",
+    "מתכנת PHP": "1890", ///gotFriends:{ checkboxProfessions: 'checkboxProfessions-1890', radioAreas: 'radioAreas-1108' }
+    "מתכנת Mobile": "1886", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1886', radioAreas: 'radioAreas-1108' }
+    "Big Data Developer": "2328", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2328', radioAreas: 'radioAreas-1108' }
     "מתכנת Ruby": "2337",
     "Backend Developer": "2338",
     "מפתח SCALA": "2348",
     "GO Developer": "2355",
     "מהנדס RT": "1869",
-    "Angular Developer": "7992",
+    "Angular Developer": "7992", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-7992', radioAreas: 'radioAreas-1108' }
     "ראש צוות פיתוח": "7993",
-    "iOS Developer": "8006",
+    "iOS Developer": "8006", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8006', radioAreas: 'radioAreas-1108' }
     "מפתח REACT": "8010",
     "ראש צוות מובייל": "8011",
     "ר\"צ Front-End": "8012",
-    "Android Developer": "8019",
+    "Android Developer": "8019", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' }
     "C Programmer": "8020",
-    "Data Engineer": "4457",
+    "Data Engineer": "4457", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4457', radioAreas: 'radioAreas-1108' }
     "Software Architect": "4806",
     "משרות בוגרים": "2323"
   },
@@ -84,11 +84,12 @@
   },
   {
     "מנהל פרוייקטים": "1924",
-    "מנהל מוצר": "2086",
+    "מנהל מוצר": "2086", // gotFriends:{ checkboxProfessions: 'checkboxProfessions-2086', radioAreas: 'radioAreas-1106' }
     "VP Product": "4456"
   },
   {
     "דרושים DevOps": "1961",
+    //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1961', radioAreas: 'radioAreas-1109' }
     "מהנדס תמיכה": "1983",
     "מנהל רשת": "2081",
     "IT Manager": "2322",
