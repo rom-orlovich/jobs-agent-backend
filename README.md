@@ -1,5 +1,7 @@
 # Jobs Agent Backend:
 
+[Jobs Agent Frontend](https://github.com/rom-orlovich/jobs-agent-frontend):point_left:
+
 ## About my project:
 The Jobs Agent is a web application designed to help job seekers efficiently search for their next job across multiple online sources that provide job listings. 
 Traditional job searches can be time-consuming and involve sifting through hundreds of irrelevant job listings. 
