@@ -20,7 +20,16 @@ const PORT = process.env.PORT || 5000;
 export const mongoDB = new MongoDBClient();
 
 const expressServer = () => {
-  app.use(cors({ origin: [process.env.CLIENT_URL_PRO, process.env.CLIENT_URL_DEV], credentials: true }));
+  app.use(
+    cors({
+      origin: [
+        process.env.CLIENT_URL_PRO || '',
+        process.env.CLIENT_URL_DEV || '',
+        'http://localhost:3000',
+      ],
+      credentials: true,
+    })
+  );
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadJobs);
   app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobs);
