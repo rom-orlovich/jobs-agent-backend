@@ -1,4 +1,4 @@
-import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDB';
+import { LOCATIONS_DICT_DB } from '../createQueryDB/locationDictDB';
 import { POSITIONS_DICT_DB } from '../createQueryDB/positionDictDB';
 
 export const SCANNER_QUERY_OPTIONS = {

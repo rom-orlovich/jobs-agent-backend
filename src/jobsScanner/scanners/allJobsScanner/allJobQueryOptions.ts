@@ -1,4 +1,4 @@
-import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDB';
+import { LOCATIONS_DICT_DB } from '../../createQueryDB/locationDictDB';
 import { GeneralQuery } from '../../generalQuery/generalQuery';
 import { JobType, Scope, UserQueryProps } from '../../generalQuery/query.types';
 

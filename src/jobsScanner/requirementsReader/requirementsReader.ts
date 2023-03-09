@@ -97,10 +97,10 @@ export class RequirementsReader {
         k++;
         // If the number of words scanned reaches a certain limit (RequirementsReader.WORDS_COUNT_KILL), the code will return false and a reason for why it stopped scanning
         if (k === RequirementsReader.WORDS_COUNT_KILL) {
-          console.log(
-            `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i},
-            count ${k} words`
-          );
+          // console.log(
+          //   `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i},
+          //   count ${k} words`
+          // );
           return {
             pass: false,
             reason: `Cannot complete the evaluation of these requirements. Stop in word ${sentence[j]} number ${j} in line ${i}, count ${k} words`,
@@ -113,7 +113,7 @@ export class RequirementsReader {
 
         // Check if the tech is in excludedTech and return if it does.
         const excludeTech = user.getExcludedRequirement(word);
-        if (excludeTech) return { pass: false, reason: `${word} is not in your stack`, count: k };
+        if (excludeTech) return { pass: false, reason: `${word} is not in your requirements`, count: k };
 
         // Check if the there are any words from profile's requirements in the text.
         langEx = user.getRequirement(word);
@@ -184,7 +184,11 @@ export class RequirementsReader {
     }
     //If there is not match of langEx from profile requirements in the text, the function will return: 'This job is not contain any word from you tech stack'
     if (!noneOfTechStackExist)
-      return { pass: false, reason: 'This job is not contain any word from you tech stack', count: k };
+      return {
+        pass: false,
+        reason: 'This job does not contain any words related to your requirements',
+        count: k,
+      };
 
     return { pass: true, count: k, reason: 'match' };
   }
