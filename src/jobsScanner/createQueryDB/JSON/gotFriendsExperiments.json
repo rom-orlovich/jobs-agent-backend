@@ -14,7 +14,7 @@
     "מפתח NET.": "1847", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1847', radioAreas: 'radioAreas-1108' }
     "C++ Developer": "1862", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1862', radioAreas: 'radioAreas-1108' }
     "JAVA Developer": "1865", //{ checkboxProfessions: 'checkboxProfessions-1865', radioAreas: 'radioAreas-1108' }
-    "מפתח Kotlin": "15045",
+    "מפתח Kotlin": "15045", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-15045', radioAreas: 'radioAreas-1108' }
     "Frontend Developer": "1970", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1970', radioAreas: 'radioAreas-1108' }
     "Python Developer": "1979",
     "Fullstack Developer": "1947", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1947', radioAreas: 'radioAreas-1108' }
@@ -26,21 +26,21 @@
     "Backend Developer": "2338",
     "מפתח SCALA": "2348",
     "GO Developer": "2355",
-    "מהנדס RT": "1869",
+    "מהנדס RT": "1869", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1869', radioAreas: 'radioAreas-1108' }
     "Angular Developer": "7992", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-7992', radioAreas: 'radioAreas-1108' }
-    "ראש צוות פיתוח": "7993",
+    "ראש צוות פיתוח": "7993", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-7993', radioAreas: 'radioAreas-1108' }
     "iOS Developer": "8006", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8006', radioAreas: 'radioAreas-1108' }
     "מפתח REACT": "8010",
     "ראש צוות מובייל": "8011",
     "ר\"צ Front-End": "8012",
     "Android Developer": "8019", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' }
-    "C Programmer": "8020",
+    "C Programmer": "8020", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8020', radioAreas: 'radioAreas-1108' }
     "Data Engineer": "4457", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4457', radioAreas: 'radioAreas-1108' }
-    "Software Architect": "4806",
+    "Software Architect": "4806", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4806', radioAreas: 'radioAreas-1108' }
     "משרות בוגרים": "2323"
   },
   {
-    "Malware Analyst": "1956",
+    "Malware Analyst": "1956", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1956', radioAreas: 'radioAreas-1111' }
     "Reverse Engineer": "1976",
     "מומחה אבטחת מידע": "2040",
     "Security Analyst": "4449",
@@ -51,29 +51,29 @@
     "חוקר אבטחת מידע": "14268"
   },
   {
-    "מהנדס אלגוריתמים": "7716",
-    "Data Scientist": "1953",
+    "מהנדס אלגוריתמים": "7716", ///gotFriends:{ checkboxProfessions: 'checkboxProfessions-7716', radioAreas: 'radioAreas-4451' }
+    "Data Scientist": "1953", ///gotFriends:{ checkboxProfessions: 'checkboxProfessions-1953', radioAreas: 'radioAreas-4451' }
     "Algo Trading": "4452",
-    "NLP": "4453",
-    "Deep Learning": "4454",
+    "NLP": "4453", ///gotFriends:{ checkboxProfessions: 'checkboxProfessions-4453', radioAreas: 'radioAreas-4451' }
+    "Deep Learning": "4454", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4454', radioAreas: 'radioAreas-4451' }
     "ר\"צ אלגוריתמים": "8013",
-    "Machine Learning": "4504",
+    "Machine Learning": "4504", ///gotFriends:{ checkboxProfessions: 'checkboxProfessions-4504', radioAreas: 'radioAreas-4451' }
     "Computer Vision": "4505",
-    "Signal Processing": "4506"
+    "Signal Processing": "4506" //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4506', radioAreas: 'radioAreas-4451' }
   },
   {
     "מפתח אוטומציה": "1882", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1882', radioAreas: 'radioAreas-1099' }
     "ראש צוות QA": "1920", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-1920', radioAreas: 'radioAreas-1099' }
     "משרות QA": "2312", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2312', radioAreas: 'radioAreas-1099'}
     "JAVA אוטומציה": "2359",
-    "ראש צוות אוטומציה": "8015",
-    "QA ידני": "8016"
+    "ראש צוות אוטומציה": "8015", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8015', radioAreas: 'radioAreas-1099'}
+    "QA ידני": "8016" //gotFriends:{ checkboxProfessions: 'checkboxProfessions-8016', radioAreas: 'radioAreas-1099'}
   },
   {
     "מנהל פיתוח": "2331",
     "VP R&D": "4459",
-    "CTO": "2349",
-    "מנהל פיתוח/דירקטור": "9913",
+    "CTO": "2349", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-2349', radioAreas: 'radioAreas-1101'}
+    "מנהל פיתוח/דירקטור": "9913", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-9913', radioAreas: 'radioAreas-1101'}
     "Group Manager": "9919"
   },
   {
@@ -83,9 +83,9 @@
     "QA": "9976"
   },
   {
-    "מנהל פרוייקטים": "1924",
+    "מנהל פרוייקטים": "1924", // gotFriends:{ checkboxProfessions: 'checkboxProfessions-1924', radioAreas: 'radioAreas-1106' }
     "מנהל מוצר": "2086", // gotFriends:{ checkboxProfessions: 'checkboxProfessions-2086', radioAreas: 'radioAreas-1106' }
-    "VP Product": "4456"
+    "VP Product": "4456" //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4456', radioAreas: 'radioAreas-1106' }
   },
   {
     "דרושים DevOps": "1961",
@@ -95,7 +95,7 @@
     "IT Manager": "2322",
     "Networking": "4455",
     "System Windows": "4571",
-    "System Linux": "4572",
+    "System Linux": "4572", //gotFriends:{ checkboxProfessions: 'checkboxProfessions-4572', radioAreas: 'radioAreas-1109' }
     "ראש צוות DevOps": "8014",
     "DevOps Linux": "8017"
   },

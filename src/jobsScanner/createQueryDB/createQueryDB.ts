@@ -23,7 +23,7 @@ import { config } from 'dotenv';
 
 const createPositionDB = async () => {
   const gotFriendsCatArr = await ScanningFS.readJSON<GenericRecord<string>[]>(
-    path.join(__dirname, 'JSON', 'gotFriends.json')
+    path.join(__dirname, 'JSON', 'gotFriendsFilter.json')
   );
   if (!gotFriendsCatArr) return;
   const gotFriendsCat = gotFriendsCatArr[0];
