@@ -33,7 +33,7 @@ export class GotFriendsScanner extends Scanner {
     await page.click('#searchButton');
   }
 
-  //Sometimes the clicks on the filters inputs is failed.
+  //Sometimes the clicks on the filter inputs are failed.
   private async clickOnFiltersUntilSuccess(page: Page) {
     let numTry = 1;
     await untilSuccess(async () => {
@@ -98,10 +98,6 @@ export class GotFriendsScanner extends Scanner {
 
   private async initPuppeteer() {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
-      // headless: false,
-      defaultViewport: null,
-      executablePath: '/usr/bin/google-chrome-stable',
-      args: ['--no-sandbox', '--disable-gpu'],
       slowMo: Scanner.SLOW_MOV,
     });
 
@@ -109,7 +105,7 @@ export class GotFriendsScanner extends Scanner {
 
     const failed = await this.clickOnFiltersUntilSuccess(page);
 
-    //If the click on gotFriends filters is failed.
+    //If the clicks on the filter inputs are failed.
     if (failed) return [];
     const numPagesLinks = await this.getNumPagesLinks(page);
 
