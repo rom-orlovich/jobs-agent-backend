@@ -8,11 +8,10 @@ export const benchmarkTimeMS = async (cb: AnyFun) => {
   console.timeEnd('Time:');
 };
 
-export const untilSuccess = async (cb: AnyFun, conditionStop = false) => {
+export const untilSuccess = async (cb: AnyFun) => {
   const isSuccess = true;
   while (isSuccess) {
     try {
-      if (conditionStop) return;
       await cb();
       return true;
     } catch (error) {

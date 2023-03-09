@@ -23,7 +23,14 @@ export class GotFriendsScanner extends Scanner {
 
   private async initialFilters(page: Page) {
     const { radioAreas, checkboxProfessions, location } = this.gotFriendsQuery;
-
+    console.log(
+      'radioAreas',
+      radioAreas,
+      'checkboxProfessions',
+      checkboxProfessions,
+      'location',
+      location
+    );
     await page.click('#professionAreaTitle');
     await page.click(`label[for='${radioAreas}']`);
     await page.click('#professionTitle');
@@ -37,9 +44,10 @@ export class GotFriendsScanner extends Scanner {
   private async clickOnFiltersUntilSuccess(page: Page) {
     let numTry = 1;
     await untilSuccess(async () => {
+      if (numTry >= 3) return Promise.resolve();
       numTry++;
       await this.initialFilters(page);
-    }, numTry >= 3);
+    });
 
     return numTry >= 3;
   }
