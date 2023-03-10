@@ -44,7 +44,7 @@ export class GotFriendsScanner extends Scanner {
   private async clickOnFiltersUntilSuccess(page: Page) {
     let numTry = 1;
     await untilSuccess(async () => {
-      if (numTry >= 3) return Promise.resolve();
+      if (numTry >= 3) return await Promise.resolve();
       numTry++;
       await this.initialFilters(page);
     });
