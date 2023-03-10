@@ -1,26 +1,29 @@
+import { UUID } from 'bson';
 import { RequestHandler } from 'express';
+import { ObjectId } from 'mongodb';
+import { rabbitMQ, SCANNING_QUEUE } from '..';
 import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
 
 import { JobsScanner } from '../../jobsScanner/jobsScanner';
 import { RequirementsReader } from '../../jobsScanner/requirementsReader/requirementsReader';
 
 import { User } from '../../jobsScanner/user/user';
-import { MESSAGE_CODES } from '../lib/messageCodes';
 
 import { QueryOptionsRes } from '../lib/queryValidation';
 
-const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
-  try {
-    const jobsScanner = new JobsScanner(user, queryOptions);
+export const STATUS_SCANNING = {
+  PENDING: 100,
+  SUCCESS: 200,
+  FAILURE: 300,
+} as const;
 
-    console.time('time');
-    const jobs = await jobsScanner.scanning();
-    console.timeEnd('time');
-    return jobs;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
+const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
+  const jobsScanner = new JobsScanner(user, queryOptions);
+
+  console.time('time');
+  const jobs = await jobsScanner.scanning();
+  console.timeEnd('time');
+  return jobs;
 };
 
 //After new scanning was successfully done, save the stats about the scanning.
@@ -34,26 +37,62 @@ const saveResultsStats = (user: User, jobs?: Job[]) => {
   return user;
 };
 
+export const processMesFun = (id: string) => (statusKey: keyof typeof STATUS_SCANNING) => ({
+  id,
+  status: STATUS_SCANNING[statusKey],
+});
+
 export const startScanner: RequestHandler = async (req, res) => {
   const { user, queryOptions, usersDB } = req.validateBeforeScanner;
 
+  const id = new Date().getTime().toString();
+
+  const processMes = processMesFun(id);
+
+  rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('PENDING'));
+  //
   //Active the scanner.
-  const jobs = await activeScanner(user, queryOptions);
+  activeScanner(user, queryOptions)
+    .then(async (jobs) => {
+      //
+      //Saved the results stats
+      saveResultsStats(user, jobs);
 
-  //Saved the results stats
-  saveResultsStats(user, jobs);
+      // Update the user.
+      await usersDB.updateUser(user);
 
-  // Update the user.
-  await usersDB.updateUser(user);
+      //Send the message back.
+      rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS')); //On success
+    })
+    .catch(() => rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('FAILURE'))); //On failure
 
-  if (jobs) {
-    return res.status(200).send({
-      success: true,
-      message: 'The jobs scanner was finished successfully',
-      code: MESSAGE_CODES.SCANNER_SUCCESS,
-    });
-  } else
-    return res
-      .status(500)
-      .send({ message: 'Something went wrong', success: false, code: MESSAGE_CODES.SOMETHING_WRONG });
+  return res.status(200).send(processMes('PENDING'));
+};
+
+//Check if the status of the Scanner process
+export const checkScannerStatus: RequestHandler = async (req, res) => {
+  const processID = req.params.processID;
+  let isSuccess;
+  let isFailed;
+  const consumer = await rabbitMQ.consumeMessage(SCANNING_QUEUE, async (msg) => {
+    if (!msg) return;
+
+    //Parse the message
+    const content = JSON.parse(msg.content.toString());
+    const isProcess = content.id === processID;
+
+    //Check status of scanner with the provided id.
+    isSuccess = isProcess && content.status === 200;
+    isFailed = isProcess && content.status === 300;
+    rabbitMQ.channel?.ack(msg);
+  });
+
+  //Close the channel after each check.
+  await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
+
+  // if (isSuccess || isFailed) await rabbitMQ.connection?.close();
+  if (isSuccess) return res.send(processMesFun(processID)('SUCCESS'));
+  if (isFailed) return res.send(processMesFun(processID)('FAILURE'));
+
+  return res.send(processMesFun(processID)('PENDING'));
 };
