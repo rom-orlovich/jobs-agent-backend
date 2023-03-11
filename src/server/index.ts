@@ -34,7 +34,7 @@ const expressServer = () => {
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadJobs);
   app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobs);
   app.get('/api/jobs-agent/scanning/checkStatus/:processID', checkScannerStatus);
-  app.get('/api/jobs-agent/test/', async (req, res) => {
+  app.get('/api/jobs-agent/test', async (req, res) => {
     return res.status(200).send('test');
   });
 
