@@ -15,9 +15,7 @@ services:
   jobs-agent:
     environment:
       NODE_ENV: production
-    build:
-         context: .
-         dockerfile: Dockerfile
+    image: romorlovich/jobs-agent-backend
     ports:
          - 5000:5000
 

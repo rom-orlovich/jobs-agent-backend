@@ -6,6 +6,7 @@ export class RabbitMQ {
   connection: amqp.Connection | null;
   queues: GenericRecord<amqp.Replies.AssertQueue>;
   channel: null | amqp.Channel;
+
   constructor() {
     this.settings = {
       protocol: 'amqp',
@@ -45,7 +46,7 @@ export class RabbitMQ {
     });
   }
   async consumeMessage(queueName: string, cb: (msg: amqp.ConsumeMessage | null) => void) {
-    const r = await this.channel?.consume(queueName, cb, { noAck: false });
-    return r;
+    const res = await this.channel?.consume(queueName, cb, { noAck: false });
+    return res;
   }
 }
