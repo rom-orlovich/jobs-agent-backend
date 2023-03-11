@@ -38,6 +38,7 @@ This repository contains the backend part of the project, which is responsible f
 ## Main Features:
 
 - **Job Listings From Multiple Sites** - The Jobs Agent app scans many job listing sites for new job postings, including Linkedin, GotFriends, Drushim, and AllJobs.
+- **Asynchronous Scanning** - The background scanning process is handled asynchronously using RabbitMQ message queuing system to check the scanning status.
 - **Smart Job Filtering** - The app includes a requirements reader algorithm that scans job titles and text to filter out jobs that don't match the user's search criteria and to provide a reason for each job that doesn't fit the user's profile.
 - **Universal Database** - All jobs are saved in a MongoDB database shared among all app users so that users can search for existing jobs with the same query hash and receive results more quickly.
 - **CSV Export** - Users can export all jobs related to a specific query hash to a CSV file for easy analysis and sharing.
@@ -51,10 +52,11 @@ This repository contains the backend part of the project, which is responsible f
 
 ## Packages:
 
-- [Express](https://www.npmjs.com/package/express) -A web framework for Node.js used to create the backend API.
+- [Express](https://www.npmjs.com/package/express) - A web framework for Node.js used to create the backend API.
 - [Puppeteer](https://pptr.dev/) - For scraping various jobs posts listings sites.
 - [Cheerio](https://cheerio.js.org/) - For parsing the HTML due to HTTP requests and extracting job listing data.
 - [Axios](https://axios-http.com/docs/intro) - A promise-based HTTP client for the browser and Node.js, used to make HTTP requests to various job listing sites.
+- [RabbitMQ](https://www.rabbitmq.com/) - For communication between different systems using messaging queues. It is used in this project for asynchronous communication between different services.
 - [json-2-csv](https://www.npmjs.com/package/json-2-csv) - A Node.js package for converting JSON data to CSV format to generate the CSV export file.
 - [throat](https://www.npmjs.com/package/throat) - A concurrency limiter for Node.js that controls the number of concurrent requests made to job listing sites.
 - [Jest](https://jestjs.io/) - A JavaScript testing framework used to write unit and integration tests for the app.
@@ -62,21 +64,15 @@ This repository contains the backend part of the project, which is responsible f
 ## Main Components:
 
 ### User:
-
 An instance of the user managing the following data:
-
-#### User Profile:
-
-For the first time the user uses the app, he creates his unique profile that includes the following parameters:
-
-- His overall years of experience - The max years of experience the user wants to disqualify a matching job.
-- His job requirements - which domains he wants to include in each job post.
-- His excluded requirement - A list of domains the user doesn't want to include in the job post.
-
-#### User Query:
-
-The user fills in a search query, and its parameters can be shared by other users' queries.
-These search parameters are hashed uniquely together to locate similar previous queries of other users that relate to specific jobs.
+- **User Profile**:
+   For the first time the user uses the app, he creates his unique profile that includes the following parameters:
+     - His overall years of experience - The max years of experience the user wants to disqualify a matching job.
+     - His job requirements - which domains he wants to include in each job post.
+     - His excluded requirement - A list of domains the user doesn't want to include in the job post.
+- **User Query**:
+     - The user fills in a search query, and its parameters can be shared by other users' queries.
+     - These search parameters are hashed uniquely together to locate similar previous queries of other users that relate to specific jobs.
 
 ### Scanner:
 
