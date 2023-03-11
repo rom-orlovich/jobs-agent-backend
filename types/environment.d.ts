@@ -12,6 +12,8 @@ declare global {
       THROAT_LIMIT: number;
       TOTAL_CPU: number;
       TIMEOUT_TRY: number;
+      RABBIT_MQ_ADMIN: string;
+      RABBIT_MQ_PASSWORD: string;
     }
   }
 }

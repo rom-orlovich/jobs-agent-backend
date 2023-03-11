@@ -4,10 +4,11 @@ import Express from 'express';
 import { MongoDBClient } from '../../mongoDB/mongoClient';
 import { RabbitMQ } from '../../rabbitMQ/rabbitMQ';
 import cors from 'cors';
+
 import { validateBeforeScanner } from './controllers/middleware';
 import cluster from 'cluster';
 import os from 'os';
-import { checkScannerStatus, processMesFun, startScanner } from './controllers/startScanner';
+import { checkScannerStatus, startScanner } from './controllers/startScanner';
 import { downloadJobs } from './controllers/downloadJobs';
 import { getJobs } from './controllers/getJobs';
 
@@ -32,23 +33,10 @@ const expressServer = () => {
   app.get('/api/jobs-agent/start/:userID', validateBeforeScanner, startScanner);
   app.get('/api/jobs-agent/download/:userID', validateBeforeScanner, downloadJobs);
   app.get('/api/jobs-agent/jobs/:userID', validateBeforeScanner, getJobs);
-
-  app.get('/api/jobs-agent/test/:userID', async (req, res) => {
-    const id = new Date().getTime().toString();
-    const processMes = processMesFun(id);
-
-    new Promise((res) => {
-      return setTimeout(() => {
-        return res(null);
-      }, 1000 * 5);
-    }).then(() => {
-      rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS'));
-    });
-
-    return res.status(200).send(processMes('PENDING'));
-  });
-
   app.get('/api/jobs-agent/scanning/checkStatus/:processID', checkScannerStatus);
+  app.get('/api/jobs-agent/test/', async (req, res) => {
+    return res.status(200).send('test');
+  });
 
   console.log('start');
   app.listen(PORT, () => {
@@ -78,10 +66,14 @@ const startClusters = async () => {
       await mongoDB.close();
     }
   } else {
-    await rabbitMQ.connect();
-    await rabbitMQ.createChannel();
-    await rabbitMQ.assertQueue(SCANNING_QUEUE);
-    expressServer();
+    try {
+      await rabbitMQ.connect();
+      await rabbitMQ.createChannel();
+      await rabbitMQ.assertQueue(SCANNING_QUEUE);
+      expressServer();
+    } catch (error) {
+      await rabbitMQ.connection?.close();
+    }
   }
 };
 

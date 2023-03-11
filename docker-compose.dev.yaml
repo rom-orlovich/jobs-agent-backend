@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    env_file:
+      - ./.env
+   
+
+  jobs-agent:
+    environment:
+      NODE_ENV: development
+    build:
+         context: .
+         dockerfile: Dockerfile.dev
+    ports:
+         - 5000:5000
+    volumes:
+      -  "./:/app/"
+
+    depends_on:
+      -  rabbitmq
+    env_file:
+      - ./.env
+      
+
+
+
+volumes:
+
+   jobs-agent:
+      driver:
+         local

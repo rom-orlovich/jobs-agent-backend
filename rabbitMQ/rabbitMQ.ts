@@ -11,9 +11,9 @@ export class RabbitMQ {
       protocol: 'amqp',
       port: 5672,
       vhost: '/',
-      hostname: 'localhost',
-      username: 'admin123',
-      password: 'jobs-agent-admin',
+      hostname: 'rabbitmq',
+      username: process.env.RABBIT_MQ_ADMIN,
+      password: process.env.RABBIT_MQ_PASSWORD,
     };
     this.amqp = amqp;
     this.connection = null;

@@ -1,6 +1,5 @@
-import { UUID } from 'bson';
 import { RequestHandler } from 'express';
-import { ObjectId } from 'mongodb';
+
 import { rabbitMQ, SCANNING_QUEUE } from '..';
 import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
 
