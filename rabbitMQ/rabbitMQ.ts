@@ -55,6 +55,7 @@ export class RabbitMQ {
       persistent: true,
     });
   }
+
   /**
    * @param {string} queueName Queue name where the message will consume.
    * @param {(msg: amqp.ConsumeMessage | null)} cb A callback to execute when the message is consumed.

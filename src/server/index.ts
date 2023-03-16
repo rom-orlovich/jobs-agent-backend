@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 5000;
 export const mongoDB = new MongoDBClient();
 export const rabbitMQ = new RabbitMQ();
 export const SCANNING_QUEUE = 'scanning';
+
 const expressServer = () => {
   app.use(
     cors({
@@ -67,6 +68,7 @@ const startClusters = async () => {
     }
   } else {
     try {
+      // Initialize the connection to rabbitMQ and assert scanning queue.
       await rabbitMQ.connect();
       await rabbitMQ.createChannel();
       await rabbitMQ.assertQueue(SCANNING_QUEUE);
