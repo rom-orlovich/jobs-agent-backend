@@ -1,28 +1,45 @@
-version: '3'
+version: '3.8'
 
 services:
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    # image: rabbitmq:3-management-alpine
+    build: ./rabbitMQ/
+   
     container_name: rabbitmq
+
     restart: always
+    
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 5672:5672
+      - 15672:15672
 
     env_file:
       - ./.env
+
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
    
 
   jobs-agent:
     environment:
       NODE_ENV: production
+
     container_name: jobs-agent-pro
+
     image: romorlovich/jobs-agent-backend
+
     ports:
-         - 80:80
+         - 5000:5000
+
+    restart: on-failure
 
     depends_on:
-      -  rabbitmq
+        rabbitmq:
+           condition: service_healthy
+
     env_file:
       - ./.env
       

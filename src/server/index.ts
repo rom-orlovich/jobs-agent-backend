@@ -77,6 +77,7 @@ const startClusters = async () => {
       await rabbitMQ.assertQueue(SCANNING_QUEUE);
       expressServer();
     } catch (error) {
+      console.log(error);
       await rabbitMQ.connection?.close();
     }
   }

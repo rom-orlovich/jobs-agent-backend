@@ -21,11 +21,7 @@ export class RabbitMQ {
     this.channel = null;
   }
   async connect() {
-    try {
-      this.connection = await this.amqp.connect(this.settings);
-    } catch (error) {
-      console.log(error);
-    }
+    this.connection = await this.amqp.connect(this.settings);
   }
 
   async createChannel() {
