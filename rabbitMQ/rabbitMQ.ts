@@ -4,7 +4,7 @@ export class RabbitMQ {
   settings: amqp.Options.Connect;
   amqp: typeof amqp;
   connection: amqp.Connection | null;
-  queues: GenericRecord<amqp.Replies.AssertQueue>;
+
   channel: null | amqp.Channel;
 
   constructor() {
@@ -19,7 +19,6 @@ export class RabbitMQ {
     this.amqp = amqp;
     this.connection = null;
     this.channel = null;
-    this.queues = {};
   }
   async connect() {
     try {
@@ -28,23 +27,38 @@ export class RabbitMQ {
       console.log(error);
     }
   }
+
   async createChannel() {
     if (this.connection) {
       this.channel = await this.connection.createChannel();
       this.channel.prefetch(1);
     }
   }
+
+  /**
+   *
+   * @param queueName The name of queue to assert
+   * @returns The asserted queue.
+   */
   async assertQueue(queueName: string) {
     if (!this.channel) return;
     const queue = await this.channel?.assertQueue(queueName, { durable: true });
-    this.queues[queueName] = queue;
-    return this.queues[queueName];
+    return queue;
   }
-  sendMessage<D>(queueName: string, content: D) {
+
+  /**
+   * @param {string} queueName Queue name where the message will send.
+   * @param {D} content The queue's object message.
+   */
+  sendMessage<D extends GenericRecord<any>>(queueName: string, content: D) {
     this.channel?.sendToQueue(queueName, Buffer.from(JSON.stringify(content)), {
       persistent: true,
     });
   }
+  /**
+   * @param {string} queueName Queue name where the message will consume.
+   * @param {(msg: amqp.ConsumeMessage | null)} cb A callback to execute when the message is consumed.
+   */
   async consumeMessage(queueName: string, cb: (msg: amqp.ConsumeMessage | null) => void) {
     const res = await this.channel?.consume(queueName, cb, { noAck: false });
     return res;
