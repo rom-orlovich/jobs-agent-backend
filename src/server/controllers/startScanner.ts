@@ -63,7 +63,10 @@ export const startScanner: RequestHandler = async (req, res) => {
       //Send the message back.
       rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS')); //On success
     })
-    .catch(() => rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('FAILURE'))); //On failure
+    .catch((err) => {
+      console.log(err);
+      rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('FAILURE'));
+    }); //On failure
 
   return res.status(200).send(processMes('PENDING'));
 };
