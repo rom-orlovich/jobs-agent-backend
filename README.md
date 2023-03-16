@@ -143,9 +143,11 @@ This process helps the user on the client identify which job is fit for him.
    ```
    npm run ci
    ```
-3. **Create .env.local with the following variables**:
+3. **Create .env file**
    ```
-   MONGO_DB_URI= <Your MONGO_DB_URI>
+   MONGO_DB_URI= <Your URI>
+   RABBIT_MQ_ADMIN=<Your admin>
+   RABBIT_MQ_PASSWORD=<Your password>
    ```
 4. **Run Server**
 
@@ -161,17 +163,16 @@ This process helps the user on the client identify which job is fit for him.
    ```
    git clone git@github.com:rom-orlovich/jobs-agent-backend.git
    ```
-2. **Run build command**
-   ```
-   docker build -t jobs-agent-backend .
-   ```
-3. **Create .env and your mongoDB URI into it**
+2. **Create .env file**
    ```
    MONGO_DB_URI= <Your URI>
+   RABBIT_MQ_HOST=<Your host>
+   RABBIT_MQ_ADMIN=<Your admin>
+   RABBIT_MQ_PASSWORD=<Your password>
    ```
-4. **Run the Docker container with the .env file**
+3. **Run command**
    ```
-   docker run --env-file .env -p 5000:5000 -d jobs-agent-backend
+   docker compose -f docker-compose.dev.yaml up -d
    ```
 
 ## What's Next?:
