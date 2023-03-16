@@ -221,11 +221,10 @@ export async function insertPositionsDB() {
 }
 
 /**
- * After create locationDictDB.json and  positionDictDB.json those files should be copy to .ts files
- * with the same name and assign their content to LOCATIONS_DICT_DB, POSITIONS_DICT_DB variables.
+ * Insert the LOCATIONS_DICT_DB and POSITIONS_DICT_DB names into mongoDB collection.
  */
 
-export async function createPositionsLocationsInDB() {
+export async function createPositionsLocationsInMongoDB() {
   await insertLocationsDB();
   await insertPositionsDB();
 }

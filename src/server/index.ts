@@ -51,6 +51,8 @@ const startClusters = async () => {
     console.log(`Master ${process.pid} is running`);
     try {
       await mongoDB.connect();
+      //NOTE: uncomment this line will insert a locations and positions names in mongoDB database.
+      // await createPositionsLocationsInMongoDB()
 
       // Fork workers.
       for (let i = 0; i < totalCPUs; i++) {
