@@ -17,7 +17,7 @@ export class PuppeteerSetup {
   static async lunchInstance(options: PuppeteerLaunchOptions) {
     const browser = await puppeteer.launch({
       defaultViewport: null,
-      executablePath: isEnvMode('production') ? '/usr/bin/google-chrome-stable' : undefined,
+      executablePath: '/usr/bin/google-chrome-stable',
       args: ['--no-sandbox', '--disable-gpu'],
       ...options,
     });
