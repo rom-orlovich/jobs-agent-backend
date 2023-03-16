@@ -1,6 +1,0 @@
-{
-  "editor.wordWrap": "wordWrapColumn",
-  "editor.wordWrapColumn": 120,
-  "cSpell.words": ["Drushim", "queryoptions"],
-  "editor.maxTokenizationLineLength": 1000000
-}
