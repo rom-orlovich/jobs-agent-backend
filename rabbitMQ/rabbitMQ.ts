@@ -13,8 +13,8 @@ export class RabbitMQ {
       port: 5672,
       vhost: '/',
       hostname: process.env.RABBIT_MQ_HOST || 'localhost',
-      username: process.env.RABBIT_MQ_ADMIN,
-      password: process.env.RABBIT_MQ_PASSWORD,
+      username: process.env.RABBITMQ_DEFAULT_USER,
+      password: process.env.RABBITMQ_DEFAULT_PASS,
     };
     this.amqp = amqp;
     this.connection = null;

@@ -64,15 +64,17 @@ This repository contains the backend part of the project, which is responsible f
 ## Main Components:
 
 ### User:
+
 An instance of the user managing the following data:
+
 - **User Profile**:
-   For the first time the user uses the app, he creates his unique profile that includes the following parameters:
-     - His overall years of experience - The max years of experience the user wants to disqualify a matching job.
-     - His job requirements - which domains he wants to include in each job post.
-     - His excluded requirement - A list of domains the user doesn't want to include in the job post.
+  For the first time the user uses the app, he creates his unique profile that includes the following parameters:
+  - His overall years of experience - The max years of experience the user wants to disqualify a matching job.
+  - His job requirements - which domains he wants to include in each job post.
+  - His excluded requirement - A list of domains the user doesn't want to include in the job post.
 - **User Query**:
-     - The user fills in a search query, and its parameters can be shared by other users' queries.
-     - These search parameters are hashed uniquely together to locate similar previous queries of other users that relate to specific jobs.
+  - The user fills in a search query, and its parameters can be shared by other users' queries.
+  - These search parameters are hashed uniquely together to locate similar previous queries of other users that relate to specific jobs.
 
 ### Scanner:
 
@@ -146,8 +148,8 @@ This process helps the user on the client identify which job is fit for him.
 3. **Create .env file**
    ```
    MONGO_DB_URI= <Your URI>
-   RABBIT_MQ_ADMIN=<Your admin>
-   RABBIT_MQ_PASSWORD=<Your password>
+   RABBITMQ_DEFAULT_USER=<Your admin>
+   RABBITMQ_DEFAULT_PASS =<Your password>
    ```
 4. **Run Server**
 
@@ -167,8 +169,8 @@ This process helps the user on the client identify which job is fit for him.
    ```
    MONGO_DB_URI= <Your URI>
    RABBIT_MQ_HOST=<Your host>
-   RABBIT_MQ_ADMIN=<Your admin>
-   RABBIT_MQ_PASSWORD=<Your password>
+   RABBITMQ_DEFAULT_USER=<Your admin>
+   RABBITMQ_DEFAULT_PASS =<Your password>
    ```
 3. **Run command**
    ```

@@ -21,6 +21,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
+      
    
 
   jobs-agent:
@@ -42,6 +43,9 @@ services:
 
     env_file:
       - ./.env
+
+  
+        
       
 
 

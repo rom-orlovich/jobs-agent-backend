@@ -16,7 +16,6 @@ services:
 
     env_file:
       - ./.env
-   
 
   jobs-agent:
     container_name: jobs-agent-dev

@@ -13,8 +13,8 @@ declare global {
       TOTAL_CPU: number;
       TIMEOUT_TRY: number;
       RABBIT_MQ_HOST: string;
-      RABBIT_MQ_ADMIN: string;
-      RABBIT_MQ_PASSWORD: string;
+      RABBITMQ_DEFAULT_USER: string;
+      RABBITMQ_DEFAULT_PASS: string;
     }
   }
 }
