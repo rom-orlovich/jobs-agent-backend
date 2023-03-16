@@ -3,6 +3,7 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -15,6 +16,8 @@ services:
   jobs-agent:
     environment:
       NODE_ENV: production
+    container_name: jobs-agent-pro
+
     image: romorlovich/jobs-agent-backend
     ports:
          - 5000:5000

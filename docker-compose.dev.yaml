@@ -3,6 +3,7 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -13,8 +14,11 @@ services:
    
 
   jobs-agent:
+    container_name: jobs-agent-dev
+
     environment:
       NODE_ENV: development
+      
     build:
          context: .
          dockerfile: Dockerfile.dev
