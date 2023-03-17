@@ -67,7 +67,7 @@ export class QueryValidation {
   }
 
   private regexStartWith(str: string) {
-    return new RegExp(`^${str}`, 'i');
+    return new RegExp(`${str}`, 'i');
   }
 
   /**
