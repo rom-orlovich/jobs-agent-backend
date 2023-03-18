@@ -83,4 +83,4 @@ const startClusters = async () => {
   }
 };
 
-// startClusters();
+startClusters();
