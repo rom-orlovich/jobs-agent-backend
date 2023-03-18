@@ -43,7 +43,7 @@ describe('Tests getAllJobsData method of LinkedinScanner', () => {
     jobType: '1,2,3', // 1 hybrid, 2:home ,3:onsite
     scope: '1,2', // 1 full, 2:part
     experience: '1,2', //without -1 ,between 1-2,
-    createdAt: new Date(),
+    updatedAt: new Date(),
     hash: '',
   };
 

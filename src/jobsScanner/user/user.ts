@@ -1,5 +1,11 @@
 // import { HashQuery } from './hashQuery';
+import { config } from 'dotenv';
+import { ScanningFS } from '../../../lib/scanningFS';
+import { OmitKey } from '../../../lib/types';
+config();
 import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
+import { MongoDBClient } from '../../../mongoDB/mongoClient';
+import { UsersDB } from '../../../mongoDB/usersDB';
 import { UserQueryProps } from '../generalQuery/query.types';
 import {
   ExcludeRequirementsOptions,
@@ -174,3 +180,29 @@ export class User {
     return curUserQueries;
   }
 }
+
+async () => {
+  console.log(process.env.MONGO_DB_URI);
+  const mongoDB = new MongoDBClient();
+  const usersCol = new UsersDB();
+
+  const users: UserProfile[] = await usersCol.users.find<UserProfile>({}).toArray();
+
+  // await ScanningFS.writeJSON(users, './backup/users.json');
+  users.forEach((user) => {
+    const userQueries = user.userQueries as unknown as (OmitKey<UserQueryProps, 'updatedAt'> & {
+      updatedAt: string[];
+    })[];
+
+    userQueries.forEach((el, i) => {
+      usersCol.users.updateOne(
+        { userID: user.userID },
+        {
+          $set: {
+            [`userQueries.${i}.updatedAt`]: el.updatedAt[i],
+          },
+        }
+      );
+    });
+  });
+};

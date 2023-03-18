@@ -13,11 +13,11 @@ export class UserQuery {
   }
 
   getCurQueryTime() {
-    return this.userQuery.createdAt.getTime();
+    return this.userQuery.updatedAt.getTime();
   }
 
   /**
-   * @returns {boolean} True, if the the diff between the current date and the createdAt is bigger than the expireAt threshold. Otherwise return false.
+   * @returns {boolean} True, if the the diff between the current date and the updatedAt is bigger than the expireAt threshold. Otherwise return false.
    */
   isUserQueryExpire(): boolean {
     if (this.expireAt <= new Date().getTime() - this.getCurQueryTime()) return true;

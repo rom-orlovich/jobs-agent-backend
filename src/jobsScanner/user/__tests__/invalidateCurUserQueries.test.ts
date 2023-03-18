@@ -11,7 +11,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(2023, 1, 27, 9, 4),
+        updatedAt: new Date(2023, 1, 27, 9, 4),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -21,7 +21,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend Developer',
         scope: '1,2',
-        createdAt: new Date(2023, 1, 27, 9, 3),
+        updatedAt: new Date(2023, 1, 27, 9, 3),
         hash: '4e27b44817ea8c06b8580e38f389bb8c1a988673',
       },
     ]);
@@ -37,7 +37,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(),
+        updatedAt: new Date(),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -47,7 +47,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend Developer',
         scope: '1,2',
-        createdAt: new Date(),
+        updatedAt: new Date(),
         hash: '4e27b44817ea8c06b8580e38f389bb8c1a988673',
       },
     ]);
@@ -64,7 +64,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -74,7 +74,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '4e27b44817ea8c06b8580e38f389bb8c1a988673',
       },
       {
@@ -84,7 +84,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '0c2503853e5ed200a535fce540380309be78e86c',
       },
       {
@@ -94,7 +94,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developers',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '4e909b4e1a12cb8be7482df3048d33b213d12107',
       },
       {
@@ -104,7 +104,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developers',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '4e909b4e1a12cb8be7482df3048d33b213d12107',
       },
       {
@@ -114,7 +114,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '14d5a2bbaf7493e896ba039a4116a63dd9b17ac8',
       },
       {
@@ -124,7 +124,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '14d5a2bbaf7493e896ba039a4116a63dd9b17ac8',
       },
       {
@@ -134,7 +134,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -144,7 +144,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -154,7 +154,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '7f9fcc3ea53065f06fadea738507a1eaff9246df',
       },
       {
@@ -164,7 +164,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '7f9fcc3ea53065f06fadea738507a1eaff9246df',
       },
       {
@@ -174,7 +174,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '7f9fcc3ea53065f06fadea738507a1eaff9246df',
       },
       {
@@ -184,7 +184,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '7f9fcc3ea53065f06fadea738507a1eaff9246df',
       },
       {
@@ -194,7 +194,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '7f9fcc3ea53065f06fadea738507a1eaff9246df',
       },
       {
@@ -204,7 +204,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -214,7 +214,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
       {
@@ -224,7 +224,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '14d5a2bbaf7493e896ba039a4116a63dd9b17ac8',
       },
       {
@@ -234,7 +234,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '14d5a2bbaf7493e896ba039a4116a63dd9b17ac8',
       },
       {
@@ -244,7 +244,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Frontend',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '14d5a2bbaf7493e896ba039a4116a63dd9b17ac8',
       },
       {
@@ -254,7 +254,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Programmer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '10e30b768a07c3bd9da483e09fc44633b4ad6ac2',
       },
       {
@@ -264,7 +264,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Programmer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '10e30b768a07c3bd9da483e09fc44633b4ad6ac2',
       },
       {
@@ -274,7 +274,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'React',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: 'e987aaa9c2fba9381024203682f0c4cdab3e50b1',
       },
       {
@@ -284,7 +284,7 @@ describe('Tests invalidateCurUserQueries', () => {
         location: 'קריית אונו',
         position: 'Full Stack Developer',
         scope: '1,2',
-        createdAt: new Date(`2023-02-27T05:47:04.953Z`),
+        updatedAt: new Date(`2023-02-27T05:47:04.953Z`),
         hash: '976e65081216b0613fdd3b762a2e7687ee78dac7',
       },
     ]);

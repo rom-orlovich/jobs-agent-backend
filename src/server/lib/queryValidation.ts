@@ -66,8 +66,10 @@ export class QueryValidation {
     return true;
   }
 
-  private regexStartWith(str: string) {
-    return new RegExp(`${str}`, 'i');
+  private regexStartWith(str: string, prefix: 'start' | 'contains' = 'contains') {
+    let strReg = `${str}`;
+    if (prefix === 'start') strReg = `^${str}`;
+    return new RegExp(strReg, 'i');
   }
 
   /**
