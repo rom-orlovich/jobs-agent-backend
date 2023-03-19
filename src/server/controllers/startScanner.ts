@@ -92,7 +92,7 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
         console.log('consumer', 'isSuccess', isSuccess, 'isFailed', isFailed);
         console.log(content, processID);
         rabbitMQ.channel?.ack(msg);
-      }
+      } else rabbitMQ.sendMessage(SCANNING_QUEUE, content);
     });
     //Close the channel after each check.
     await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
