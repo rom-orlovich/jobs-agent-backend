@@ -35,7 +35,7 @@ const saveResultsStats = (user: User, jobs?: Job[]) => {
   return user;
 };
 
-export const processMesFun = (id: string) => (statusKey: keyof typeof STATUS_SCANNING) => ({
+export const getProcessMesByID = (id: string) => (statusKey: keyof typeof STATUS_SCANNING) => ({
   id,
   status: STATUS_SCANNING[statusKey],
 });
@@ -45,7 +45,7 @@ export const startScanner: RequestHandler = (req, res) => {
 
   const id = new Date().getTime().toString();
 
-  const processMes = processMesFun(id);
+  const genProcessMes = getProcessMesByID(id);
 
   //
   //Active the scanner.
@@ -59,19 +59,20 @@ export const startScanner: RequestHandler = (req, res) => {
       await usersDB.updateUser(user);
 
       //Send the message back.
-      rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS')); //On success
+      rabbitMQ.sendMessage(SCANNING_QUEUE, genProcessMes('SUCCESS')); //On success
     })
     .catch((err) => {
       console.log(err);
-      rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('FAILURE'));
+      rabbitMQ.sendMessage(SCANNING_QUEUE, genProcessMes('FAILURE'));
     }); //On failure
 
-  return res.status(200).send(processMes('PENDING'));
+  return res.status(200).send(genProcessMes('PENDING'));
 };
 
 //Check the status of the scanning process of each active scanner.
 export const checkScannerStatus: RequestHandler = async (req, res) => {
   const processID = req.params.processID;
+  const genProcessMes = getProcessMesByID(processID);
   let isSuccess;
   let isFailed;
   try {
@@ -104,8 +105,8 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
     console.log(error);
   }
 
-  if (isSuccess) return res.send(processMesFun(processID)('SUCCESS'));
-  if (isFailed) return res.send(processMesFun(processID)('FAILURE'));
+  if (isSuccess) return res.send(genProcessMes('SUCCESS'));
+  if (isFailed) return res.send(genProcessMes('FAILURE'));
 
-  return res.send(processMesFun(processID)('PENDING'));
+  return res.send(genProcessMes('PENDING'));
 };
