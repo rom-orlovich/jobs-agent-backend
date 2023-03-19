@@ -29,29 +29,39 @@ const createPositionDB = async () => {
   const gotFriendsCat = gotFriendsCatArr[0];
   const gotFriendsPos: GenericRecord<GotFriendsPositions> = {};
   Object.entries(gotFriendsCat).map(([catKey, catValue], i) => {
-    Object.entries(gotFriendsCatArr[i + 1]).map(([postKey, postValue]) => {
-      gotFriendsPos[postKey] = {
-        ['checkboxProfessions']: `checkboxProfessions-${postValue}`,
+    //Map gotFriends positions to their categories by positionName.
+    Object.entries(gotFriendsCatArr[i + 1]).map(([positionKey, positionValue]) => {
+      gotFriendsPos[positionKey] = {
+        ['checkboxProfessions']: `checkboxProfessions-${positionValue}`,
         [`radioAreas`]: `radioAreas-${catValue}`,
       };
     });
   });
 
   const posDict: GenericRecord<string> = {};
+  //Map the Hebrew position names to the English position name by index position.
+  //Note: both English and Hebrew positions name have to be in the same length.
   hebrewPos.forEach((el, i) => {
     posDict[el] = englishPos[i];
   });
 
+  //Read allJobs categories.
   const cats = await ScanningFS.readJSON<AllJobsCats[]>(
     path.join(__dirname, 'JSON', 'allJobsCategories.json')
   );
   if (!cats) return;
   const positionsData = {} as PositionData;
   for (const cat of cats) {
+    //Loop child categories of allJobs categories.
     cat.ChildCategories.forEach((el) => {
+      //Split child categories keywords.
       const keywords = el.Keywords.split(',');
+
+      //Loop over child categories keywords.
       keywords.forEach((el) => {
         const keyPos = el.trim() as keyof PositionData;
+
+        //Map each keywords with the Hebrew and English names of the positions and gotFriends code.
         positionsData[keyPos] = {
           he: keyPos,
           gotFriends: gotFriendsPos[keyPos],
@@ -61,10 +71,12 @@ const createPositionDB = async () => {
     });
   }
 
+  //Write the positions data to JSON file.
   await ScanningFS.writeJSON(positionsData, path.join(__dirname, 'JSON', 'positionDictDB.json'));
 };
 
 const createCitiesDB = async () => {
+  //Get English cities names.
   const citiesEn = await axios<any, { data: Result }, Root>(
     'https://www.drushim.co.il/offerSearchAutoSuggest/',
     {
@@ -102,6 +114,8 @@ const createCitiesDB = async () => {
       },
     }
   );
+
+  //Get Hebrew cities names
   const citiesHe = await axios<any, { data: Result }, Root>(
     'https://www.drushim.co.il/offerSearchAutoSuggest/',
     {
@@ -139,18 +153,22 @@ const createCitiesDB = async () => {
       },
     }
   );
-
+  //Map Hebrew cities names by city code.
   const drushimCitiesDict: GenericRecord<DrushimCitiesData> = {};
   citiesHe.data.resultList.rows.forEach(
     (el: any) => (drushimCitiesDict[el[5]] = { he: el[0], geolexid: el[5] })
   );
 
+  //Map Hebrew cities names with the English cities names by city code.
   citiesEn.data.resultList.rows.forEach(
     (el: any) => (drushimCitiesDict[el[5]] = { ...drushimCitiesDict[el[5]], en: el[0], geolexid: el[5] })
   );
+
+  //Map Hebrew cities names with the English cities names by city hebrew name.
   const drushimCities: GenericRecord<DrushimCitiesData> = {};
   Object.values(drushimCitiesDict).forEach((el) => (drushimCities[el.he] = el));
 
+  //Push object that contains allJobs cities name and code and gotFriends regions code.
   const allJobCitiesNormalize: AllJobCityData[] = [];
   allJobCities.forEach((region) => {
     region.Cities.forEach((el) => {
@@ -161,11 +179,16 @@ const createCitiesDB = async () => {
       });
     });
   });
+
   const allCitiesMap: GenericRecord<OmitKey<AllJobCityData, 'allJobCityName'> & DrushimCitiesData> = {};
+  //Find hebrew cities name of drushim that match allJobs cities name.
   Object.values(drushimCities).forEach((drushimCityName) => {
     const allJobCity = allJobCitiesNormalize.find((el) => {
       return el?.allJobCityName.trim().startsWith(drushimCityName.he?.trim());
     });
+
+    //Map the founded cities into shared object by hebrew drushimCity name.
+    //Include the allJobs's city code,gotFriends regions code, and drushim city data.
     if (allJobCity)
       allCitiesMap[drushimCityName.he] = {
         ...drushimCityName,
@@ -174,6 +197,7 @@ const createCitiesDB = async () => {
       };
   });
 
+  //Write the cities data to JSON file.
   await ScanningFS.writeJSON(allCitiesMap, path.join(__dirname, 'JSON', 'locationDictDB.json'));
 };
 
