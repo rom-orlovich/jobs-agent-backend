@@ -16,4 +16,7 @@ export class MongoDBClient {
   createDBcollection(dbName: string, collectionName: string) {
     return this.client.db(dbName).collection(collectionName);
   }
+  async dropDBcollection(dbName: string, collectionName: string) {
+    return this.client.db(dbName).collection(collectionName).drop();
+  }
 }

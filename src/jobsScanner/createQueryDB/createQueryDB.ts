@@ -212,6 +212,7 @@ export async function createQueryDB() {
 export async function insertLocationsDB() {
   config();
   const db = new MongoDBClient();
+  await db.dropDBcollection('jobs-agent-db', 'locations');
   const locations = db.createDBcollection('jobs-agent-db', 'locations');
   locations
     .insertMany(
@@ -231,7 +232,9 @@ export async function insertPositionsDB() {
   config();
 
   const db = new MongoDBClient();
+  await db.dropDBcollection('jobs-agent-db', 'positions');
   const positions = db.createDBcollection('jobs-agent-db', 'positions');
+
   positions
     .insertMany(
       Object.keys(POSITIONS_DICT_DB).map((el, i) => ({ positionID: el + i, positionName: el }))
