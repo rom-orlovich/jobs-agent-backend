@@ -8,8 +8,8 @@ export class DrushimQueryOptions extends GeneralQuery<'drushim'> {
   }
 
   protected convertLocation(): string {
-    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userQuery]?.geolexid || '';
+    const locationName = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[locationName]?.geolexid || '';
   }
 
   private getScopeStr() {

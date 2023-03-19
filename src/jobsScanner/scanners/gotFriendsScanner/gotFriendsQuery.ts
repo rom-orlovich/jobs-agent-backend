@@ -15,18 +15,18 @@ export class GotFriendQueryOptions extends GeneralQuery<'gotFriends'> {
   }
 
   protected convertPositionGotFriends(): GotFriendsPositions {
-    const userQuery = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
+    const positionName = this.userQuery.position as keyof typeof POSITIONS_DICT_DB;
 
     return (
-      this.queryOptions.positions[userQuery]?.gotFriends || {
+      this.queryOptions.positions[positionName]?.gotFriends || {
         checkboxProfessions: '',
         radioAreas: '',
       }
     );
   }
   protected convertLocation(): string {
-    const userQuery = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
-    return this.queryOptions.locations[userQuery]?.checkboxRegions || '';
+    const locationName = this.userQuery.location as keyof typeof LOCATIONS_DICT_DB;
+    return this.queryOptions.locations[locationName]?.checkboxRegions || '';
   }
 
   protected convertPosition(): string {

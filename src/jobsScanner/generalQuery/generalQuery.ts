@@ -19,8 +19,8 @@ export class GeneralQuery<T extends ScannerName> implements QueryOptionsResProps
     this.scannerName = scannerName;
     this.queryOptions = SCANNER_QUERY_OPTIONS;
     this.userQuery = userQuery;
-    this.location = this.convertLocation().split(' ').join('%20');
-    this.position = this.convertPosition().split(' ').join('%20');
+    this.location = encodeURIComponent(this.convertLocation());
+    this.position = encodeURIComponent(this.convertPosition());
     this.experience = this.convertExperience();
     this.scope = this.convertScope();
     this.jobType = this.convertJobType();
