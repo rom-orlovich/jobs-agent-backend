@@ -53,9 +53,13 @@ export class GotFriendsScanner extends Scanner {
   }
 
   private async getNumPagesLinks(page: Page) {
-    await page.waitForSelector('.pagination li a');
-    const numPagesLinks = await page.$$eval('.pagination li a', (el) => el.map((el) => el.href));
-    return numPagesLinks;
+    try {
+      await page.waitForSelector('.pagination li a');
+      const numPagesLinks = await page.$$eval('.pagination li a', (el) => el.map((el) => el.href));
+      return numPagesLinks;
+    } catch (error) {
+      return [];
+    }
   }
 
   getAllJobsPostData(scannerName: string) {
