@@ -18,7 +18,6 @@ export const STATUS_SCANNING = {
 
 const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
   const jobsScanner = new JobsScanner(user, queryOptions);
-
   console.time('time');
   const jobs = await jobsScanner.scanning();
   console.timeEnd('time');
@@ -48,7 +47,6 @@ export const startScanner: RequestHandler = (req, res) => {
 
   const processMes = processMesFun(id);
 
-  rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('PENDING'));
   //
   //Active the scanner.
   activeScanner(user, queryOptions)
@@ -62,7 +60,6 @@ export const startScanner: RequestHandler = (req, res) => {
 
       //Send the message back.
       rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS')); //On success
-      console.log(processMes('SUCCESS'));
     })
     .catch((err) => {
       console.log(err);
@@ -72,28 +69,35 @@ export const startScanner: RequestHandler = (req, res) => {
   return res.status(200).send(processMes('PENDING'));
 };
 
-//Check if the status of the Scanner process
+//Check the status of the scanning process of each active scanner.
 export const checkScannerStatus: RequestHandler = async (req, res) => {
   const processID = req.params.processID;
   let isSuccess;
   let isFailed;
   try {
     const consumer = await rabbitMQ.consumeMessage(SCANNING_QUEUE, (msg) => {
+      console.log('start consuming for process', processID);
       if (!msg) return;
 
       //Parse the message
       const content = JSON.parse(msg?.content.toString());
       const isProcess = content.id === processID;
 
-      //Check status of scanner with the provided id.
+      //Checking for response message content with the request's process id in scanning queue.
       if (isProcess) {
+        //If the message is found update the status of the message and acknowledge the message.
         isSuccess = content.status === 200;
         isFailed = content.status === 300;
-        console.log('consumer', 'isSuccess', isSuccess, 'isFailed', isFailed);
-        console.log(content, processID);
         rabbitMQ.channel?.ack(msg);
-      } else rabbitMQ.sendMessage(SCANNING_QUEUE, content);
+        console.log('consume', content, processID);
+      } else {
+        //Otherwise, send back the message content to scanning queue so the consumer that handle this request's process id will consume this message.
+        rabbitMQ.sendMessage(SCANNING_QUEUE, content);
+        console.log('not consume', content, processID);
+      }
     });
+    console.log('status', 'isSuccess', isSuccess, 'isFailed', isFailed);
+
     //Close the channel after each check.
     await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
   } catch (error) {
