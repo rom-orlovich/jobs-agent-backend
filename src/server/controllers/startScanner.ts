@@ -41,7 +41,7 @@ export const processMesFun = (id: string) => (statusKey: keyof typeof STATUS_SCA
   status: STATUS_SCANNING[statusKey],
 });
 
-export const startScanner: RequestHandler = async (req, res) => {
+export const startScanner: RequestHandler = (req, res) => {
   const { user, queryOptions, usersDB } = req.validateBeforeScanner;
 
   const id = new Date().getTime().toString();
@@ -62,6 +62,7 @@ export const startScanner: RequestHandler = async (req, res) => {
 
       //Send the message back.
       rabbitMQ.sendMessage(SCANNING_QUEUE, processMes('SUCCESS')); //On success
+      console.log(processMes('SUCCESS'));
     })
     .catch((err) => {
       console.log(err);
@@ -76,23 +77,29 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
   const processID = req.params.processID;
   let isSuccess;
   let isFailed;
-  const consumer = await rabbitMQ.consumeMessage(SCANNING_QUEUE, async (msg) => {
-    if (!msg) return;
+  try {
+    const consumer = await rabbitMQ.consumeMessage(SCANNING_QUEUE, (msg) => {
+      if (!msg) return;
 
-    //Parse the message
-    const content = JSON.parse(msg.content.toString());
-    const isProcess = content.id === processID;
+      //Parse the message
+      const content = JSON.parse(msg?.content.toString());
+      const isProcess = content.id === processID;
 
-    //Check status of scanner with the provided id.
-    isSuccess = isProcess && content.status === 200;
-    isFailed = isProcess && content.status === 300;
-    rabbitMQ.channel?.ack(msg);
-  });
+      //Check status of scanner with the provided id.
+      if (isProcess) {
+        isSuccess = content.status === 200;
+        isFailed = content.status === 300;
+        console.log('consumer', 'isSuccess', isSuccess, 'isFailed', isFailed);
+        console.log(content, processID);
+        rabbitMQ.channel?.ack(msg);
+      }
+    });
+    //Close the channel after each check.
+    await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
+  } catch (error) {
+    console.log(error);
+  }
 
-  //Close the channel after each check.
-  await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
-
-  // if (isSuccess || isFailed) await rabbitMQ.connection?.close();
   if (isSuccess) return res.send(processMesFun(processID)('SUCCESS'));
   if (isFailed) return res.send(processMesFun(processID)('FAILURE'));
 
