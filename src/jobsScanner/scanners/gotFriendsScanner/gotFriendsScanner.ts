@@ -122,6 +122,7 @@ export class GotFriendsScanner extends Scanner {
   private async initPuppeteer() {
     const { browser, page } = await PuppeteerSetup.lunchInstance({
       slowMo: Scanner.SLOW_MOV,
+      headless: false,
     });
 
     await page.goto('https://www.gotfriends.co.il/jobs/');

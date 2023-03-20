@@ -4587,18 +4587,22 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Backend Engineer. backend': {
     he: 'Backend Engineer. backend',
     en: 'backend engineer. backend',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
-  'back end': { he: 'back end', en: 'back end' },
+  'back end': {
+    he: 'back end',
+    en: 'back end',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
+  },
   backend: {
     he: 'backend',
     en: 'backend',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'Backend Manager': {
     he: 'Backend Manager',
     en: 'backend manager',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'Senior Hardware Engineer': { he: 'Senior Hardware Engineer', en: 'senior hardware engineer' },
   'ארכיטקט מערכת חומרה': { he: 'ארכיטקט מערכת חומרה', en: 'hardware system architect' },
@@ -9621,12 +9625,12 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Android Team Manager': {
     he: 'Android Team Manager',
     en: 'backend team leader',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' },
   },
   'Backend Team Leader': {
     he: 'Backend Team Leader',
     en: 'c++ software team leader',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'C++ Software Team Leader': {
     he: 'C++ Software Team Leader',
@@ -9680,6 +9684,7 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Senior ActionScript Developer': {
     he: 'Senior ActionScript Developer',
     en: 'senior android developer',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' },
   },
   'Senior Android Developer': {
     he: 'Senior Android Developer',
@@ -9699,7 +9704,7 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Senior Backend Developer': {
     he: 'Senior Backend Developer',
     en: 'senior bigdata developer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'Senior BigData Developer': { he: 'Senior BigData Developer', en: 'senior c developer' },
   'Senior C Developer': { he: 'Senior C Developer', en: 'senior c# developer' },
@@ -12674,7 +12679,7 @@ export const POSITIONS_DICT_DB: PositionData = {
   'Backend Engineer': {
     he: 'Backend Engineer',
     en: 'backend engineer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'Computer Vision Engineer': { he: 'Computer Vision Engineer', en: 'computer vision engineer' },
   '​Data Analyst': {
@@ -14652,7 +14657,11 @@ export const POSITIONS_DICT_DB: PositionData = {
     en: 'android application programming',
     gotFriends: { checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' },
   },
-  Android: { he: 'Android', en: 'android' },
+  Android: {
+    he: 'Android',
+    en: 'android',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-8019', radioAreas: 'radioAreas-1108' },
+  },
   'מתכנת Angular': {
     he: 'מתכנת Angular',
     en: 'angular programmer',
@@ -15042,24 +15051,28 @@ export const POSITIONS_DICT_DB: PositionData = {
   'מתכנת backend': {
     he: 'מתכנת backend',
     en: 'backend programmer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'מתכנתת backend': {
     he: 'מתכנתת backend',
     en: 'backend programmer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'מהנדס backend': {
     he: 'מהנדס backend',
     en: 'backend engineer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
   'מהנדסת backendמתכנת Backend': {
     he: 'מהנדסת backendמתכנת Backend',
     en: 'backend engineer backend programmer',
-    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1105' },
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
   },
-  Backend: { he: 'Backend', en: 'backend' },
+  Backend: {
+    he: 'Backend',
+    en: 'backend',
+    gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
+  },
   'Backend Developer': {
     he: 'Backend Developer',
     gotFriends: { checkboxProfessions: 'checkboxProfessions-2338', radioAreas: 'radioAreas-1108' },
