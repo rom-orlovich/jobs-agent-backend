@@ -107,12 +107,7 @@ export class GotFriendsScanner extends Scanner {
     return async (url: string) => {
       const newPage = await browser.newPage();
       console.log(url);
-      // let jobs: Job[] = [];
-      // await untilSuccess(async () => {
-      //   await newPage.goto(url);
-      //   jobs = await newPage.evaluate(this.getAllJobsPostData, this.scannerName);
-      // });
-      // const filterJobs = this.getFilterResults(jobs);
+
       const jobs = await this.getJobsFromPage(newPage, url);
       await newPage.close();
       return jobs;
