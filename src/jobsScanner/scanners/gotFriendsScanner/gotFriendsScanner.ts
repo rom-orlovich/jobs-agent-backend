@@ -147,7 +147,11 @@ export class GotFriendsScanner extends Scanner {
   }
 
   async scanning(): Promise<Job[]> {
-    if (!this.gotFriendsQuery.checkboxProfessions || !this.gotFriendsQuery.radioAreas) {
+    if (
+      !this.gotFriendsQuery.checkboxProfessions ||
+      !this.gotFriendsQuery.radioAreas ||
+      !this.gotFriendsQuery.location
+    ) {
       console.log('There are no jobs in GotFriends that match the query.');
       return [];
     }
