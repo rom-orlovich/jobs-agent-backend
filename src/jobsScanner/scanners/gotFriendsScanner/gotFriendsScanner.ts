@@ -124,7 +124,10 @@ export class GotFriendsScanner extends Scanner {
     const failed = await this.clickOnFiltersUntilSuccess(page);
 
     //If the clicks on the filter inputs are failed.
-    if (failed) return [];
+    if (failed) {
+      await browser.close();
+      return [];
+    }
     const numPagesLinks = await this.getNumPagesLinks(page);
     let promises: Promise<Job[]>[] = [];
     if (numPagesLinks.length)
