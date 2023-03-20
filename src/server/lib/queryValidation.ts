@@ -51,7 +51,7 @@ export class QueryValidation {
 
   //Check query has valid query key value
   private checkValidQuery(query: GenericRecord<any>) {
-    console.log(query);
+    console.log('query', query);
     //Helpers functions that check if query keyValue is valid input.
     //Key is valid if it exist in possibleKeys object and if it valid string or valid number.
     const checkValidKeyValue = (key: string) =>
