@@ -52,7 +52,7 @@ export const startScanner: RequestHandler = (req, res) => {
   //Active the scanner.
   activeScanner(user, queryOptions)
     .then(async (jobs) => {
-      //
+      //On success
       //Saved the results stats
       saveResultsStats(user, jobs);
 
@@ -60,12 +60,13 @@ export const startScanner: RequestHandler = (req, res) => {
       await usersDB.updateUser(user);
 
       //Send the message back.
-      rabbitMQ.sendMessage(SCANNING_QUEUE, genProcessMes('SUCCESS')); //On success
+      rabbitMQ.sendMessage(SCANNING_QUEUE, genProcessMes('SUCCESS'));
     })
     .catch((err) => {
+      //On failure.
       console.log(err);
       rabbitMQ.sendMessage(SCANNING_QUEUE, genProcessMes('FAILURE'));
-    }); //On failure
+    });
 
   return res.status(200).send(genProcessMes('PENDING'));
 };
@@ -101,6 +102,7 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
         );
         return rabbitMQ.channel?.ack(msg);
       }
+
       //Checking for response message content with the request's process id in scanning queue.
       const isProcess = content.id === processID;
       if (isProcess) {
