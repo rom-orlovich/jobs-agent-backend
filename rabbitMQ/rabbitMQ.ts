@@ -62,6 +62,7 @@ export class RabbitMQ {
   sendMessage<D extends GenericRecord<any>>(queueName: string, content: D) {
     this.channel?.sendToQueue(queueName, Buffer.from(JSON.stringify(content)), {
       persistent: true,
+      expiration: String(RabbitMQ.MESSAGE_ACK_TIMEOUT),
     });
   }
 
