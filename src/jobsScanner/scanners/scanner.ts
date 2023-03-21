@@ -88,7 +88,7 @@ export class Scanner {
 
   async insertManyDB(jobs: Job[], hash: string) {
     await this.jobsDB.insertMany(
-      jobs.map((el) => ({ ...el, hashQueries: [hash], updatedAt: new Date() }))
+      jobs.map((el) => ({ ...el, hashQueries: [hash], createdAt: new Date() }))
     );
   }
 
