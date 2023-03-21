@@ -1,4 +1,5 @@
 import amqp from 'amqplib';
+import { RABBITMQ_MESSAGE_ACK_TIMEOUT } from '../lib/contestants';
 import { GenericRecord } from '../lib/types';
 export class RabbitMQ {
   settings: amqp.Options.Connect;
@@ -6,7 +7,7 @@ export class RabbitMQ {
   connection: amqp.Connection | null;
 
   channel: null | amqp.Channel;
-
+  static MESSAGE_ACK_TIMEOUT = RABBITMQ_MESSAGE_ACK_TIMEOUT;
   constructor() {
     this.settings = {
       protocol: 'amqp',
@@ -40,6 +41,18 @@ export class RabbitMQ {
     if (!this.channel) return;
     const queue = await this.channel?.assertQueue(queueName, { durable: true });
     return queue;
+  }
+
+  /**
+   * @param {string} messageCreatedTimeStr The time when the message was created.
+   * @returns {boolean} If the message timeout was expired.
+   */
+  static isMessageTimeoutExpire(messageCreatedTimeStr: string): boolean {
+    const curTime = new Date().getTime();
+    const messageCreatedTime = Number(messageCreatedTimeStr);
+    const isTimeoutExpire = RabbitMQ.MESSAGE_ACK_TIMEOUT >= curTime - messageCreatedTime;
+
+    return isTimeoutExpire;
   }
 
   /**

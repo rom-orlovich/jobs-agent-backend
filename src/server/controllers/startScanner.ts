@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 
 import { rabbitMQ, SCANNING_QUEUE } from '..';
 import { Job } from '../../../mongoDB/jobsDB/jobsDB.types';
+import { RabbitMQ } from '../../../rabbitMQ/rabbitMQ';
 
 import { JobsScanner } from '../../jobsScanner/jobsScanner';
 import { RequirementsReader } from '../../jobsScanner/requirementsReader/requirementsReader';
@@ -82,9 +83,22 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
 
       //Parse the message
       const content = JSON.parse(msg?.content.toString());
-      const isProcess = content.id === processID;
 
+      //Check if the message timeout is not expired.
+      const isMessageTimeoutExpire = RabbitMQ.isMessageTimeoutExpire(content.id);
+      if (isMessageTimeoutExpire) {
+        rabbitMQ.channel?.ack(msg);
+        console.log(
+          'message timeOut',
+          isMessageTimeoutExpire,
+          'message',
+          content,
+          'curTime',
+          new Date().getTime()
+        );
+      }
       //Checking for response message content with the request's process id in scanning queue.
+      const isProcess = content.id === processID;
       if (isProcess) {
         //If the message is found update the status of the message and acknowledge the message.
         isSuccess = content.status === 200;
