@@ -15,7 +15,7 @@ declare global {
       RABBIT_MQ_HOST: string;
       RABBITMQ_DEFAULT_USER: string;
       RABBITMQ_DEFAULT_PASS: string;
-      RABBITMQ_MESSAGE_ACK_TIMEOUT: string;
+      RABBITMQ_MESSAGE_ACK_TIMEOUT: number;
     }
   }
 }

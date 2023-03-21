@@ -87,7 +87,6 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
       //Check if the message timeout is not expired.
       const isMessageTimeoutExpire = RabbitMQ.isMessageTimeoutExpire(content.id);
       if (isMessageTimeoutExpire) {
-        rabbitMQ.channel?.ack(msg);
         console.log(
           'message timeOut',
           isMessageTimeoutExpire,
@@ -96,6 +95,7 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
           'curTime',
           new Date().getTime()
         );
+        return rabbitMQ.channel?.ack(msg);
       }
       //Checking for response message content with the request's process id in scanning queue.
       const isProcess = content.id === processID;
@@ -103,8 +103,9 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
         //If the message is found update the status of the message and acknowledge the message.
         isSuccess = content.status === 200;
         isFailed = content.status === 300;
-        rabbitMQ.channel?.ack(msg);
+
         console.log('consume', content, processID);
+        return rabbitMQ.channel?.ack(msg);
       } else {
         //Otherwise, send back the message content to scanning queue so the consumer that handle this request's process id will consume this message.
         rabbitMQ.sendMessage(SCANNING_QUEUE, content);
@@ -114,6 +115,7 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
     console.log('status', 'isSuccess', isSuccess, 'isFailed', isFailed);
 
     //Close the channel after each check.
+    console.log(`consumer for ${processID}`, consumer?.consumerTag);
     await rabbitMQ.channel?.cancel(consumer?.consumerTag || '');
   } catch (error) {
     console.log(error);

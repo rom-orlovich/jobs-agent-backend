@@ -50,6 +50,7 @@ export class RabbitMQ {
   static isMessageTimeoutExpire(messageCreatedTimeStr: string): boolean {
     const curTime = new Date().getTime();
     const messageCreatedTime = Number(messageCreatedTimeStr);
+    console.log('timeout', RabbitMQ.MESSAGE_ACK_TIMEOUT);
     const isTimeoutExpire = RabbitMQ.MESSAGE_ACK_TIMEOUT >= curTime - messageCreatedTime;
 
     return isTimeoutExpire;
