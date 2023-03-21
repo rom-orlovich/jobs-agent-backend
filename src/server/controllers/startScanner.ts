@@ -76,10 +76,14 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
   const genProcessMes = getProcessMesByID(processID);
   let isSuccess;
   let isFailed;
+  let isEmpty;
   try {
     const consumer = await rabbitMQ.consumeMessage(SCANNING_QUEUE, (msg) => {
       console.log('start consuming for process', processID);
-      if (!msg) return;
+      if (!msg) {
+        isEmpty = true;
+        return;
+      }
 
       //Parse the message
       const content = JSON.parse(msg?.content.toString());
@@ -122,7 +126,9 @@ export const checkScannerStatus: RequestHandler = async (req, res) => {
   }
 
   if (isSuccess) return res.send(genProcessMes('SUCCESS'));
-  if (isFailed) return res.send(genProcessMes('FAILURE'));
+
+  //If there is not message in the queue and the client is still checking for process status, so it means that something unexpected was happen and return failures status.
+  if (isFailed || isEmpty) return res.send(genProcessMes('FAILURE'));
 
   return res.send(genProcessMes('PENDING'));
 };
