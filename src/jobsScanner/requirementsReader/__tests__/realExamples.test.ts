@@ -74,7 +74,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
 
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`c#.net is not in your stack`);
+    expect(res.reason).toBe(`c#.net is not in your requirements`);
   });
   test(`Tests many sentences from real text that its match the user experience-ex1`, () => {
     const EXAMPLE_USER = new User({
@@ -259,7 +259,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
 
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`c# is not in your stack`);
+    expect(res.reason).toBe(`c# is not in your requirements`);
   });
   test('Tests many sentences from real text that the overall experience is bigger than mine.-ex11', () => {
     const sentences = `5 years of experience in .Net technologies - ASP.Net and Net Core.
@@ -363,7 +363,7 @@ describe('Tests real examples of checkIsRequirementsMatch function', () => {
     const res = RequirementsReader.checkIsRequirementsMatch(sentences, EXAMPLE_USER);
 
     expect(res.pass).toBeFalsy();
-    expect(res.reason).toBe(`go is not in your stack`);
+    expect(res.reason).toBe(`go is not in your requirements`);
   });
   test(`Tests many sentences from real text where the job from gotFriend shouldn't pass  because the overall experience is bigger-ex19`, () => {
     const sentences = `4 years of experience in Node.js
