@@ -1,6 +1,6 @@
 import { JobsDB } from '../../mongoDB/jobsDB/jobsDB';
-import { Job, JobsResults, QueryOptionsRes } from '../../mongoDB/jobsDB/jobsDB.types';
-import { UsersDB } from '../../mongoDB/usersDB';
+import { Job, JobsResults } from '../../mongoDB/jobsDB/jobsDB.types';
+import { QueryOptionsRes } from '../server/lib/queryValidation';
 
 import { RequirementsReader } from './requirementsReader/requirementsReader';
 

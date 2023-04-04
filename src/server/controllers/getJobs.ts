@@ -3,7 +3,19 @@ import { JobsDB } from '../../../mongoDB/jobsDB/jobsDB';
 import { FacetFilterResults, Job, JobsResults } from '../../../mongoDB/jobsDB/jobsDB.types';
 import { getJobsByHashExist } from '../lib/utils';
 
-import { QueryOptionsRes, QueryValidation } from '../lib/queryValidation';
+import { QueryOptionsRes } from '../lib/queryValidation';
+import { UserEntity, UserProfile } from '../../jobsScanner/user/userEntity.types';
+
+/**
+ * For client filter.
+ * @param {UserProfile["jobsObserved"] } jobsObserved The array of jobs the the user observed.
+ * @returns {string[]} Map of all the user's jobs observed list.
+ */
+const getUserJobsObservedMap = (jobsObserved: string[]): Map<string, boolean> => {
+  const map = new Map<string, boolean>();
+  jobsObserved.forEach((jobID) => map.set(jobID, true));
+  return map;
+};
 
 /**
  * For client filter.
@@ -61,28 +73,51 @@ const createFiltersByMatchFilter = (jobs: Job[], reason: RegExp): FacetFilterRes
   };
 };
 
+const filterByJobsObserved = (jobs: Job[], userProfile: UserEntity, queryOptions: QueryOptionsRes) => {
+  const { jobsObserved } = userProfile;
+  const { jobObserved } = queryOptions;
+
+  if (jobObserved === undefined || !jobsObserved?.length) return jobs;
+  const jobsObservedMap = getUserJobsObservedMap(jobsObserved);
+  console.log('jobObserved', jobObserved);
+  const resultsFilter = jobs.filter((jobs) => {
+    if (jobObserved) if (jobsObservedMap.get(jobs.jobID)) return true;
+    if (!jobObserved) if (!jobsObservedMap.get(jobs.jobID)) return true;
+  });
+  return resultsFilter;
+};
+
 /**
- * The jobs from form DB have not reason field, So its impossible to filter by the reason in the DB
+ * The jobs from form DB have not reason or jobObserved fields, So its impossible to filter by the those filters the DB
  * and implement pagination for them.
  * @param {Jobs[] } jobs
+ * @param { UserEntity} user The user profile.
  * @param {QueryOptionsRes} queryOptions  The queries params from the client to get the jobs data.
  * @returns {FilterByMatchReturn} If there is query of match reason, so filter out all the jobs that start with this reason.
  * Otherwise use the current jobs array. Return the curResult and the number of results.
  */
 
-const filterByMatch = (jobs: Job[], queryOptions: QueryOptionsRes): FilterByMatchReturn => {
+const filterByNonDBValues = (
+  jobs: Job[],
+  user: UserEntity,
+  queryOptions: QueryOptionsRes
+): FilterByMatchReturn => {
   const limit = JobsDB.getLimit(queryOptions.limit);
 
   const page = JobsDB.getPage(queryOptions.page);
 
   let numResults;
-  let curResults;
+  let curResults = jobs;
 
-  //Check if there is a reason,
-  //If it does apply the filter by reason save the length of the current filter
+  //Check if there is a reason or jobObserved field,
+  //If it does apply the filter by those filter and save the length of the current filter
   // and apply the 'manual' pagination.
-  if (queryOptions.match.reason) {
-    curResults = jobs.filter((job) => job.reason?.match(queryOptions?.match?.reason));
+  if (queryOptions.match.reason || queryOptions.jobObserved !== undefined) {
+    if (queryOptions.jobObserved !== undefined)
+      curResults = filterByJobsObserved(curResults, user, queryOptions);
+    console.log('curResults.length', curResults.length);
+    if (queryOptions.match.reason)
+      curResults = curResults.filter((job) => job.reason?.match(queryOptions?.match?.reason));
 
     numResults = curResults.length; //Num results before slice the decrease the number of the results.
 
@@ -96,7 +131,7 @@ const filterByMatch = (jobs: Job[], queryOptions: QueryOptionsRes): FilterByMatc
 };
 
 /**
- *
+
  * @param {JobsResults} curResult  The current results of the jobs aggregation from the DB.
  * @param {Job[]} jobsAfterFilter  The jobs after the function filterByMatch.
  * @param {QueryOptionsRes} queryOptions The queries params from the client to get the jobs data.
@@ -119,14 +154,16 @@ const getFinalResult = (
 
   // Check if there is a queryOptions of match reason. If it does use the length of jobsAfterFilter numResultsSlice.
   //This variable is for checking if there is more 'pages' to fetch after this page.
-  const curNumResultsByMatchReasonCompare = queryOptions?.match?.reason
-    ? jobsAfterFilter.numResultsSlice
-    : jobs.length;
+  const curNumResultsByMatchReasonCompare =
+    queryOptions?.match?.reason || queryOptions.jobObserved !== undefined
+      ? jobsAfterFilter.numResultsSlice
+      : jobs.length;
 
   //Check the current total results.
-  const curNumResultFound = queryOptions?.match?.reason
-    ? jobsAfterFilter.total
-    : pagination.numResultsAfterFilter;
+  const curNumResultFound =
+    queryOptions?.match?.reason || queryOptions.jobObserved !== undefined
+      ? jobsAfterFilter.total
+      : pagination.numResultsAfterFilter;
 
   // Check if the num jobs results that found as a result of the aggregation from the DB or manual pagination,
   // is bigger than the current limit. If it does there is no more data to fetch.
@@ -151,8 +188,8 @@ export const getJobs: RequestHandler = async (req, res) => {
 
   const result = await getJobsByHashExist(user, queryOptions, hash);
 
-  //Filter results by the match reason if it is exist. Else return the results from the DB as is.
-  const jobsAfterFilter = filterByMatch(result.jobs, queryOptions);
+  //Filter results by the match reason and jobsObserved fields if it is exist. Else return the results from the DB as is.
+  const jobsAfterFilter = filterByNonDBValues(result.jobs, user, queryOptions);
 
   //Calculate the final get jobs result.
   const finalResult = getFinalResult(result, jobsAfterFilter, queryOptions);

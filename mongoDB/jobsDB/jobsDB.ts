@@ -2,8 +2,9 @@ import { Collection } from 'mongodb';
 import { mongoDB } from '../../src/server';
 
 import { GenericRecord } from '../../lib/types';
-import { Job, JobsResultAgg, JobsResults, QueryOptionsRes } from './jobsDB.types';
+import { Job, JobsResultAgg, JobsResults } from './jobsDB.types';
 import { EXPIRE_AT_MONGO_DB } from '../../lib/contestants';
+import { QueryOptionsRes } from '../../src/server/lib/queryValidation';
 
 export class JobsDB {
   jobsDB: Collection;
@@ -82,17 +83,19 @@ export class JobsDB {
    * @returns The facet stage that generate the data.
    */
   private checkFacetPagination(
-    match: GenericRecord<RegExp>,
-    limit?: number,
-    page?: number,
+    // match: GenericRecord<RegExp>,
+    // limit?: number,
+    // page?: number,
+    queryOptions: QueryOptionsRes,
     useQueryOptions = true
   ) {
+    const { match, jobObserved, limit, page } = queryOptions;
     const isTherePaginationOpt = limit && page !== undefined;
 
     //Check if there pagination options like limit and page
     const isSearchByPaginationOpt = isTherePaginationOpt && page >= 0;
 
-    if (match?.reason || !useQueryOptions) return { jobs: [] };
+    if (jobObserved !== undefined || match?.reason || !useQueryOptions) return { jobs: [] };
     else
       return isSearchByPaginationOpt
         ? { jobs: [{ $skip: page }, { $limit: limit }, { $match: match }] }
@@ -125,13 +128,14 @@ export class JobsDB {
    * @returns An object that represent the facet stage pipelines.
    */
   private getFacetPipelines(
-    match: GenericRecord<RegExp>,
-    limit?: number,
-    page?: number,
+    // match: GenericRecord<RegExp>,
+    // limit?: number,
+    // page?: number
+    queryOptions: QueryOptionsRes,
     useQueryOptions = true
   ) {
-    const { reason, ...resetMatch } = match;
-    const facetPaginationData = this.checkFacetPagination(match, limit, page, useQueryOptions);
+    const { reason, ...resetMatch } = queryOptions.match;
+    const facetPaginationData = this.checkFacetPagination(queryOptions, useQueryOptions);
 
     const facetFiltersPipeline = this.getFacetFiltersPipeline();
 
@@ -189,7 +193,7 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetPipelines = this.getFacetPipelines(match, limit, page, useQueryOptions);
+    const facetPipelines = this.getFacetPipelines(queryOptions, useQueryOptions);
     console.log(
       JSON.stringify([
         { $match: { hashQueries: { $elemMatch: { $eq: hashQuery } }, ...restMatch } },
@@ -235,7 +239,7 @@ export class JobsDB {
   ): Promise<JobsResults> {
     const { match, limit, page } = queryOptions;
     const { reason, ...restMatch } = match;
-    const facetPipelines = this.getFacetPipelines(restMatch, limit, page);
+    const facetPipelines = this.getFacetPipelines(queryOptions);
 
     try {
       const jobsAgg = await this.jobsDB

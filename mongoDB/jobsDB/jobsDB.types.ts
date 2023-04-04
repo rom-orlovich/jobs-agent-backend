@@ -21,12 +21,6 @@ export interface QueryOptions {
   limit?: string;
 }
 
-export interface QueryOptionsRes {
-  match: GenericRecord<RegExp>;
-  page?: number;
-  limit?: number;
-}
-
 export interface FacetFilterResults {
   _id: string;
   titles: string[];

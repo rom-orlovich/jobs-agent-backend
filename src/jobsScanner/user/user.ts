@@ -20,7 +20,7 @@ export class User {
   overallEx?: number;
   requirements: Map<string, ExperienceRange>;
   excludedRequirements: Map<string, boolean>;
-
+  jobsObserved: string[];
   userQueries: UserQueryProps[];
   activeHash?: string;
 
@@ -30,7 +30,7 @@ export class User {
     this.requirements = this.setRequirements(userOptions.requirements);
     this.excludedRequirements = this.setExcludedRequirements(userOptions.excludedRequirements);
     this.userQueries = this.loadQueryCurSearchQuery(userOptions.userQueries, activeHash);
-
+    this.jobsObserved = userOptions.jobsObserved || [];
     this.activeHash = activeHash || this.getLastHashQuery();
     console.log(' this.activeHash', activeHash, this.getLastQuery());
   }

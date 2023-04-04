@@ -14,6 +14,7 @@ export interface QueryOptionsRes {
   match: GenericRecord<RegExp>;
   page?: number;
   limit?: number;
+  jobObserved?: boolean;
 }
 export class QueryValidation {
   possiblesKeys: GenericRecord<boolean> = {
@@ -25,6 +26,7 @@ export class QueryValidation {
     location: true,
     limit: true,
     page: true,
+    jobObserved: true,
   };
   preQueryOptions: GenericRecord<any> | undefined;
   resultQueryOptions: QueryOptionsRes | undefined;
@@ -112,7 +114,12 @@ export class QueryValidation {
   private getQueryOptions(): QueryOptionsRes | undefined {
     //Return queryOptions default values.
     if (!this.preQueryOptions)
-      return { match: {}, limit: JobsDB.DEFAULT_LIMIT, page: JobsDB.DEFAULT_PAGE };
+      return {
+        match: {},
+        limit: JobsDB.DEFAULT_LIMIT,
+        page: JobsDB.DEFAULT_PAGE,
+        jobObserved: undefined,
+      };
 
     // Check if the query is valid.
     if (!this.checkValidQuery(this.preQueryOptions)) return undefined;
@@ -121,10 +128,19 @@ export class QueryValidation {
     const match = this.createMatchOptions(this.preQueryOptions);
 
     //Return queryOptions without limit and page and match.
-    if (!this.preQueryOptions.hash) return { match: match, limit: undefined, page: undefined };
+    if (!this.preQueryOptions.hash)
+      return { match: match, limit: undefined, page: undefined, jobObserved: undefined };
+
+    //Get the jobs observed value.
+    const jobObserved =
+      this.preQueryOptions.jobObserved === undefined
+        ? undefined
+        : this.preQueryOptions.jobObserved === 'true';
+
+    console.log(jobObserved);
 
     // Return facet object pipeline.
     const { limit, page } = this.createFacetOptions(this.preQueryOptions);
-    return { match, limit, page };
+    return { match, limit, page, jobObserved };
   }
 }

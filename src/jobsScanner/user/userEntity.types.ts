@@ -20,4 +20,5 @@ export interface UserProfile {
   excludedRequirements: ExcludeRequirementsOptions;
   userQueries: UserQueryProps[];
   activeHash?: string;
+  jobsObserved?: string[];
 }
