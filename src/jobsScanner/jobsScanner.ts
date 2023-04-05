@@ -72,6 +72,7 @@ export class JobsScanner {
     if (jobsByHashCurTotalResult > 100) return JobsByHashResults.jobs;
     await this.getScannerResults();
 
+    //Fetch again the last results of jobs by hash query in order to get the precise number of jobs that are found in that search.
     return (await this.getJobsByHash(this.user.getLastHashQuery())).jobs;
   }
 
