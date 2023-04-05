@@ -70,7 +70,9 @@ export class JobsScanner {
 
     //Return empty array, because there is no need to check the stats of the results that were searched before.
     if (jobsByHashCurTotalResult > 100) return JobsByHashResults.jobs;
-    return await this.getScannerResults();
+    await this.getScannerResults();
+
+    return (await this.getJobsByHash(this.user.getLastHashQuery())).jobs;
   }
 
   /**

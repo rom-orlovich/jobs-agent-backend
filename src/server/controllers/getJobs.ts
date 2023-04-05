@@ -124,7 +124,6 @@ const filterByNonDBValues = (
       curResults = curResults.filter((job) => job.reason?.match(queryOptions?.match?.reason));
 
     numResults = curResults.length; //Num results before slice the decrease the number of the results.
-
     curResults = curResults.slice(page - 1, page + limit);
   } else {
     curResults = jobs;

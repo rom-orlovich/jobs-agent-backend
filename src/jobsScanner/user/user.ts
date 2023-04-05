@@ -154,23 +154,4 @@ export class User {
    * @param {UserQuery[]} userQueries array of UserQuery entities.
    * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
    */
-
-  static _filterQueriesAsUserQueryEntity(userQueries: UserQuery[]): UserQuery[] {
-    return userQueries.filter((query) => !query.isUserQueryExpire());
-  }
-
-  /**
-   * @param {UserQueryProps[]} userQueriesProps from the DB.
-   * @returns {UserQuery[]} an array of no expired userQueries as UserQuery[].
-   */
-
-  static _invalidateCurUserQueries(userQueriesProps: UserQueryProps[]): UserQuery[] {
-    //Convert the user queries from the DB to userQuery array.
-    const curUserQueries = User._loadQueriesAsUserQueryEntity(userQueriesProps);
-
-    //Filter the old userQueries.
-    // const curFilterUserQueries = User._filterQueriesAsUserQueryEntity(curUserQueries);
-
-    return curUserQueries;
-  }
 }
