@@ -44,7 +44,7 @@ interface FilterByMatchReturn {
  * @returns {FacetFilterResults} A new FacetFilterResults according to the result of the match filter by reason.
  */
 
-const createFiltersByMatchFilter = (jobs: Job[], reason: RegExp): FacetFilterResults => {
+const createFiltersByNonDBValues = (jobs: Job[], reason: RegExp): FacetFilterResults => {
   const filters = {
     _id: '',
     companies: new Set<string>(),
@@ -77,11 +77,15 @@ const filterByJobsObserved = (jobs: Job[], userProfile: UserEntity, queryOptions
   const { jobsObserved } = userProfile;
   const { jobObserved } = queryOptions;
 
-  if (jobObserved === undefined || !jobsObserved?.length) return jobs;
+  if (!jobsObserved?.length) return jobs;
+  //Get the map data structure of all the jobs the user has observed.
   const jobsObservedMap = getUserJobsObservedMap(jobsObserved);
-  console.log('jobObserved', jobObserved);
+
   const resultsFilter = jobs.filter((jobs) => {
+    //If the user marks the option that the user wants only the jobs that has already observed.
     if (jobObserved) if (jobsObservedMap.get(jobs.jobID)) return true;
+
+    //If the user marks the option that the user wants only the jobs that he hasn't observed.
     if (!jobObserved) if (!jobsObservedMap.get(jobs.jobID)) return true;
   });
   return resultsFilter;
@@ -115,7 +119,7 @@ const filterByNonDBValues = (
   if (queryOptions.match.reason || queryOptions.jobObserved !== undefined) {
     if (queryOptions.jobObserved !== undefined)
       curResults = filterByJobsObserved(curResults, user, queryOptions);
-    console.log('curResults.length', curResults.length);
+
     if (queryOptions.match.reason)
       curResults = curResults.filter((job) => job.reason?.match(queryOptions?.match?.reason));
 
@@ -144,26 +148,24 @@ const getFinalResult = (
 ) => {
   const { filters, pagination, numMatches, jobs } = curResult;
 
+  // Check if there is match reason or jobObserved exist. If it does use the length of jobsAfterFilter numResultsSlice.
+  const isNonDBFilters = queryOptions?.match?.reason || queryOptions.jobObserved !== undefined;
+
   //Get the arrays of the current filters.
-  const curFilters = queryOptions.match.reason
-    ? createFiltersByMatchFilter(jobsAfterFilter.curResults, queryOptions.match.reason)
+  const curFilters = isNonDBFilters
+    ? createFiltersByNonDBValues(jobsAfterFilter.curResults, queryOptions.match.reason)
     : { ...filters, reasons: extractFilterReasonFilters(jobsAfterFilter.curResults) };
 
   // The current limit.
   const limit = queryOptions?.limit || JobsDB.DEFAULT_LIMIT;
 
-  // Check if there is a queryOptions of match reason. If it does use the length of jobsAfterFilter numResultsSlice.
   //This variable is for checking if there is more 'pages' to fetch after this page.
-  const curNumResultsByMatchReasonCompare =
-    queryOptions?.match?.reason || queryOptions.jobObserved !== undefined
-      ? jobsAfterFilter.numResultsSlice
-      : jobs.length;
+  const curNumResultsByMatchReasonCompare = isNonDBFilters
+    ? jobsAfterFilter.numResultsSlice
+    : jobs.length;
 
   //Check the current total results.
-  const curNumResultFound =
-    queryOptions?.match?.reason || queryOptions.jobObserved !== undefined
-      ? jobsAfterFilter.total
-      : pagination.numResultsAfterFilter;
+  const curNumResultFound = isNonDBFilters ? jobsAfterFilter.total : pagination.numResultsAfterFilter;
 
   // Check if the num jobs results that found as a result of the aggregation from the DB or manual pagination,
   // is bigger than the current limit. If it does there is no more data to fetch.
