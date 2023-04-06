@@ -51,11 +51,15 @@ export class DrushimScanner extends Scanner {
     const data = await this.getAxiosData<DrushimAPI>(0);
 
     if (!data) return [];
+    if (data?.ResultList?.length === 0) return [];
+
     let page = 1;
     const promises: Promise<Job[]>[] = [this.getFilterData(data)];
     while (page < (data?.TotalPagesNumber || 0)) {
       console.log(`Page number ${page}`);
-      promises.push(this.getNormalizeData(page));
+      const data = this.getNormalizeData(page);
+
+      promises.push(data);
       page++;
     }
 
