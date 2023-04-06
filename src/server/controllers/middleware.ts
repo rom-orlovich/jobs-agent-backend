@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 
 import { UsersDB } from '../../../mongoDB/usersDB';
-import { MESSAGE_CODES } from '../lib/messageCodes';
+import { getMessageCode } from '../lib/messageCodes';
 import { QueryValidation } from '../lib/queryValidation';
 
 export const checkString = (str: unknown) => typeof str === 'string';
@@ -20,18 +20,16 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   const userID = QueryValidation.checkString(req.params.userID);
   if (!userID)
     return res.status(400).send({
-      message: 'Please enter a valid userID.',
+      code: getMessageCode('USER_ID_NOT_VALID'),
       success: false,
-      code: MESSAGE_CODES.USER_ID_NOT_VALID,
     });
   const queryValidation = new QueryValidation(req.query);
 
   // Check the url queries are valid.
   if (!queryValidation.resultQueryOptions)
     return res.status(400).send({
-      message: 'Please enter valid url queries.',
+      code: getMessageCode('URL_QUERY_NOT_VALID'),
       success: false,
-      code: MESSAGE_CODES.ENTER_VALID_QUERY,
     });
 
   const isHashString = QueryValidation.checkString(req.query.hash);
@@ -41,10 +39,21 @@ export const validateBeforeScanner: RequestHandler = async (req, res, next) => {
   //initial the usersDB and load the requested user from the DB.
   const { user, usersDB } = await initialUsersAndLoadUserFromDB(String(userID), hash);
 
-  if (!user)
+  if (!user) return res.status(404).send({ success: false, code: getMessageCode('USER_IS_FOUND') });
+
+  const lastQuery = user.getLastQuery();
+  if (!lastQuery)
+    return res.status(404).send({ success: false, code: getMessageCode('USER_QUERY_NOT_FOUND') });
+
+  if (!lastQuery.position)
     return res
       .status(400)
-      .send({ message: 'User is not found.', success: false, code: MESSAGE_CODES.USER_NOT_FOUND });
+      .send({ success: false, code: getMessageCode('USER_PROFILE_FORM_POSITION_IS_NOT_VALID') });
+
+  if (!lastQuery.location)
+    return res
+      .status(400)
+      .send({ success: false, code: getMessageCode('USER_PROFILE_FORM_LOCATION_IS_NOT_VALID') });
 
   req.validateBeforeScanner = {
     user,
