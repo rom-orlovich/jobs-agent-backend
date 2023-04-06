@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { UserQueryProps } from '../generalQuery/query.types';
-import { EXPIRE_AT } from '../../../lib/contestants';
+import { EXPIRE_AT } from '../../../lib/constants';
 export class UserQuery {
   expireAt: number;
   userQuery: UserQueryProps;

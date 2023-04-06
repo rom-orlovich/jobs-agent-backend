@@ -3,7 +3,7 @@ import { mongoDB } from '../../src/server';
 
 import { GenericRecord } from '../../lib/types';
 import { Job, JobsResultAgg, JobsResults } from './jobsDB.types';
-import { EXPIRE_AT_MONGO_DB } from '../../lib/contestants';
+import { EXPIRE_AT_MONGO_DB } from '../../lib/constants';
 import { QueryOptionsRes } from '../../src/server/lib/queryValidation';
 
 export class JobsDB {

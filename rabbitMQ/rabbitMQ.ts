@@ -1,5 +1,5 @@
 import amqp from 'amqplib';
-import { RABBITMQ_MESSAGE_ACK_TIMEOUT } from '../lib/contestants';
+import { RABBITMQ_MESSAGE_ACK_TIMEOUT } from '../lib/constants';
 import { GenericRecord } from '../lib/types';
 export class RabbitMQ {
   settings: amqp.Options.Connect;
