@@ -107,6 +107,7 @@ export class JobsScanner {
   }
 }
 
+//NOTE: These lines of code are for testing.
 // (async () => {
 //   await mongoDB.connect();
 //   const n = new JobsScanner(profile, EXAMPLE_QUERY);
