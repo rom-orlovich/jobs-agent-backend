@@ -30,7 +30,7 @@ const activeScanner = async (user: User, queryOptions: QueryOptionsRes) => {
 const saveResultsStats = (user: User, jobs?: Job[]) => {
   //False only if the scanner is failed or the last num results is the same as the current.
   if (!jobs) return;
-  // if (user.checkNumResultsIsSame(jobs)) return;
+
   const resultsStats = RequirementsReader.checkRequirementMatchForArray(jobs, user);
   user.setScannerResultsFoundInLastQuery(resultsStats.jobs.length, resultsStats.numMatches);
   return user;
