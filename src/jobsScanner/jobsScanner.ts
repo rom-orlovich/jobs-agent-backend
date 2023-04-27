@@ -61,7 +61,6 @@ export class JobsScanner {
   async getAllJobByUserQueries(): Promise<JobsResults> {
     const hashesQueries = this.user.getAllHashes();
     const jobs = this.jobsDB.getJobsByHashQueries(hashesQueries, this.queryOptions);
-
     return jobs;
   }
 

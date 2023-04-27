@@ -41,7 +41,7 @@ export class GoogleTranslate {
   async getTranslate(text: string): Promise<string> {
     const { params, url } = this.getURL(text);
     let res: undefined | AxiosResponse<GoogleTranslateAPI>;
-    await untilSuccess(async () => {
+    await untilSuccess()(async () => {
       res = await axios<any, AxiosResponse<GoogleTranslateAPI>>(url, {
         params,
         headers: { authority: 'translate.googleapis.com' },

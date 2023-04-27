@@ -65,7 +65,7 @@ export class Scanner {
 
   static async waitUntilScan(page: Page, url: string, selector: string) {
     if (!url) return;
-    await untilSuccess(async () => {
+    await untilSuccess()(async () => {
       await page.goto('https://google.com/', { waitUntil: 'load' });
       await page.goto(url, { waitUntil: 'load' });
       await page.waitForSelector(selector, { timeout: Scanner.TIMEOUT_TRY });

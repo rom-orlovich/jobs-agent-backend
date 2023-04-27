@@ -42,14 +42,9 @@ export class GotFriendsScanner extends Scanner {
 
   //Sometimes the clicks on the filter inputs are failed.
   private async clickOnFiltersUntilSuccess(page: Page) {
-    let numTry = 1;
-    await untilSuccess(async () => {
-      if (numTry >= 3) return await Promise.resolve();
-      numTry++;
+    return await untilSuccess(3)(async () => {
       await this.initialFilters(page);
     });
-
-    return numTry >= 3;
   }
 
   private async getNumPagesLinks(page: Page) {
@@ -95,7 +90,7 @@ export class GotFriendsScanner extends Scanner {
 
   private async getJobsFromPage(page: Page, url?: string) {
     let jobs: Job[] = [];
-    await untilSuccess(async () => {
+    await untilSuccess()(async () => {
       if (url) await page.goto(url);
       jobs = await page.evaluate(this.getAllJobsPostData, this.scannerName);
     });

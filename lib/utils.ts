@@ -8,16 +8,22 @@ export const benchmarkTimeMS = async (cb: AnyFun) => {
   console.timeEnd('Time:');
 };
 
-export const untilSuccess = async (cb: AnyFun) => {
-  const isSuccess = true;
-  while (isSuccess) {
-    try {
-      await cb();
-      return true;
-    } catch (error) {
-      console.log(error);
+export const untilSuccess = (maxTry = Number(process.env.MAX_TRY || 5)) => {
+  let curTry = 1;
+  return async (cb: AnyFun) => {
+    const isSuccess = true;
+    while (isSuccess) {
+      if (curTry >= maxTry) return true;
+      curTry++;
+      try {
+        await cb();
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+    return curTry >= maxTry;
+  };
 };
 
 export const delayFun = (cb: AnyFun, delay: number) =>
