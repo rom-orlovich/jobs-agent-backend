@@ -13,16 +13,16 @@ export const untilSuccess = (maxTry = Number(process.env.MAX_TRY || 5)) => {
   return async (cb: AnyFun) => {
     const isSuccess = true;
     while (isSuccess) {
-      if (curTry >= maxTry) return true;
-      curTry++;
       try {
+        if (curTry >= maxTry) return true;
+        curTry++;
+
         await cb();
-        return true;
+        return;
       } catch (error) {
         console.log(error);
       }
     }
-    return curTry >= maxTry;
   };
 };
 
