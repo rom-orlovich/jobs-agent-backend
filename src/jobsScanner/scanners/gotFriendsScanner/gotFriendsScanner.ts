@@ -91,7 +91,7 @@ export class GotFriendsScanner extends Scanner {
   private async getJobsFromPage(page: Page, url?: string) {
     let jobs: Job[] = [];
     await untilSuccess()(async () => {
-      if (url) await page.goto(url);
+      if (url) await page.goto(url, { timeout: Scanner.TIMEOUT_TRY_GOTO });
       jobs = await page.evaluate(this.getAllJobsPostData, this.scannerName);
     });
     const filterJobs = this.getFilterResults(jobs);
@@ -114,7 +114,7 @@ export class GotFriendsScanner extends Scanner {
       slowMo: Scanner.SLOW_MOV,
     });
 
-    await page.goto('https://www.gotfriends.co.il/jobs/');
+    await page.goto('https://www.gotfriends.co.il/jobs/', { timeout: Scanner.TIMEOUT_TRY_GOTO });
 
     const failed = await this.clickOnFiltersUntilSuccess(page);
 

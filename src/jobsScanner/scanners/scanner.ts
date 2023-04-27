@@ -68,7 +68,7 @@ export class Scanner {
     if (!url) return;
     await untilSuccess()(async () => {
       await page.goto('https://google.com/', { waitUntil: 'load', timeout: Scanner.TIMEOUT_TRY_GOTO });
-      await page.goto(url, { waitUntil: 'load' });
+      await page.goto(url, { waitUntil: 'load', timeout: Scanner.TIMEOUT_TRY_GOTO });
       await page.waitForSelector(selector, { timeout: Scanner.TIMEOUT_TRY_SELECTOR });
     });
   }

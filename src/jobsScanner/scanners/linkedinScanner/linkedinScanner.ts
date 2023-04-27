@@ -88,7 +88,7 @@ export class LinkedinScanner extends Scanner {
   async getTheAPIJobs(browser: Browser) {
     console.log(this.getURL(0));
     const page = await browser.newPage();
-    await page.goto(this.getURL(0));
+    await page.goto(this.getURL(0), { timeout: Scanner.TIMEOUT_TRY_GOTO });
     let numResults;
     try {
       numResults = await page.$eval('.results-context-header__job-count', (el) =>
