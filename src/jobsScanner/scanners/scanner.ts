@@ -19,7 +19,8 @@ export class Scanner {
   jobsDB: JobsDB;
   static THROAT_LIMIT = process.env.THROAT_LIMIT || 3;
   static SLOW_MOV = process.env.SLOW_MOV || 250;
-  static TIMEOUT_TRY = process.env.TIMEOUT_TRY || 3000;
+  static TIMEOUT_TRY_SELECTOR = process.env.TIMEOUT_TRY_SELECTOR || 3000;
+  static TIMEOUT_TRY_GOTO = process.env.TIMEOUT_TRY_SELECTOR || 1000 * 60 * 2;
 
   constructor(scannerName: ScannerName, user: UserEntity, jobsDB: JobsDB) {
     this.user = user;
@@ -65,10 +66,10 @@ export class Scanner {
 
   static async waitUntilScan(page: Page, url: string, selector: string) {
     if (!url) return;
-    await untilSuccess(10)(async () => {
-      await page.goto('https://google.com/', { waitUntil: 'load' });
+    await untilSuccess()(async () => {
+      await page.goto('https://google.com/', { waitUntil: 'load', timeout: Scanner.TIMEOUT_TRY_GOTO });
       await page.goto(url, { waitUntil: 'load' });
-      await page.waitForSelector(selector, { timeout: Scanner.TIMEOUT_TRY });
+      await page.waitForSelector(selector, { timeout: Scanner.TIMEOUT_TRY_SELECTOR });
     });
   }
 

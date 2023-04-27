@@ -11,7 +11,7 @@ declare global {
       SLOW_MOV: number;
       THROAT_LIMIT: number;
       TOTAL_CPU: number;
-      TIMEOUT_TRY: number;
+      TIMEOUT_TRY_SELECTOR: number;
       RABBIT_MQ_HOST: string;
       RABBITMQ_DEFAULT_USER: string;
       RABBITMQ_DEFAULT_PASS: string;
